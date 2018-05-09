@@ -225,7 +225,7 @@ class UserAdminController extends Controller
         $params = null;
 
         if (!empty($content)) {
-            $pwdNew = json_decode($content, true); // 2nd param to get as array
+            $pwdNew = $content; // 2nd param to get as array
         }
 
         if ($id > 0 && strlen($pwdNew) > 0) {
@@ -247,8 +247,6 @@ class UserAdminController extends Controller
 
                 $em->persist($user);
                 $em->flush();
-
-                $response->setMessage("Passwort wurde erfolgreich geändert.");
 
                 $response->setStatusCode(Response::HTTP_OK);
                 return $response;
