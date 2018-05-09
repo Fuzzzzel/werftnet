@@ -18,7 +18,6 @@ class CustomerControllerTest extends DefaultWebTestCase
         $client = $this->getAdminClient();
         $crawler = $client->request('POST', '/customer/searchCustomers');
 
-        echo $client->getResponse()->getContent();
         $this->assertJson($client->getResponse()->getContent());
     }
 }

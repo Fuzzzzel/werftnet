@@ -357,9 +357,8 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
         $user->addRole($roleAdmin);
 
         $manager->persist($user);
-
-        $manager->persist($user);
         $manager->flush();
+
 
     }
 }
