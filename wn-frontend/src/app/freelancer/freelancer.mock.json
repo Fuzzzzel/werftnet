@@ -1,0 +1,75 @@
+{
+    "id": 1,
+    "anrede": {
+        "id": 1,
+        "name": "Test-Anrede"
+    },
+    "address": {
+        "id": 1,
+        "city": "Test-City",
+        "country": {
+            "id": 1,
+            "name": "Test-Country"
+        },
+        "street": "Test-Street",
+        "street2": "Test-Street",
+        "zipcode": "Test-Zipcode"
+    },
+    "bankdetails": "Bankdetails-Text",
+    "cat_prices": true,
+    "cat_tools": [],
+    "comment": "Test-Comment",
+    "company_name": "Firma Test GmbH",
+    "correspond_language": {
+        "id": 1,
+        "name": "Test-CorrespondLanguage",
+        "sub_items": null
+    },
+    "created_at": "2018-04-23T18: 25: 43.511Z",
+    "date_of_birth": "2018-04-23T18: 25: 43.511Z",
+    "email": "Test-Email",
+    "email2": "Test-Email2",
+    "fax": "Test-Fax",
+    "fl_invoicing_type": {
+        "id": 1,
+        "name": "Test-InvoicingType"
+    },
+    "fl_payment_type": {
+        "id": 1,
+        "name": "Test-PaymentType"
+    },
+    "fl_status": {
+        "id": 1,
+        "name": "Test-Status"
+    },
+    "fl_rating": {
+        "id": 1,
+        "name": "Test-Rating"
+    },
+    "nda": {
+        "id": 1,
+        "name": "Test-NDA"
+    },
+    "mothertounge": {
+        "id": 1,
+        "name": "Test-Mothertounge",
+        "sub_items": null
+    },
+    "mothertounge2": {
+        "id": 1,
+        "name": "Test-Mothertounge",
+        "sub_items": null
+    },
+    "name1": "Test-Name1",
+    "name2": "Test-Name2",
+    "phone": "Test-Phone",
+    "phone2": "Test-Phone2",
+    "prices": [],
+    "sectors": [],
+    "skype": "Test-Skype",
+    "supplier_no": "Supplier-No-12345",
+    "sworn": true,
+    "tax_id": "TAX-12345",
+    "vat_no": "VAT-12345",
+    "vat_payer": true
+}

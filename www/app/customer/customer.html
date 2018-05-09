@@ -1,0 +1,90 @@
+<div>
+    <h1>Kunden</h1>
+    <div class="form-default col-sm-12" fz-on-enter-key="custCtrl.searchCustomers(cust_search)">
+        <div class="row">
+            <form class="form-box col-md-5 form-horizontal">
+                <div class="form-input">
+                    <label class="control-label col-md-3">Name</label>
+                    <div class="col-md-9">
+                        <input id="search-name" class="form-control" ng-model="cust_search.name"/>
+                    </div>
+                </div>
+                <div class="form-input">
+                    <label class="control-label col-md-3">Ansprechp.</label>
+                    <div class="col-md-9">
+                        <input id="search-asp_name" class="form-control" ng-model="cust_search.asp_name"/>
+                    </div>
+                </div>
+            </form>
+            <form class="form-box col-md-5 form-horizontal">
+                <div class="form-input">
+                    <label class="control-label col-md-3">Akquise</label>
+                    <div class="col-md-9">
+                        <select class="form-control" ng-model="cust_search.akquise"
+                                ng-options="option.name for option in (core.data.cust_origin.values | orderByName) track by option.id">
+                            <option value="">-- Bitte wählen --</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-input">
+                    <label class="control-label col-md-3">AM</label>
+                    <div class="col-md-9">
+                        <select class="form-control" ng-model="cust_search.account_manager"
+                                ng-options="option.username for option in (core.data.account_managers.values | orderBy: 'username') track by option.id">
+                            <option value="">-- Bitte wählen --</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-input">
+                    <label class="control-label col-md-3">Potenzial</label>
+                    <div class="col-md-9">
+                        <select class="form-control" ng-model="cust_search.potential"
+                                ng-options="option.name for option in (core.data.cust_potential.values | orderByName) track by option.id">
+                            <option value="">-- Bitte wählen --</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-input">
+                    <label class="control-label col-md-3">Status</label>
+                    <div class="col-md-9">
+                        <select class="form-control" ng-model="cust_search.status"
+                                ng-options="option.name for option in (core.data.cust_status.values | orderByName) track by option.id">
+                            <option value="">-- Bitte wählen --</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <div class="button-area col-md-2 form-horizontal">
+                <button class="btn btn-block btn-primary" ng-click="custCtrl.searchCustomers(cust_search)">Suchen</button>
+                <button class="btn btn-block btn-default" ng-click="core.go('/customer/edit')">Neuer Kunde</button>
+            </div>
+        </div>
+    </div>
+    <h2>Suchergebnisse: {{ custCtrl.customerLoaded.itemsTotal }}
+        <span ng-if="custCtrl.customerLoaded.pageMax > 1">(Seite {{ custCtrl.customerLoaded.pageCurrent }} von {{ custCtrl.customerLoaded.pageMax }})
+        </span>
+    </h2>
+    <div ng-repeat="customer in custCtrl.customerLoaded.items track by customer.id">
+        <fz-customer-compact cust="customer" core="core" editmethod="custCtrl.editCustomer" editcontact="custCtrl.editContact">
+        </fz-customer-compact>
+    </div>
+    <!--
+    <div class="text-center" ng-if="custCtrl.customerLoaded.pageMax > 1">
+        <span ng-repeat="pageNum in core.getPages(custCtrl.customerLoaded.pageCurrent, custCtrl.customerLoaded.pageMax)">
+            <a href
+               ng-class="custCtrl.customerLoaded.pageCurrent == pageNum ? 'pageActive' : ''"
+               ng-click="custCtrl.searchCustomers(cust_search, pageNum)">{{ pageNum }}&nbsp;</a>
+        </span>
+    </div>
+    -->
+    <ul uib-pagination
+        total-items="custCtrl.customerLoaded.itemsTotal"
+        ng-model="custCtrl.customerLoaded.pageCurrent"
+        items-per-page="20"
+        max-size="10"
+        class="pagination-sm"
+        boundary-links="true"
+        force-ellipses="true"
+        ng-change="custCtrl.paginationClick(cust_search)">
+    </ul>
+</div>

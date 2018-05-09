@@ -1,0 +1,79 @@
+<!-- Modal für das Hinzufügen eines Items als Subitem -->
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <h3>Neue Hauptkategorie wählen:</h3>
+        <select class="form-control" ng-model="mainItemSelected"
+            ng-options="option.name for option in (modSelMainCtrl.mainItems.values | orderByName) track by option.id">
+        </select>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="modSelMainCtrl.mainSelectOk(mainItemSelected)">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="modSelMainCtrl.mainSelectCancel()">Cancel</button>
+    </div>
+</script>
+
+<div class="alist">
+    <h2>{{ valuearray.display_name }}</h2>
+    <div class="alist-main-item-new input-group">
+        <input ng-model="main_item_new"
+               fz-on-enter-key="methods.addAlistTwoLevelEntity(entity, valuearray, main_item_new); main_item_new = ''"
+               class="form-control">
+        <span class="input-group-btn">
+        <button type="button" class="btn btn-primary btn-sm"
+                ng-click="methods.addAlistTwoLevelEntity(entity, valuearray, main_item_new); main_item_new = ''">
+            <span class="glyphicon glyphicon-plus clickable iconsmall"></span>
+        </button>
+        </span>
+    </div>
+
+    <div class="alist_list">
+        <div ng-repeat="mainProp in valuearray.values | orderBy: 'name'">
+
+            <!-- Neues HauptItem -->
+
+            <div>
+                <span editable-text="mainProp.name"
+                      onbeforesave="methods.updateAlistTwoLevelEntity(entity, mainProp.id, $data)">{{ mainProp.name || empty }}</span>
+                <span class="glyphicon glyphicon-remove clickable iconsmall"
+                      ng-click="methods.removeAlistTwoLevelEntity(entity, valuearray, mainProp)"></span>
+                <span class="glyphicon glyphicon-link clickable iconsmall"
+                      ng-click="openModalSelectMain(mainProp)"
+                      title="Zu Subelement ändern"
+                      ng-if="!mainProp.subItems.length"></span>
+            </div>
+
+            <!-- Neues SubItem -->
+
+            <div class="alist-sub-item-new alist-sub-item input-group">
+                <input ng-model="sub_item_new"
+                       fz-on-enter-key="methods.addAlistTwoLevelEntity(entity, valuearray, sub_item_new, mainProp.id); sub_item_new = ''"
+                       class="form-control">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary btn-sm"
+                            ng-click="methods.addAlistTwoLevelEntity(entity, valuearray, sub_item_new, mainProp.id); sub_item_new = ''">
+                        <span class="glyphicon glyphicon-plus clickable iconsmall"></span>
+                    </button>
+                </span>
+            </div>
+
+            <!-- Liste der SubItems-->
+
+            <div ng-repeat="subProp in mainProp.subItems | orderBy: 'name'"
+                 class="alist-sub-item">
+                <div>
+                    <span editable-text="subProp.name"
+                          onbeforesave="methods.updateAlistTwoLevelEntity(entity, subProp.id, $data)">{{ subProp.name || empty }}</span>
+                    <span class="glyphicon glyphicon-remove clickable iconsmall"
+                          ng-click="methods.removeAlistTwoLevelEntity(entity, valuearray, subProp, mainProp)"
+                          title="Subelement löschen"></span>
+                    <span class="glyphicon glyphicon-circle-arrow-up clickable iconsmall"
+                          ng-click="methods.makeMainItem(entity, valuearray, subProp, mainProp)"
+                          title="Zu Hauptelement ändern"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

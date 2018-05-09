@@ -1,0 +1,90 @@
+<div>
+    <h1>Freelancer</h1>
+    <div class="form-default col-sm-12" fz-on-enter-key="flCtrl.searchFreelancers(fl_search)">
+        <div class="row">
+            <form class="form-box col-sm-5 form-horizontal">
+                <div class="form-input">
+                    <label class="control-label col-sm-3">Lieferant</label>
+                    <div class="col-sm-9">
+                        <input id="search-name" class="form-control" ng-model="fl_search.name"/>
+                    </div>
+                </div>
+                <div class="form-input">
+                    <label class="control-label col-sm-3">Status</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" ng-model="fl_search.fl_status"
+                                ng-options="option.name for option in (core.data.fl_status.values | orderByName) track by option.id">
+                            <option value="">-- Bitte wählen --</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-input">
+                    <label class="control-label col-sm-3">Ohne abw.</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="checkbox" ng-model="fl_search.fl_absent">
+                    </div>
+                </div>
+            </form>
+            <form class="form-box col-sm-5 form-horizontal">
+                <div class="form-input">
+                    <label class="control-label col-sm-3">Quellsprache</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" ng-model="fl_search.lng_source"
+                                ng-options="option.name for option in (core.data.languages_flat.values | orderByName) track by option.id">
+                            <option value="">-- Bitte wählen --</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-input">
+                    <label class="control-label col-sm-3">Zielsprache</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" ng-model="fl_search.lng_target"
+                                ng-options="option.name for option in (core.data.languages_flat.values | orderByName) track by option.id">
+                            <option value="">-- Bitte wählen --</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-input">
+                    <label class="control-label col-sm-3">Fachgebiet</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" ng-model="fl_search.sector"
+                                ng-options="option.name for option in (core.data.sectors_flat.values | orderByName) track by option.id">
+                            <option value="">-- Bitte wählen --</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <div class="button-area col-sm-2 form-horizontal">
+                <button class="btn btn-block btn-primary" ng-click="flCtrl.searchFreelancers(fl_search)">Suchen</button>
+                <button class="btn btn-block btn-default" ng-click="core.go('/freelancer/edit')">Neuer Freelancer</button>
+            </div>
+        </div>
+    </div>
+    <h2>Suchergebnisse: {{ flCtrl.freelancerLoaded.itemsTotal }}
+        <span ng-if="flCtrl.freelancerLoaded.pageMax > 1">(Seite {{ flCtrl.freelancerLoaded.pageCurrent }} von {{ flCtrl.freelancerLoaded.pageMax }})
+        </span>
+    </h2>
+    <div ng-repeat="freelancer in flCtrl.freelancerLoaded.items track by freelancer.id">
+        <fz-freelancer-compact fl="freelancer" editmethod="flCtrl.editFreelancer">
+        </fz-freelancer-compact>
+    </div>
+    <!--
+    <div class="text-center" ng-if="flCtrl.freelancerLoaded.pageMax > 1">
+        <span ng-repeat="pageNum in core.getPages(flCtrl.freelancerLoaded.pageCurrent, flCtrl.freelancerLoaded.pageMax)">
+            <a href
+               ng-class="flCtrl.freelancerLoaded.pageCurrent == pageNum ? 'pageActive' : ''"
+               ng-click="flCtrl.searchFreelancers(fl_search, pageNum)">{{ pageNum }}&nbsp;</a>
+        </span>
+    </div>
+    -->
+    <ul uib-pagination
+        total-items="flCtrl.freelancerLoaded.itemsTotal"
+        ng-model="flCtrl.freelancerLoaded.pageCurrent"
+        items-per-page="20"
+        max-size="10"
+        class="pagination-sm"
+        boundary-links="true"
+        force-ellipses="true"
+        ng-change="flCtrl.paginationClick(fl_search)">
+    </ul>
+</div>

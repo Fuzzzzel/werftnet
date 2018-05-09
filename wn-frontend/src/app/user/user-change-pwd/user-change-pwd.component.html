@@ -1,0 +1,40 @@
+<div>
+  <h1>Passwort ändern</h1>
+  <h3>Angemeldet als {{ currentUser.username }} </h3>
+  <form class="container-fluid form-default" name="user_changepwd_form" (keydown.enter)="setNewPassword(pwdForm)" #pwdForm="ngForm">
+    <div class="row tile">
+      <div class="col-sm-12 form-box">
+        <div class="form-group" [ngClass]="{'has-error': pwdOldInput.invalid }">
+          <div class="col-md-3"></div>
+          <label class="control-label col-md-2">Altes Passwort</label>
+          <div class="col-md-4">
+            <input name="pwdOld" class="form-control" type="password" [(ngModel)]="pwdOld" #pwdOldInput="ngModel" required>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 form-box">
+        <div class="form-group" [ngClass]="{'has-error': pwdNewInput.invalid || (pwdNew !== pwdNewRepeated) }">
+          <div class="col-md-3"></div>
+          <label class="control-label col-md-2">Neues Passwort</label>
+          <div class="col-md-4">
+            <input name="pwdNew" class="form-control" type="password" [(ngModel)]="pwdNew" #pwdNewInput="ngModel" minlength="6">
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 form-box">
+        <div class="form-group" [ngClass]="{'has-error': pwdNewRepeatedInput.invalid || (pwdNew !== pwdNewRepeated) }">
+          <div class="col-md-3"></div>
+          <label class="control-label col-md-2">Wiederholen</label>
+          <div class="col-md-4">
+            <input name="pwdNewRepeated" class="form-control" type="password" [(ngModel)]="pwdNewRepeated" #pwdNewRepeatedInput="ngModel"
+              minlength="6">
+          </div>
+        </div>
+      </div>
+      <div *ngIf="errorMessage" style="color: red; text-align: center">{{ errorMessage }}</div>
+    </div>
+  </form>
+  <button class="btn btn-primary" type="button" (click)="setNewPassword(pwdForm)">Speichern
+  </button>
+  <button class="btn btn-danger" type="button" (click)="goBack()">Abbrechen</button>
+</div>

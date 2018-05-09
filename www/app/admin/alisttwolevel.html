@@ -1,0 +1,55 @@
+<div class="alist">
+    <h2>{{ valuearray.display_name }}</h2>
+    <div class="alist-main-item-new input-group">
+        <input ng-model="main_item_new"
+               fz-on-enter-key="methods.addAlistSimpleEntity(entity, valuearray, main_item_new); main_item_new = ''"
+               class="form-control">
+        <span class="input-group-btn">
+        <button type="button" class="btn btn-primary btn-sm"
+                ng-click="methods.addAlistSimpleEntity(entity, valuearray, main_item_new); main_item_new = ''">
+            <span class="glyphicon glyphicon-plus clickable iconsmall"></span>
+        </button>
+        </span>
+    </div>
+
+    <div class="alist_list">
+        <div ng-repeat="mainProp in valuearray.values | orderBy: 'name'">
+
+            <!-- Neues HauptItem -->
+
+            <div>
+                <span editable-text="mainProp.name"
+                      onbeforesave="methods.updateAlistSimpleEntity(entity, mainProp.id, $data)">{{ mainProp.name || empty }}</span>
+                <span class="glyphicon glyphicon-remove clickable iconsmall"
+                      ng-click="methods.removeAlistSimpleEntity(entity, valuearray, mainProp.id)"></span>
+            </div>
+
+            <!-- Neues SubItem -->
+
+            <div class="alist-sub-item-new alist-sub-item input-group">
+                <input ng-model="sub_item_new"
+                       fz-on-enter-key="methods.addAlistSimpleSubEntity(entity, methods.getSubProp(mainProp, subpropname), mainProp.id, sub_item_new); sub_item_new = ''"
+                       class="form-control">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary btn-sm"
+                            ng-click="methods.addAlistSimpleSubEntity(entity, methods.getSubProp(mainProp, subpropname), mainProp.id, sub_item_new); sub_item_new = ''">
+                        <span class="glyphicon glyphicon-plus clickable iconsmall"></span>
+                    </button>
+                </span>
+            </div>
+
+            <!-- Liste der SubItems-->
+
+            <div ng-repeat="subProp in methods.getSubProp(mainProp, subpropname) | orderBy: 'name'"
+                 class="alist-sub-item">
+                <div>
+                    <span editable-text="subProp.name"
+                      onbeforesave="methods.updateAlistSimpleSubEntity(entity, subProp.id, $data)">{{ subProp.name || empty }}</span>
+                    <span class="glyphicon glyphicon-remove clickable iconsmall"
+                          ng-click="methods.removeAlistSimpleSubEntity(entity, methods.getSubProp(mainProp, subpropname), mainProp.id, subProp.id)"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

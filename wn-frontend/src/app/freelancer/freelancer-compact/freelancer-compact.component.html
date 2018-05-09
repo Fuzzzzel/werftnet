@@ -1,0 +1,93 @@
+<div class="container-fluid compact-default tile small">
+  <div class="row-xs">
+    <div class="main-item col-sm-12">
+      <strong>
+        <a class="clickable" (click)="editFreelancer(freelancer.id)">{{ freelancer.name2 }}, {{ freelancer.name1 }}
+          <span *ngIf="freelancer.company_name && freelancer.company_name.length > 0">
+            &nbsp;({{ freelancer.company_name }})
+          </span>
+        </a>
+      </strong>
+    </div>
+
+  </div>
+  <div class="row-sm">
+    <div class="col-sm-2">
+      <div class="row">
+        <div class="col-xs-12">
+          {{ freelancer.address && freelancer.address.city }} ({{ freelancer.address && freelancer.address.country && freelancer.address.country.name
+          }})
+        </div>
+      </div>
+      <div>&nbsp;</div>
+      <div class="row">
+        <label class="col-xs-5">Rating:</label>
+        <div class="col-xs-7">{{ freelancer.fl_rating && freelancer.fl_rating.name }}</div>
+      </div>
+      <div class="row">
+        <label class="col-xs-5">Status:</label>
+        <div class="col-xs-7">{{ freelancer.fl_status && freelancer.fl_status.name }}</div>
+      </div>
+      <div class="row">
+        <label class="col-xs-5">NDA:</label>
+        <div class="col-xs-7">{{ freelancer.nda && freelancer.nda.name }}</div>
+      </div>
+      <div class="row">
+        <label class="col-xs-5">Vereidigt:</label>
+        <div class="col-xs-7">{{ freelancer.sworn }}</div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="row">
+        <label class="col-xs-3">E-Mail:</label>
+        <div class="col-xs-9">
+          <a href="mailto:{{ freelancer.email }}">{{ freelancer.email }}</a>
+        </div>
+      </div>
+      <div class="row">
+        <label class="col-xs-3">E-Mail2:</label>
+        <div class="col-xs-9">
+          <a href="mailto:{{ freelancer.email2 }}">{{ freelancer.email2 }}</a>
+        </div>
+      </div>
+      <div class="row">
+        <label class="col-xs-3">Fon:</label>
+        <div class="col-xs-9">{{ freelancer.phone }}</div>
+      </div>
+      <div class="row">
+        <label class="col-xs-3">Mobil:</label>
+        <div class="col-xs-9">{{ freelancer.phone2 }}</div>
+      </div>
+      <div class="row">
+        <label class="col-xs-3">Fax:</label>
+        <div class="col-xs-9">{{ freelancer.fax }}</div>
+      </div>
+      <div class="row">
+        <label class="col-xs-3">Skype:</label>
+        <div class="col-xs-9">
+          <a [href]="'skype:'+freelancer.skype+'?chat' | safeUrl">{{ freelancer.skype }}</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-7">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="row" *ngFor="let price of freelancer.prices">
+            <div class="col-xs-3">{{ getCombinedDisplayName(price.lng_source) }}</div>
+            <div class="col-xs-1">
+              <span class="glyphicon glyphicon-arrow-right iconsmall"></span>
+            </div>
+            <div class="col-xs-3">{{ getCombinedDisplayName(price.lng_target) }}</div>
+            <div class="col-xs-3">{{ price.service && price.service.name }} pro {{ price.price_unit && price.price_unit.name }}</div>
+            <div class="col-xs-2">{{ price.price_per_unit | currency:(price.currency && price.currency.name):3 }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div>{{ freelancer.comment }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

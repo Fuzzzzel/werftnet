@@ -1,0 +1,16 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div id="bg_frame">
+  <div id="loading" flex="100" flex-gt-sm="none" layout="row" *ngIf="!coreDataLoaded">
+    Daten werden geladen ...
+  </div>
+  <div id="container" flex="100" flex-gt-sm="none" layout="row" *ngIf="coreDataLoaded">
+    <div id="header">
+      <div id="version-info">WerftNET Version 1.1</div>
+      <app-top-nav *ngIf="isUserLoggedIn()"></app-top-nav>
+    </div>
+    <div id="content" ng-controller="shellController as shell">
+      <router-outlet></router-outlet>
+    </div>
+    <div id="footer">Footer für die Seite</div>
+  </div>
+</div>

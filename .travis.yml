@@ -1,0 +1,53 @@
+matrix:
+  include:
+    #- language: node_js
+    #  node_js: "8"
+    #  sudo: required
+    #  dist: xenial
+    #  addons:
+    #      chrome: stable
+    #  before_install:
+    #    - export CHROME_BIN=chromium-browser
+    #    - export DISPLAY=:99.0
+    #    - sh -e /etc/init.d/xvfb start
+    #  before_script:
+    #    - cd wn-frontend
+    #  script:
+    #    - npm install
+    #    - npm run test
+    #    - npm run build
+    - language: php
+      php:
+        - '7.1'
+      sudo: false
+      services:
+        - mysql
+      # Cache composer packages so "composer install" is faster
+      cache:
+        directories:
+          - $HOME/.composer/cache/files
+      env:
+        - SYMFONY_VERSION="3.4.*" DB=mysql
+      before-install:
+        - composer self-update
+      install:
+        - cp app/config/parameters.yml.dist app/config/parameters.yml
+        - cp www/app.php.example www/app.php
+        - composer install
+        - composer update
+        - php bin/console doctrine:database:create
+        - php bin/console doctrine:schema:update --force
+        - php bin/console doctrine:fixtures:load -n
+      before_script:
+         - sudo apt-get update
+         - sudo apt-get install apache2
+         # configure apache virtual hosts
+         - sudo cp -f build/travis-ci-apache /etc/apache2/sites-available/000-default.conf
+         - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
+         - sudo service apache2 restart
+      script:
+        - php vendor/bin/simple-phpunit
+
+notifications:
+  email:
+    - the_weirdo@gmx.net

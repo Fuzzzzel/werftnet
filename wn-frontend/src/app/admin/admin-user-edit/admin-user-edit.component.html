@@ -1,0 +1,54 @@
+<h3>{{ userToEdit.id ? 'Benuterdaten bearbeiten' : 'Benutzer anlegen '}}</h3>
+<form class="container-fluid form-default" name="user_edit_form" #userForm="ngForm">
+    <div class="row tile">
+        <div class="col-sm-12 form-box">
+            <div class="form-group" [ngClass]="{'has-error': (!userToEdit.id && submittedForm && username && username.invalid) }">
+                <label class="control-label col-md-3">Benutzername</label>
+                <div class="col-md-9">
+                    <input name="username" [hidden]="!!userToEdit.id" class="form-control" [(ngModel)]="userToEdit.username" #username="ngModel"
+                        minlength="4" required>
+                    <span *ngIf="userToEdit.id > 0">{{ userToEdit.username }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 form-box">
+            <div class="form-group" [ngClass]="{'has-error': submittedForm && email.invalid}">
+                <label class="control-label col-md-3">E-Mail</label>
+                <div class="col-md-9">
+                    <input name="email" class="form-control" [(ngModel)]="userToEdit.email" #email="ngModel" type="email" required>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!userToEdit.id" class="col-sm-12 form-box">
+            <div class="form-group" [ngClass]="{'has-error': submittedForm && password.invalid}">
+                <label class="control-label col-md-3">Passwort</label>
+                <div class="col-md-9">
+                    <input name="password" class="form-control" [(ngModel)]="userToEdit.password" #password="ngModel" minlength="6" required>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 form-box">
+            <app-prop-multi-select [objarray]="userToEdit.roles" [valuearray]="coreData.user_roles">
+            </app-prop-multi-select>
+        </div>
+    </div>
+</form>
+<form class="container-fluid form-default" name="user_edit_pwd_form" *ngIf="userToEdit.id" #userEditPwdForm="ngForm">
+    <div class="row tile">
+        <div class="col-sm-12 form-box">
+            <div class="form-group" [ngClass]="{'has-error': submittedPw && pwdnew.invalid}">
+                <label class="control-label col-md-3">Neues Passwort</label>
+                <div class="col-md-6">
+                    <input name="pwdNew" class="form-control" [(ngModel)]="pwdNew" #pwdnew="ngModel" minlength="4" required>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-primary" type="button" (click)="changeUserPwd(userEditPwdForm)">Passwort ändern</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<button class="btn btn-primary" type="button" (click)="saveUser(userForm)">Speichern
+</button>
+<button class="btn btn-default" type="button" (click)="deleteUser()">Löschen</button>
+<button class="btn btn-danger" type="button" (click)="cancelEdit()">Abbrechen</button>

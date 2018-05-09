@@ -1,0 +1,20 @@
+<div class="">
+  <h1>Benutzerverwaltung</h1>
+  <!-- Liste aller angelegten Benutzer -->
+  <div class="row">
+    <div class="col-sm-12">
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let user of userList">
+          <span>{{ user.username }}</span>
+          <span class="glyphicon glyphicon-edit clickable clickable-icon iconsmall" (click)="editUser(user.id)" title="Benutzer bearbeiten"></span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">&nbsp;</div>
+  <div class="row">
+    <div class="col-sm-12">
+      <button class="btn btn-primary" (click)="editUser(null)">Neuen Benutzer anlegen</button>
+    </div>
+  </div>
+</div>

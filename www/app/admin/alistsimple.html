@@ -1,0 +1,24 @@
+<div class="alist">
+    <h2>{{ valuearray.display_name }}</h2>
+    <div class="alist-simple-item-new input-group">
+        <input ng-model="item_new"
+               fz-on-enter-key="methods.addAlistSimpleEntity(entity, valuearray, item_new); item_new = ''"
+               class="form-control">
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-primary btn-sm"
+                    ng-click="methods.addAlistSimpleEntity(entity, valuearray, item_new); item_new = ''">
+                <span class="glyphicon glyphicon-plus clickable iconsmall"></span>
+            </button>
+        </span>
+    </div>
+    <div class="alist_list">
+        <div ng-repeat="value in valuearray.values | orderBy: 'name'">
+            <div class="alist-simple-item">
+                <span editable-text="value.name"
+                      onbeforesave="methods.updateAlistSimpleEntity(entity, value.id, $data)">{{ value.name || empty }}</span>
+                <span class="glyphicon glyphicon-remove clickable iconsmall"
+                      ng-click="methods.removeAlistSimpleEntity(entity, valuearray, value.id)"></span>
+            </div>
+        </div>
+    </div>
+</div>

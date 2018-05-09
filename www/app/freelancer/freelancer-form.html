@@ -1,0 +1,368 @@
+<div class="container-fluid form-default">
+    <div class="row tile">
+        <div class="col-sm-4 form-box">
+            <div class="form-input" layout="row">
+                <label class="control-label col-md-3">{{ core_data.anrede.display_name }}</label>
+                <div class="col-md-9">
+                    <select class="form-control" ng-model="flFormCtrl.fl_edit.anrede" ng-required="true"
+                            ng-options="option.name for option in core_data.anrede.values track by option.id">
+                        <option value="">-- Bitte wählen --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">Vorname</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="flFormCtrl.fl_edit.name1">
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">Nachname</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="flFormCtrl.fl_edit.name2">
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">Firma</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="flFormCtrl.fl_edit.company_name">
+                </div>
+            </div>
+            <!-- <div class="fomr-input">&nbsp;</div> -->
+            <div class="form-input">
+                <label class="control-label col-md-3">Straße</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="flFormCtrl.fl_edit.address.street">
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">Straße2</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="flFormCtrl.fl_edit.address.street2">
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">Postleitzahl</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="flFormCtrl.fl_edit.address.zipcode">
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">Stadt</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="flFormCtrl.fl_edit.address.city">
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">{{ core_data.country.display_name }}</label>
+                <div class="col-md-9">
+                    <select class="form-control" ng-model="flFormCtrl.fl_edit.address.country" ng-required="true"
+                            ng-options="option.name for option in core_data.country.values track by option.id">
+                        <option value="">-- Bitte wählen --</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 form-box">
+            <div class="form-input">
+                <label class="control-label col-md-3">Lieferantennr.</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="flFormCtrl.fl_edit.supplier_no">
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">E&#8209;Mail</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="flFormCtrl.fl_edit.email">
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">E&#8209;Mail2</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="flFormCtrl.fl_edit.email2">
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">Telefon</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="flFormCtrl.fl_edit.phone">
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">Mobil</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="flFormCtrl.fl_edit.phone2">
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">Fax</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="flFormCtrl.fl_edit.fax">
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">Skype</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="flFormCtrl.fl_edit.skype">
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">Geburtstag</label>
+                <div class="col-md-9">
+                    <input type="date" class="form-control" ng-model="flFormCtrl.fl_edit.geburtstag">
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">Korr.Spr.</label>
+                <div class="col-md-9">
+                    <select class="form-control" ng-model="flFormCtrl.fl_edit.correspond_language"
+                            ng-required="true"
+                            ng-options="option.name for option in (core_data.languages_flat.values | orderByName) track by option.id"></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 form-box">
+            <div><label>Kommentar</label></div>
+            <textarea class="form-control" rows="8" ng-model="flFormCtrl.fl_edit.comment"></textarea>
+        </div>
+    </div>
+    <div class="row tile">
+        <div class="col-sm-4 form-box">
+            <div class="form-input">
+                <label class="control-label col-md-3">{{ core_data.fl_status.display_name }}</label>
+                <div class="col-md-9">
+                    <select class="form-control" ng-model="flFormCtrl.fl_edit.fl_status" ng-required="true"
+                            ng-options="option.name for option in core_data.fl_status.values track by option.id">
+                        <option value="">-- Bitte wählen --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">{{ core_data.fl_rating.display_name }}</label>
+                <div class="col-md-9">
+                    <select class="form-control" ng-model="flFormCtrl.fl_edit.fl_rating" ng-required="true"
+                            ng-options="option.name for option in core_data.fl_rating.values track by option.id">
+                        <option value="">-- Bitte wählen --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">NDA</label>
+                <div class="col-md-9">
+                    <select class="form-control" ng-model="flFormCtrl.fl_edit.nda" ng-required="true"
+                            ng-options="option.name for option in core_data.yes_no_in_progress.values track by option.id">
+                        <option value="">-- Bitte wählen --</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 form-box">
+            <div class="form-input">
+                <label class="control-label col-md-3">Vereidigt</label>
+                <div class="col-md-9">
+                    <md-checkbox class="md-primary" ng-model="flFormCtrl.fl_edit.sworn"
+                                 aria-label="Vereidigt"></md-checkbox>
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">Muttersp.1</label>
+                <div class="col-md-9">
+                    <select class="form-control" ng-model="flFormCtrl.fl_edit.mothertounge"
+                            ng-required="true"
+                            ng-options="option.name for option in (core_data.languages_flat.values | orderByName) track by option.id">
+                        <option value="">-- Bitte wählen --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">Muttersp.2</label>
+                <div class="col-md-9">
+                    <select class="form-control" ng-model="flFormCtrl.fl_edit.mothertounge2"
+                            ng-required="true"
+                            ng-options="option.name for option in (core_data.languages_flat.values | orderByName) track by option.id">
+                        <option value="">-- Bitte wählen --</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 form-box">
+            <fz-prop-multi-select objarray="flFormCtrl.fl_edit.cat_tools"
+                                  valuearray="core_data.cat_tools">
+
+            </fz-prop-multi-select>
+        </div>
+    </div>
+    <div class="row tile">
+        <div class="col-sm-12 form-box">
+            <div class="row">
+                <div class="col-xs-12">
+                    <label class="control-label">Preise</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-input">
+                        <label class="control-label col-md-3">CAT-Staffel</label>
+                        <div class="col-md-9">
+                            <md-checkbox class="md-primary" ng-model="flFormCtrl.fl_edit.cat_prices"
+                                         aria-label="CAT-Staffel"></md-checkbox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-input">
+                        <div class="col-sm-2">
+                            <div class="form-input">
+                                <label class="control-label">Quellsprache</label>
+                            </div>
+                            <select class="form-control" ng-model="new_value.lng_source"
+                                    ng-options="option.name for option in (core_data.languages_flat.values | orderByName) track by option.id">
+                                <option value="">-- Bitte wählen --</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-input">
+                                <label class="control-label">Zielsprache</label>
+                            </div>
+
+                            <select class="form-control" ng-model="new_value.lng_target"
+                                    ng-options="option.name for option in (core_data.languages_flat.values | orderByName) track by option.id">
+                                <option value="">-- Bitte wählen --</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-input">
+                                <label class="control-label">Leistung</label>
+                            </div>
+                            <select class="form-control" ng-model="new_value.service"
+                                    ng-options="option.name for option in (core_data.services.values | orderByName) track by option.id">
+                                <option value="">-- Bitte wählen --</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-input">
+                                <label class="control-label">Einheit</label>
+                            </div>
+                            <select class="form-control" ng-model="new_value.price_unit"
+                                    ng-options="option.name for option in (core_data.price_units.values | orderByName) track by option.id">
+                                <option value="">-- Bitte wählen --</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="form-input">
+                                <label class="control-label">Preis</label>
+                            </div>
+                            <input class="form-control" type="number" step="0.01" min="0"
+                                   ng-model="new_value.price_per_unit">
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="form-input">
+                                <label class="control-label">MAW</label>
+                            </div>
+                            <input class="form-control" type="number" step="0.01" min="0"
+                                   ng-model="new_value.minimum_price">
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="form-input">
+                                    <label class="control-label">Währung</label>
+                            </div>
+                            <select class="form-control" ng-model="new_value.currency"
+                                    ng-options="option.name for option in (core_data.currency.values | orderByName) track by option.id">
+                                <option value="">-- Bitte wählen --</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-1 pull-right">
+                            <div class="form-input">
+                                <label class="control-label"></label>
+                            </div>
+                    <span class="glyphicon glyphicon-plus clickable iconsmall"
+                          ng-click="flFormCtrl.addPrice(flFormCtrl.fl_edit.prices, new_value)"></span>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+                    <div class="row" ng-repeat="element in (flFormCtrl.fl_edit.prices | orderPrices)">
+                        <div class="col-xs-12">
+                            <div class="form-input">
+                        <div class="col-xs-2">{{ getCombinedDisplayName(element.lng_source) }}</div>
+                        <div class="col-xs-2">{{ getCombinedDisplayName(element.lng_target) }}</div>
+                        <div class="col-xs-4">{{ element.service.name }} pro {{ element.price_unit.name }}</div>
+                        <div class="col-xs-1">{{ element.price_per_unit | currency:element.currency.name:3 }}</div>
+                        <div class="col-xs-1">{{ element.minimum_price | currency:element.currency.name:2 }}</div>
+                        <div class="col-xs-2 pull-right">
+                        <span class="glyphicon glyphicon-remove clickable iconsmall"
+                              ng-click="flFormCtrl.removeFromArray(flFormCtrl.fl_edit.prices, element)"></span>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+
+        </div>
+    </div>
+    <div class="row tile">
+        <div class="col-sm-4 form-box">
+            <fz-prop-multi-select objarray="flFormCtrl.fl_edit.sectors"
+                                  valuearray="core_data.sectors"
+                                  twolevel="true">
+            </fz-prop-multi-select>
+        </div>
+        <div class="col-sm-4 form-box">
+            <div class="form-input">
+                <label class="control-label col-md-3">{{ core_data.fl_payment_types.display_name }}</label>
+                <div class="col-md-9">
+                    <select class="form-control" ng-model="flFormCtrl.fl_edit.fl_payment_type" ng-required="true"
+                            ng-options="option.name for option in core_data.fl_payment_types.values track by option.id">
+                        <option value="">-- Bitte wählen --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-input">
+                <label class="control-label col-md-3">{{ core_data.fl_invoicing_types.display_name }}</label>
+                <div class="col-md-9">
+                    <select class="form-control" ng-model="flFormCtrl.fl_edit.fl_invoicing_type" ng-required="true"
+                            ng-options="option.name for option in core_data.fl_invoicing_types.values track by option.id">
+                        <option value="">-- Bitte wählen --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">USt.-Nr.</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="flFormCtrl.fl_edit.vat_no">
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">Steuer ID</label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="flFormCtrl.fl_edit.tax_id">
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="control-label col-md-3">MwSt.</label>
+                <div class="col-md-9">
+                    <md-checkbox class="md-primary" ng-model="flFormCtrl.fl_edit.vat_payer"
+                                 aria-label="MwSt."></md-checkbox>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 form-box">
+            <div><label>Bankverbindung</label></div>
+            <textarea class="form-control" rows="5" ng-model="flFormCtrl.fl_edit.bankdetails"></textarea>
+        </div>
+    </div>
+    <div class="row pull-right">
+        <div class="col-sm-12">
+            <button class="btn btn-primary" ng-click="flFormCtrl.saveFl()">Speichern</button>
+            <button class="btn btn-danger" ng-click="flFormCtrl.cancelEdit()">Abbrechen</button>
+            <button class="btn btn-default" ng-click="flFormCtrl.deleteFl()"
+                    ng-disabled="flFormCtrl.fl_edit.id == null">
+                Löschen
+            </button>
+        </div>
+    </div>
+</div>

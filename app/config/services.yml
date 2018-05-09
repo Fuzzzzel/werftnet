@@ -1,0 +1,33 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    user.listener:
+        class: AppBundle\EventListener\UserRoleSetter
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+    jms_serializer.object_constructor:
+        alias: jms_serializer.doctrine_object_constructor
+        public: false
+    jms_serializer.unserialize_object_constructor:
+        class: AppBundle\Serializer\ObjectConstructor
+        public: false
+    app.security.authentication_handler:
+        class: AppBundle\EventListener\AuthenticationHandler
+        public: false
+        calls:
+            - [ 'setEntityManager', [ '@doctrine.orm.entity_manager' ]]
+        arguments:
+            - '@router'
+            - '@session'
+    app.security.logout_success_handler:
+        class: AppBundle\EventListener\LogoutSuccessHandler
+        public: false
+    AppBundle\DataFixtures\:
+        resource: '../../src/AppBundle/DataFixtures'
+        tags: ['doctrine.fixture.orm']

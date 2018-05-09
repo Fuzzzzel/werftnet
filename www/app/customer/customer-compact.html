@@ -1,0 +1,78 @@
+<div class="container-fluid compact-default tile small">
+    <div class="row-xs">
+        <div class="main-item col-sm-12">
+            <strong>
+                <a href ng-click="editmethod(cust)">{{ cust.name1 }}, {{ cust.name2 }}</a>
+            </strong>
+        </div>
+    </div>
+    <div class="row-sm">
+        <div class="col-sm-3">
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ cust.address.city }} ({{ cust.address.country.name }})
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">&nbsp;</div>
+            </div>
+            <div class="row">
+                <label class="col-xs-4">Kd-Nr.:</label>
+                <div class="col-xs-8">{{ cust.customer_no }}</div>
+            </div>
+            <div class="row">
+                <label class="col-xs-4">Herkunft:</label>
+                <div class="col-xs-8">{{ cust.origin.name }}</div>
+            </div>
+            <div class="row">
+                <label class="col-xs-4">Potenzial:</label>
+                <div class="col-xs-8">{{ cust.potential.name }}</div>
+            </div>
+            <div class="row">
+                <label class="col-xs-4">Accountmgr.:</label>
+                <div class="col-xs-8">{{ cust.account_manager.username }}</div>
+            </div>
+            <div class="row">
+                <label class="col-xs-4">Status:</label>
+                <div class="col-xs-8">{{ cust.status.name }}</div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="row">
+                <label class="col-xs-4">E-Mail:</label>
+                <div class="col-xs-8"><a href="mailto:{{ cust.email }}">{{ cust.email }}</a></div>
+            </div>
+            <div class="row">
+                <label class="col-xs-4">E-Mail2:</label>
+                <div class="col-xs-8"><a href="mailto:{{ cust.email2 }}">{{ cust.email2 }}</a></div>
+            </div>
+            <div class="row">
+                <label class="col-xs-4">Fon:</label>
+                <div class="col-xs-8">{{ cust.phone }}</div>
+            </div>
+            <div class="row">
+                <label class="col-xs-4">Mobil:</label>
+                <div class="col-xs-8">{{ cust.phone2 }}</div>
+            </div>
+            <div class="row">
+                <label class="col-xs-4">Fax:</label>
+                <div class="col-xs-8">{{ cust.fax }}</div>
+            </div>
+            <div class="row">
+                <label class="col-xs-4">Skype:</label>
+                <div class="col-xs-8"><a href="skype:{{ cust.skype }}?chat">{{ cust.skype }}</a></div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div>{{ cust.comment }}</div>
+        </div>
+        <div class="col-sm-2">
+            <div class="row-sm" ng-repeat="contact in cust.contacts | orderBy:['name2', 'name1']">
+                <div><a href ng-click="editcontact(cust, contact)">{{ contact.name2 }}, {{ contact.name1 }}</a></div>
+            </div>
+            <div class="row-sm">
+                <div><a href class="text-warning" ng-click="editcontact(cust, null)">Neuer Kontakt</a></div>
+            </div>
+        </div>
+    </div>
+</div>

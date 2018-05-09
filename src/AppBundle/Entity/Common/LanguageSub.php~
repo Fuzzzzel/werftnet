@@ -1,0 +1,59 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Fuzzzzel
+ * Date: 16.07.2016
+ * Time: 11:04
+ */
+
+namespace AppBundle\Entity\Common;
+
+use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\SimpleEntity;
+
+/**
+ * Class LanguageSub
+ * @package AppBundle\Entity
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="LanguageSub")
+ */
+class LanguageSub extends SimpleEntity
+{
+    /**
+     * @ORM\ManyToOne(targetEntity="Language", inversedBy="subLanguages")
+     * @ORM\JoinColumn(name="language_id", referencedColumnName="id")
+     */
+    private $mainLanguage;
+
+    public function getDisplayName()
+    {
+        return "Subsprache";
+    }
+
+    /**
+     * Set mainLanguage
+     *
+     * @param \AppBundle\Entity\Common\Language $mainLanguage
+     *
+     * @return LanguageSub
+     */
+    public function setMainLanguage(\AppBundle\Entity\Common\Language $mainLanguage = null)
+    {
+        $this->mainLanguage = $mainLanguage;
+
+        return $this;
+    }
+
+    /**
+     * Get mainLanguage
+     *
+     * @return \AppBundle\Entity\Common\Language
+     */
+    public function getMainLanguage()
+    {
+        return $this->mainLanguage;
+    }
+
+
+}

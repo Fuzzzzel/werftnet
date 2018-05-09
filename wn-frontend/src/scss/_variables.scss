@@ -1,0 +1,19 @@
+// Sizes and distances
+$height-header : 80px;
+$heigth-footer : $height-header;
+$padding-default: 20px 40px;
+$padding-boxes: 10px;
+
+// Colors
+$col-bg-frame: darkgray;
+$col-bg-header: lightgray;
+$col-bg-footer: $col-bg-header;
+$col-bg-tile: #f3f3f3;
+$col-border-tile: #d0d0d0;
+
+$font-size-default: 0.8em;
+$font-size-smaller: 0.7em;
+
+$font-size-compact: $font-size-default;
+
+$border-radius-default: 8px;

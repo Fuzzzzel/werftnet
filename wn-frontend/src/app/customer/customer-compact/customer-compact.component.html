@@ -1,0 +1,88 @@
+<div class="container-fluid compact-default tile small">
+  <div class="row-xs">
+    <div class="main-item col-sm-12">
+      <strong>
+        <a class="clickable" (click)="editCustomer(customer)">{{ customer.name1 }}, {{ customer.name2 }}</a>
+      </strong>
+    </div>
+  </div>
+  <div class="row-sm">
+    <div class="col-sm-3">
+      <div class="row">
+        <div class="col-xs-12">
+          {{ customer.address && customer.address.city }} ({{ customer.address && customer.address.country }})
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">&nbsp;</div>
+      </div>
+      <div class="row">
+        <label class="col-xs-4">Kd-Nr.:</label>
+        <div class="col-xs-8">{{ customer.customer_no }}</div>
+      </div>
+      <div class="row">
+        <label class="col-xs-4">Herkunft:</label>
+        <div class="col-xs-8">{{ customer.origin && customer.origin.name }}</div>
+      </div>
+      <div class="row">
+        <label class="col-xs-4">Potenzial:</label>
+        <div class="col-xs-8">{{ customer.potential && customer.potential.name }}</div>
+      </div>
+      <div class="row">
+        <label class="col-xs-4">Accountmgr.:</label>
+        <div class="col-xs-8">{{ customer.account_manager && customer.account_manager.username }}</div>
+      </div>
+      <div class="row">
+        <label class="col-xs-4">Status:</label>
+        <div class="col-xs-8">{{ customer.status && customer.status.name }}</div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="row">
+        <label class="col-xs-4">E-Mail:</label>
+        <div class="col-xs-8">
+          <a href="mailto:{{ customer.email }}">{{ customer.email }}</a>
+        </div>
+      </div>
+      <div class="row">
+        <label class="col-xs-4">E-Mail2:</label>
+        <div class="col-xs-8">
+          <a href="mailto:{{ customer.email2 }}">{{ customer.email2 }}</a>
+        </div>
+      </div>
+      <div class="row">
+        <label class="col-xs-4">Fon:</label>
+        <div class="col-xs-8">{{ customer.phone }}</div>
+      </div>
+      <div class="row">
+        <label class="col-xs-4">Mobil:</label>
+        <div class="col-xs-8">{{ customer.phone2 }}</div>
+      </div>
+      <div class="row">
+        <label class="col-xs-4">Fax:</label>
+        <div class="col-xs-8">{{ customer.fax }}</div>
+      </div>
+      <div class="row">
+        <label class="col-xs-4">Skype:</label>
+        <div class="col-xs-8">
+          <a [href]="'skype:'+customer.skype+'?chat' | safeUrl">{{ customer.skype }}</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div>{{ customer.comment }}</div>
+    </div>
+    <div class="col-sm-2">
+      <div class="row-sm" *ngFor="let contact of customer.contacts">
+        <div>
+          <a class="clickable" (click)="editcontact(customer.id, contact.id)">{{ contact.name2 }}, {{ contact.name1 }}</a>
+        </div>
+      </div>
+      <div class="row-sm">
+        <div>
+          <a class="clickable text-warning" (click)="editcontact(customer, null)">Neuer Kontakt</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

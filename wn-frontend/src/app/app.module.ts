@@ -1,0 +1,47 @@
+// Angular modules and components
+import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule, Router, Routes } from '@angular/router';
+
+// Third party modules and components
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SelectModule } from 'ng2-select';
+
+// Own modules
+import { AppRoutingModule } from './app-routing.module';
+import { SharedModule } from './shared/shared.module';
+import { CoreModule } from './core/core.module';
+import { UserModule } from './user/user.module';
+import { FreelancerModule } from './freelancer/freelancer.module';
+import { CustomerModule } from './customer/customer.module';
+// import { AdminModule } from './admin/admin.module';
+
+// Own components
+import { AppComponent } from './app.component';
+import { LoginComponent } from './layout/login/login.component';
+import { HomeComponent } from './layout/home/home.component';
+import { TopNavComponent } from './layout/top-nav/top-nav.component';
+
+@NgModule({
+  imports: [
+    BrowserModule,
+    NgbModule.forRoot(),
+    SelectModule,
+    CoreModule,
+    SharedModule,
+    AppRoutingModule,
+    // AdminModule,
+    UserModule,
+    FreelancerModule,
+    CustomerModule
+  ],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    HomeComponent,
+    TopNavComponent
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }

@@ -1,0 +1,46 @@
+<div class="alist">
+  <h2>{{ valuearray.display_name }}</h2>
+  <div class="alist-main-item-new input-group">
+    <input [(ngModel)]="main_item_new" (keydown.enter)="createTwoLevelEntityMainItem(valuearray, main_item_new)" class="form-control">
+    <span class="input-group-btn">
+      <button type="button" class="btn btn-primary btn-sm" (click)="createTwoLevelEntityMainItem(valuearray, main_item_new)">
+        <span class="glyphicon glyphicon-plus clickable clickable-icon iconsmall"></span>
+      </button>
+    </span>
+  </div>
+
+  <div class="alist_list">
+    <div *ngFor="let mainProp of valuearray.values">
+
+      <!-- New MainItem -->
+
+      <div>
+        <inline-editor type="text" [(ngModel)]="mainProp.name" (onSave)="updateTwoLevelEntityMainItem(mainProp.id, $event)" size="8"></inline-editor>
+        <span class="glyphicon glyphicon-remove clickable clickable-icon iconsmall" (click)="deleteTwoLevelEntityMainItem(valuearray, mainProp.id)"></span>
+      </div>
+
+      <!-- New SubItem -->
+
+      <div class="alist-sub-item-new alist-sub-item input-group">
+        <input [(ngModel)]="sub_item_new" (keydown.enter)="createTwoLevelEntitySubItem(mainProp.id, sub_item_new)" class="form-control">
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-primary btn-sm" (click)="createTwoLevelEntitySubItem(mainProp.id, sub_item_new)">
+            <span class="glyphicon glyphicon-plus clickable iconsmall"></span>
+          </button>
+        </span>
+      </div>
+
+      <!-- List of SubItems-->
+
+      <div *ngFor="let subProp of mainProp.sub_items" class="alist-sub-item">
+        <div>
+          <inline-editor type="text" [(ngModel)]="subProp.name" (onSave)="updateTwoLevelEntitySubItem(mainProp.id, subProp.id,
+        $event)" size="8"></inline-editor>
+          <span class="glyphicon glyphicon-remove clickable clickable-icon iconsmall" (click)="deleteTwoLevelEntitySubItem(mainProp.id,
+        subProp.id)"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

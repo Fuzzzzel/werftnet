@@ -1,0 +1,27 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Fuzzzzel
+ * Date: 29.07.2016
+ * Time: 19:33
+ */
+
+namespace AppBundle\Entity\Common;
+
+
+use AppBundle\Entity\SimpleEntity;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Class Freelancer
+ * @package AppBundle\Entity\Common
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="Anrede")
+ */
+class Anrede extends SimpleEntity
+{
+    public function getDisplayName() {
+        return "Anrede";
+    }
+}

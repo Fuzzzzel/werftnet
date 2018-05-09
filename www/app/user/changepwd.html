@@ -1,0 +1,61 @@
+<div>
+    <h1>Passwort ändern</h1>
+    <h3>Angemeldet als {{ core.getCurrentUser().username }} </h3>
+    <form class="container-fluid form-default"
+          name="user_changepwd_form"
+          fz-on-enter-key="userCtrl.changeUserPwd(user_changepwd_form, pwd_old, pwd_new)">
+        <div class="row tile">
+            <div class="col-sm-12 form-box">
+                <div class="form-group"
+                     ng-class="{'has-error': user_changepwd_form.$submitted && !user_changepwd_form.pwd_old.$valid }">
+                    <div class="col-md-3"></div>
+                    <label class="control-label col-md-2">Altes Passwort</label>
+                    <div class="col-md-4">
+                        <input name="pwd_old"
+                               class="form-control"
+                               type="password"
+                               ng-model="pwd_old"
+                               required
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 form-box">
+                <div class="form-group"
+                     ng-class="{'has-error': user_changepwd_form.$submitted && (!user_changepwd_form.pwd_new.$valid || (pwd_new !== pwd_new_repeat)) }">
+                    <div class="col-md-3"></div>
+                    <label class="control-label col-md-2">Neues Passwort</label>
+                    <div class="col-md-4">
+                        <input name="pwd_new"
+                               class="form-control"
+                               type="password"
+                               minlength="4"
+                               ng-model="pwd_new"
+                               required
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 form-box">
+                <div class="form-group"
+                     ng-class="{'has-error': user_changepwd_form.$submitted && (!user_changepwd_form.pwd_new_repeat.$valid || (pwd_new !== pwd_new_repeat)) }">
+                    <div class="col-md-3"></div>
+                    <label class="control-label col-md-2">Wiederholen</label>
+                    <div class="col-md-4">
+                        <input name="pwd_new_repeat"
+                               class="form-control"
+                               type="password"
+                               minlength="4"
+                               ng-model="pwd_new_repeat"
+                               required
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <button class="btn btn-primary" type="button"
+            ng-click="userCtrl.changeUserPwd(user_changepwd_form, pwd_old, pwd_new)">Speichern
+    </button>
+    <button class="btn btn-danger" type="button" ng-click="core.historyBack()">Abbrechen</button>
+</div>

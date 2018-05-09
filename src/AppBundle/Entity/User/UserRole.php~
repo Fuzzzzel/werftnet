@@ -1,0 +1,31 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Fuzzzzel
+ * Date: 17.07.2016
+ * Time: 22:04
+ */
+
+namespace AppBundle\Entity\User;
+
+use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\SimpleEntity;
+
+/**
+ * Class UserRole
+ * @package AppBundle\Entity\User
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="UserRole")
+ */
+class UserRole extends SimpleEntity
+{
+    public function getDisplayName() {
+        return "Rolle Benutzer";
+    }
+
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="roles")
+     */
+    private $users;
+}

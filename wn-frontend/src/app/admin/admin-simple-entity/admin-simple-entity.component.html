@@ -1,0 +1,19 @@
+<div class="alist">
+  <h2>{{ valuearray.display_name }}</h2>
+  <div class="alist-simple-item-new input-group">
+    <input [(ngModel)]="item_new" (keydown.enter)="createSimpleEntityItem(item_new)" class="form-control">
+    <span class="input-group-btn">
+      <button type="button" class="btn btn-primary btn-sm" (click)="createSimpleEntityItem(item_new)">
+        <span class="glyphicon glyphicon-plus clickable iconsmall"></span>
+      </button>
+    </span>
+  </div>
+  <div class="alist_list">
+    <div *ngFor="let value of valuearray.values">
+      <div class="alist-simple-item">
+        <inline-editor type="text" [(ngModel)]="value.name" (onSave)="updateSimpleEntityItem(value.id, $event)" size="8"></inline-editor>
+        <span class="glyphicon glyphicon-remove clickable clickable-icon iconsmall" (click)="deleteSimpleEntityItem(value.id)"></span>
+      </div>
+    </div>
+  </div>
+</div>

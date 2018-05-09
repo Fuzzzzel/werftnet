@@ -1,0 +1,11 @@
+.idea
+app/config/parameters.yml
+www/config.php
+www/app.php
+www/app_dev.php
+var/**/*
+!var/bootstrap.php.cache
+coverage
+vendor
+script
+wn-frontend/.editorconfig

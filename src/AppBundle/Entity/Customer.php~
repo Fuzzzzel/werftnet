@@ -1,0 +1,79 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Fuzzzzel
+ * Date: 10.09.2016
+ * Time: 18:44
+ */
+
+namespace AppBundle\Entity;
+
+use AppBundle\Entity\Common\Contact;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+/**
+ * Class Customer
+ * @package AppBundle\Entity
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="Customer")
+ */
+class Customer extends Contact
+{
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Customer\CustomerAddress", inversedBy="customer", cascade={"all"})
+     * @ORM\JoinColumn(name="customeraddress_id", referencedColumnName="id")
+     * @JMS\Type("AppBundle\Entity\Customer\CustomerAddress")
+     * @JMS\Groups({"display", "update"})
+     */
+    private $address;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Customer\CustomerOrigin")
+     * @ORM\JoinColumn(name="customer_origin_id", referencedColumnName="id")
+     * @JMS\Type("AppBundle\Entity\Customer\CustomerOrigin")
+     * @JMS\Groups({"display", "update"})
+     */
+    private $origin;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Customer\CustomerPotential")
+     * @ORM\JoinColumn(name="customer_potential_id", referencedColumnName="id")
+     * @JMS\Type("AppBundle\Entity\Customer\CustomerPotential")
+     * @JMS\Groups({"display", "update"})
+     */
+    private $potential;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Customer\CustomerStatus")
+     * @ORM\JoinColumn(name="customer_status_id", referencedColumnName="id")
+     * @JMS\Type("AppBundle\Entity\Customer\CustomerStatus")
+     * @JMS\Groups({"display", "update"})
+     */
+    private $status;
+
+    /**
+     * Bedingungen zur Rechnungsstellung
+     *
+     * @ORM\Column(type="text")
+     * @JMS\Type("string")
+     * @JMS\Groups({"display", "update"})
+     */
+    protected $invoicingDetails;
+
+    // ToDo: $accountManager Kundenberater --> Eigenes Feld aus Datanbank oder Benutzer
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Customer\CustomerContact", mappedBy="customer", cascade={"all"})
+     * @JMS\Type("ArrayCollection<AppBundle\Entity\Customer\CustomerContact>")
+     * @JMS\Groups({"display", "update"})
+     */
+    private $contacts;
+
+    public function __construct() {
+        $this->contacts = new ArrayCollection();
+    }
+}
