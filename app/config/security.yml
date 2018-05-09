@@ -25,6 +25,7 @@ security:
         adduser:
             pattern: ^/debug
             anonymous: ~
+            logout_on_user_change: true
         main:
             pattern: ^/
             anonymous: ~
@@ -37,6 +38,7 @@ security:
             logout:
                 path:   /logout
                 success_handler: app.security.logout_success_handler
+            logout_on_user_change: true
             provider: app_user_provider
 
     access_control:
