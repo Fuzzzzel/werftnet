@@ -1,0 +1,33 @@
+<?php
+// Taken from https://gist.github.com/jaymecd/dd9fae0ae0a3eff1b3362445580ba28a
+
+$options = getopt("f:o:");
+if (! isset($options['f'])) {
+    echo "Files have to be specified with -f\n";
+    exit(1);
+}
+if (! isset($options['o'])) {
+    echo "Output has to be specified with -o\n";
+    exit(1);
+}
+$files = $options['f'];
+if (! is_array($files)) {
+    $files = array($files);
+}
+$output = $options['o'];
+$buffer = '';
+foreach ($files as $file) {
+    if (! file_exists($file)) {
+        echo "File '$file' doesn't exist\n";
+        exit(2);
+    }
+    $report = simplexml_load_file($file);
+    $buffer .= $report->project->asXML();
+}
+$fh = fopen($output ,'w');
+if (! $fh) {
+    echo "Cannot open '$output' for writing\n";
+    exit(2);
+}
+fwrite($fh, sprintf('<?xml version="1.0" encoding="UTF-8"?><coverage>%s</coverage>', $buffer));
+fclose($fh);
