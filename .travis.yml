@@ -34,6 +34,7 @@ matrix:
         - php vendor/bin/simple-phpunit
       after_script:
         # Create coveralls.json for php part
+        - mkdir -p build/logs
         - php vendor/bin/php-coveralls --dry-run -v
     - stage: frontend
       language: node_js

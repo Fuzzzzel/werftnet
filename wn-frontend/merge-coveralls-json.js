@@ -3,7 +3,7 @@ var TRAVIS_JOB_ID = process.env.TRAVIS_JOB_ID || 'unknown';
 var fs = require('fs');
 var path = require('path');
 const lcovParse = require('lcov-parse');
-const coverallsPhp = require('./../build/coveralls-upload.json')
+const coverallsPhp = require('./../build/logs/coveralls-upload.json')
 const sendToCoveralls = require('./node_modules/coveralls/lib/sendToCoveralls')
 
 var detailsToCoverage = function (length, details) {
@@ -98,8 +98,8 @@ var convertLcovToCoveralls = function (input, options, cb) {
 cb = function (coverallsNode) {
     let coverallsMerged = coverallsPhp
     coverallsMerged.source_files = coverallsPhp.source_files.concat(coverallsNode.source_files)
-    // const json = JSON.stringify(coverallsMerged)
-    // fs.writeFile('./../build/coverall-merged.json', json, 'utf8', () => { })
+    const json = JSON.stringify(coverallsMerged)
+    fs.writeFile('./../build/logs/coverall-merged.json', json, 'utf8', () => { })
     sendToCoveralls(coverallsMerged, (err, response, body) => {
         console.log('Build information sent to coveralls')
         console.log('Service name: ' + coverallsMerged.service_name)
