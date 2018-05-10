@@ -1,6 +1,7 @@
 matrix:
   include:
-    - language: php
+    - stage: backend
+      language: php
       php:
         - '7.1'
       sudo: false
@@ -34,7 +35,8 @@ matrix:
       after_script:
         # Create coveralls.json for php part
         - php vendor/bin/php-coveralls --dry-run -v
-    - language: node_js
+    - stage: frontend
+      language: node_js
       node_js: "8"
       sudo: required
       dist: xenial
