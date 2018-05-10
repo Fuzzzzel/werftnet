@@ -15,7 +15,6 @@ matrix:
         - SYMFONY_VERSION="3.4.*" DB=mysql
       before-install:
         - composer self-update
-        - mkdir -p ~/shared_build_files
       install:
         - cp app/config/parameters.yml.dist app/config/parameters.yml
         - cp www/app.php.example www/app.php
@@ -37,7 +36,7 @@ matrix:
         # Create coveralls.json for php part
         - mkdir -p build/logs
         - php vendor/bin/php-coveralls --dry-run -v
-        - cp build/logs/coveralls-upload.json ~/shared_build_files/coveralls-upload.json
+        # Store build info of first step somewhere: build/logs/coveralls-upload.json
     - stage: frontend
       language: node_js
       node_js: "8"
@@ -57,9 +56,11 @@ matrix:
       after_script:
         # Generate coveralls json
         - mkdir -p ./../build/logs
-        - cp ~/shared_build_files/coveralls-upload.json ./../build/logs/coveralls-upload.json
-        - node merge-coveralls-json.js
+        # Fetch coverage info from first step and save to: ./../build/logs/coveralls-upload.json
+        # Run merge and upload to coveralls: - node merge-coveralls-json.js
 
 notifications:
   email:
-    - the_weirdo@gmx.net
+    recipients:
+      - the_weirdo@gmx.net
+    on_success: always
