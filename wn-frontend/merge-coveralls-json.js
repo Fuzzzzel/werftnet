@@ -102,7 +102,10 @@ cb = function (coverallsNode) {
     // fs.writeFile('./../build/coverall-merged.json', json, 'utf8', () => { })
     sendToCoveralls(coverallsMerged, (err, response, body) => {
         console.log('Build information sent to coveralls')
+        console.log('Service name: ' + coverallsMerged.service_name)
+        console.log('Job ID: ' + coverallsMerged.service_job_id)
         if (body) {
+            console.log('Response:')
             console.log(body)
         }
         if (err) {
