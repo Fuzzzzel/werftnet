@@ -52,9 +52,8 @@ matrix:
         - npm install
         - npm run test
         - npm run build
-      after_script:
         # Generate coveralls json
-        node merge-coveralls-json.js
+        - node merge-coveralls-json.js
 
 notifications:
   email:
