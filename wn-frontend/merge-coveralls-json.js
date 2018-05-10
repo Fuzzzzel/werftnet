@@ -100,9 +100,15 @@ cb = function (coverallsNode) {
     coverallsMerged.source_files = coverallsPhp.source_files.concat(coverallsNode.source_files)
     // const json = JSON.stringify(coverallsMerged)
     // fs.writeFile('./../build/coverall-merged.json', json, 'utf8', () => { })
-    sendToCoveralls(coverallsMerged, (err) => {
+    sendToCoveralls(coverallsMerged, (err, response, body) => {
         console.log('Build information sent to coveralls')
-        if (err) throw err
+        if (body) {
+            console.log(body)
+        }
+        if (err) {
+            console.log(err)
+            throw err
+        }
     })
 }
 convertLcovToCoveralls('./coverage/lcov.info', {}, cb)
