@@ -1,4 +1,5 @@
-<img src="https://travis-ci.com/Fuzzzzel/werftnet.svg?branch=master" alt="build:created">  
+<img src="https://travis-ci.com/Fuzzzzel/werftnet.svg?branch=master" alt="build:created">
+<a href='https://coveralls.io/github/Fuzzzzel/werftnet?branch=master'><img src='https://coveralls.io/repos/github/Fuzzzzel/werftnet/badge.svg?branch=master' alt='Coverage Status' /></a>
   
 # werftnet  
   
