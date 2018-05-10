@@ -17,7 +17,10 @@ A simple tool to manage your translators and customers. Simple project managemen
 ### Create DB and user (for MySQL)  
 `CREATE USER your_user@localhost identified by 'YOUR_PASSWORD';`  
 `CREATE DATABASE YOUR_DATABASE_NAME CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`  
-`GRANT ALL ON YOUR_DATABASE_NAME.* TO your_user@localhost;`  
+`GRANT ALL ON YOUR_DATABASE_NAME.* TO your_user@localhost` 
+
+An alternative is to use the following command after cloning the repository and calling `composer update`:       
+`php bin/console doctrine:database:create`
   
 ### Clone repository and init app  
 `sudo apt-get install composer`  
