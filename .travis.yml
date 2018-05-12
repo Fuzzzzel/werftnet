@@ -34,10 +34,10 @@ matrix:
     - mkdir -p build/logs
     - php vendor/bin/php-coveralls --dry-run -v
     - ftp -inv server23.webgo24.de << EOT
-      user WERFTNET-web96f1 %WERFTNET-BUILD_FTP_KEY%
-      put build/logs/coveralls-upload.json
-      bye
-      EOT
+    - user WERFTNET-web96f1 %WERFTNET-BUILD_FTP_KEY%
+    - put build/logs/coveralls-upload.json
+    - bye
+    - EOT
   - stage: frontend
     language: node_js
     node_js: '8'
