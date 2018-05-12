@@ -1,66 +1,66 @@
 matrix:
   include:
-    - stage: backend
-      language: php
-      php:
-        - '7.1'
-      sudo: false
-      services:
-        - mysql
-      # Cache composer packages so "composer install" is faster
-      cache:
-        directories:
-          - $HOME/.composer/cache/files
-      env:
-        - SYMFONY_VERSION="3.4.*" DB=mysql
-      before-install:
-        - composer self-update
-      install:
-        - cp app/config/parameters.yml.dist app/config/parameters.yml
-        - cp www/app.php.example www/app.php
-        - composer install
-        - composer update
-        - php bin/console doctrine:database:create
-        - php bin/console doctrine:schema:update --force
-        - php bin/console doctrine:fixtures:load -n
-      before_script:
-        - sudo apt-get update
-        - sudo apt-get install apache2
-        # configure apache virtual hosts
-        - sudo cp -f build/travis-ci-apache /etc/apache2/sites-available/000-default.conf
-        - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
-        - sudo service apache2 restart
-      script:
-        - php vendor/bin/simple-phpunit
-      after_script:
-        # Create coveralls.json for php part
-        - mkdir -p build/logs
-        - php vendor/bin/php-coveralls --dry-run -v
-        # Store build info of first step somewhere: build/logs/coveralls-upload.json
-    - stage: frontend
-      language: node_js
-      node_js: "8"
-      dist: xenial
-      addons:
-          chrome: stable
-      before_install:
-        - export CHROME_BIN=chromium-browser
-        - export DISPLAY=:99.0
-        - sh -e /etc/init.d/xvfb start
-      before_script:
-        - cd wn-frontend
-      script:
-        - npm install
-        - npm run test
-        - npm run build
-      after_script:
-        # Generate coveralls json
-        - mkdir -p ./../build/logs
-        # Fetch coverage info from first step and save to: ./../build/logs/coveralls-upload.json
-        # Run merge and upload to coveralls: - node merge-coveralls-json.js
-
+  - stage: backend
+    language: php
+    php:
+    - '7.1'
+    sudo: false
+    services:
+    - mysql
+    cache:
+      directories:
+      - "$HOME/.composer/cache/files"
+    env:
+    - SYMFONY_VERSION="3.4.*" DB=mysql
+    before-install:
+    - composer self-update
+    install:
+    - cp app/config/parameters.yml.dist app/config/parameters.yml
+    - cp www/app.php.example www/app.php
+    - composer install
+    - composer update
+    - php bin/console doctrine:database:create
+    - php bin/console doctrine:schema:update --force
+    - php bin/console doctrine:fixtures:load -n
+    before_script:
+    - sudo apt-get update
+    - sudo apt-get install apache2
+    - sudo cp -f build/travis-ci-apache /etc/apache2/sites-available/000-default.conf
+    - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
+    - sudo service apache2 restart
+    script:
+    - php vendor/bin/simple-phpunit
+    after_script:
+    - mkdir -p build/logs
+    - php vendor/bin/php-coveralls --dry-run -v
+    - ftp -inv server23.webgo24.de << EOT
+      user WERFTNET-web96f1 %WERFTNET-BUILD_FTP_KEY%
+      put build/logs/coveralls-upload.json
+      bye
+      EOT
+  - stage: frontend
+    language: node_js
+    node_js: '8'
+    dist: xenial
+    addons:
+      chrome: stable
+    before_install:
+    - export CHROME_BIN=chromium-browser
+    - export DISPLAY=:99.0
+    - sh -e /etc/init.d/xvfb start
+    before_script:
+    - cd wn-frontend
+    script:
+    - npm install
+    - npm run test
+    - npm run build
+    after_script:
+    - mkdir -p ./../build/logs
 notifications:
   email:
     recipients:
-      - the_weirdo@gmx.net
+    - the_weirdo@gmx.net
     on_success: always
+env:
+  matrix:
+    secure: RpqNtB8TJaMDM8DfoWwWrgGs8sFBfM+yLpsUIbQaIn214NK815dqF9wDvH705kpWW8YuhSpiw3TwSG42B0mGGSoOXGIH44DIHXVzj5jBuvM1G+buYQ+JcddoIYksfbtKYHWm8fz2IP04Qaz0lJ2zxa/Jgy5al643vGmM0d4k/dA6chNFXZKOKCKIDv3eGbHTXBJeGWBeTZHYw5a8x3GJEjoyDOq4BjYRZuZhCb7hJPZsz4CeeHGBLm0uPGcWcrbADYQr/1z7OulRp9b04A+NLrcxqTjeZjmyzCu3s5lk5px6GwkwBUaXq4jB0w8EhUWOG6v67lXo4rFF4fJFCYIkd0MHRD3S0PKXbVBpisD3sEx9uOhPuNkGEKh38Okw+1b0hazgSrcgKYr/DwxkEym9ugPVm5XdoPB1s2vpj0aCSf91l7abfCN1rGMIZce8jiOVL1sVm1NpU6KfVl7piok5NfmVwzBzdrdrPQuqk7yRWZFr/CdWpLo3vJrotwZjUT5atp3amh1g03G35o7FAPU2OeHL4HXNVFYQL9thDxj8CVXHCLNHh1lKfgJIDyKpf9sJ8z6wCsNzCqUNH+hILpdxZ0vZS0/Ru/nt3TAVNfde74F4EpacuXBoQwzTAg+7+mhaKhvopOgBX1QOttfrYm6JQIoOdB4K/ZWCh9VxvAJxnls=
