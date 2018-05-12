@@ -34,7 +34,7 @@ matrix:
     - mkdir -p build/logs
     - php vendor/bin/php-coveralls --dry-run -v
     - cd build
-    - copy-to-ftp.sh
+    - bash copy-to-ftp.sh
   - stage: frontend
     language: node_js
     node_js: '8'
