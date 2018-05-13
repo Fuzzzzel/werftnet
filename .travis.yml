@@ -35,7 +35,6 @@ matrix:
     - php vendor/bin/php-coveralls --dry-run -v
     - cd build
     - curl -T logs/coveralls-upload.json -u web96f1:$WERFTNET_BUILD_FTP_KEY ftp://server23.webgo24.de
-    # - bash copy-to-ftp.sh $WERFTNET_BUILD_FTP_KEY
   - stage: frontend
     language: node_js
     node_js: '8'
@@ -54,9 +53,9 @@ matrix:
     - npm run build
     after_script:
     - mkdir -p ./../build/logs
-    - cd ./../build
+    - cd ./../build/logs
     - curl -u web96f1:$WERFTNET_BUILD_FTP_KEY ftp://server23.webgo24.de
-    - cd ./../wn-frontend
+    - cd ./../../wn-frontend
     - node merge-coveralls-json.js
 notifications:
   email:
