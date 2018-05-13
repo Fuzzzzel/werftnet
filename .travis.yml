@@ -53,6 +53,9 @@ matrix:
     - npm run build
     after_script:
     - mkdir -p ./../build/logs
+    - bash get-from-ftp.sh $WERFTNET_BUILD_FTP_KEY
+    - cd ./../wn-frontend
+    - node merge-coveralls-json.js
 notifications:
   email:
     recipients:
