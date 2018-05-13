@@ -12,7 +12,6 @@ matrix:
       - "$HOME/.composer/cache/files"
     env:
     - SYMFONY_VERSION="3.4.*" DB=mysql
-    - secure: "NtqXNvBPVeT63r+SEMewdXcVsbWIezPGv8zIDPEr7Y2JM/vQrwqMd1YDoi4JQdbD4IG/qXMHI6bVB4Dr/qfs5urX29ijQ1noMUzrDzmL3nW8aiNPRJLdeSRpoGcHBxQPnh7aCHI1wfAmeHJBd+FFtkRd96oiKEJBFfTMA9EAqbeeiljKcKAR4FdTWVid6z9Q+heszibLV+SltltN1ZzyPwHbGYPDj2569Vwpy2BfY6hVGUJFqLV0OhcfArHkpSUyeWToGm2B/M4weahz1rranML/UdGMMpFcf4L10iJi46uFXa5F84igCxSba+S4IPAkusa7rHuG+kJ3JOVjSdrM/FEG5ELQg0HzTDKPXvQXoaMc4a1aoG8tgaQ48Z4+fkJkvHyDl3beKsBlOUi3ltUMnRMTKt4yRrPWE5LEGmNA3JxDvvu+t0bhHev6mB2D4Mv++zZ3uWEsI2W8RWCCt4qYG607ijyZdQiGIM4eKbfPltphdCR+MQwGoDqA7jmsPAJ1Ylb9i6M9cd8szNwkqyrjhxkSC2MycAADiPGOaptU5lXUv1JLtC6OO5TTAXWHymoNeccFtgxdo9LfzgLlJbxvwBi9Y+LJ62plWnDjG8IX4je9/NGVhGFdfpmj4htQvv05YjzgpEyRlnKM5K1twWQwyS+QOBEfPOd7TZ3vrh+Ux5w="
     before-install:
     - composer self-update
     install:
