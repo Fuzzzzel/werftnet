@@ -1,6 +1,3 @@
-env:
-  global:
-    secure: Cv3JcgbNs9TWgkOcVCIfwaljTLkxvz8qX5PHzZ8nOcgK1oGrISeAFqw4b9jZ23htty/nJ7Ut2gxGi/9dwXkp8lIaFzAMD5gqMbbqGjits7undCfYJEmSSGHYMkI4yU10+h+Siy/jcql36LR5U/AwSwTsGqZs+WIZ9ev2+RNuBB34tvhm4JsiKbazKHd31LCpzcRy4H0UdGt7vL/3QtZ2omVaFnEiZIssCXZR0J9NeTkf+eo9Wb7XND8QncWVFO5XoMpFnV5tjY5IYfMEvmtWTtkt8X30H62CrfxqLaXqvSa3xBwSJHTPw4v8gmtxQI5lqdjwxEqTJRjHtbmTqJOZ385e/2WluO8F9xq9kxmw32qA8hN8+APktbWXgs154eKscWtL3qLVSrK0yPO9VaI+WvBg+WhZwJ4nw1GWr+tylLyYVa7pDfQcHLkaJsBTcJijoMvBmqvJThO/mrZUiEE+WeynF0ncI+aXSIvkbyVDmenCZoyh1ok7ILYY7Ysc4sJBXXtAMc9j0dpH7EnZzHU3B+Ig1ZAiBtc33vs1YVKCSbcxiaUAR4kZE0gUaA+H4/dzxxYY/vDpfV/0Evney5SllZWR45UjaWHZedNb8TFXVopD2+VdTrGvifwZ2ovRgUYVeFapePewSGoDQhdaWevARbN+gWudVpSF3mkAuVsJHnk=
 matrix:
   include:
   - stage: backend
@@ -15,6 +12,7 @@ matrix:
       - "$HOME/.composer/cache/files"
     env:
     - SYMFONY_VERSION="3.4.*" DB=mysql
+    - secure: Cv3JcgbNs9TWgkOcVCIfwaljTLkxvz8qX5PHzZ8nOcgK1oGrISeAFqw4b9jZ23htty/nJ7Ut2gxGi/9dwXkp8lIaFzAMD5gqMbbqGjits7undCfYJEmSSGHYMkI4yU10+h+Siy/jcql36LR5U/AwSwTsGqZs+WIZ9ev2+RNuBB34tvhm4JsiKbazKHd31LCpzcRy4H0UdGt7vL/3QtZ2omVaFnEiZIssCXZR0J9NeTkf+eo9Wb7XND8QncWVFO5XoMpFnV5tjY5IYfMEvmtWTtkt8X30H62CrfxqLaXqvSa3xBwSJHTPw4v8gmtxQI5lqdjwxEqTJRjHtbmTqJOZ385e/2WluO8F9xq9kxmw32qA8hN8+APktbWXgs154eKscWtL3qLVSrK0yPO9VaI+WvBg+WhZwJ4nw1GWr+tylLyYVa7pDfQcHLkaJsBTcJijoMvBmqvJThO/mrZUiEE+WeynF0ncI+aXSIvkbyVDmenCZoyh1ok7ILYY7Ysc4sJBXXtAMc9j0dpH7EnZzHU3B+Ig1ZAiBtc33vs1YVKCSbcxiaUAR4kZE0gUaA+H4/dzxxYY/vDpfV/0Evney5SllZWR45UjaWHZedNb8TFXVopD2+VdTrGvifwZ2ovRgUYVeFapePewSGoDQhdaWevARbN+gWudVpSF3mkAuVsJHnk=
     before-install:
     - composer self-update
     install:
