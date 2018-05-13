@@ -35,8 +35,8 @@ matrix:
     - mkdir -p build/logs
     - php vendor/bin/php-coveralls --dry-run -v
     - cd build
-    - $WERFTNET-BUILD_FTP_KEY
-    - $DB
+    - "$WERFTNET-BUILD_FTP_KEY"
+    - "$DB"
     - bash copy-to-ftp.sh
   - stage: frontend
     language: node_js
@@ -61,3 +61,6 @@ notifications:
     recipients:
     - the_weirdo@gmx.net
     on_success: always
+env:
+  global:
+    secure: iQCFbpx/znsTP8V+NsHjzlN8LhObpt5u/7qOheVjssLu6aeAIgEicm138J+fMjrpj7hlQgmxOWKzXLAm9K3mG6onAN7Xj3gH7tbo7HTwGeKibmCuzSaZ3fcVllS1vyj+c7c2RlbcMTiUKge07a3b4btEk4kk32EtjvBh57vp/vs+Qq2C+rIBNmdqJLwLgdqfU+49Ua+1FBo7x2syqHISKNdtZni61oywphGaNMz8zrVQTECFgmBKjK8aw+7ghcVs8eWMz6oHuB8IiCS4aeDVvIOfRRqj52cUv64Q5fZTSAW+EbwxV75w8zc0kY6pL5fOWcaTR2pEHAwSoBvvS14jE+5EBhBV8L+ycQPdDCHSaffVpCHXcNgAsiyZIJc9WTPLD0O0IChFcUoRFODErenEt8c1ucazuAbOWikTw8xUQvWH/hZ2teKjy6AYStnDbXywaoAB36O3SIPTt7PCwA+LPtTpMkerPrLGRKWPN1P9ezHka0/5Dz5rE4HXzKqAXAIrGoH0xzZW+j0N1ZbV/REB9dSOTBZU4R4+4TYyJdc8z7k4Ctx9wHoSfqpzveLnq6Z2NQcm316nF6rAmk47eVok+H/BwmkeXcg/2Qag8HGYxkMTRATAZdOwVQwZi0E1aS1dsvHKhvb5xhhvdVuaSPEH+nuhG7jzI9nITjdTAHqxspE=
