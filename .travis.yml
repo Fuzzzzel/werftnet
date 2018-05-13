@@ -34,7 +34,7 @@ matrix:
     after_script:
     - mkdir -p build/logs
     - php vendor/bin/php-coveralls --dry-run -v
-    - cd build/logs
+    - cd build
     - bash copy-to-ftp.sh $WERFTNET_BUILD_FTP_KEY
   - stage: frontend
     language: node_js

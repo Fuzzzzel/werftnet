@@ -4,7 +4,7 @@ www/config.php
 www/app.php
 www/app_dev.php
 var/**/*
-build/logs
+build/logs/**/*
 !var/bootstrap.php.cache
 coverage
 vendor
