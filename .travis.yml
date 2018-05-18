@@ -5,7 +5,9 @@ matrix:
     - '7.1'
     dist: trusty
     addons:
-      chrome: stable
+      apt:
+        packages:
+          - google-chrome-stable
     sudo: false
     services:
     - mysql
@@ -19,9 +21,9 @@ matrix:
     # php
     - composer self-update
     # node
-    - export CHROME_BIN=chromium-browser
-    - export DISPLAY=:99.0
-    - sh -e /etc/init.d/xvfb start
+    # - export CHROME_BIN=chromium-browser
+    # - export DISPLAY=:99.0
+    # - sh -e /etc/init.d/xvfb start
     install:
     # php
     - cp app/config/parameters.yml.dist app/config/parameters.yml
