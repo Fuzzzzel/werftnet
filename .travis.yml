@@ -5,9 +5,7 @@ matrix:
     - '7.1'
     dist: trusty
     addons:
-      apt:
-        packages:
-          - google-chrome-stable
+      chrome: stable
     sudo: false
     services:
     - mysql
