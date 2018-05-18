@@ -3,7 +3,7 @@ matrix:
     language: php
     php:
     - '7.1'
-    dist: xenial
+    dist: trusty
     addons:
       chrome: stable
     sudo: required
