@@ -46,6 +46,9 @@ matrix:
     - sudo cp -f build/travis-ci-apache /etc/apache2/sites-available/000-default.conf
     - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
     - sudo service apache2 restart
+    # node (fix for chrome not starting on travis ci)
+    - sudo chown root /opt/google/chrome/chrome-sandbox
+    - sudo chmod 4755 /opt/google/chrome/chrome-sandbox
     script:
     # php
     - php vendor/bin/simple-phpunit
