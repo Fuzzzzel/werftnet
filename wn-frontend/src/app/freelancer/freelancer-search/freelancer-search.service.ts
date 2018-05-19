@@ -34,7 +34,7 @@ export class FreelancerSearchService {
 
     // Set up post request
     const req = this.http.post<FreelancersLoaded>(
-      '/freelancer/searchFreelancers',
+      '/freelancers/search',
       searchParams || this.lastSearchParams
     )
 
