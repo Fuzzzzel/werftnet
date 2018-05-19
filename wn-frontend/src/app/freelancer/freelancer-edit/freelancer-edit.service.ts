@@ -46,7 +46,7 @@ export class FreelancerEditService {
     console.log(fl_save)
     // Set up post request
     const req = this.http.post<Freelancer>(
-      '/freelancer/editFreelancer',
+      '/freelancers' + (fl_save.id ? '/' + fl_save.id : ''),
       fl_save
     )
 
@@ -70,9 +70,8 @@ export class FreelancerEditService {
     }
 
     // Set up post request
-    const req = this.http.post<Freelancer>(
-      '/freelancer/deleteFreelancer',
-      freelancerToDelete.id
+    const req = this.http.delete<Freelancer>(
+      '/freelancers/' + freelancerToDelete.id
     )
 
     // Execute post request and subscribe to response
@@ -96,7 +95,7 @@ export class FreelancerEditService {
   getFreelancerByIdAndEdit(id: number) {
     // Set up post request
     const req = this.http.get<Freelancer>(
-      '/freelancer/' + id
+      '/freelancers/' + id
     )
 
     // Execute post request and subscribe to response

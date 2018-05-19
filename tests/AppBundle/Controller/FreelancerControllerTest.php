@@ -17,7 +17,7 @@ class FreelancerControllerTest extends DefaultWebTestCase
         $client = $this->getAdminClient();
         $client->request(
             'POST',
-            '/freelancer/editFreelancer',
+            '/freelancers',
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),
@@ -31,7 +31,7 @@ class FreelancerControllerTest extends DefaultWebTestCase
     public function testSearchFreelancersTest() {
 
         $client = $this->getAdminClient();
-        $crawler = $client->request('POST', '/freelancer/searchFreelancers');
+        $crawler = $client->request('POST', '/freelancers/search');
 
         $content = $client->getResponse()->getContent();
         $this->assertJson($content);
@@ -39,7 +39,22 @@ class FreelancerControllerTest extends DefaultWebTestCase
         $freelancerList = json_decode($content, true);
         $freelancerId = $freelancerList['items'][0]['id'];
 
-        $crawler = $client->request('GET', '/freelancer/'.$freelancerId);
+        $crawler = $client->request('GET', '/freelancers/'.$freelancerId);
+        $this->assertJson($client->getResponse()->getContent());
+    }
+
+    public function testDeleteFreelancerTest() {
+
+        $client = $this->getAdminClient();
+        $crawler = $client->request('POST', '/freelancers/search');
+
+        $content = $client->getResponse()->getContent();
+        $this->assertJson($content);
+
+        $freelancerList = json_decode($content, true);
+        $freelancerId = $freelancerList['items'][0]['id'];
+
+        $crawler = $client->request('DELETE', '/freelancers/'.$freelancerId);
         $this->assertJson($client->getResponse()->getContent());
     }
 }

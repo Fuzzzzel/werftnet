@@ -103,6 +103,20 @@ abstract class Contact
     // protected $createdBy; // User
 
     /**
+     * Set id
+     *
+     * @param int $id
+     *
+     * @return integer
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this->id;
+    }
+
+    /**
      * Get id
      *
      * @return integer

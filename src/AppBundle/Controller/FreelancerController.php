@@ -33,12 +33,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class FreelancerController extends Controller
 {
-
     /**
      * @return Response
      *
      * @Method("POST")
-     * @Route("/freelancer/searchFreelancers", name="searchFreelancers")
+     * @Route("/freelancers/search", name="searchFreelancers")
      */
     public function searchFreelancers(Request $request)
     {
@@ -70,16 +69,11 @@ class FreelancerController extends Controller
      * @throws EntityNotFoundException
      *
      * @Method("GET")
-     * @Route("/freelancer/{freelancerId}", name="getFreelancerById")
+     * @Route("/freelancers/{freelancerId}", name="getFreelancerById")
      */
     public function getFreelancerById(Request $request, $freelancerId)
     {
-        if (!isset($freelancerId) && !(intval($freelancerId) > 0)) {
-            throw new NotFoundHttpException('Freelancer mit der id {$id} wurde nicht gefunden!');
-        }
-
-        $repository = $this->getDoctrine()->getRepository('AppBundle:Freelancer');
-        $freelancer = $repository->find(intval($freelancerId));
+        $freelancer = $this->fetchFreelancer($freelancerId);
 
         $serializer = SerializerBuilder::create()->build();
         $response = $serializer->serialize(
@@ -90,15 +84,27 @@ class FreelancerController extends Controller
         return new Response($response);
     }
 
+    private function fetchFreelancer($id)
+    {
+        if (!isset($id) && !(intval($id) > 0)) {
+            throw new NotFoundHttpException('Freelancer mit der id {$id} wurde nicht gefunden!');
+        }
+
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Freelancer');
+        $freelancer = $repository->find(intval($id));
+
+        return $freelancer;
+    }
+
     /**
      * @param Request $request
      * @return null
      * @throws EntityNotFoundException
      *
      * @Method("POST")
-     * @Route("/freelancer/editFreelancer", name="editFreelancer")
+     * @Route("/freelancers/{id}", defaults={"id"=null}, name="editFreelancer")
      */
-    public function editFreelancer(Request $request)
+    public function editFreelancer(Request $request, $id)
     {
         // Daten aus Request in Objekte überführen
         $content = $request->getContent();
@@ -109,19 +115,33 @@ class FreelancerController extends Controller
         // EntityManager laden
         $em = $this->getDoctrine()->getManager();
 
-        if ($fl->getId() == null) {
+        if ($id === null) {
+            $em->detach($fl);
             $fl->setCreatedAt(new \DateTime());
         }
+        $fl->setId($id);
 
-        // --------------------------------------
-        // Test für den Persist-Listener eines Freelancers
-        // --------------------------------------
+
+        // Set/Add Address
         $address = $fl->getAddress();
-        if ($address->getId() == null) {
+        if ($id === null || $address->getId() === null) {
             $address->setFreelancer($fl);
             $em->persist($address);
         }
 
+        $this->updateFreelancerPrices($fl, $em);
+
+        $em->persist($fl);
+        $em->flush();
+
+        $serializer = SerializerBuilder::create()->build();
+        $response = $serializer->serialize($fl, 'json', SerializationContext::create()->setGroups(['display'])->enableMaxDepthChecks());
+
+        return new Response($response);
+    }
+
+    private function updateFreelancerPrices(Freelancer $fl, EntityManager $em)
+    {
         // Neue Preise hinzufügen
         foreach ($fl->getPrices() as $price) {
             if ($price->getId() == null) {
@@ -149,17 +169,6 @@ class FreelancerController extends Controller
                 }
             }
         }
-
-
-        // Test Ende!
-
-        $em->persist($fl);
-        $em->flush();
-
-        $serializer = SerializerBuilder::create()->build();
-        $response = $serializer->serialize($fl, 'json', SerializationContext::create()->setGroups(['display'])->enableMaxDepthChecks());
-
-        return new Response($response);
     }
 
 
@@ -168,29 +177,19 @@ class FreelancerController extends Controller
      * @return null
      * @throws EntityNotFoundException
      *
-     * @Route("/freelancer/deleteFreelancer", name="deleteFreelancer")
+     * @Method("DELETE")
+     * @Route("/freelancers/{freelancerId}", name="deleteFreelancer")
      */
-    public function deleteFreelancer(Request $request)
+    public function deleteFreelancer(Request $request, $freelancerId)
     {
-        // $entity, $name
-        if ($request->getMethod() != 'POST') {
-            return null;
-        }
-
-        // Daten aus Request in Objekte überführen
-        $content = $request->getContent();
-
+        $fl = $this->fetchFreelancer($freelancerId);
 
         // EntityManager laden
         $em = $this->getDoctrine()->getManager();
 
-        if ($content != null) {
-            $fl = $em->find('AppBundle\Entity\Freelancer', $content);
-
-            if ($fl != null) {
-                $em->remove($fl);
-                $em->flush();
-            }
+        if ($fl != null) {
+            $em->remove($fl);
+            $em->flush();
         }
 
         return new JsonResponse();
