@@ -12,6 +12,8 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class AuthenticationController extends Controller
 {
@@ -25,8 +27,7 @@ class AuthenticationController extends Controller
      */
     public function loginCheckAction()
     {
-        // will never be executed
-        $i = 1;
+        // will never be executed but needed for interface
     }
 
     /**
@@ -34,22 +35,20 @@ class AuthenticationController extends Controller
      */
     public function logoutAction()
     {
-        // will never be executed
-        $i = 1;
+        // will never be executed but needed for interface
     }
 
     /**
      * @Route("/get_logged_in_user", name="security_get_logged_in_user")
+     * @param UserInterface $user
+     * @param AuthorizationCheckerInterface $authChecker
+     * @return JsonResponse
      */
-    public function getLoggedInUserAction()
+    public function getLoggedInUserAction(UserInterface $user, AuthorizationCheckerInterface $authChecker)
     {
-
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        $auth_checker = $this->get('security.authorization_checker');
-
         $response = new \stdClass();
 
-        if ($auth_checker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if ($authChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $response->id = $user->getId();
             $response->username = $user->getUsername();
             $roles = $user->getRoles();

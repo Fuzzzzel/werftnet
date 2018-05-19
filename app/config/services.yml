@@ -17,6 +17,11 @@ services:
     AppBundle\:
         resource: '../../src/AppBundle/*'
 
+    # Resolve autowiring conflict with User
+    AppBundle\Entity\User:
+        alias: Symfony\Component\Security\Core\User\UserInterface
+        public: false
+
     user.listener:
         class: AppBundle\EventListener\UserRoleSetter
         tags:

@@ -31,9 +31,9 @@
         "php-coveralls/php-coveralls": "^2.0"
     },
     "require-dev": {
-        "sensio/generator-bundle": "^3.0",
         "symfony/phpunit-bridge": "^3.0",
-        "doctrine/doctrine-fixtures-bundle": "^3.0"
+        "doctrine/doctrine-fixtures-bundle": "^3.0",
+        "symfony/maker-bundle": "^1.5"
     },
     "scripts": {
         "post-install-cmd": [
