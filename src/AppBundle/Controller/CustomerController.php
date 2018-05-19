@@ -22,6 +22,7 @@ use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\SerializerBuilder;
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\QueryHelper;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -31,19 +32,48 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class CustomerController extends Controller
 {
+
+    /**
+     * @return Response
+     *
+     * @Method("POST")
+     * @Route("/customers/search", name="searchCustomers")
+     */
+    public function searchCustomers(Request $request)
+    {
+        // Daten aus Request in Objekte überführen
+        $content = $request->getContent();
+
+        $params = null;
+
+        if (!empty($content)) {
+            $params = json_decode($content, true); // 2nd param to get as array
+        }
+
+        if (!isset($params['page']))
+            $params['page'] = 1;
+
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Customer');
+        $custPaginatedResult = $repository->findAllBySearchParams($params, 20, $params['page']);
+
+        $custSerializableResult = QueryHelper::getSerializableResult($custPaginatedResult);
+
+        $response = json_encode($custSerializableResult);
+
+        return new Response($response);
+    }
+
+
     /**
      * @param Request $request
      * @return null
      * @throws EntityNotFoundException
      *
-     * @Route("/customer/editCustomer", name="editCustomer")
+     * @Method("POST")
+     * @Route("/customers/{customerId}", defaults={"customerId"=null}, name="editCustomer")
      */
-    public function editCustomer(Request $request)
+    public function editCustomer(Request $request, $customerId)
     {
-        // $entity, $name
-        if ($request->getMethod() != 'POST') {
-            return null;
-        }
 
         // Daten aus Request in Objekte überführen
         $content = $request->getContent();
@@ -59,9 +89,12 @@ class CustomerController extends Controller
         // EntityManager laden
         $em = $this->getDoctrine()->getManager();
 
-        if ($cust->getId() == null) {
+        if ($cust->getId() == null || $customerId === null) {
+            $em->detach($cust);
             $cust->setCreatedAt(new \DateTime());
         }
+        $cust->setId($customerId);
+
 
         // --------------------------------------------
         // Test für den Persist-Listener eines Kunden
@@ -88,7 +121,7 @@ class CustomerController extends Controller
      * @throws EntityNotFoundException
      *
      * @Method("GET")
-     * @Route("/customer/{customerId}", name="getCustomerById")
+     * @Route("/customers/{customerId}", name="getCustomerById")
      */
     public function getCustomerById(Request $request, $customerId)
     {
@@ -109,67 +142,23 @@ class CustomerController extends Controller
     }
 
     /**
-     * @return Response
-     *
-     * @Route("/customer/searchCustomers", name="searchCustomers")
-     */
-    public function searchCustomers(Request $request)
-    {
-        if ($request->getMethod() != 'POST') {
-            return null;
-        }
-
-        // Daten aus Request in Objekte überführen
-        $content = $request->getContent();
-
-        $params = null;
-
-        if (!empty($content)) {
-            $params = json_decode($content, true); // 2nd param to get as array
-        }
-
-        if(!isset($params['page']))
-            $params['page'] = 1;
-
-        $repository = $this->getDoctrine()->getRepository('AppBundle:Customer');
-        $custPaginatedResult = $repository->findAllBySearchParams($params, 20, $params['page']);
-
-        $custSerializableResult = QueryHelper::getSerializableResult($custPaginatedResult);
-
-        $response = json_encode($custSerializableResult);
-
-        return new Response($response);
-    }
-
-
-    /**
      * @param Request $request
+     * @param $customerId
      * @return null
-     * @throws EntityNotFoundException
-     *
-     * @Route("/customer/deleteCustomer", name="deleteCustomer")
+     * @Method("DELETE")
+     * @Route("/customers/{customerId}", name="deleteCustomer")
      */
-    public function deleteCustomer(Request $request)
+    public function deleteCustomer(Request $request, $customerId)
     {
-        // $entity, $name
-        if ($request->getMethod() != 'POST') {
-            return null;
-        }
-
-        // Daten aus Request in Objekte überführen
-        $content = $request->getContent();
-
 
         // EntityManager laden
         $em = $this->getDoctrine()->getManager();
 
-        if ($content != null) {
-            $cu = $em->find('AppBundle\Entity\Customer', $content);
+        $cu = $em->find('AppBundle\Entity\Customer', intval($customerId));
 
-            if ($cu != null) {
-                $em->remove($cu);
-                $em->flush();
-            }
+        if ($cu != null) {
+            $em->remove($cu);
+            $em->flush();
         }
 
         return new JsonResponse();
@@ -183,16 +172,20 @@ class CustomerController extends Controller
      * @throws EntityNotFoundException
      *
      * @Method("GET")
-     * @Route("/customer_contact/{customerContactId}", name="getCustomerContactById")
+     * @Route("/customers/{customerId}/contacts/{customerContactId}", name="getCustomerContactById")
      */
-    public function getCustomerContactById(Request $request, $customerContactId)
+    public function getCustomerContactById(Request $request, $customerId, $customerContactId)
     {
         if (!isset($customerContactId) && !(intval($customerContactId) > 0)) {
-            throw new NotFoundHttpException('Customer mit der id {$id} wurde nicht gefunden!');
+            throw new NotFoundHttpException('Customer contact mit der id {$customerContactId} wurde nicht gefunden!');
         }
 
         $repository = $this->getDoctrine()->getRepository('AppBundle:Customer\CustomerContact');
         $customerContact = $repository->find(intval($customerContactId));
+
+        if ($customerContact->getCustomer()->getId() != $customerId) {
+            throw new BadRequestHttpException('Contact mit der Id {$customerContactId} gehört nicht zum Kunden mit der Id {$customerId}!');
+        }
 
         $serializer = SerializerBuilder::create()->build();
         $response = $serializer->serialize(
@@ -212,9 +205,9 @@ class CustomerController extends Controller
      * @throws EntityNotFoundException
      *
      * @Method("POST")
-     * @Route("/customer/editCustomerContact", name="editCustomerContact")
+     * @Route("/customers/{customerId}/contacts/{customerContactId}", defaults={"customerContactId"=null}, name="editCustomerContact")
      */
-    public function editCustomerContact(Request $request)
+    public function editCustomerContact(Request $request, $customerId, $customerContactId)
     {
         // Daten aus Request in Objekte überführen
         $content = $request->getContent();
@@ -230,83 +223,75 @@ class CustomerController extends Controller
         // EntityManager laden
         $em = $this->getDoctrine()->getManager();
 
-        // Kunde suchen, zu dem ein Kontakt hinzugefügt werden soll
-        if (isset($params['customer_id'])) {
+        $serializer = $this->get('jms_serializer');
+        $contact = $serializer->deserialize(
+            $content,
+            'AppBundle\Entity\Customer\CustomerContact',
+            'json',
+            DeserializationContext::create()->setGroups(array('update'))
+        );
 
-            $serializer = $this->get('jms_serializer');
-            $contact = $serializer->deserialize(
-                $content,
-                'AppBundle\Entity\Customer\CustomerContact',
-                'json',
-                DeserializationContext::create()->setGroups(array('update'))
-            );
+        // Erstellungsdatum setzen
+        if ($contact->getId() == null) {
+            $em->detach($contact);
+            $contact->setCreatedAt(new \DateTime());
+        }
+        $contact->setId($customerContactId);
 
-            // Erstellungsdatum setzen
-            if ($contact->getId() == null) {
-                $contact->setCreatedAt(new \DateTime());
-            }
+        // Neuen Kontakt zu Kunde hinzufügen
+        $customer = $em->find('AppBundle\Entity\Customer', $customerId);
+        $customer->addContact($contact);
 
-            // Neuen Kontakt zu Kunde hinzufügen
-            if ($contact->getCustomer() == null) {
-                $customer = $em->find('AppBundle\Entity\Customer', $params['customer_id']);
-                $customer->addContact($contact);
-            }
-
-            // Daten speichern
-            if ($contact->getCustomer() != null) {
-                $em->persist($contact);
-                $em->flush();
-            }
-
-            // Liefern der Suche als Ergebnis (JSON)
-            $serializer = SerializerBuilder::create()->build();
-            $response = $serializer->serialize(
-                $contact,
-                'json',
-                SerializationContext::create()->setGroups(['display'])
-            );
-
-            return new Response($response);
+        // Daten speichern
+        if ($contact->getCustomer() != null) {
+            $em->persist($contact);
+            $em->flush();
         }
 
+        // Liefern der Suche als Ergebnis (JSON)
+        $serializer = SerializerBuilder::create()->build();
+        $response = $serializer->serialize(
+            $contact,
+            'json',
+            SerializationContext::create()->setGroups(['display'])
+        );
+
+        return new Response($response);
+
+
         // Falls man bis hierher kommt, hat etwas nicht geklappt
-        return new Response("Fehler beim Speichern des Kontakts!", 500);
+        // return new Response("Fehler beim Speichern des Kontakts!", 500);
     }
 
 
     /**
      * Löscht den Kontakt mit der übergebenen ID
-     * 
+     *
      * @param Request $request
      * @return null
      * @throws EntityNotFoundException
      *
-     * @Route("/customer/deleteContact", name="deleteContact")
+     * @Method("DELETE")
+     * @Route("/customers/{customerId}/contacts/{customerContactId}", name="deleteContact")
      */
-    public function deleteContact(Request $request)
+    public function deleteContact(Request $request, $customerId, $customerContactId)
     {
-        // $entity, $name
-        if ($request->getMethod() != 'POST') {
-            return null;
-        }
-
-        // Daten aus Request in Objekte überführen
-        $content = $request->getContent();
-
 
         // EntityManager laden
         $em = $this->getDoctrine()->getManager();
 
-        if ($content != null) {
-            $contact = $em->find('AppBundle\Entity\Customer\CustomerContact', $content);
+        $contact = $em->find('AppBundle\Entity\Customer\CustomerContact', $customerContactId);
 
-            if ($contact != null) {
-                $em->remove($contact);
-                $em->flush();
-
-                return new JsonResponse();
+        if ($contact != null) {
+            if ($contact->getCustomer()->getId() !== $customerId) {
+                throw new BadRequestHttpException('Contact mit der Id {$customerContactId} gehört nicht zum Kunden mit der Id {$customerId}!');
             }
+            $em->remove($contact);
+            $em->flush();
+
+            return new JsonResponse();
         }
+
 
         // Wenn die Funktion bis hierher kommt, gab es einen Fehler
         return new Response("Fehler beim Löschen des Ansprechpartners", 500);
