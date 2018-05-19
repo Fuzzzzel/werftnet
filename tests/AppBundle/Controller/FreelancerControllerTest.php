@@ -21,7 +21,23 @@ class FreelancerControllerTest extends DefaultWebTestCase
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),
-            '{"name1":"Test-Vorname","name2":"Test-Nachname","phone":null,"phone2":null,"email":"test@mail.com","email2":null,"skype":null,"fax":null,"comment":"Teste den Kommentar","created_at":null,"anrede":{"id":1,"name":"Herr"},"date_of_birth":"1981-06-04","correspond_language":null,"company_name":"Test-Firma","address":{"street":"Test-Straße","street2":"Test-Straße2","zipcode":"Test-ZIP","city":"Test-City","country":null},"fl_status":{"id":2,"name":"Kein Interesse"},"fl_rating":{"id":1,"name":"Qualtiät A"},"mothertounge":null,"mothertounge2":null,"nda":{"id":1,"name":"Ja"},"sworn":true,"vat_no":"Test USt.-Nr","vat_payer":true,"tax_id":"Test Steuer ID","fl_payment_type":{"id":2,"name":"PayPal"},"fl_invoicing_type":{"id":2,"name":"Gutschrift"},"bankdetails":"Test Bankverbindung","prices":[],"cat_prices":null,"sectors":[],"cat_tools":[]}'
+            '{"name1":"Test-Vorname","name2":"Test-Nachname","phone":null,"phone2":null,"email":"test@mail.com","email2":null,"skype":null,"fax":null,"comment":"Teste den Kommentar","created_at":null,"anrede":{"id":1,"name":"Herr"},"date_of_birth":"1981-06-04","correspond_language":null,"company_name":"Test-Firma","address":{"street":"Test-Straße","street2":"Test-Straße2","zipcode":"Test-ZIP","city":"Test-City","country":null},"fl_status":{"id":2,"name":"Kein Interesse"},"fl_rating":{"id":1,"name":"Qualtiät A"},"mothertounge":null,"mothertounge2":null,"nda":{"id":1,"name":"Ja"},"sworn":true,"vat_no":"Test USt.-Nr","vat_payer":true,"tax_id":"Test Steuer ID","fl_payment_type":{"id":2,"name":"PayPal"},"fl_invoicing_type":{"id":2,"name":"Gutschrift"},"bankdetails":"Test Bankverbindung","prices":[{"lng_source":{"id":1,"name":"Englisch"},"lng_target":{"id":2,"name":"UK","main_item":{"id":1,"name":"Englisch"}},"service":{"id":3,"name":"Übersetzung"},"price_unit":{"id":1,"name":"Quellwort"},"price_per_unit":0.2,"currency":{"id":1,"name":"EUR"},"minimum_price":20}],"cat_prices":null,"sectors":[],"cat_tools":[]}'
+        );
+
+        $content = $client->getResponse()->getContent();
+        $this->assertJson($content);
+
+        // Remove FreelancerPrice
+        $newFreelancer = json_decode($content, true);
+        unset($newFreelancer['prices'][0]['id']);
+
+        $client->request(
+            'POST',
+            '/freelancers/' . $newFreelancer['id'],
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            json_encode($newFreelancer)
         );
 
         $content = $client->getResponse()->getContent();
