@@ -30,16 +30,42 @@ class CustomerControllerTest extends DefaultWebTestCase
 
     public function testSearchCustomersTest() {
 
+        // Search customer
         $client = $this->getAdminClient();
         $crawler = $client->request('POST', '/customer/searchCustomers');
 
         $content = $client->getResponse()->getContent();
         $this->assertJson($content);
 
+        // Get customer by id
         $customerList = json_decode($content, true);
         $customerId = $customerList['items'][0]['id'];
 
         $crawler = $client->request('GET', '/customer/'.$customerId);
+        $this->assertJson($client->getResponse()->getContent());
+    }
+
+    public function testDeleteCustomerTest() {
+
+        // Search customer
+        $client = $this->getAdminClient();
+        $crawler = $client->request('POST', '/customer/searchCustomers');
+
+        $content = $client->getResponse()->getContent();
+        $this->assertJson($content);
+
+        // Delete customer by id
+        $customerList = json_decode($content, true);
+        $customerId = $customerList['items'][0]['id'];
+
+        $crawler = $client->request(
+            'POST',
+            '/customer/deleteCustomer',
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            sprintf('{"id": %s}', $customerId)
+        );
         $this->assertJson($client->getResponse()->getContent());
     }
 }
