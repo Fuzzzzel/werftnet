@@ -96,22 +96,26 @@ var convertLcovToCoveralls = function (input, options, cb) {
 
 
 cb = function (coverallsNode) {
-    let coverallsMerged = coverallsPhp
-    coverallsMerged.source_files = coverallsPhp.source_files.concat(coverallsNode.source_files)
-    const json = JSON.stringify(coverallsMerged)
-    fs.writeFile('./../build/logs/coverall-merged.json', json, 'utf8', () => { })
-    sendToCoveralls(coverallsMerged, (err, response, body) => {
-        console.log('Build information sent to coveralls')
-        console.log('Service name: ' + coverallsMerged.service_name)
-        console.log('Job ID: ' + coverallsMerged.service_job_id)
+    var coverallsMerged = coverallsPhp;
+    for(var i = 0; i < coverallsNode.source_files.length; i++) {
+        coverallsNode.source_files[i] = coverallsNode.source_files[i].replace('src/app/', '/wn-frontend/src/app/';
+    }
+    coverallsMerged.source_files = coverallsPhp.source_files.concat(coverallsNode.source_files);
+    var json = JSON.stringify(coverallsMerged);
+    fs.writeFile('./../build/logs/coverall-merged.json', json, 'utf8', function() { });
+    sendToCoveralls(coverallsMerged, function(err, response, body) {
+        console.log('Build information sent to coveralls');
+        console.log('Service name: ' + coverallsMerged.service_name);
+        console.log('Job ID: ' + coverallsMerged.service_job_id);
         if (body) {
-            console.log('Response:')
-            console.log(body)
+            console.log('Response:');
+            console.log(body);
         }
         if (err) {
-            console.log(err)
-            throw err
+            console.log(err);
+            throw err;
         }
-    })
+    });
 }
-convertLcovToCoveralls('./coverage/lcov.info', {}, cb)
+
+convertLcovToCoveralls('./coverage/lcov.info', {}, cb);

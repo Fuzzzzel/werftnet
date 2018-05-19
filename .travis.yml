@@ -28,9 +28,6 @@ matrix:
     - cp www/app.php.example www/app.php
     - composer install
     - composer update
-    - php bin/console doctrine:database:create
-    - php bin/console doctrine:schema:update --force
-    - php bin/console doctrine:fixtures:load -n
     # node
     - cd wn-frontend
     - sudo rm -rf ~/.nvm
