@@ -20,6 +20,9 @@ use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\User;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializationContext;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class UserController
@@ -35,7 +38,7 @@ class UserController extends Controller
      * @Method("POST")
      * @Route("/user/change_pwd", name="change_pwd")
      */
-    public function changeUserPwdAction(Request $request)
+    public function changeUserPwdAction(Request $request, UserPasswordEncoderInterface $userPasswordEncoder)
     {
         $response = new JsonResponse();
         $pwdOld = null;
@@ -74,16 +77,14 @@ class UserController extends Controller
         }
 
         $user = $this->getUser();
-        $factory = $this->get('security.encoder_factory');
-        $encoder = $factory->getEncoder($user);
 
-        if (!$encoder->isPasswordValid($user->getPassword(), $pwdOld, $user->getSalt())) {
+        if (!$userPasswordEncoder->isPasswordValid($user, $pwdOld)) {
             $response->setStatusCode(422);
             $response->setContent('Altes Passwort nicht korrekt!');
             return $response;
         }
 
-        $encoded = $encoder->encodePassword($pwdNew, $user->getSalt());
+        $encoded = $userPasswordEncoder->encodePassword($user, $pwdNew);
         $user->setPassword($encoded);
 
         $em->persist($user);
