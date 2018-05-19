@@ -98,7 +98,7 @@ var convertLcovToCoveralls = function (input, options, cb) {
 cb = function (coverallsNode) {
     var coverallsMerged = coverallsPhp;
     for(var i = 0; i < coverallsNode.source_files.length; i++) {
-        coverallsNode.source_files[i] = coverallsNode.source_files[i].replace('src/app/', '/wn-frontend/src/app/';
+        coverallsNode.source_files[i] = coverallsNode.source_files[i].replace('src/app/', 'wn-frontend/src/app/');
     }
     coverallsMerged.source_files = coverallsPhp.source_files.concat(coverallsNode.source_files);
     var json = JSON.stringify(coverallsMerged);
