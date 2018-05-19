@@ -15,7 +15,6 @@ class AuthenticationControllerTest extends DefaultWebTestCase
 {
     /**
      * Test that user is redirected to login page when starting app
-     * @group failing
      */
     public function testGetLoggedInUser() {
         $client = $this->getAdminClient();

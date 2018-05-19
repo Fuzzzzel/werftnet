@@ -33,12 +33,12 @@ export class CustomerEditService {
     this.customerToEdit = customerToSave;
 
     // Kopie des Customers erstellen, um Datum in yyyy-mm-dd String zu wandeln, falls vorhanden
-    let fl_save = this.util.cloneDeep(this.customerToEdit);
+    let customer_save = this.util.cloneDeep(this.customerToEdit);
 
     // Set up post request
     const req = this.http.post<Customer>(
-      '/customer/editCustomer',
-      fl_save
+      '/customers' + (customer_save.id ? '/' + customer_save.id : ''),
+      customer_save
     )
 
     // Execute post request and subscribe to response
@@ -61,9 +61,8 @@ export class CustomerEditService {
     }
 
     // Set up post request
-    const req = this.http.post<Customer>(
-      '/customer/deleteCustomer',
-      customerToDelete.id
+    const req = this.http.delete<Customer>(
+      '/customers' + (customerToDelete.id ? '/' + customerToDelete.id : '')
     )
 
     // Execute post request and subscribe to response
@@ -87,7 +86,7 @@ export class CustomerEditService {
   getCustomerByIdAndEdit(id: number) {
     // Set up post request
     const req = this.http.get<Customer>(
-      '/customer/' + id
+      '/customers/' + id
     )
 
     // Execute post request and subscribe to response
@@ -170,7 +169,7 @@ export class CustomerEditService {
 
     // Set up post request
     const req = this.http.post<CustomerContact>(
-      '/customer/editCustomerContact',
+      '/customers/' + cust_save.customer_id + '/contacts' + cust_save.id ? '/' + cust_save.id : '',
       cust_save
     )
 
@@ -194,9 +193,8 @@ export class CustomerEditService {
     }
 
     // Set up post request
-    const req = this.http.post<CustomerContact>(
-      '/customer/deleteContact',
-      customerContactToDelete.id
+    const req = this.http.delete<CustomerContact>(
+      '/customers/' + customerContactToDelete.customer_id + '/contacts' + customerContactToDelete.id ? '/' + customerContactToDelete.id : ''
     )
 
     // Execute post request and subscribe to response

@@ -34,7 +34,7 @@ export class CustomerSearchService {
 
     // Set up post request
     const req = this.http.post<CustomersLoaded>(
-      '/customer/searchCustomers',
+      '/customers/search',
       searchParams || this.lastSearchParams
     )
 

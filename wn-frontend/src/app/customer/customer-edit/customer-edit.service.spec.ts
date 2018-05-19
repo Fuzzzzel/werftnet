@@ -29,7 +29,7 @@ describe('CustomerEditService', () => {
 
   it('should save customer', inject([CustomerEditService, HttpTestingController], (service: CustomerEditService, backend: HttpTestingController) => {
     service.saveCustomer(new Customer())
-    const req = backend.expectOne('/customer/editCustomer');
+    const req = backend.expectOne('/customers');
     expect(req.request.method).toBe("POST");
     req.flush({}, { status: 200, statusText: 'Ok' });
   }));
@@ -39,8 +39,8 @@ describe('CustomerEditService', () => {
     customerToDelete.id = 1
     spyOn(window, 'confirm').and.returnValue(true);
     service.deleteCustomer(customerToDelete)
-    const req = backend.expectOne('/customer/deleteCustomer');
-    expect(req.request.method).toBe("POST");
+    const req = backend.expectOne('/customers/' + customerToDelete.id);
+    expect(req.request.method).toBe("DELETE");
     req.flush({}, { status: 200, statusText: 'Ok' });
   }));
 
