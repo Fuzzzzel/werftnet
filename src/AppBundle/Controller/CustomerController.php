@@ -83,27 +83,6 @@ class CustomerController extends Controller
 
 
     /**
-     * @return Response
-     *
-     * @Route("/customer/getAllCustomers", name="getAllCustomers")
-     */
-    public function getAllCustomers()
-    {
-        $repository = $this->getDoctrine()->getRepository('AppBundle:Customer');
-
-        $customerList = $repository->findAll();
-
-        $serializer = SerializerBuilder::create()->build();
-        $response = $serializer->serialize(
-            $customerList,
-            'json',
-            SerializationContext::create()->setGroups(['display'])
-        );
-
-        return new Response($response);
-    }
-
-    /**
      * @param Request $request
      * @return null
      * @throws EntityNotFoundException
