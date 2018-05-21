@@ -18,43 +18,39 @@ use Tests\AppBundle\DefaultWebTestCase;
 
 class FreelancerPriceTest extends DefaultWebTestCase
 {
-    private $freelancerPrice = null;
-
-    public function setUp() {
-        $this->freelancerPrice = new Freelancer\FreelancerPrice();
-    }
-
     public function testFreelancerPrice() {
+        $freelancerPrice = new Freelancer\FreelancerPrice();
+        
         $lngSource = new Language();
-        $this->freelancerPrice->setLngSource($lngSource);
-        $this->assertEquals($this->freelancerPrice->getLngSource(), $lngSource);
+        $freelancerPrice->setLngSource($lngSource);
+        $this->assertEquals($freelancerPrice->getLngSource(), $lngSource);
 
         $lngTarget = new Language();
-        $this->freelancerPrice->setLngTarget($lngTarget);
-        $this->assertEquals($this->freelancerPrice->getLngTarget(), $lngTarget);
+        $freelancerPrice->setLngTarget($lngTarget);
+        $this->assertEquals($freelancerPrice->getLngTarget(), $lngTarget);
 
         $minimumPrice = 20;
-        $this->freelancerPrice->setMinimumPrice($minimumPrice);
-        $this->assertEquals($this->freelancerPrice->getMinimumPrice(), $minimumPrice);
+        $freelancerPrice->setMinimumPrice($minimumPrice);
+        $this->assertEquals($freelancerPrice->getMinimumPrice(), $minimumPrice);
 
         $pricePerUnit = 0.09;
-        $this->freelancerPrice->setPricePerUnit($pricePerUnit);
-        $this->assertEquals($this->freelancerPrice->getPricePerUnit(), $pricePerUnit);
+        $freelancerPrice->setPricePerUnit($pricePerUnit);
+        $this->assertEquals($freelancerPrice->getPricePerUnit(), $pricePerUnit);
 
         $service = new Service();
-        $this->freelancerPrice->setService($service);
-        $this->assertEquals($this->freelancerPrice->getService(), $service);
+        $freelancerPrice->setService($service);
+        $this->assertEquals($freelancerPrice->getService(), $service);
 
         $priceUnit = new PriceUnit();
-        $this->freelancerPrice->setPriceUnit($priceUnit);
-        $this->assertEquals($this->freelancerPrice->getPriceUnit(), $priceUnit);
+        $freelancerPrice->setPriceUnit($priceUnit);
+        $this->assertEquals($freelancerPrice->getPriceUnit(), $priceUnit);
 
         $currency = new Currency();
-        $this->freelancerPrice->setCurrency($currency);
-        $this->assertEquals($this->freelancerPrice->getCurrency(), $currency);
+        $freelancerPrice->setCurrency($currency);
+        $this->assertEquals($freelancerPrice->getCurrency(), $currency);
 
         $freelancer = new Freelancer();
-        $this->freelancerPrice->setFreelancer($freelancer);
-        $this->assertEquals($this->freelancerPrice->getFreelancer(), $freelancer);
+        $freelancerPrice->setFreelancer($freelancer);
+        $this->assertEquals($freelancerPrice->getFreelancer(), $freelancer);
     }
 }

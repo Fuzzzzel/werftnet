@@ -15,19 +15,15 @@ use Tests\AppBundle\DefaultWebTestCase;
 
 class CustomerContactTest extends DefaultWebTestCase
 {
-    private $contact = null;
-
-    public function setUp() {
-        $this->contact = new Customer\CustomerContact();
-    }
-
     public function testCustomerContact() {
+        $contact = new Customer\CustomerContact();
+        
         $position = 'CustomerContactTest-Position';
-        $this->contact->setPosition($position);
-        $this->assertEquals($this->contact->getPosition(), $position);
+        $contact->setPosition($position);
+        $this->assertEquals($contact->getPosition(), $position);
 
         $customer = new Customer();
-        $this->contact->setCustomer($customer);
-        $this->assertEquals($this->contact->getCustomer(), $customer);
+        $contact->setCustomer($customer);
+        $this->assertEquals($contact->getCustomer(), $customer);
     }
 }

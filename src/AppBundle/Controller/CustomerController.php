@@ -93,8 +93,6 @@ class CustomerController extends Controller
             $em->detach($cust);
             $cust->setCreatedAt(new \DateTime());
         }
-        $cust->setId($customerId);
-
 
         // --------------------------------------------
         // Test für den Persist-Listener eines Kunden
@@ -236,7 +234,6 @@ class CustomerController extends Controller
             $em->detach($contact);
             $contact->setCreatedAt(new \DateTime());
         }
-        $contact->setId($customerContactId);
 
         // Neuen Kontakt zu Kunde hinzufügen
         $customer = $em->find('AppBundle\Entity\Customer', $customerId);

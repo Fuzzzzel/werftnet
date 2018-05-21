@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\User;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializationContext;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class DefaultsController
@@ -38,10 +39,6 @@ class UserAdminController extends Controller
      */
     public function addUser(Request $request)
     {
-        if ($request->getMethod() != 'POST') {
-            return null;
-        }
-
         $em = $this->getDoctrine()->getManager();
 
         // Daten aus Request in Objekte überführen
@@ -104,8 +101,7 @@ class UserAdminController extends Controller
      * @Method("POST")
      * @Route("/admin/users/{id}", name="editUser")
      */
-    public
-    function editUser($id, Request $request)
+    public function editUser($id, Request $request)
     {
 
         // Daten aus Request in Objekte überführen
@@ -119,7 +115,7 @@ class UserAdminController extends Controller
             DeserializationContext::create()->setGroups(array('update'))
         );
 
-        if($user->getId() != $id) {
+        if ($user->getId() != $id) {
             return new Response('Id von User stimmt nicht mit Route überein!', Response::HTTP_BAD_REQUEST);
         }
 
@@ -139,38 +135,24 @@ class UserAdminController extends Controller
     /**
      * Löschen eines Users anhand der ID
      *
-     * @Route("/admin/deleteUser", name="deleteUser")
+     * @Method("DELETE")
+     * @Route("/admin/users/{id}", name="deleteUser")
      */
     public
-    function deleteUser(Request $request)
+    function deleteUser(Request $request, $id)
     {
-        if ($request->getMethod() != 'POST') {
-            return null;
-        }
-
         $em = $this->getDoctrine()->getManager();
 
-        // Daten aus Request in Objekte überführen
-        $content = $request->getContent();
+        $user = $this->getDoctrine()->getRepository('AppBundle\Entity\User')->find($id);
 
-        $params = null;
+        if ($user != null) {
+            $em->remove($user);
+            $em->flush();
 
-        if (!empty($content)) {
-            $params = json_decode($content, true); // 2nd param to get as array
+            return new Response("User wurde gelöscht");
         }
 
-        if (isset($params['user_id'])) {
-            $user = $this->getDoctrine()->getRepository('AppBundle\Entity\User')->find($params['user_id']);
-
-            if ($user != null) {
-                $em->remove($user);
-                $em->flush();
-
-                return new Response("User wurde gelöscht");
-            }
-        }
-
-        return new Response("User wurde nicht gelöscht");
+        return new Response("User mit der Id {$id} wurde nicht gefunden!", Response::HTTP_NOT_FOUND);
     }
 
 
@@ -178,10 +160,10 @@ class UserAdminController extends Controller
      * Alle user ausgeben
      *
      * @Method("GET")
-     * @Route("/admin/users/{id}", name="getAllUsers")
+     * @Route("/admin/users/{id}", defaults={"id"=null}, name="getUsers")
      */
     public
-    function getAllUsers($id = null, Request $request)
+    function getUsers($id = null, Request $request)
     {
 
         if ($id === null) {
@@ -214,7 +196,7 @@ class UserAdminController extends Controller
      * @Route("/admin/users/{id}/password", name="changeUserPwdAdmin")
      */
     public
-    function changeUserPwd($id, Request $request)
+    function changeUserPwd(Request $request, UserPasswordEncoderInterface $userPasswordEncoder, $id)
     {
         $response = new JsonResponse();
         $em = $this->getDoctrine()->getManager();
@@ -239,10 +221,7 @@ class UserAdminController extends Controller
             $user = $this->getDoctrine()->getRepository('AppBundle\Entity\User')->find($id);
 
             if ($user != null) {
-                $factory = $this->get('security.encoder_factory');
-                $encoder = $factory->getEncoder($user);
-
-                $encoded = $encoder->encodePassword($pwdNew, $user->getSalt());
+                $encoded = $userPasswordEncoder->encodePassword($user, $pwdNew);
                 $user->setPassword($encoded);
 
                 $em->persist($user);
