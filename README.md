@@ -36,7 +36,10 @@ Set up virtual host in apache --> Change DocumentRoot to www folder in repositor
 ### Init Database  
 Load base values into your app so some basic information and the default user admin/admin is there (you can change them later).  
 `php bin/console doctrine:schema:update --force`  
-`php bin/console doctrine:fixtures:load` (Run only to init! This operation purges your database!)  
+`php bin/console doctrine:fixtures:load` (Run only to init! This operation purges your database!)
+
+### Rename frontend controller
+Copy the file app.php.example and edit it, in case you need to add custom settings.  
 
 ### Set up database and user for testing
 Generate a database that will be used for testing only, so you do not need to use your live database:  

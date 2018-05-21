@@ -127,7 +127,7 @@
       </div>
       <div class="col-sm-4 form-box">
         <div>
-          <label>Kommentar</label>
+          <label>Interne Info</label>
         </div>
         <textarea class="form-control" rows="8" [(ngModel)]="fl_edit.comment"></textarea>
       </div>
@@ -149,6 +149,15 @@
             <select class="form-control" [(ngModel)]="fl_edit.fl_rating" [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
               <option *ngFor="let option of coreData.freelancer_rating.values" [ngValue]="option">{{ option.name }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-input">
+          <label class="control-label col-md-3">DSGVO</label>
+          <div class="col-md-9">
+            <select class="form-control" [(ngModel)]="fl_edit.dsgvo" [compareWith]='util.compareById' required>
+              <option [value]='undefined' selected>-- Bitte wählen --</option>
+              <option *ngFor="let option of coreData.yes_no_in_progress.values" [ngValue]="option">{{ option.name }}</option>
             </select>
           </div>
         </div>
