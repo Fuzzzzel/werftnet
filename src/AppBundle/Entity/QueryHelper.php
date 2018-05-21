@@ -80,7 +80,7 @@ class QueryHelper
         $found = false;
         for($i = 0; $i < count($collections); $i++) {
             if(strrpos($entityName, $collections[$i]) === 0) {
-                $entityName = $collections[$i] . "\\" . $entityName;
+                $entityName = $collections[$i] . "\\" . ucfirst($entityName);
                 $found = true;
                 break;
             }
