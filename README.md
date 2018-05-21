@@ -37,3 +37,9 @@ Set up virtual host in apache --> Change DocumentRoot to www folder in repositor
 Load base values into your app so some basic information and the default user admin/admin is there (you can change them later).  
 `php bin/console doctrine:schema:update --force`  
 `php bin/console doctrine:fixtures:load` (Run only to init! This operation purges your database!)  
+
+### Set up database and user for testing
+Generate a database that will be used for testing only, so you do not need to use your live database:  
+`CREATE DATABASE WerftnetTest CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`
+`CREATE USER 'test'@'localhost' IDENTIFIED BY 'test';`
+`GRANT ALL PRIVILEGES ON WerftnetTest.* TO 'test'@'localhost' IDENTIFIED BY 'test';`
