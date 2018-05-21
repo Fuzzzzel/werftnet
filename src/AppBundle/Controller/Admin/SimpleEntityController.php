@@ -106,12 +106,6 @@ class SimpleEntityController extends Controller
      */
     function deleteSimpleEntityItem($entityName, $id, Request $request)
     {
-        $params = array();
-        $content = $request->getContent();
-        if (!empty($content)) {
-            $params = json_decode($content);
-        }
-
         $entityName = QueryHelper::getFullEntityName($entityName);
         $classname = "\\AppBundle\\Entity\\" . $entityName;
 
