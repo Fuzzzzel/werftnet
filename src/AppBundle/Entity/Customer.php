@@ -8,7 +8,7 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Common\Contact;
+use AppBundle\Entity\Common\Company;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
@@ -20,7 +20,7 @@ use JMS\Serializer\Annotation as JMS;
  * @ORM\Entity(repositoryClass="AppBundle\Entity\CustomerRepository")
  * @ORM\Table(name="Customer")
  */
-class Customer extends Contact
+class Customer extends Company
 {
 
     /**
