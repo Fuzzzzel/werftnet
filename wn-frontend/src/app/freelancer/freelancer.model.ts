@@ -16,6 +16,7 @@ export class Freelancer extends Person {
     fl_rating: FreelancerRating = null;
     mothertounge: Language = null;
     mothertounge2: Language = null;
+    dsgvo: YesNoInProgress = null;
     nda: YesNoInProgress = null;
     sworn: boolean = null;
     vat_no: string = null;

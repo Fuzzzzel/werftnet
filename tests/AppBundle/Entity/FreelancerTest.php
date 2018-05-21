@@ -118,6 +118,10 @@ class FreelancerTest extends DefaultWebTestCase
         $freelancer->setFlRating($flRating);
         $this->assertEquals($freelancer->getFlRating(), $flRating);
 
+        $dsgvo = new YesNoInProgress();
+        $freelancer->setDsgvo($dsgvo);
+        $this->assertEquals($freelancer->getDsgvo(), $dsgvo);
+        
         $nda = new YesNoInProgress();
         $freelancer->setNda($nda);
         $this->assertEquals($freelancer->getNda(), $nda);

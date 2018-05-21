@@ -76,6 +76,14 @@ class Freelancer extends Person
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Common\YesNoInProgress")
+     * @ORM\JoinColumn(name="dsgvo_id", referencedColumnName="id")
+     * @JMS\Type("AppBundle\Entity\Common\YesNoInProgress")
+     * @JMS\Groups({"display", "update"})
+     */
+    private $dsgvo; // Entity
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Common\YesNoInProgress")
      * @ORM\JoinColumn(name="nda_id", referencedColumnName="id")
      * @JMS\Type("AppBundle\Entity\Common\YesNoInProgress")
      * @JMS\Groups({"display", "update"})
@@ -482,6 +490,30 @@ class Freelancer extends Person
         return $this->mothertounge2;
     }
 
+    /**
+     * Set dsgvo
+     *
+     * @param \AppBundle\Entity\Common\YesNoInProgress $dsgvo
+     *
+     * @return Freelancer
+     */
+    public function setDsgvo(\AppBundle\Entity\Common\YesNoInProgress $dsgvo = null)
+    {
+        $this->dsgvo = $dsgvo;
+
+        return $this;
+    }
+
+    /**
+     * Get dsgvo
+     *
+     * @return \AppBundle\Entity\Common\YesNoInProgress
+     */
+    public function getDsgvo()
+    {
+        return $this->dsgvo;
+    }
+    
     /**
      * Set nda
      *

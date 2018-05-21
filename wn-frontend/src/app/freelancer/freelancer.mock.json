@@ -46,6 +46,10 @@
         "id": 1,
         "name": "Test-Rating"
     },
+    "dsgvo": {
+        "id": 1,
+        "name": "Test-Dsgvo"
+    },
     "nda": {
         "id": 1,
         "name": "Test-NDA"
