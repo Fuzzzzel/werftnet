@@ -17,7 +17,7 @@ use JMS\Serializer\Annotation as JMS;
  * @ORM\Entity(repositoryClass="AppBundle\Entity\FreelancerRepository")
  * @ORM\Table(name="Freelancer")
  */
-class Freelancer extends Person implements \JsonSerializable
+class Freelancer extends Person
 {
     /**
      * @ORM\Column(type="integer", unique=true, nullable=true)
