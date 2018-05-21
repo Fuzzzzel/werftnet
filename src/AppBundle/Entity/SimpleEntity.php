@@ -58,26 +58,4 @@ abstract class SimpleEntity implements \JsonSerializable
         $vars = get_object_vars($this);
         return $vars;
     }
-
-    public function createSubItemObject($subItems, $subItemClass) {
-
-        $vars = $vars = new \stdClass();
-
-        // Array aus den Subvalues erstellen
-        $subArray = array();
-        foreach($subItems as $sub) {
-            $subObj = new \stdClass();
-            $subObj->id = $sub->getId();
-            $subObj->name = $sub->getName();
-            $subArray[] = $subObj;
-        }
-
-        $vars->values = $subArray;
-
-        // Anzeigename SubEntity hinzufügen
-        $subLang = new $subItemClass();
-        $vars->display_name = $subLang->getDisplayName();
-
-        return $vars;
-    }
 }

@@ -14,10 +14,9 @@ if (isset($_ENV['BOOTSTRAP_CLEAR_CACHE_ENV'])) {
     ));
 }
 
-passthru(sprintf('php %s/../bin/console doctrine:database:drop --if-exists --force', __DIR__));
-passthru(sprintf('php %s/../bin/console doctrine:database:drop --if-exists --force', __DIR__));
-passthru(sprintf('php %s/../bin/console doctrine:database:create', __DIR__));
-passthru(sprintf('php %s/../bin/console doctrine:schema:update --force', __DIR__));
-passthru(sprintf('php %s/../bin/console doctrine:fixtures:load --no-interaction', __DIR__));
+passthru(sprintf('php %s/../bin/console doctrine:database:drop --if-exists --force --env=test', __DIR__));
+passthru(sprintf('php %s/../bin/console doctrine:database:create --env=test', __DIR__));
+passthru(sprintf('php %s/../bin/console doctrine:schema:update --force --env=test', __DIR__));
+passthru(sprintf('php %s/../bin/console doctrine:fixtures:load --no-interaction --env=test', __DIR__));
 
 require __DIR__.'/../vendor/autoload.php';

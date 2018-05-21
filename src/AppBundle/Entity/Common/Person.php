@@ -11,7 +11,6 @@ namespace AppBundle\Entity\Common;
 use AppBundle\Entity\Common\Anrede;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 abstract class Person extends Contact
 {
@@ -70,7 +69,7 @@ abstract class Person extends Contact
      *
      * @return mixed
      */
-    public function setDateOfBirth(DateTime $dateOfBirth = null)
+    public function setDateOfBirth(\DateTime $dateOfBirth = null)
     {
         $this->dateOfBirth = $dateOfBirth;
 
@@ -85,5 +84,29 @@ abstract class Person extends Contact
     public function getDateOfBirth()
     {
         return $this->dateOfBirth;
+    }
+
+    /**
+     * Set correspondLanguage
+     *
+     * @param \AppBundle\Entity\Common\Anrede $correspondLanguage
+     *
+     * @return mixed
+     */
+    public function setCorrespondLanguage(Language $correspondLanguage = null)
+    {
+        $this->correspondLanguage = $correspondLanguage;
+
+        return $this;
+    }
+
+    /**
+     * Get correspondLanguage
+     *
+     * @return \AppBundle\Entity\Common\Anrede
+     */
+    public function getCorrespondLanguage()
+    {
+        return $this->correspondLanguage;
     }
 }

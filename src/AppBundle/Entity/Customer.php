@@ -79,8 +79,6 @@ class Customer extends Contact
      */
     protected $invoicingDetails;
 
-    // ToDo: $accountManager Kundenberater --> Eigenes Feld aus Datanbank oder Benutzer
-
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Customer\CustomerContact", mappedBy="customer", cascade={"all"})
      * @JMS\Type("ArrayCollection<AppBundle\Entity\Customer\CustomerContact>")
@@ -161,6 +159,9 @@ class Customer extends Contact
      */
     public function setAddress(\AppBundle\Entity\Customer\CustomerAddress $address = null)
     {
+        if ($address !== null) {
+            $address->setCustomer($this);
+        }
         $this->address = $address;
 
         return $this;
@@ -294,6 +295,7 @@ class Customer extends Contact
      */
     public function removeContact(\AppBundle\Entity\Customer\CustomerContact $contact)
     {
+        $contact->setCustomer(null);
         $this->contacts->removeElement($contact);
     }
 

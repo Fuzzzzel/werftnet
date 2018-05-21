@@ -367,6 +367,9 @@ class Freelancer extends Person implements \JsonSerializable
      */
     public function setAddress(\AppBundle\Entity\Freelancer\FreelancerAddress $address = null)
     {
+        if ($address !== null) {
+            $address->setFreelancer($this);
+        }
         $this->address = $address;
 
         return $this;
@@ -633,15 +636,6 @@ class Freelancer extends Person implements \JsonSerializable
     {
         return $this->catTools;
     }
-
-
-    public function jsonSerialize()
-    {
-        $vars = get_object_vars($this);
-
-        return $vars;
-    }
-
 
     /**
      * Set flPaymentType
