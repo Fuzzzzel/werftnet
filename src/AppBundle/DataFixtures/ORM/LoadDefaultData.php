@@ -42,17 +42,14 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
         // USER
         // StandardRollen
         $roleUser = new UserRole();
-        $roleUser->setId(1);
         $roleUser->setName("ROLE_USER");
         $manager->persist($roleUser);
 
         $roleAdmin = new UserRole();
-        $roleAdmin->setId(2);
         $roleAdmin->setName("ROLE_ADMIN");
         $manager->persist($roleAdmin);
 
         $roleAM = new UserRole();
-        $roleAM->setId(2);
         $roleAM->setName("ROLE_ACCOUNT_MANAGER");
         $manager->persist($roleAM);
 
@@ -69,7 +66,6 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
 
         for ($i = 1; $i <= count($anrede); $i++) {
             $element = new Anrede();
-            $element->setId($i);
             $element->setName($anrede[$i - 1]);
             $manager->persist($element);
         }
@@ -85,7 +81,6 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
 
         for ($i = 1; $i <= count($cat); $i++) {
             $element = new CatTool();
-            $element->setId($i);
             $element->setName($cat[$i - 1]);
             $manager->persist($element);
         }
@@ -100,7 +95,6 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
 
         for ($i = 1; $i <= count($country); $i++) {
             $element = new Country();
-            $element->setId($i);
             $element->setName($country[$i - 1]);
             $manager->persist($element);
         }
@@ -137,7 +131,6 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
 
         for ($i = 1; $i <= count($priceUnits); $i++) {
             $element = new PriceUnit();
-            $element->setId($i);
             $element->setName($priceUnits[$i - 1]);
             $manager->persist($element);
         }
@@ -202,7 +195,6 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
 
         for ($i = 1; $i <= count($service); $i++) {
             $element = new Service();
-            $element->setId($i);
             $element->setName($service[$i - 1]);
             $manager->persist($element);
         }
@@ -217,7 +209,6 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
 
         for ($i = 1; $i <= count($currencies); $i++) {
             $element = new Currency();
-            $element->setId($i);
             $element->setName($currencies[$i - 1]);
             $manager->persist($element);
         }
@@ -231,7 +222,6 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
 
         for ($i = 1; $i <= count($yesNoInProgress); $i++) {
             $element = new YesNoInProgress();
-            $element->setId($i);
             $element->setName($yesNoInProgress[$i - 1]);
             $manager->persist($element);
         }
@@ -245,7 +235,6 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
 
         for ($i = 1; $i <= count($paymentType); $i++) {
             $element = new FreelancerPaymentType();
-            $element->setId($i);
             $element->setName($paymentType[$i - 1]);
             $manager->persist($element);
         }
@@ -258,7 +247,6 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
 
         for ($i = 1; $i <= count($invoicingType); $i++) {
             $element = new FreelancerInvoicingType();
-            $element->setId($i);
             $element->setName($invoicingType[$i - 1]);
             $manager->persist($element);
         }
@@ -273,7 +261,6 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
 
         for ($i = 1; $i <= count($freelancerRating); $i++) {
             $element = new FreelancerRating();
-            $element->setId($i);
             $element->setName($freelancerRating[$i - 1]);
             $manager->persist($element);
         }
@@ -289,7 +276,6 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
 
         for ($i = 1; $i <= count($freelancerStatus); $i++) {
             $status = new FreelancerStatus();
-            $status->setId($i);
             $status->setName($freelancerStatus[$i - 1]);
             $manager->persist($status);
         }
@@ -306,7 +292,6 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
 
         for ($i = 1; $i <= count($customerOrigin); $i++) {
             $origin = new CustomerOrigin();
-            $origin->setId($i);
             $origin->setName($customerOrigin[$i - 1]);
             $manager->persist($origin);
         }
@@ -322,7 +307,6 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
 
         for ($i = 1; $i <= count($customerPotential); $i++) {
             $potential = new CustomerPotential();
-            $potential->setId($i);
             $potential->setName($customerPotential[$i - 1]);
             $manager->persist($potential);
         }
@@ -338,7 +322,6 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
 
         for ($i = 1; $i <= count($customerStatus); $i++) {
             $status = new CustomerStatus();
-            $status->setId($i);
             $status->setName($customerStatus[$i - 1]);
             $manager->persist($status);
         }

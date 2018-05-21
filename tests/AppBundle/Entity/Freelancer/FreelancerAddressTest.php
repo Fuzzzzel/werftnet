@@ -15,36 +15,33 @@ use Tests\AppBundle\DefaultWebTestCase;
 
 class FreelancerAddressTest extends DefaultWebTestCase
 {
-    private $address = null;
+    public function testFreelancerAddress()
+    {
+        $address = new Freelancer\FreelancerAddress();
 
-    public function setUp() {
-        $this->address = new Freelancer\FreelancerAddress();
-    }
-
-    public function testFreelancerAddress() {
         $street = 'FreelancerAddressTest-Street';
-        $this->address->setStreet($street);
-        $this->assertEquals($this->address->getStreet(), $street);
+        $address->setStreet($street);
+        $this->assertEquals($address->getStreet(), $street);
 
         $street2 = 'FreelancerAddressTest-Street2';
-        $this->address->setStreet2($street2);
-        $this->assertEquals($this->address->getStreet2(), $street2);
+        $address->setStreet2($street2);
+        $this->assertEquals($address->getStreet2(), $street2);
 
         $zipcode = 'FreelancerAddressTest-Zipcode';
-        $this->address->setZipcode($zipcode);
-        $this->assertEquals($this->address->getZipcode(), $zipcode);
+        $address->setZipcode($zipcode);
+        $this->assertEquals($address->getZipcode(), $zipcode);
 
         $city = 'FreelancerAddressTest-City';
-        $this->address->setCity($city);
-        $this->assertEquals($this->address->getCity(), $city);
+        $address->setCity($city);
+        $this->assertEquals($address->getCity(), $city);
 
         $country = new Country();
-        $this->address->setCountry($country);
-        $this->assertEquals($this->address->getCountry(), $country);
-        
+        $address->setCountry($country);
+        $this->assertEquals($address->getCountry(), $country);
+
         $freelancer = new Freelancer();
-        $this->address->setFreelancer($freelancer);
-        $this->assertEquals($this->address->getFreelancer(), $freelancer);
-        
+        $address->setFreelancer($freelancer);
+        $this->assertEquals($address->getFreelancer(), $freelancer);
+
     }
 }

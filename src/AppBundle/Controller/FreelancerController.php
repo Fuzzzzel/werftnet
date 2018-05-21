@@ -119,8 +119,6 @@ class FreelancerController extends Controller
             $em->detach($fl);
             $fl->setCreatedAt(new \DateTime());
         }
-        $fl->setId($id);
-
 
         // Set/Add Address
         $address = $fl->getAddress();

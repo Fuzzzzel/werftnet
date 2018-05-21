@@ -45,7 +45,7 @@ class UserControllerTest extends DefaultWebTestCase
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),
-            '{"pwd_new":"admin", "pwd_old": "xy"}'
+            '{"pwd_old":"admin", "pwd_new": "xy"}'
         );
         $this->assertEquals($client->getResponse()->getStatusCode(), 422);
 

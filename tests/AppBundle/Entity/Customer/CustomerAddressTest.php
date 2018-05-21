@@ -15,36 +15,32 @@ use Tests\AppBundle\DefaultWebTestCase;
 
 class CustomerAddressTest extends DefaultWebTestCase
 {
-    private $address = null;
-
-    public function setUp() {
-        $this->address = new Customer\CustomerAddress();
-    }
-
     public function testCustomerAddress() {
+        $address = new Customer\CustomerAddress();
+        
         $street = 'CustomerAddressTest-Street';
-        $this->address->setStreet($street);
-        $this->assertEquals($this->address->getStreet(), $street);
+        $address->setStreet($street);
+        $this->assertEquals($address->getStreet(), $street);
 
         $street2 = 'CustomerAddressTest-Street2';
-        $this->address->setStreet2($street2);
-        $this->assertEquals($this->address->getStreet2(), $street2);
+        $address->setStreet2($street2);
+        $this->assertEquals($address->getStreet2(), $street2);
 
         $zipcode = 'CustomerAddressTest-Zipcode';
-        $this->address->setZipcode($zipcode);
-        $this->assertEquals($this->address->getZipcode(), $zipcode);
+        $address->setZipcode($zipcode);
+        $this->assertEquals($address->getZipcode(), $zipcode);
 
         $city = 'CustomerAddressTest-City';
-        $this->address->setCity($city);
-        $this->assertEquals($this->address->getCity(), $city);
+        $address->setCity($city);
+        $this->assertEquals($address->getCity(), $city);
 
         $country = new Country();
-        $this->address->setCountry($country);
-        $this->assertEquals($this->address->getCountry(), $country);
+        $address->setCountry($country);
+        $this->assertEquals($address->getCountry(), $country);
 
         $customer = new Customer();
-        $this->address->setCustomer($customer);
-        $this->assertEquals($this->address->getCustomer(), $customer);
+        $address->setCustomer($customer);
+        $this->assertEquals($address->getCustomer(), $customer);
 
     }
 }
