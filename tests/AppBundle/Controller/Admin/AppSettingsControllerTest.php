@@ -24,21 +24,23 @@ class AppSettingsControllerTest extends DefaultWebTestCase
 
         $content = $client->getResponse()->getContent();
         $this->assertJson($content);
+
+        $settings = json_decode($content);
+        $this->assertEquals(1, $settings->id);
     }
 
-    /**
-     * @group test
-     */
     public function testChangeImprint()
     {
         $client = $this->getAdminClient();
         $client->request(
             'GET',
-            '/admin/settings/imprint'
+            '/admin/settings'
         );
 
         $content = $client->getResponse()->getContent();
         $this->assertJson($content);
+
+        $newImprint = "Test for Imprint";
 
         $client->request(
             'POST',
@@ -46,20 +48,21 @@ class AppSettingsControllerTest extends DefaultWebTestCase
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),
-            '{"imprint": "Test for Imprint"}'
+            '{"imprint": "' . $newImprint . '"}'
         );
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
 
         $client->request(
             'GET',
-            '/admin/settings/imprint'
+            '/admin/settings'
         );
 
         $content = $client->getResponse()->getContent();
         $this->assertJson($content);
 
-        echo(json_decode($content));
+        $newSettings = json_decode($content);
+        $this->assertEquals("Test for Imprint", $newSettings->imprint);
     }
 
 }

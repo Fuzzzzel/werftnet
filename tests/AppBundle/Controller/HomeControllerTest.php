@@ -20,7 +20,7 @@ class HomeControllerTest extends DefaultWebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/');
 
-        $this->assertContains('Login', $client->getResponse()->getContent());
+        $this->assertContains('index.html', $client->getResponse()->getContent());
     }
 
     /**
@@ -31,7 +31,7 @@ class HomeControllerTest extends DefaultWebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');
 
-        $this->assertContains('Login', $client->getResponse()->getContent());
+        $this->assertContains('index.html', $client->getResponse()->getContent());
     }
 
 }

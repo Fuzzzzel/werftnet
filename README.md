@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/Fuzzzzel/werftnet.svg?branch=master)](https://travis-ci.com/Fuzzzzel/werftnet)
+[![Build Status](https://travis-ci.org/Fuzzzzel/werftnet.svg?branch=master)](https://travis-ci.org/Fuzzzzel/werftnet)
 [![Coverage Status](https://coveralls.io/repos/github/Fuzzzzel/werftnet/badge.svg?branch=master)](https://coveralls.io/github/Fuzzzzel/werftnet?branch=master)
   
 # werftnet  
