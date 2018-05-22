@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/Fuzzzzel/werftnet.svg?branch=master)](https://travis-ci.org/Fuzzzzel/werftnet)
 [![Coverage Status](https://coveralls.io/repos/github/Fuzzzzel/werftnet/badge.svg?branch=master)](https://coveralls.io/github/Fuzzzzel/werftnet?branch=master)
   
-# werftnet  
+# Werftnet  
   
 A simple tool to manage your translators and customers. Simple project management to be added soon.  
   
