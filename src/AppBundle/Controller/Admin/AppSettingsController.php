@@ -10,9 +10,12 @@ namespace AppBundle\Controller\Admin;
 
 
 use AppBundle\Service\AppSettingsService;
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\SerializerBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -25,18 +28,10 @@ class AppSettingsController extends Controller
     public function getAppSettings(AppSettingsService $appSettingsService) {
         $settings = $appSettingsService->getSettings();
 
-        return new JsonResponse($settings);
-    }
+        $serializer = SerializerBuilder::create()->build();
+        $response = $serializer->serialize($settings, 'json', SerializationContext::create()->setGroups(['display'])->enableMaxDepthChecks());
 
-    /**
-     * @Method("GET")
-     * @Route("/admin/settings/imprint")
-     */
-    public function getImprint(AppSettingsService $appSettingsService) {
-
-        $settings = $appSettingsService->getSettings();
-
-        return new JsonResponse($settings->getImprint());
+        return new Response($response);
     }
 
     /**

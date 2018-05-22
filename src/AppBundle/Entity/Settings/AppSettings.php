@@ -24,6 +24,8 @@ class AppSettings
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
+     * @JMS\Type("integer")
+     * @JMS\Groups({"display", "update"})
      */
     private $id = 1;
 
