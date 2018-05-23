@@ -20,24 +20,30 @@ export class AdminUserEditService {
     return this.$userToEdit.asObservable();
   }
 
-  fetchUser(userId): void {
-    if (isNaN(userId)) {
-      alert('Es wurde keine User Id angegeben');
-      return;
-    }
+  fetchUser(userId): Promise<User> {
 
-    const req = this.http.get<User>(
-      '/admin/users/' + userId
-    )
+    return new Promise(
+      (resolve, reject) => {
+        if (isNaN(userId)) {
+          reject('Es wurde keine User Id angegeben');
+          return;
+        }
 
-    // Execute post request and subscribe to response
-    req.subscribe(
-      data => {
-        this.$userToEdit.next(data[0]);
-      },
-      error => {
-        alert('Fehler beim Laden des Users');
-      });
+        const req = this.http.get<User>(
+          '/admin/users/' + userId
+        )
+
+        // Execute post request and subscribe to response
+        req.subscribe(
+          data => {
+            const user = data[0]
+            this.$userToEdit.next(user);
+            resolve(user)
+          },
+          error => {
+            reject('Fehler beim Laden des Users');
+          });
+      })
   }
 
   clearUser() {

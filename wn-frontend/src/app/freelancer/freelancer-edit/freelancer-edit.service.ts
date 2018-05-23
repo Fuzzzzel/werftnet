@@ -32,7 +32,7 @@ export class FreelancerEditService {
 
     // Kopie des Freelancers erstellen, um Datum in yyyy-mm-dd String zu wandeln, falls vorhanden
     let fl_save = this.util.cloneDeep(this.freelancerToEdit);
-    if (this.freelancerToEdit.date_of_birth) {
+    if (this.freelancerToEdit.date_of_birth && this.freelancerToEdit.date_of_birth) {
       let dateObj = new Date(this.freelancerToEdit.date_of_birth)
       if (dateObj.getTime() !== NaN) {
         fl_save.date_of_birth = dateObj.toISOString().slice(0, 10)
