@@ -44,7 +44,7 @@ class AuthenticationController extends Controller
      * @param AuthorizationCheckerInterface $authChecker
      * @return JsonResponse
      */
-    public function getLoggedInUserAction(UserInterface $user, AuthorizationCheckerInterface $authChecker)
+    public function getLoggedInUserAction(UserInterface $user = null, AuthorizationCheckerInterface $authChecker)
     {
         $response = new \stdClass();
 
