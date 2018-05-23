@@ -94,7 +94,7 @@ export class CustomerEditService {
       data => {
         this.customerToEdit = data;
         console.log(data);
-        this.util.goTo('/customer/edit');
+        this.util.goTo('customer/edit');
       },
       error => {
         alert(error.message);
@@ -109,7 +109,7 @@ export class CustomerEditService {
       // Reload customer before editing
       this.getCustomerByIdAndEdit(id);
     } else {
-      this.util.goTo('/customer/edit');
+      this.util.goTo('customer/edit');
     }
   }
 
@@ -119,10 +119,10 @@ export class CustomerEditService {
     return this.customerContactToEdit;
   }
 
-  getCustomerContactByIdAndEdit(id: number) {
+  getCustomerContactByIdAndEdit(customerId: number, contactId: number) {
     // Set up post request
     const req = this.http.get<CustomerContact>(
-      '/customer_contact/' + id
+      '/customers/' + customerId + '/contacts/' + contactId
     )
 
     // Execute post request and subscribe to response
@@ -130,7 +130,7 @@ export class CustomerEditService {
       data => {
         this.customerContactToEdit = data;
         console.log(data);
-        this.util.goTo('/customer/edit_contact');
+        this.util.goTo('customer/edit_contact');
       },
       error => {
         alert(error.message);
@@ -148,9 +148,9 @@ export class CustomerEditService {
     this.customerContactToEdit_CustomerId = customerId;
     if (contactId && contactId > 0) {
       // Reload customer before editing
-      this.getCustomerContactByIdAndEdit(contactId);
+      this.getCustomerContactByIdAndEdit(customerId, contactId);
     } else {
-      this.util.goTo('/customer/edit');
+      this.util.goTo('customer/edit');
     }
   }
 

@@ -9,7 +9,7 @@
     "build-watch": "ng build --watch -op ../www/dist --base-href /dist/",
     "serve": "ng serve --open --deleteOutputPath=false",
     "test": "ng test --code-coverage --watch false",
-    "test-watch": "ng test --code-coverage",
+    "test-watch": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

@@ -39,7 +39,10 @@ export class AdminUserEditComponent implements OnInit {
     this.route.params.subscribe(params => {
       const userId = +params['userId'];
       if (userId > 0) {
-        this.adminUserEditService.fetchUser(userId);
+        this.adminUserEditService.fetchUser(userId)
+          .catch((errorMessage) => {
+            alert(errorMessage);
+          });
       }
     });
 
