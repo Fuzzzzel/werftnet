@@ -47,15 +47,14 @@ describe('CoreDataService', () => {
   it('should show message box when trying to create simple entity item', (done) => {
     backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' });
 
+    spyOn(window, 'confirm').and.returnValue(true);
     coreDataService.createSimpleEntityItem(null, 'TestName')
       .catch(() => {
         coreDataService.createSimpleEntityItem('testEntity', null)
           .catch(() => {
             done()
           })
-        spyOn(window, 'confirm').and.returnValue(true);
       })
-    spyOn(window, 'confirm').and.returnValue(true);
   });
 
   it('should create simple entity item', () => {
@@ -74,6 +73,19 @@ describe('CoreDataService', () => {
     const req = backend.expectOne('/admin/simple_entity/TestEntity/1');
     expect(req.request.method).toBe("DELETE");
     req.flush({}, { status: 200, statusText: 'Ok' });
+  });
+
+  it('should show message box when trying to update simple entity item', (done) => {
+    backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' });
+
+    spyOn(window, 'confirm').and.returnValue(true);
+    coreDataService.updateSimpleEntityItem(null, 1, 'TestName')
+      .catch(() => {
+        coreDataService.updateSimpleEntityItem('testEntity', 1, null)
+          .catch(() => {
+            done()
+          })
+      })
   });
 
   it('should update simple entity item', () => {
@@ -100,12 +112,38 @@ describe('CoreDataService', () => {
     req.flush(new TwoLevelEntityCollection(), { status: 200, statusText: 'Ok' });
   });
 
+  it('should show message box when trying to create two level simple entity', (done) => {
+    backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' });
+
+    spyOn(window, 'confirm').and.returnValue(true);
+    coreDataService.createTwoLevelEntityItem(null, 1, 'TestName')
+      .catch(() => {
+        coreDataService.createTwoLevelEntityItem('testEntity', 1, null)
+          .catch(() => {
+            done()
+          })
+      })
+  });
+
   it('should create two level entity item', () => {
     backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' });
     coreDataService.createTwoLevelEntityItem('testEntity', 1, 'NewEntityName');
     const req = backend.expectOne('/admin/two_level_entity/TestEntity/1/sub_items');
     expect(req.request.method).toBe("POST");
     req.flush(new TwoLevelEntity(), { status: 200, statusText: 'Ok' });
+  });
+
+  it('should show message box when trying to delete two level simple entity', (done) => {
+    backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' });
+
+    spyOn(window, 'confirm').and.returnValue(true);
+    coreDataService.deleteTwoLevelEntityItem(null, -1, -1)
+      .catch(() => {
+        coreDataService.deleteTwoLevelEntityItem('testEntity', -1, -1)
+          .catch(() => {
+            done()
+          })
+      })
   });
 
   it('should delete two level entity item', () => {
@@ -117,18 +155,17 @@ describe('CoreDataService', () => {
     req.flush({}, { status: 200, statusText: 'Ok' });
   });
 
-  it('should show message box when trying to update simple entity item', (done) => {
+  it('should show message box when trying to update two level entity item', (done) => {
     backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' });
 
-    coreDataService.updateSimpleEntityItem(null, 1, 'TestName')
+    spyOn(window, 'confirm').and.returnValue(true);
+    coreDataService.updateTwoLevelEntityItem(null, 1, 1, 'TestName')
       .catch(() => {
-        coreDataService.updateSimpleEntityItem('testEntity', 1, null)
+        coreDataService.updateTwoLevelEntityItem('entityName', 1, 1, null)
           .catch(() => {
             done()
           })
-        spyOn(window, 'confirm').and.returnValue(true);
       })
-    spyOn(window, 'confirm').and.returnValue(true);
   });
 
   it('should update two level entity item', () => {

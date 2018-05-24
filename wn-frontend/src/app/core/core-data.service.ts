@@ -304,10 +304,10 @@ export class CoreDataService {
     return new Promise((resolve, reject) => {
       if (entityName == null || entityName == "") {
         alert("Bug: Name der Entity nicht angegeben")
-        return null;
+        reject()
       } else if (itemNewName == null || itemNewName == "") {
         alert("Der neue Name darf nicht leer sein!");
-        return null;
+        reject()
       } else {
         const entityNameConverted = this.util.ucfirst(_.camelCase(entityName));
 
