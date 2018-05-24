@@ -175,14 +175,14 @@ class CustomerController extends Controller
     public function getCustomerContactById(Request $request, $customerId, $customerContactId)
     {
         if (!isset($customerContactId) && !(intval($customerContactId) > 0)) {
-            throw new NotFoundHttpException('Customer contact mit der id {$customerContactId} wurde nicht gefunden!');
+            throw new NotFoundHttpException("Customer contact mit der id {$customerContactId} wurde nicht gefunden!");
         }
 
         $repository = $this->getDoctrine()->getRepository('AppBundle:Customer\CustomerContact');
         $customerContact = $repository->find(intval($customerContactId));
 
-        if ($customerContact->getCustomer()->getId() != $customerId) {
-            throw new BadRequestHttpException('Contact mit der Id {$customerContactId} gehört nicht zum Kunden mit der Id {$customerId}!');
+        if ($customerContact->getCustomer()->getId() !== intval($customerId)) {
+            throw new BadRequestHttpException("Contact mit der Id {$customerContactId} gehört nicht zum Kunden mit der Id {$customerId}!");
         }
 
         $serializer = SerializerBuilder::create()->build();
@@ -280,7 +280,7 @@ class CustomerController extends Controller
         $contact = $em->find('AppBundle\Entity\Customer\CustomerContact', $customerContactId);
 
         if ($contact != null) {
-            if ($contact->getCustomer()->getId() !== $customerId) {
+            if ($contact->getCustomer()->getId() !== intval($customerId)) {
                 throw new BadRequestHttpException('Contact mit der Id {$customerContactId} gehört nicht zum Kunden mit der Id {$customerId}!');
             }
             $em->remove($contact);

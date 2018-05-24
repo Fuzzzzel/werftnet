@@ -19,7 +19,7 @@ class SimpleEntityControllerTest extends DefaultWebTestCase
         $client = $this->getAdminClient();
         $crawler = $client->request(
             'POST',
-            '/admin/simple_entity/sector',
+            '/admin/simple_entity/CatTool',
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),
@@ -31,7 +31,7 @@ class SimpleEntityControllerTest extends DefaultWebTestCase
         $newItem = json_decode($responseBody);
         $crawler = $client->request(
             'POST',
-            '/admin/simple_entity/sector/' . $newItem->id,
+            '/admin/simple_entity/CatTool/' . $newItem->id,
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),
@@ -44,7 +44,7 @@ class SimpleEntityControllerTest extends DefaultWebTestCase
     {
         // Fetch simple entity
         $client = $this->getAdminClient();
-        $crawler = $client->request('GET', '/admin/simple_entity/sector');
+        $crawler = $client->request('GET', '/admin/simple_entity/CatTool');
         $responseBody = $client->getResponse()->getContent();
         $this->assertJson($responseBody);
 
@@ -59,14 +59,14 @@ class SimpleEntityControllerTest extends DefaultWebTestCase
         // Delete item
         $crawler = $client->request(
             'DELETE',
-            '/admin/simple_entity/sector/' . $idToDelete
+            '/admin/simple_entity/CatTool/' . $idToDelete
         );
         $this->assertJson($client->getResponse()->getContent());
 
 
         // Fetch simple entity again and make sure the deleted item is gone
         $client = $this->getAdminClient();
-        $crawler = $client->request('GET', '/admin/simple_entity/sector');
+        $crawler = $client->request('GET', '/admin/simple_entity/CatTool');
         $responseBody = $client->getResponse()->getContent();
         $response = json_decode($responseBody);
         $itemsAfterDelete = $response->values;

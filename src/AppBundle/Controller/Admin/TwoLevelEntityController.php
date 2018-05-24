@@ -280,7 +280,9 @@ class TwoLevelEntityController extends Controller
         }
 
         $entityName = $params->entityName;
+        $entityName = QueryHelper::getFullEntityName($entityName);
         $itemId = $params->itemId;
+
 
         $classname = "\\AppBundle\\Entity\\" . $entityName;
 
@@ -327,6 +329,7 @@ class TwoLevelEntityController extends Controller
         }
 
         $entityName = $params->entityName;
+        $entityName = QueryHelper::getFullEntityName($entityName);
         $itemId = $params->itemId;
         $itemMainId = $params->itemMainId;
 

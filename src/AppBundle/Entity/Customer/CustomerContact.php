@@ -26,7 +26,7 @@ class CustomerContact extends Person
     private $customer;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      * @JMS\Type("string")
      * @JMS\Groups({"display", "update"})
      */
