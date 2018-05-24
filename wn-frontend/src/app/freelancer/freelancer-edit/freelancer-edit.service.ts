@@ -103,7 +103,7 @@ export class FreelancerEditService {
       data => {
         this.freelancerToEdit = data;
         console.log(data);
-        this.util.goTo('/freelancer/edit');
+        this.util.goTo('freelancer/edit');
       },
       error => {
         alert(error.message);
@@ -118,7 +118,7 @@ export class FreelancerEditService {
       // Reload freelancer before editing
       this.getFreelancerByIdAndEdit(id);
     } else {
-      this.util.goTo('/freelancer/edit');
+      this.util.goTo('freelancer/edit');
     }
   }
 

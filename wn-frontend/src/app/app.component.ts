@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
       this.coreDataLoaded = dataLoaded;
     })
     this.userService.testServerForLoggedInUser(
-      () => { this.util.goTo('/home') },
+      () => { this.util.goTo('home') },
       null
     );
   }
