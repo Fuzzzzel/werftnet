@@ -8,6 +8,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { User } from '../../user/user.model';
 
 describe('AdminUserEditService', () => {
+  let service: AdminUserEditService
+  let backend: HttpTestingController
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -20,21 +22,24 @@ describe('AdminUserEditService', () => {
         UtilService
       ]
     });
+    service = TestBed.get(AdminUserEditService)
+    backend = TestBed.get(HttpTestingController)
   });
-  it('should be created', inject([AdminUserEditService, HttpTestingController], (service: AdminUserEditService, backend: HttpTestingController) => {
-    expect(service).toBeTruthy();
-  }));
 
-  it('should fetch user', inject([AdminUserEditService, HttpTestingController], (service: AdminUserEditService, backend: HttpTestingController) => {
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('should fetch user', () => {
     const userId = 1
     service.fetchUser(userId)
 
     const req = backend.expectOne('/admin/users/' + userId);
     expect(req.request.method).toBe("GET");
     req.flush(new User(), { status: 200, statusText: 'Ok' });
-  }));
+  });
 
-  it('should save user', inject([AdminUserEditService, HttpTestingController], (service: AdminUserEditService, backend: HttpTestingController, done) => {
+  it('should save user', (done) => {
     let user = new User()
     user.id = 1
 
@@ -48,9 +53,9 @@ describe('AdminUserEditService', () => {
     expect(req.request.method).toBe("POST");
     req.flush(user, { status: 200, statusText: 'Ok' });
 
-  }));
+  });
 
-  it('should change user password', inject([AdminUserEditService, HttpTestingController], (service: AdminUserEditService, backend: HttpTestingController, done) => {
+  it('should change user password', (done) => {
     let user = new User()
     user.id = 1
 
@@ -73,5 +78,5 @@ describe('AdminUserEditService', () => {
       req1.flush([user], { status: 200, statusText: 'Ok' });
     }, 100)
 
-  }));
+  });
 });

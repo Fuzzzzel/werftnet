@@ -22,7 +22,7 @@ export class UserService {
     this.user$ = of(this.user);
     this.user$.subscribe(() => {
       if (!this.isLoggedIn()) {
-        this.util.goTo('/login');
+        this.util.goTo('login');
       }
     })
     */
@@ -71,7 +71,7 @@ export class UserService {
         this.loginError.message = '';
 
         // Navigate to main page
-        this.util.goTo('/home');
+        this.util.goTo('home');
         console.log(data);
 
         resolve && resolve(data);
@@ -103,7 +103,7 @@ export class UserService {
         this.user.clearData();
 
         // Navigate to main page
-        this.util.goTo('/logout');
+        this.util.goTo('logout');
 
         resolve && resolve(data);
       },

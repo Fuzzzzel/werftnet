@@ -9,6 +9,7 @@ import { HttpTestingController, HttpClientTestingModule } from '@angular/common/
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Freelancer } from '../freelancer.model';
+import { NgbCalendarIslamicUmalqura } from '@ng-bootstrap/ng-bootstrap';
 const freelancerMock = require('./../freelancer.mock.json');
 
 describe('FreelancerEditService', () => {
@@ -70,4 +71,11 @@ describe('FreelancerEditService', () => {
     expect(req.request.method).toBe("DELETE");
     req.flush({}, { status: 200, statusText: 'Ok' });
   }));
+
+  it('should edit freelancer', inject([FreelancerEditService, HttpTestingController], (service: FreelancerEditService, backend: HttpTestingController) => {
+    service.editFreelancer(null)
+
+    service.editFreelancer(1)
+    const req = backend.expectOne('/freelancers/1');
+  }))
 });
