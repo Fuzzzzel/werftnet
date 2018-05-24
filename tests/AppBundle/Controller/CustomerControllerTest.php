@@ -38,51 +38,80 @@ class CustomerControllerTest extends DefaultWebTestCase
         $this->assertJson($content);
 
         // Get customer by id
-        $customerList = json_decode($content, true);
-        $customerId = $customerList['items'][0]['id'];
+        $customerList = json_decode($content);
+        $customerId = $customerList->items[0]->id;
 
         $crawler = $client->request('GET', '/customers/'.$customerId);
         $this->assertJson($client->getResponse()->getContent());
+
+        return $customerId;
     }
 
-    /*
-    public function testCreateCustomerContact() {
-        // Search customer
-        $client = $this->getAdminClient();
-        $crawler = $client->request('POST', '/customers/search');
-
-        $content = $client->getResponse()->getContent();
-        $this->assertJson($content);
-
-        // Delete customer by id
-        $customerList = json_decode($content, true);
-        $customerId = $customerList['items'][0]['id'];
-
-        $crawler = $client->request(
-            'DELETE',
-            '/customers/' + $customerId + '/contacts',
+    /**
+     * @depends testSearchCustomers
+     */
+    public function testCreateCustomerContact($customerId) {
+       $client = $this->getAdminClient();
+       $crawler = $client->request(
+            'POST',
+            '/customers/' . $customerId . '/contacts',
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),
             '{"name1": "Test-Name", "name2":"Test-Name2"}'
         );
-        $this->assertJson($client->getResponse()->getContent());
-    }
-    */
-
-    public function testDeleteCustomer() {
-
-        // Search customer
-        $client = $this->getAdminClient();
-        $crawler = $client->request('POST', '/customers/search');
-
         $content = $client->getResponse()->getContent();
         $this->assertJson($content);
 
-        // Delete customer by id
-        $customerList = json_decode($content, true);
-        $customerId = $customerList['items'][0]['id'];
+        // Get customer by id
+        $customerContact = json_decode($content);
+        $this->assertGreaterThan(0,$customerContact->id);
 
+        return array('contact' => $customerContact, 'customerId' => $customerId);
+    }
+
+    /**
+     * @depends testCreateCustomerContact
+     */
+    public function testSearchCustomerContact($customerContactAndCustomerId) {
+        $customerContact = $customerContactAndCustomerId['contact'];
+        $customerId = $customerContactAndCustomerId['customerId'];
+
+        $client = $this->getAdminClient();
+        $crawler = $client->request(
+            'GET',
+            '/customers/' . $customerId . '/contacts/' . $customerContact->id,
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{"name1": "Test-Name", "name2":"Test-Name2"}'
+        );
+        $content = $client->getResponse()->getContent();
+        $this->assertJson($content);
+    }
+
+    /**
+     * @depends testCreateCustomerContact
+     */
+    public function testDeleteCustomerContact($customerContactAndCustomerId) {
+        $customerContact = $customerContactAndCustomerId['contact'];
+        $customerId = $customerContactAndCustomerId['customerId'];
+
+        $client = $this->getAdminClient();
+        $crawler = $client->request(
+            'DELETE',
+            '/customers/' . $customerId . '/contacts/' . $customerContact->id
+        );
+        $this->assertJson($client->getResponse()->getContent());
+    }
+
+
+    /**
+     * @depends testSearchCustomers
+     */
+    public function testDeleteCustomer($customerId) {
+
+        $client = $this->getAdminClient();
         $crawler = $client->request(
             'DELETE',
             '/customers/' . $customerId
