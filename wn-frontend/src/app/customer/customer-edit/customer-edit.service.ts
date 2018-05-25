@@ -150,7 +150,7 @@ export class CustomerEditService {
       // Reload customer before editing
       this.getCustomerContactByIdAndEdit(customerId, contactId);
     } else {
-      this.util.goTo('customer/edit');
+      this.util.goTo('customer/edit_contact');
     }
   }
 
@@ -165,11 +165,13 @@ export class CustomerEditService {
 
     // Kopie des CustomerContacts erstellen, um Datum in yyyy-mm-dd String zu wandeln, falls vorhanden
     let cust_save = this.util.cloneDeep(this.customerContactToEdit);
-    cust_save.customer_id = this.customerContactToEdit_CustomerId;
+    if (!cust_save.customer_id) {
+      cust_save.customer_id = this.customerContactToEdit_CustomerId;
+    }
 
     // Set up post request
     const req = this.http.post<CustomerContact>(
-      '/customers/' + cust_save.customer_id + '/contacts' + cust_save.id ? '/' + cust_save.id : '',
+      '/customers/' + cust_save.customer_id + '/contacts' + (cust_save.id ? '/' + cust_save.id : ''),
       cust_save
     )
 
@@ -188,26 +190,26 @@ export class CustomerEditService {
   }
 
   deleteCustomerContact(customerContactToDelete) {
-    if (!confirm('Kundenkontakt ' + customerContactToDelete.name2 + ', ' + customerContactToDelete.name1 + ' wirklich löschen?!')) {
-      return;
-    }
+    return new Promise((resolve, reject) => {
 
-    // Set up post request
-    const req = this.http.delete<CustomerContact>(
-      '/customers/' + customerContactToDelete.customer_id + '/contacts' + customerContactToDelete.id ? '/' + customerContactToDelete.id : ''
-    )
+      if (!confirm('Kundenkontakt ' + customerContactToDelete.name2 + ', ' + customerContactToDelete.name1 + ' wirklich löschen?!')) {
+        reject()
+        return;
+      }
 
-    // Execute post request and subscribe to response
-    req.subscribe(
-      data => {
-        this.customerSearchService.searchCustomers(null);
-        this.util.historyBack();
-      },
-      error => {
-        alert("Fehler beim Löschen:" + error.message);
-      });
+      // Set up post request
+      const req = this.http.delete<any>(
+        '/customers/' + customerContactToDelete.customer_id + '/contacts' + (customerContactToDelete.id ? '/' + customerContactToDelete.id : '')
+      )
 
-    return
+      // Execute post request and subscribe to response
+      req.subscribe(
+        data => {
+          resolve(data)
+        },
+        error => {
+          reject(error)
+        });
+    })
   }
-
 }

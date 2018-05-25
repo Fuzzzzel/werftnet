@@ -39,6 +39,13 @@ describe('AdminUserEditService', () => {
     req.flush(new User(), { status: 200, statusText: 'Ok' });
   });
 
+  it('should not fetch user when id is missing', (done) => {
+    service.fetchUser(null).catch((err) => {
+      expect(err).toBeTruthy()
+      done()
+    })
+  });
+
   it('should save user', (done) => {
     let user = new User()
     user.id = 1
@@ -71,12 +78,19 @@ describe('AdminUserEditService', () => {
       req2.flush(user, { status: 200, statusText: 'Ok' });
     })
 
-
     setTimeout(() => {
       const req1 = backend.expectOne('/admin/users/' + user.id);
       expect(req1.request.method).toBe("GET");
       req1.flush([user], { status: 200, statusText: 'Ok' });
-    }, 100)
-
+    }, 50)
   });
+
+  it('should not change userPwd when id is missing', (done) => {
+    service.changeUserPwd(null).catch((err) => {
+      expect(err).toBeTruthy()
+      done()
+    })
+  });
+
+
 });

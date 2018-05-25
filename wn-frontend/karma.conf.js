@@ -5,7 +5,12 @@ module.exports = function (config) {
     var configuration = {
         basePath: '',
         frameworks: ['jasmine', '@angular/cli'],
-        files: ["src/**/*.ts"
+        files: [
+            "src/**/*.ts",
+            {
+                pattern: "src/**/*.spec.ts",
+                included: false
+            }
         ],
         exclude: ['node_modules', 'coverage'],
         plugins: [
