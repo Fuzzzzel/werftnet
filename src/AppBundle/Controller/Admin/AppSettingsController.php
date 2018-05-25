@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class AppSettingsController extends Controller
 {
@@ -25,7 +27,8 @@ class AppSettingsController extends Controller
      * @Method("GET")
      * @Route("/admin/settings")
      */
-    public function getAppSettings(AppSettingsService $appSettingsService) {
+    public function getAppSettings(AppSettingsService $appSettingsService)
+    {
         $settings = $appSettingsService->getSettings();
 
         $serializer = SerializerBuilder::create()->build();
@@ -35,10 +38,28 @@ class AppSettingsController extends Controller
     }
 
     /**
+     * @Method("GET")
+     * @Route("/admin/settings/imprint")
+     */
+    public function getImprint(Request $request, AppSettingsService $appSettingsService)
+    {
+        $settings = $appSettingsService->getSettings();
+        $imprint = $settings->getImprint();
+
+        return new JsonResponse($imprint);
+    }
+
+    /**
      * @Method("POST")
      * @Route("/admin/settings/imprint")
      */
-    public function setImprint(Request $request, AppSettingsService $appSettingsService) {
+    public function setImprint(Request $request, AppSettingsService $appSettingsService, AuthorizationCheckerInterface $authChecker)
+    {
+        $isAdmin = $authChecker->isGranted('ROLE_ADMIN');
+        if (!$isAdmin) {
+            throw $this->createAccessDeniedException('You are not allowed to edit the Imprint!');
+        }
+
         $params = null;
 
         $content = $request->getContent();
@@ -52,6 +73,6 @@ class AppSettingsController extends Controller
 
         $appSettingsService->saveSettings($settings);
 
-        return new JsonResponse();
+        return new JsonResponse($settings->getImprint());
     }
 }

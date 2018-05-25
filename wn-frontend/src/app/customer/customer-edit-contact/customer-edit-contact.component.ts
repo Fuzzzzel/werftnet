@@ -28,7 +28,10 @@ export class CustomerEditContactComponent implements OnInit {
   }
 
   deleteCustomerContact() {
-    this.customerEditService.deleteCustomerContact(this.contact_edit);
+    this.customerEditService.deleteCustomerContact(this.contact_edit).then(() => {
+      this.customerSearchService.searchCustomers(null)
+      this.util.historyBack();
+    })
     // ToDo: Reload search list or update customer in list
   }
 

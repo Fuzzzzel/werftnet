@@ -11,6 +11,8 @@ import { AdminUserEditService } from './admin-user-edit/admin-user-edit.service'
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin/admin.component';
 import { RouterModule, RouterOutlet } from '@angular/router';
+import { AdminSystemEditImprintComponent } from './system/admin-system-edit-imprint/admin-system-edit-imprint.component';
+import { AdminSystemEditImprintService } from './system/admin-system-edit-imprint/admin-system-edit-imprint.service';
 
 @NgModule({
   imports: [
@@ -24,14 +26,16 @@ import { RouterModule, RouterOutlet } from '@angular/router';
     AdminTwoLevelEntityComponent,
     AdminUserOverviewComponent,
     AdminUserEditComponent,
-    AdminComponent
+    AdminComponent,
+    AdminSystemEditImprintComponent
   ],
   exports: [
     AdminOverviewComponent
   ],
   providers: [
     AdminUserService,
-    AdminUserEditService
+    AdminUserEditService,
+    AdminSystemEditImprintService
   ]
 })
 export class AdminModule { }

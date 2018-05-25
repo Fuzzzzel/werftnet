@@ -8,6 +8,7 @@ import { AdminTwoLevelEntityComponent } from './admin-two-level-entity/admin-two
 import { AdminUserOverviewComponent } from './admin-user-overview/admin-user-overview.component';
 import { AdminUserEditComponent } from './admin-user-edit/admin-user-edit.component';
 import { AdminComponent } from './admin/admin.component';
+import { AdminSystemEditImprintComponent } from './system/admin-system-edit-imprint/admin-system-edit-imprint.component';
 
 /**
  * Routes used in the module
@@ -141,7 +142,12 @@ const ROUTE_CONFIG: Routes = [
       {
         path: 'usermanagement/edit_user/:userId',
         component: AdminUserEditComponent,
+      },
+      {
+        path: 'system/edit_imprint',
+        component: AdminSystemEditImprintComponent,
       }
+
     ]
   }
 ];

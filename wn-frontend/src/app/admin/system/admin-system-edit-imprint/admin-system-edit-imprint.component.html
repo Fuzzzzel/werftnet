@@ -1,0 +1,14 @@
+<div>
+  <h2>Impressum bearbeiten</h2>
+  <div class="">
+    <textarea cols="80" rows="20" [(ngModel)]="imprint" class="form-control"></textarea>
+    <span class="input-group-btn">
+      <button type="button" class="btn btn-default btn-sm" (click)="cancelSaveImprint()">
+        Abbrechen
+      </button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="saveImprint()">
+        Speichern
+      </button>
+    </span>
+  </div>
+</div>

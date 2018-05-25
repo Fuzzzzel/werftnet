@@ -24,7 +24,7 @@ export class AdminUserEditService {
 
     return new Promise(
       (resolve, reject) => {
-        if (isNaN(userId)) {
+        if (!userId) {
           reject('Es wurde keine User Id angegeben');
           return;
         }
@@ -53,9 +53,6 @@ export class AdminUserEditService {
   saveUser(editedUser): Promise<User> {
     return new Promise(
       (resolve, reject) => {
-        if (!(editedUser.id > 0)) {
-          delete editedUser['id'];
-        }
         const req = this.http.post<any>(
           '/admin/users' + (editedUser.id > 0 ? '/' + editedUser.id : ''),
           editedUser
