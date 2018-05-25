@@ -46,6 +46,10 @@ class AppSettingsController extends Controller
         $settings = $appSettingsService->getSettings();
         $imprint = $settings->getImprint();
 
+        if(!is_string($imprint)) {
+            $imprint = '';
+        }
+
         return new JsonResponse($imprint);
     }
 
