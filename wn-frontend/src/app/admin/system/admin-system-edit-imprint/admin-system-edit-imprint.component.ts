@@ -16,7 +16,6 @@ export class AdminSystemEditImprintComponent implements OnInit {
   ngOnInit() {
     this.imprintService.getImprint().subscribe((imprint) => {
       this.imprint = imprint
-      console.log(typeof imprint)
     })
   }
 

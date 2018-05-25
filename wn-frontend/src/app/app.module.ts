@@ -21,6 +21,8 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './layout/login/login.component';
 import { HomeComponent } from './layout/home/home.component';
 import { TopNavComponent } from './layout/top-nav/top-nav.component';
+import { SystemInfoService } from './admin/system/system-info.service';
+import { AdminSystemImprintComponent } from './admin/system/admin-system-imprint/admin-system-imprint.component';
 
 @NgModule({
   imports: [
@@ -39,9 +41,12 @@ import { TopNavComponent } from './layout/top-nav/top-nav.component';
     AppComponent,
     LoginComponent,
     HomeComponent,
-    TopNavComponent
+    TopNavComponent,
+    AdminSystemImprintComponent
   ],
-  providers: [],
+  providers: [
+    SystemInfoService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

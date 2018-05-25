@@ -5,6 +5,7 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { LoginComponent } from './layout/login/login.component';
 import { HomeComponent } from './layout/home/home.component';
 import { AuthGuardService as AuthGuard } from './user/auth-guard.service';
+import { AdminSystemImprintComponent } from './admin/system/admin-system-imprint/admin-system-imprint.component';
 
 /**
  * Routes used in the app
@@ -31,6 +32,10 @@ const ROUTE_CONFIG: Routes = [
     {
         path: 'admin',
         loadChildren: 'app/admin/admin.module#AdminModule'
+    },
+    {
+        path: 'imprint',
+        component: AdminSystemImprintComponent
     }
     /*,
     // Needs to be imported last, otherwise it overrides all other routes
