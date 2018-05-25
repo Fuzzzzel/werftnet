@@ -17,6 +17,7 @@ export class SystemInfoService {
   }
 
   getImprint() {
+    this.fetchImprint()
     return this.$imprint.asObservable()
   }
 
