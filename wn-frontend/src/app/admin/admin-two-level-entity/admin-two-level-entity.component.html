@@ -1,9 +1,9 @@
 <div class="alist">
   <h2>{{ valuearray.display_name }}</h2>
   <div class="alist-main-item-new input-group">
-    <input [(ngModel)]="main_item_new" (keydown.enter)="createTwoLevelEntityMainItem(valuearray, main_item_new)" class="form-control">
+    <input [(ngModel)]="main_item_new" (keydown.enter)="createTwoLevelEntityMainItem(main_item_new)" class="form-control">
     <span class="input-group-btn">
-      <button type="button" class="btn btn-primary btn-sm" (click)="createTwoLevelEntityMainItem(valuearray, main_item_new)">
+      <button type="button" class="btn btn-primary btn-sm" (click)="createTwoLevelEntityMainItem(main_item_new)">
         <span class="glyphicon glyphicon-plus clickable clickable-icon iconsmall"></span>
       </button>
     </span>
