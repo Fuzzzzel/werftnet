@@ -255,10 +255,10 @@ export class CoreDataService {
         // Execute post request and subscribe to response
         req.subscribe(
           data => {
-            resolve && resolve(data);
+            resolve(data);
           },
           error => {
-            reject && reject(error);
+            reject(error);
           });
       }
 
@@ -289,10 +289,10 @@ export class CoreDataService {
         // Execute post request and subscribe to response
         req.subscribe(
           data => {
-            resolve && resolve(data);
+            resolve(data);
           },
           error => {
-            reject && reject(error);
+            reject(error);
           });
       }
 

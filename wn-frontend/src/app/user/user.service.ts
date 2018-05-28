@@ -120,25 +120,30 @@ export class UserService {
    * @param resolve 
    * @param reject 
    */
-  testServerForLoggedInUser(resolve, reject) {
-    // Set up post request
-    const req = this.http.get<User>(
-      '/get_logged_in_user'
-    )
+  testServerForLoggedInUser() {
 
-    // Execute post request and subscribe to response
-    req.subscribe(
-      data => {
-        this.user.id = data.id;
-        this.user.username = data.username;
-        this.user.roles = data.roles;
+    return new Promise<User>((resolve, reject) => {
+      // Set up post request
+      const req = this.http.get<User>(
+        '/get_logged_in_user'
+      )
 
-        resolve && resolve(data);
-      },
-      error => {
-        alert('Es ist ein Fehler beim automatischen Login aufgetreten');
-        reject && reject(error);
-      });
+      // Execute post request and subscribe to response
+      req.subscribe(
+        data => {
+          if (data.id) {
+            this.user.id = data.id;
+            this.user.username = data.username;
+            this.user.roles = data.roles;
+            resolve(data);
+          } else {
+            reject(new Error('No user was found'))
+          }
+        },
+        error => {
+          reject(error);
+        });
+    })
   }
 
   setNewPassword(oldPassword, newPassword): Promise<User> {

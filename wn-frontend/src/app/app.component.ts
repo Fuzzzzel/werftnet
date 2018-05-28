@@ -32,9 +32,12 @@ export class AppComponent implements OnInit {
     this.coreDataService.getDataLoaded().subscribe(dataLoaded => {
       this.coreDataLoaded = dataLoaded;
     })
-    this.userService.testServerForLoggedInUser(
-      () => { this.util.goTo('home') },
-      null
-    );
+    this.userService.testServerForLoggedInUser()
+      .then((user) => {
+        this.util.goTo('home')
+      })
+      .catch((error) => {
+        alert('Es ist ein Fehler beim automatischen Login aufgetreten');
+      })
   }
 }
