@@ -85,9 +85,9 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        $response = new ErrorResponse();
+        $response = new Response();
         $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
-        $response->setMessage("Es ist ein Fehler beim Login aufgetreten");
+        $response->setContent("Es ist ein Fehler beim Login aufgetreten");
 
         $user = null;
 
@@ -99,8 +99,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
             $user->setFailedLoginAttempts($user->getFailedLoginAttempts() + 1);
 
             if ($user->getFailedLoginAttempts() >= 3 && ($user->requestWithinLoginDelay())) {
-                $error = new AppError('login_error', "Sie haben 3 Mal oder öfter das falsche Passwort eingegeben.Der nächste Loginversuch ist erst in 1 Minute möglich.");
-                $response->addError($error);
+                $response->setContent("Sie haben 3 Mal oder öfter das falsche Passwort eingegeben.Der nächste Loginversuch ist erst in 1 Minute möglich.");
             }
 
             $user->setLastLoginAttempt($loginAttemptTime);
