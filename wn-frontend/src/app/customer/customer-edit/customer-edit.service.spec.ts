@@ -113,8 +113,6 @@ describe('CustomerEditService', () => {
     let spy = spyOn(window, 'confirm').and.returnValues(false, true)
     service.deleteCustomerContact(customerContactToDelete)
       .catch(() => {
-        console.log("#################### BIS HIERHER ######################")
-
         service.deleteCustomerContact(customerContactToDelete)
           .then(() => { done() })
           .catch(() => { throw new Error('Das sollte nicht passieren') })

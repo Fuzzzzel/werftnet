@@ -98,7 +98,10 @@ describe('UserService', () => {
           expect(userService.userHasRole('ROLE_USER')).toBeTruthy()
         }
 
-        userService.testServerForLoggedInUser(resolve, null);
+        userService.testServerForLoggedInUser()
+          .then((user) => {
+            expect(user.id).toBeGreaterThan(0)
+          })
         backend.expectOne('/get_logged_in_user').flush(userResponse, { status: 200, statusText: 'Ok' });
       })
     )
@@ -112,7 +115,10 @@ describe('UserService', () => {
           expect(userService.userHasRole('ROLE_USER')).toBeFalsy()
         }
 
-        userService.testServerForLoggedInUser(null, reject);
+        userService.testServerForLoggedInUser()
+          .catch((error) => {
+            expect(error).toBeTruthy()
+          })
         backend.expectOne('/get_logged_in_user').flush(null, { status: 404, statusText: 'Not Found' });
       })
     )

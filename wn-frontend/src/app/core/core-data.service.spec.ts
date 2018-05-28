@@ -170,7 +170,11 @@ describe('CoreDataService', () => {
 
   it('should update two level entity item', () => {
     backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' });
-    coreDataService.updateTwoLevelEntityItem('testEntity', 1, 2, 'NewEntityName');
+
+    coreDataService.updateTwoLevelEntityItem('testEntity', 1, 2, 'NewEntityName')
+      .then((updatedEntity) => {
+        expect(updatedEntity).toBeDefined()
+      })
     const req = backend.expectOne('/admin/two_level_entity/TestEntity/1/sub_items/2');
     expect(req.request.method).toBe("POST");
     req.flush(new TwoLevelEntity(), { status: 200, statusText: 'Ok' });
