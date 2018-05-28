@@ -47,6 +47,23 @@ class CustomerControllerTest extends DefaultWebTestCase
         return $customerId;
     }
 
+    public function testSearchCustomersBySearchParameters() {
+
+        // Search customer
+        $client = $this->getAdminClient();
+        $crawler = $client->request(
+            'POST',
+            '/customers/search',
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{"origin": {"id": 1}, "potential": {"id": 1}, "account_manager": {"id": 1}, "status": {"id": 1}, "name": "Test Customer Name", "asp_name": "Test Asp Name"}'
+            );
+
+        $content = $client->getResponse()->getContent();
+        $this->assertJson($content);
+    }
+
     /**
      * @depends testSearchCustomers
      */

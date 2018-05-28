@@ -34,7 +34,7 @@ class AppSettingsControllerTest extends DefaultWebTestCase
         $client = $this->getAdminClient();
         $client->request(
             'GET',
-            '/admin/settings'
+            '/admin/settings/imprint'
         );
 
         $content = $client->getResponse()->getContent();
