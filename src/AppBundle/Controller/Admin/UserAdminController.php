@@ -8,8 +8,6 @@
 
 namespace AppBundle\Controller\Admin;
 
-use AppBundle\AppFlow\ErrorResponse;
-use AppBundle\AppFlow\AppError;
 use JMS\Serializer\DeserializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

@@ -21,8 +21,6 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 use Doctrine\ORM\EntityManager;
-use AppBundle\AppFlow\ErrorResponse;
-use AppBundle\AppFlow\AppError;
 use Twig\Error\Error;
 
 class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, AuthenticationFailureHandlerInterface
