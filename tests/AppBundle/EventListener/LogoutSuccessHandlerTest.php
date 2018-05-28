@@ -12,7 +12,7 @@ namespace Tests\AppBundle\Controller;
 use AppBundle\Entity\User;
 use Tests\AppBundle\DefaultWebTestCase;
 
-class EventListenerControllerTest extends DefaultWebTestCase
+class LogoutSuccessHandlerTest extends DefaultWebTestCase
 {
     public function testOnLogoutSuccess()
     {
