@@ -77,10 +77,11 @@ class QueryHelper
 
     public static function getFullEntityName($entityName) {
         $collections = array("Freelancer", "Customer", "User");
+        $entityName = ucfirst($entityName);
         $found = false;
         for($i = 0; $i < count($collections); $i++) {
             if(strrpos($entityName, $collections[$i]) === 0) {
-                $entityName = $collections[$i] . "\\" . ucfirst($entityName);
+                $entityName = $collections[$i] . "\\" . $entityName;
                 $found = true;
                 break;
             }

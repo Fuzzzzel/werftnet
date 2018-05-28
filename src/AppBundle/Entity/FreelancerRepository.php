@@ -56,13 +56,13 @@ class FreelancerRepository extends EntityRepository
         }
 
         if (isset($search['fl_status']['id'])) {
-            $qb->join('fl.flStatus', 's', 'WITH', 's.id = :flStatusId');
+            $qb->join('fl.flStatus', 'stat', 'WITH', 'stat.id = :flStatusId');
             $qb->setParameter('flStatusId', $search['fl_status']['id']);
         }
 
         if (isset($search['sector']['id'])) {
-            $qb->join('fl.sectors', 's');
-            $qb->andWhere($qbSl->expr()->in('s.id', $qbSector->getDQL()));
+            $qb->join('fl.sectors', 'sect');
+            $qb->andWhere($qbSl->expr()->in('sect.id', $qbSector->getDQL()));
             $qb->setParameter('sectorId', $search['sector']['id']);
         }
 
