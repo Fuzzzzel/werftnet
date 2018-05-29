@@ -8,21 +8,24 @@ import { CoreDataService } from '../../core/core-data.service';
 import { CustomerSearchService } from '../customer-search/customer-search.service';
 import { CustomerEditService } from '../customer-edit/customer-edit.service';
 import { ViewChild, Component } from '@angular/core';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { Customer, CustomerContact } from '../customer.model';
 let customerMock = require('./../customer.mock.json');
 
 describe('CustomerCompactComponent', () => {
-  let testHostComponent: TestHostComponent;
-  let testHostFixture: ComponentFixture<TestHostComponent>;
+  let component: CustomerCompactComponent;
+  let fixture: ComponentFixture<CustomerCompactComponent>;
+  let backend: HttpTestingController
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
-        RouterTestingModule
+        RouterTestingModule,
+        HttpClientTestingModule
       ],
       declarations: [
-        CustomerCompactComponent,
-        TestHostComponent
+        CustomerCompactComponent
       ],
       providers: [
         UtilService,
@@ -31,27 +34,27 @@ describe('CustomerCompactComponent', () => {
       ]
     })
       .compileComponents();
+    fixture = TestBed.createComponent(CustomerCompactComponent);
+    component = fixture.componentInstance;
+    component.customer = customerMock;
+    backend = TestBed.get(HttpTestingController)
   }));
 
-  beforeEach(() => {
-    testHostFixture = TestBed.createComponent(TestHostComponent);
-    testHostComponent = testHostFixture.componentInstance;
-    testHostComponent.customerCompactComponent.customer = customerMock;
-  });
-
   it('should create', () => {
-    expect(testHostFixture.nativeElement.querySelector('.compact-default')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.compact-default')).toBeTruthy();
   });
 
-  // -------------- Mock up host component ----------------
-
-  @Component({
-    selector: `host-component`,
-    template: `<app-customer-compact></app-customer-compact>`
+  it('should edit customer', () => {
+    let customer = new Customer()
+    customer.id = 1
+    component.editCustomer(customer)
   })
-  class TestHostComponent {
-    @ViewChild(CustomerCompactComponent)
 
-    public customerCompactComponent: CustomerCompactComponent
-  }
+  it('should edit customer contact', () => {
+    let customer = new Customer()
+    customer.id = 1
+    let contact = new CustomerContact()
+    contact.id = 2
+    component.editcontact(customer, contact)
+  })
 });

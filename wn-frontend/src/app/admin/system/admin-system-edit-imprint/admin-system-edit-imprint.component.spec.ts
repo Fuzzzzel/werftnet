@@ -9,7 +9,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 describe('AdminSystemEditImprintComponent', () => {
   let component: AdminSystemEditImprintComponent;
-  let fixture: ComponentFixture<AdminSystemEditImprintComponent>;
+  let fixture: ComponentFixture<AdminSystemEditImprintComponent>
   let backend: HttpTestingController
 
   beforeEach(async(() => {

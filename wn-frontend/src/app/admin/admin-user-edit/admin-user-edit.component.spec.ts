@@ -74,26 +74,34 @@ describe('AdminUserEditComponent', () => {
     component.userToEdit = new User()
     component.userToEdit.id = null
 
-    spyOn(window, 'alert').and.returnValue(true);
-    component.changeUserPwd(userEditPwdForm)
-      .catch(() => {
-        // Error: Eingegebenes Password
-        userEditPwdForm.invalid = false
+    adminUserEditService.fetchUser(1)
+      .then(() => {
+        spyOn(window, 'alert').and.returnValue(true);
         component.changeUserPwd(userEditPwdForm)
           .catch(() => {
-            // Error: User hat keine Id
-            component.userToEdit.id = 1
+            // Error: Eingegebenes Password
+            userEditPwdForm.invalid = false
             component.changeUserPwd(userEditPwdForm)
               .catch(() => {
-                // Error 404
-                done()
-              })
+                // Error: User hat keine Id
+                component.userToEdit.id = 1
+                component.changeUserPwd(userEditPwdForm)
+                  .catch((error) => {
+                    // Error 404
+                    done()
+                  })
 
-            const req = backend.expectOne('/admin/users/' + component.userToEdit.id + '/password')
-            expect(req.request.method).toBe("POST")
-            req.flush(null, { status: 404, statusText: 'Not Found' })
+                const req = backend.expectOne('/admin/users/' + component.userToEdit.id + '/password')
+                expect(req.request.method).toBe("POST")
+                req.flush(null, { status: 404, statusText: 'Not Found' })
+              })
           })
       })
+    setTimeout(() => {
+      const req1 = backend.expectOne('/admin/users/' + 1);
+      expect(req1.request.method).toBe("GET");
+      req1.flush([component.userToEdit], { status: 200, statusText: 'Ok' });
+    }, 50)
   })
 
   it('should save user', (done) => {

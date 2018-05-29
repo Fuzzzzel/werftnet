@@ -14,7 +14,12 @@ describe('AdminUserOverviewComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
-        RouterTestingModule
+        RouterTestingModule.withRoutes([
+          {
+            path: 'admin/usermanagement/edit_user/1',
+            redirectTo: ''
+          }
+        ])
       ],
       providers: [
         AdminUserService,
@@ -33,5 +38,9 @@ describe('AdminUserOverviewComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should go to edit view', () => {
+    component.editUser(1)
   });
 });

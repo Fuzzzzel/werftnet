@@ -8,7 +8,7 @@ import { CustomerEditService } from '../customer-edit/customer-edit.service';
   templateUrl: './customer-compact.component.html',
   styleUrls: ['./customer-compact.component.scss']
 })
-export class CustomerCompactComponent implements OnInit {
+export class CustomerCompactComponent {
 
   @Input('customer')
   customer: Customer
@@ -26,12 +26,4 @@ export class CustomerCompactComponent implements OnInit {
   editcontact(customer, contact) {
     this.customerEditService.editCustomerContact(customer, contact);
   }
-
-  getCombinedDisplayName(entity) {
-    return this.util.getCombinedDisplayName(entity);
-  }
-
-  ngOnInit() {
-  }
-
 }
