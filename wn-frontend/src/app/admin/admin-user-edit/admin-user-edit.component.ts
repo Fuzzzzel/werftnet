@@ -48,8 +48,8 @@ export class AdminUserEditComponent implements OnInit {
 
   }
 
-  changeUserPwd(uderEditPwdForm) {
-    if (uderEditPwdForm.invalid) {
+  changeUserPwd(userEditPwdForm) {
+    if (userEditPwdForm.invalid) {
       alert('Eingegebenes Passwort entspricht nicht den Richtlinien (min. 4 Zeichen)');
       return;
     };
