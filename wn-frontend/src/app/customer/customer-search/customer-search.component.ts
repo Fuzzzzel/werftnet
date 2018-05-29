@@ -26,7 +26,6 @@ export class CustomerSearchComponent implements OnInit {
   ) { }
 
   searchCustomers(searchParams) {
-    console.log(searchParams)
     this.customerSearchService.searchCustomers(searchParams);
   }
 

@@ -37,7 +37,7 @@ export class AdminSystemEditImprintService {
   }
 
   saveImprint(imprintText) {
-    return new Promise(
+    return new Promise<string>(
       (resolve, reject) => {
         const req = this.http.post<any>(
           '/admin/settings/imprint',
@@ -48,10 +48,10 @@ export class AdminSystemEditImprintService {
         req.subscribe(
           data => {
             this.$imprint.next(data);
-            resolve && resolve(data);
+            resolve(data);
           },
           error => {
-            reject && reject(error);
+            reject(error);
           });
       }
     );

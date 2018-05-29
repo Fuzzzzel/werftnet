@@ -18,7 +18,7 @@ describe('AdminSystemEditImprintService', () => {
         AdminSystemEditImprintService,
         UtilService
       ]
-    });
+    })
     backend = TestBed.get(HttpTestingController)
     service = TestBed.get(AdminSystemEditImprintService)
   });
@@ -28,9 +28,7 @@ describe('AdminSystemEditImprintService', () => {
   });
 
   it('should fail to fetch imprint', () => {
-    const req = backend.expectOne('/admin/settings/imprint');
-    expect(req.request.method).toBe("GET");
-    req.flush(null, { status: 404, statusText: '404 Not Found' });
+    const req = backend.expectOne('/admin/settings/imprint').flush(null, { status: 404, statusText: '404 Not Found' });
     spyOn(window, 'alert').and.returnValue(true);
   })
 
@@ -43,7 +41,7 @@ describe('AdminSystemEditImprintService', () => {
   it('should save imprint', (done) => {
     const req = backend.expectOne('/admin/settings/imprint');
     expect(req.request.method).toBe("GET");
-    req.flush('Imprint Text', { status: 200, statusText: 'OK' });
+    req.flush('Imprint text', { status: 200, statusText: 'OK' });
 
     service.saveImprint('New Imprint Text')
       .then((data) => {
@@ -63,12 +61,11 @@ describe('AdminSystemEditImprintService', () => {
 
     service.saveImprint('New Imprint Text')
       .catch((error) => {
-        expect(error).toBeTruthy()
         done()
       })
 
     const req2 = backend.expectOne('/admin/settings/imprint');
     expect(req2.request.method).toBe("POST");
-    req2.flush(null, { status: 404, statusText: '404 Not Found' });
+    req2.flush(null, { status: 404, statusText: 'Not Found' });
   })
 });

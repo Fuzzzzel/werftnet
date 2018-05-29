@@ -26,7 +26,6 @@ export class FreelancerSearchComponent implements OnInit {
   ) { }
 
   searchFreelancers(searchParams) {
-    console.log(searchParams)
     this.freelancerSearchService.searchFreelancers(searchParams);
   }
 

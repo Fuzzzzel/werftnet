@@ -72,7 +72,6 @@ export class UserService {
 
         // Navigate to main page
         this.util.goTo('home');
-        console.log(data);
 
         resolve && resolve(data);
       },

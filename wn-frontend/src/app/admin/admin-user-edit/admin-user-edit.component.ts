@@ -32,7 +32,7 @@ export class AdminUserEditComponent implements OnInit {
     )
 
     this.adminUserEditService.getObservableUser().subscribe(
-      (user) => { this.userToEdit = user, console.log(user) }
+      (user) => { this.userToEdit = user }
     )
 
     this.adminUserEditService.clearUser();
@@ -49,38 +49,46 @@ export class AdminUserEditComponent implements OnInit {
   }
 
   changeUserPwd(userEditPwdForm) {
-    if (userEditPwdForm.invalid) {
-      alert('Eingegebenes Passwort entspricht nicht den Richtlinien (min. 4 Zeichen)');
-      return;
-    };
+    return new Promise<User>((resolve, reject) => {
+      if (userEditPwdForm.invalid) {
+        reject(new Error('Eingegebenes Passwort entspricht nicht den Richtlinien (min. 4 Zeichen)'))
+        return;
+      };
 
-    if (!(this.userToEdit.id > 0)) {
-      alert('User hat keine Id');
-      return;
-    }
+      if (!(this.userToEdit.id > 0)) {
+        reject(new Error('User hat keine Id'))
+        return;
+      }
 
-    this.adminUserEditService.changeUserPwd(this.pwdNew)
-      .then((user) => {
-        this.util.historyBack();
-      })
-      .catch((error) => {
-        alert(error.message);
-      })
-  }
-
-  saveUser(userForm) {
-    this.submittedForm = true;
-    if (!userForm.valid) {
-      alert('Bitte alle Pflichtfelder ausfüllen!');
-    } else {
-      this.adminUserEditService.saveUser(this.userToEdit)
+      this.adminUserEditService.changeUserPwd(this.pwdNew)
         .then((user) => {
+          resolve(user)
           this.util.historyBack();
         })
         .catch((error) => {
-          alert(error.message);
+          reject(error);
         })
-    }
+    })
+  }
+
+  saveUser(userForm) {
+    return new Promise<User>((resolve, reject) => {
+      this.submittedForm = true;
+      if (!userForm.valid) {
+        alert('Bitte alle Pflichtfelder ausfüllen!');
+        reject()
+      } else {
+        this.adminUserEditService.saveUser(this.userToEdit)
+          .then((user) => {
+            resolve(user)
+            this.util.historyBack();
+          })
+          .catch((error) => {
+            alert(error.message);
+            reject(error)
+          })
+      }
+    })
   }
 
   deleteUser() {

@@ -122,7 +122,7 @@ describe('AdminUserEditService', () => {
 
       const req2 = backend.expectOne('/admin/users/' + user.id + '/password');
       expect(req2.request.method).toBe("POST");
-      req2.flush(null, { status: 404, statusText: '404 Not Found' });
+      req2.flush(null, { status: 404, statusText: 'Not Found' });
     })
 
     setTimeout(() => {
