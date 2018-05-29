@@ -43,7 +43,6 @@ export class FreelancerEditService {
 
     }
 
-    console.log(fl_save)
     // Set up post request
     const req = this.http.post<Freelancer>(
       '/freelancers' + (fl_save.id ? '/' + fl_save.id : ''),
@@ -102,7 +101,6 @@ export class FreelancerEditService {
     req.subscribe(
       data => {
         this.freelancerToEdit = data;
-        console.log(data);
         this.util.goTo('freelancer/edit');
       },
       error => {

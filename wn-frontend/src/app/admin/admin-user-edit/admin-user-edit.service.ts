@@ -51,7 +51,7 @@ export class AdminUserEditService {
   }
 
   saveUser(editedUser): Promise<User> {
-    return new Promise(
+    return new Promise<User>(
       (resolve, reject) => {
         const req = this.http.post<any>(
           '/admin/users' + (editedUser.id > 0 ? '/' + editedUser.id : ''),
@@ -63,10 +63,10 @@ export class AdminUserEditService {
           data => {
             this.$userToEdit.next(data);
             this.adminUserService.fetchAllUsers();
-            resolve && resolve(data);
+            resolve(data);
           },
           error => {
-            reject && reject(error);
+            reject(error);
           });
       }
     )

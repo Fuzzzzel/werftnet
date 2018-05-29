@@ -93,7 +93,6 @@ export class CustomerEditService {
     req.subscribe(
       data => {
         this.customerToEdit = data;
-        console.log(data);
         this.util.goTo('customer/edit');
       },
       error => {
@@ -129,7 +128,6 @@ export class CustomerEditService {
     req.subscribe(
       data => {
         this.customerContactToEdit = data;
-        console.log(data);
         this.util.goTo('customer/edit_contact');
       },
       error => {

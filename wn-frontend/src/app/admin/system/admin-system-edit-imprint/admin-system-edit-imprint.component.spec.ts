@@ -21,7 +21,6 @@ describe('AdminSystemEditImprintComponent', () => {
       ],
       providers: [
         AdminSystemEditImprintService,
-        HttpTestingController,
         UtilService
       ],
       declarations: [AdminSystemEditImprintComponent]
@@ -44,25 +43,37 @@ describe('AdminSystemEditImprintComponent', () => {
     component.cancelSaveImprint()
   });
 
-  xit('should save imprint', () => {
+  it('should save imprint', (done) => {
+    const req = backend.expectOne('/admin/settings/imprint')
+    expect(req.request.method).toBe("GET")
+    req.flush('New Imprint Text', { status: 200, statusText: 'Imprint Text' })
+
     component.imprint = 'Imprint Text'
     component.saveImprint()
+      .then((imprint) => {
+        done()
+      })
 
     const req2 = backend.expectOne('/admin/settings/imprint')
     expect(req2.request.method).toBe("POST")
     req2.flush('New Imprint Text', { status: 200, statusText: 'OK' })
   })
 
-  it('should fail to save imprint', () => {
-    component.imprint = 'Imprint Text'
-    component.saveImprint()
+  it('should fail to save imprint', (done) => {
+    const req = backend.expectOne('/admin/settings/imprint')
+    expect(req.request.method).toBe("GET")
+    req.flush('New Imprint Text', { status: 200, statusText: 'Imprint Text' })
 
     spyOn(window, 'alert').and.returnValue(true);
 
-    /*
-    const req = backend.expectOne('/admin/settings/imprint')
-    expect(req.request.method).toBe("POST")
-    req.flush('New Imprint Text', { status: 404, statusText: '404 Not Found' })
-    */
+    component.imprint = 'Imprint Text'
+    component.saveImprint()
+      .catch((error) => {
+        done()
+      })
+
+    const req2 = backend.expectOne('/admin/settings/imprint')
+    expect(req2.request.method).toBe("POST")
+    req2.flush('New Imprint Text', { status: 404, statusText: '404 Not Found' })
   })
 });

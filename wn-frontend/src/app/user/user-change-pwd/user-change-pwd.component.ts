@@ -34,7 +34,6 @@ export class UserChangePwdComponent implements OnInit {
         this.util.historyBack()
       })
       .catch((err) => {
-        console.log(err)
         this.errorMessage = err.error
       })
   }

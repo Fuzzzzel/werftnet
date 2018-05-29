@@ -57,7 +57,6 @@ export class PropMultiSelectComponent implements OnInit {
   }
 
   addSelectedItems() {
-    console.log(this.currentSelection);
     for (let i = 0; i < this.currentSelection.length; i++) {
       let element = null;
 

@@ -117,7 +117,6 @@ export class CoreDataService {
             resolve && resolve(data);
           },
           error => {
-            console.log(error);
             reject && reject(error);
           });
       }
@@ -149,7 +148,6 @@ export class CoreDataService {
             resolve && resolve(data);
           },
           error => {
-            console.log(error);
             reject && reject(error);
           });
       }
@@ -188,7 +186,6 @@ export class CoreDataService {
               resolve && resolve(data);
             },
             error => {
-              console.log(error);
               reject && reject(error);
             });
         }

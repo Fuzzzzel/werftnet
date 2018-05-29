@@ -41,7 +41,6 @@ export class FreelancerSearchService {
     // Execute post request and subscribe to response
     req.subscribe(
       data => {
-        console.log(data);
         for (let i = 0; i < data.items.length; i++) {
           this.util.orderPrices(data.items[i].prices);
         }

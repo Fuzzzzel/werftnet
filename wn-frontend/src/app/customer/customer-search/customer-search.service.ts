@@ -41,7 +41,6 @@ export class CustomerSearchService {
     // Execute post request and subscribe to response
     req.subscribe(
       data => {
-        console.log(data);
         // Prepare data fetched from server
         this.$customersLoaded.next(data);
       },
