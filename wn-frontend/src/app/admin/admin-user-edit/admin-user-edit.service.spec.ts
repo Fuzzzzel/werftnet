@@ -39,6 +39,18 @@ describe('AdminUserEditService', () => {
     req.flush(new User(), { status: 200, statusText: 'Ok' });
   });
 
+  it('should fail to fetch user', (done) => {
+    const userId = 134
+    service.fetchUser(userId)
+      .catch((error) => {
+        done()
+      })
+
+    const req = backend.expectOne('/admin/users/' + userId);
+    expect(req.request.method).toBe("GET");
+    req.flush(null, { status: 404, statusText: '404 Not Found' });
+  });
+
   it('should not fetch user when id is missing', (done) => {
     service.fetchUser(null).catch((err) => {
       expect(err).toBeTruthy()
@@ -59,7 +71,20 @@ describe('AdminUserEditService', () => {
     const req = backend.expectOne('/admin/users/' + user.id);
     expect(req.request.method).toBe("POST");
     req.flush(user, { status: 200, statusText: 'Ok' });
+  });
 
+  it('should fail to save user', (done) => {
+    let user = new User()
+    user.id = 123
+
+    service.saveUser(user)
+      .catch((error) => {
+        done()
+      })
+
+    const req = backend.expectOne('/admin/users/' + user.id);
+    expect(req.request.method).toBe("POST");
+    req.flush(null, { status: 404, statusText: '404 Not Found' });
   });
 
   it('should change user password', (done) => {
@@ -76,6 +101,28 @@ describe('AdminUserEditService', () => {
       const req2 = backend.expectOne('/admin/users/' + user.id + '/password');
       expect(req2.request.method).toBe("POST");
       req2.flush(user, { status: 200, statusText: 'Ok' });
+    })
+
+    setTimeout(() => {
+      const req1 = backend.expectOne('/admin/users/' + user.id);
+      expect(req1.request.method).toBe("GET");
+      req1.flush([user], { status: 200, statusText: 'Ok' });
+    }, 50)
+  });
+
+  it('should fail to change user password', (done) => {
+    let user = new User()
+    user.id = 123
+
+    service.fetchUser(user.id).then((data) => {
+      service.changeUserPwd('TestPassword')
+        .catch((error) => {
+          done()
+        })
+
+      const req2 = backend.expectOne('/admin/users/' + user.id + '/password');
+      expect(req2.request.method).toBe("POST");
+      req2.flush(null, { status: 404, statusText: '404 Not Found' });
     })
 
     setTimeout(() => {
