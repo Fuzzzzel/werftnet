@@ -30,7 +30,13 @@ export class CustomerSearchComponent implements OnInit {
   }
 
   editCustomer(customerToEdit: Customer) {
-    this.customerEditService.editCustomer(customerToEdit && customerToEdit.id);
+    this.customerEditService.prepareEditCustomer(customerToEdit && customerToEdit.id)
+      .then(() => {
+        this.util.goTo('customer/edit');
+      })
+      .catch((error) => {
+        alert(error.message)
+      })
   }
 
   ngOnInit() {

@@ -36,7 +36,7 @@ describe('AdminUserEditService', () => {
 
     const req = backend.expectOne('/admin/users/' + userId);
     expect(req.request.method).toBe("GET");
-    req.flush(new User(), { status: 200, statusText: 'Ok' });
+    req.flush([new User()], { status: 200, statusText: 'Ok' });
   });
 
   it('should fail to fetch user', (done) => {

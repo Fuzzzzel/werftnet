@@ -19,12 +19,22 @@ export class CustomerCompactComponent {
   ) { }
 
   editCustomer(customer) {
-    // Reload customer or pass empty new customer
-    this.customerEditService.editCustomer(customer.id)
+    return new Promise<Customer>((resolve, reject) => {
+      // Reload customer or pass empty new customer
+      this.customerEditService.prepareEditCustomer(customer.id)
+        .then((customer) => {
+          resolve(customer)
+          this.util.goTo('customer/edit');
+        })
+        .catch((error) => {
+          alert(error.message)
+          reject(error)
+        })
+    })
   }
 
   editcontact(customer, contact) {
-    this.customerEditService.prepareEditCustomerContact(customer, contact)
+    this.customerEditService.prepareEditCustomerContact(customer && customer.id, contact && contact.id)
       .then(() => {
         this.util.goTo('customer/edit_contact');
       })
