@@ -24,9 +24,12 @@ describe('AdminUserService', () => {
     backend = TestBed.get(HttpTestingController)
   });
 
-  it('should be created', inject([AdminUserService], (service: AdminUserService) => {
+  it('should be created', () => {
+    let req = backend.expectOne('/admin/users');
+    expect(req.request.method).toBe("GET");
+    req.flush([new User()], { status: 200, statusText: 'Ok' });
     expect(service).toBeTruthy();
-  }));
+  })
 
   it('should fetch users', (done) => {
     let req = backend.expectOne('/admin/users');
@@ -40,7 +43,7 @@ describe('AdminUserService', () => {
         done()
       })
       .catch((error) => {
-        throw new Error('Laden der User hat nicht funktioniert')
+        throw error
       })
     const req2 = backend.expectOne('/admin/users');
     expect(req2.request.method).toBe("GET");

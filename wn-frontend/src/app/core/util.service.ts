@@ -48,7 +48,7 @@ export class UtilService {
     let result = new SimpleEntityCollection();
     let flatArr: SimpleEntity[] = [];
 
-    if (typeof arrTemp.values !== 'undefined') {
+    if (Array.isArray(arrTemp.values)) {
       for (var idxMain = 0; idxMain < arrTemp.values.length; idxMain++) {
 
         flatArr.push(arrTemp.values[idxMain]);
@@ -104,15 +104,16 @@ export class UtilService {
   }
 
   orderArrayByName(simpleEntityArray: SimpleEntity[]) {
-    if (simpleEntityArray) {
+    if (Array.isArray(simpleEntityArray)) {
       return simpleEntityArray.sort((a, b) => { return a.name.localeCompare(b.name) });
+    } else {
+      throw new Error('Parameter is not an array')
     }
-    return [];
   }
 
   orderPrices(prices: PriceLine[]): PriceLine[] {
-    if (!prices) {
-      return null;
+    if (Array.isArray(prices) === false) {
+      throw new Error('Parameter is not an array')
     }
 
     return prices.sort((a, b) => {

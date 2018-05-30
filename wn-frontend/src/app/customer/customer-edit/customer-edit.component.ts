@@ -23,22 +23,6 @@ export class CustomerEditComponent implements OnInit {
     private customerSearchService: CustomerSearchService
   ) { }
 
-
-  saveCustomer() {
-    this.customerEditService.saveCustomer(this.cust_edit);
-    // ToDo: Reload search list or update customer in list
-  }
-
-  deleteCustomer() {
-    this.customerEditService.deleteCustomer(this.cust_edit);
-    // ToDo: Reload search list or update customer in list
-  }
-
-  cancelEdit() {
-    // this.customerSearchService.searchCustomers(null);
-    this.util.historyBack();
-  }
-
   ngOnInit() {
     this.coreDataService.getData().subscribe((data) => {
       this.coreData = data;
@@ -46,4 +30,40 @@ export class CustomerEditComponent implements OnInit {
 
     this.cust_edit = this.customerEditService.getCustomerToEdit();
   }
+
+  saveCustomer() {
+    return new Promise<Customer>((resolve, reject) => {
+      this.customerEditService.saveCustomer(this.cust_edit)
+        .then((customer) => {
+          resolve(customer)
+          this.customerSearchService.searchCustomers(null);
+          this.util.historyBack();
+        })
+        .catch((error) => {
+          alert(error.message)
+          reject(error)
+        })
+    })
+  }
+
+  deleteCustomer() {
+    return new Promise<any>((resolve, reject) => {
+      this.customerEditService.deleteCustomer(this.cust_edit)
+        .then(() => {
+          resolve()
+          this.customerSearchService.searchCustomers(null);
+          this.util.historyBack();
+        })
+        .catch((error) => {
+          alert(error.message)
+          reject(error)
+        })
+    })
+  }
+
+  cancelEdit() {
+    // this.customerSearchService.searchCustomers(null);
+    this.util.historyBack();
+  }
+
 }

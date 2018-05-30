@@ -41,41 +41,45 @@ export class CustomerEditService {
       customer_save
     )
 
-    // Execute post request and subscribe to response
-    req.subscribe(
-      data => {
-        this.customerToEdit = data;
-        this.customerSearchService.searchCustomers(null);
-        this.util.historyBack();
-      },
-      error => {
-        alert("Fehler beim Speichern:" + error.message);
-      });
-
-    return
+    return new Promise<Customer>((resolve, reject) => {
+      // Execute post request and subscribe to response
+      req.subscribe(
+        data => {
+          this.customerToEdit = data;
+          resolve(data)
+        },
+        error => {
+          reject(new Error("Fehler beim Speichern:" + error.message))
+        });
+    })
   }
 
   deleteCustomer(customerToDelete) {
-    if (!confirm('Customer ' + customerToDelete.name2 + ', ' + customerToDelete.name1 + ' wirklich löschen?!')) {
-      return;
-    }
+    return new Promise<any>((resolve, reject) => {
+      if (!customerToDelete || !customerToDelete.id) {
+        reject(new Error('Kunde oder Kunden Id fehlt!'))
+        return
+      }
 
-    // Set up post request
-    const req = this.http.delete<Customer>(
-      '/customers' + (customerToDelete.id ? '/' + customerToDelete.id : '')
-    )
+      if (!confirm('Customer ' + customerToDelete.name2 + ', ' + customerToDelete.name1 + ' wirklich löschen?!')) {
+        reject()
+        return
+      }
 
-    // Execute post request and subscribe to response
-    req.subscribe(
-      data => {
-        this.customerSearchService.searchCustomers(null);
-        this.util.historyBack();
-      },
-      error => {
-        alert("Fehler beim Löschen:" + error.message);
-      });
+      // Set up post request
+      const req = this.http.delete<Customer>(
+        '/customers/' + customerToDelete.id
+      )
 
-    return
+      // Execute post request and subscribe to response
+      req.subscribe(
+        data => {
+          resolve()
+        },
+        error => {
+          reject(new Error('Fehler beim Löschen:' + error.message));
+        });
+    })
   }
 
   /**
@@ -83,33 +87,41 @@ export class CustomerEditService {
    * 
    * @param id Id of the customer to be edited
    */
-  getCustomerByIdAndEdit(id: number) {
+  getCustomerById(id: number) {
     // Set up post request
     const req = this.http.get<Customer>(
       '/customers/' + id
     )
 
-    // Execute post request and subscribe to response
-    req.subscribe(
-      data => {
-        this.customerToEdit = data;
-        this.util.goTo('customer/edit');
-      },
-      error => {
-        alert(error.message);
-      });
-
-    return
+    return new Promise<Customer>((resolve, reject) => {
+      // Execute post request and subscribe to response
+      req.subscribe(
+        data => {
+          resolve(data)
+        },
+        error => {
+          reject(error)
+        });
+    })
   }
 
-  editCustomer(id: number) {
-    this.customerToEdit = new Customer();
-    if (id && id > 0) {
-      // Reload customer before editing
-      this.getCustomerByIdAndEdit(id);
-    } else {
-      this.util.goTo('customer/edit');
-    }
+  prepareEditCustomer(id: number) {
+    return new Promise<Customer>((resolve, reject) => {
+      this.customerToEdit = new Customer();
+      if (id && id > 0) {
+        // Reload customer before editing
+        this.getCustomerById(id)
+          .then((customer) => {
+            this.customerToEdit = customer
+            resolve(this.customerToEdit)
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      } else {
+        resolve(this.customerToEdit)
+      }
+    })
   }
 
   // --------- CustomerContact -------------
@@ -119,12 +131,17 @@ export class CustomerEditService {
   }
 
   getCustomerContactById(customerId: number, contactId: number) {
-    // Set up post request
-    const req = this.http.get<CustomerContact>(
-      '/customers/' + customerId + '/contacts/' + contactId
-    )
-
     return new Promise<CustomerContact>((resolve, reject) => {
+      if (!customerId || !contactId) {
+        reject(new Error('Id des Kunden oder des Kontakts fehlt!'))
+        return
+      }
+
+      // Set up post request
+      const req = this.http.get<CustomerContact>(
+        '/customers/' + customerId + '/contacts/' + contactId
+      )
+
       // Execute post request and subscribe to response
       req.subscribe(
         data => {
@@ -133,7 +150,6 @@ export class CustomerEditService {
         },
         error => {
           reject(error)
-          alert(error.message);
         });
     })
   }
@@ -200,6 +216,11 @@ export class CustomerEditService {
   deleteCustomerContact(customerContactToDelete) {
     return new Promise((resolve, reject) => {
 
+      if (!customerContactToDelete || !customerContactToDelete.id) {
+        reject(new Error('Kontakt oder Kontakt Id fehlt!'))
+        return
+      }
+
       if (!confirm('Kundenkontakt ' + customerContactToDelete.name2 + ', ' + customerContactToDelete.name1 + ' wirklich löschen?!')) {
         reject()
         return;
@@ -207,7 +228,7 @@ export class CustomerEditService {
 
       // Set up post request
       const req = this.http.delete<any>(
-        '/customers/' + customerContactToDelete.customer_id + '/contacts' + (customerContactToDelete.id ? '/' + customerContactToDelete.id : '')
+        '/customers/' + customerContactToDelete.customer_id + '/contacts/' + customerContactToDelete.id
       )
 
       // Execute post request and subscribe to response

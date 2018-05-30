@@ -5,18 +5,20 @@ import { UtilService } from './util.service';
 import { PriceLine } from '../shared/model/price-line.model';
 
 describe('UtilService', () => {
+  let service: UtilService
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [UtilService]
     });
+    service = TestBed.get(UtilService)
   });
 
-  it('should be created', inject([UtilService], (service: UtilService) => {
+  it('should be created', () => {
     expect(service).toBeTruthy();
-  }));
+  });
 
-  it('should get combined display name', inject([UtilService], (service: UtilService) => {
+  it('should get combined display name', () => {
     const twoLevelEntityMockSubItem = {
       id: 1,
       name: 'Item Name',
@@ -35,8 +37,9 @@ describe('UtilService', () => {
     expect(combinedNameSubItem).toEqual('Main Item (Item Name)');
     const combinedNameMainItem = service.getCombinedDisplayName(twoLevelEntityMockMainItem);
     expect(combinedNameMainItem).toEqual('Item Name');
-  }));
-
+    const combinedNameNull = service.getCombinedDisplayName(null);
+    expect(combinedNameNull).toBeNull();
+  });
 
   let arr = [
     {
@@ -53,24 +56,26 @@ describe('UtilService', () => {
     }
   ]
 
-  it('should find obj in array', inject([UtilService], (service: UtilService) => {
+  it('should find obj in array', () => {
     const objInArray = service.isObjectIdInArray(arr, { id: 2, name: 'does not matter' })
     expect(objInArray).toEqual(true);
-  }));
+  });
 
-  it('should remove obj from array', inject([UtilService], (service: UtilService) => {
+  it('should remove obj from array', () => {
+    service.removeFromArray(null, null)
     service.removeFromArray(arr, { id: 2, name: 'does not matter' });
 
     const objInArray = service.isObjectIdInArray(arr, { id: 2, name: 'does not matter' })
     expect(objInArray).toEqual(false);
-  }));
+  });
 
-  it('should add copy to array', inject([UtilService], (service: UtilService) => {
+  it('should add copy to array', () => {
+    service.addCopyToArray(null, null)
     const testObj = {}
     let testArr = []
     service.addCopyToArray(testArr, testObj)
     expect(testArr[0]).not.toBe(testObj)
-  }));
+  });
 
   const priceLine1 = new PriceLine()
   priceLine1.lng_source = { id: 11, name: 'X-Language', sub_items: [] }
@@ -90,9 +95,21 @@ describe('UtilService', () => {
   priceLine4.service = { id: 1, name: 'C-Service' }
 
 
-  it('should order prices by source_language, target_language and service', inject([UtilService], (service: UtilService) => {
+  it('should order prices by source_language, target_language and service', () => {
     let priceArr = [priceLine1, priceLine2, priceLine3, priceLine4]
     const orderedPriceArr = service.orderPrices(priceArr)
     expect(orderedPriceArr).toEqual([priceLine4, priceLine2, priceLine3, priceLine1])
-  }));
+
+    expect(() => { service.orderPrices(null) }).toThrow(new Error('Parameter is not an array'))
+  });
+
+  it('should order array by name', () => {
+    const item1 = { id: 1, name: 'Beta' }
+    const item2 = { id: 2, name: 'alpha' }
+    let arr = [item1, item2]
+    service.orderArrayByName(arr)
+    expect(arr).toEqual([item2, item1])
+
+    expect(() => { service.orderArrayByName(null) }).toThrow(new Error('Parameter is not an array'))
+  })
 });
