@@ -3,6 +3,7 @@ import { Customer, CustomerContact } from '../customer.model';
 import { UtilService } from '../../core/util.service';
 import { HttpClient } from '@angular/common/http';
 import { CustomerSearchService } from '../customer-search/customer-search.service';
+import { User } from '../../user/user.model';
 
 @Injectable()
 export class CustomerEditService {
@@ -22,7 +23,6 @@ export class CustomerEditService {
   getCustomerToEdit() {
     return this.customerToEdit;
   }
-
 
   /**
    * Save changes on server
@@ -118,38 +118,49 @@ export class CustomerEditService {
     return this.customerContactToEdit;
   }
 
-  getCustomerContactByIdAndEdit(customerId: number, contactId: number) {
+  getCustomerContactById(customerId: number, contactId: number) {
     // Set up post request
     const req = this.http.get<CustomerContact>(
       '/customers/' + customerId + '/contacts/' + contactId
     )
 
-    // Execute post request and subscribe to response
-    req.subscribe(
-      data => {
-        this.customerContactToEdit = data;
-        this.util.goTo('customer/edit_contact');
-      },
-      error => {
-        alert(error.message);
-      });
-
-    return
+    return new Promise<CustomerContact>((resolve, reject) => {
+      // Execute post request and subscribe to response
+      req.subscribe(
+        data => {
+          this.customerContactToEdit = data;
+          resolve(data)
+        },
+        error => {
+          reject(error)
+          alert(error.message);
+        });
+    })
   }
 
-  editCustomerContact(customerId: number, contactId: number) {
-    if (!(customerId > 0)) {
-      alert('Fehler: Es wurde keine Kundenid übergeben - bitte Info an Thomas!');
-      return
-    }
-    this.customerContactToEdit = new CustomerContact();
-    this.customerContactToEdit_CustomerId = customerId;
-    if (contactId && contactId > 0) {
-      // Reload customer before editing
-      this.getCustomerContactByIdAndEdit(customerId, contactId);
-    } else {
-      this.util.goTo('customer/edit_contact');
-    }
+  prepareEditCustomerContact(customerId: number, contactId: number) {
+    return new Promise<CustomerContact>((resolve, reject) => {
+      if (!(customerId > 0)) {
+        reject(new Error('Fehler: Es wurde keine Kundenid übergeben - bitte Info an Thomas!'));
+        return
+      }
+
+      this.customerContactToEdit = new CustomerContact();
+      this.customerContactToEdit_CustomerId = customerId;
+
+      if (contactId && contactId > 0) {
+        // Reload customer before editing
+        this.getCustomerContactById(customerId, contactId)
+          .then((customerContact) => {
+            resolve(customerContact)
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      } else {
+        resolve()
+      }
+    })
   }
 
 
@@ -162,9 +173,9 @@ export class CustomerEditService {
     this.customerContactToEdit = customerContactToSave;
 
     // Kopie des CustomerContacts erstellen, um Datum in yyyy-mm-dd String zu wandeln, falls vorhanden
-    let cust_save = this.util.cloneDeep(this.customerContactToEdit);
+    let cust_save = this.util.cloneDeep(this.customerContactToEdit)
     if (!cust_save.customer_id) {
-      cust_save.customer_id = this.customerContactToEdit_CustomerId;
+      cust_save.customer_id = this.customerContactToEdit_CustomerId
     }
 
     // Set up post request
@@ -174,17 +185,16 @@ export class CustomerEditService {
     )
 
     // Execute post request and subscribe to response
-    req.subscribe(
-      data => {
-        this.customerContactToEdit = data;
-        this.customerSearchService.searchCustomers(null);
-        this.util.historyBack();
-      },
-      error => {
-        alert("Fehler beim Speichern:" + error.message);
-      });
-
-    return
+    return new Promise<CustomerContact>((resolve, reject) => {
+      req.subscribe(
+        data => {
+          this.customerContactToEdit = data;
+          resolve(data)
+        },
+        error => {
+          reject(new Error("Fehler beim Speichern:" + error.message))
+        });
+    })
   }
 
   deleteCustomerContact(customerContactToDelete) {

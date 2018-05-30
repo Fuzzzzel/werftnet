@@ -42,9 +42,9 @@ describe('AdminUserService', () => {
       .catch((error) => {
         throw new Error('Laden der User hat nicht funktioniert')
       })
-    req = backend.expectOne('/admin/users');
-    expect(req.request.method).toBe("GET");
-    req.flush([new User()], { status: 200, statusText: 'Ok' });
+    const req2 = backend.expectOne('/admin/users');
+    expect(req2.request.method).toBe("GET");
+    req2.flush([new User()], { status: 200, statusText: 'Ok' });
 
   });
 

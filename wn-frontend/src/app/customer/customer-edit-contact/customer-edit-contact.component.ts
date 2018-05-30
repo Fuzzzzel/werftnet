@@ -23,8 +23,18 @@ export class CustomerEditContactComponent implements OnInit {
   ) { }
 
   saveCustomerContact() {
-    this.customerEditService.saveCustomerContact(this.contact_edit);
-    // ToDo: Reload search list or update customer in list
+    return new Promise<CustomerContact>((resolve, reject) => {
+      this.customerEditService.saveCustomerContact(this.contact_edit)
+        .then((contact) => {
+          this.customerSearchService.searchCustomers(null);
+          resolve(contact)
+          this.util.historyBack()
+        })
+        .catch((error) => {
+          alert(error.message)
+          reject(error)
+        })
+    })
   }
 
   deleteCustomerContact() {
