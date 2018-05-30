@@ -24,6 +24,12 @@ export class CustomerCompactComponent {
   }
 
   editcontact(customer, contact) {
-    this.customerEditService.editCustomerContact(customer, contact);
+    this.customerEditService.prepareEditCustomerContact(customer, contact)
+      .then(() => {
+        this.util.goTo('customer/edit_contact');
+      })
+      .catch((error) => {
+        alert(error.message)
+      })
   }
 }

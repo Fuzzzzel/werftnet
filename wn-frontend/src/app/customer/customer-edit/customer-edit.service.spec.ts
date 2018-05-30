@@ -76,8 +76,12 @@ describe('CustomerEditService', () => {
     req.flush({}, { status: 200, statusText: 'Ok' });
   });
 
-  it('should get customer contact and run edit', () => {
-    service.editCustomerContact(1, 1)
+  it('should get customer contact and run edit', (done) => {
+    service.prepareEditCustomerContact(1, 1)
+      .then(() => {
+        done()
+      })
+
     const req = backend.expectOne('/customers/1/contacts/1');
     expect(req.request.method).toBe("GET");
     req.flush(new CustomerContact(), { status: 200, statusText: 'Ok' });
@@ -86,11 +90,12 @@ describe('CustomerEditService', () => {
   })
 
 
-  it('should not edit customer contact if customer id is missing', () => {
-    service.editCustomerContact(null, 1)
-    spyOn(window, 'confirm').and.returnValue(true)
+  it('should not edit customer contact if customer id is missing', (done) => {
+    service.prepareEditCustomerContact(null, 1)
+      .catch((error) => {
+        done()
+      })
   })
-
 
   it('should save customer contact', () => {
     let customerContactToSave = { id: null, customer_id: null }

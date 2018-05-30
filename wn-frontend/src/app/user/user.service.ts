@@ -17,16 +17,7 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private util: UtilService
-  ) {
-    /*
-    this.user$ = of(this.user);
-    this.user$.subscribe(() => {
-      if (!this.isLoggedIn()) {
-        this.util.goTo('login');
-      }
-    })
-    */
-  }
+  ) { }
 
   getCurrentUser(): User {
     return this.user
@@ -164,10 +155,10 @@ export class UserService {
           this.user.username = data.username;
           this.user.roles = data.roles;
 
-          resolve && resolve(this.user);
+          resolve(this.user);
         },
         error => {
-          reject && reject(error);
+          reject(error);
         });
     })
   }
