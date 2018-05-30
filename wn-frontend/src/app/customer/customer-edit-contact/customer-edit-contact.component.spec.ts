@@ -95,4 +95,36 @@ describe('CustomerEditContactComponent', () => {
     req.flush(component.contact_edit, { status: 200, statusText: 'Ok' })
 
   })
+
+  it('should delete cutomer contact', (done) => {
+    component.contact_edit = new CustomerContact()
+    component.contact_edit.id = 2
+    component.contact_edit['customer_id'] = 1
+
+    spyOn(window, 'confirm').and.returnValue(true);
+    component.deleteCustomerContact()
+      .then((contact) => {
+        done()
+      })
+
+    const req2 = backend.expectOne('/customers/1/contacts/2')
+    expect(req2.request.method).toBe("DELETE");
+    req2.flush(component.contact_edit, { status: 200, statusText: 'Ok' })
+  })
+
+  it('should fail to delete cutomer contact', (done) => {
+    component.contact_edit = new CustomerContact()
+    component.contact_edit.id = 2
+    component.contact_edit['customer_id'] = 1
+
+    spyOn(window, 'confirm').and.returnValue(true);
+    component.deleteCustomerContact()
+      .catch(() => {
+        done()
+      })
+
+    const req2 = backend.expectOne('/customers/1/contacts/2')
+    expect(req2.request.method).toBe("DELETE");
+    req2.flush(null, { status: 404, statusText: 'Not Found' })
+  })
 });
