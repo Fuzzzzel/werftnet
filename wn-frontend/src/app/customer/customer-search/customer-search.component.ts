@@ -30,13 +30,17 @@ export class CustomerSearchComponent implements OnInit {
   }
 
   editCustomer(customerToEdit: Customer) {
-    this.customerEditService.prepareEditCustomer(customerToEdit && customerToEdit.id)
-      .then(() => {
-        this.util.goTo('customer/edit');
-      })
-      .catch((error) => {
-        alert(error.message)
-      })
+    return new Promise<Customer>((resolve, reject) => {
+      this.customerEditService.prepareEditCustomer(customerToEdit && customerToEdit.id)
+        .then((customer) => {
+          resolve(customer)
+          this.util.goTo('customer/edit');
+        })
+        .catch((error) => {
+          alert(error.message)
+          reject(error)
+        })
+    })
   }
 
   ngOnInit() {

@@ -6,8 +6,10 @@ import { UtilService } from '../../../core/util.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Component, ViewChild } from '@angular/core';
 import { SimpleEntityCollection } from '../../model/simple-entity.model';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('PropMultiSelectComponent', () => {
+// Rendering test
+describe('PropMultiSelectComponent rendering', () => {
   let component: PropMultiSelectComponent;
   // let fixture: ComponentFixture<PropMultiSelectComponent>;
   let testHostComponent: TestHostComponent;
@@ -51,5 +53,56 @@ describe('PropMultiSelectComponent', () => {
 
     public propMultiSelectComponent: PropMultiSelectComponent
   }
+})
 
-});
+// Functional test
+
+describe('PropMultiSelectComponent', () => {
+  let component: PropMultiSelectComponent;
+  let fixture: ComponentFixture<PropMultiSelectComponent>;
+  let backend: HttpTestingController
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        SharedModule,
+        HttpClientTestingModule,
+        RouterTestingModule
+      ],
+      declarations: [
+      ],
+      providers: [
+        UtilService
+      ]
+    })
+      .compileComponents();
+  }));
+
+
+  const item1 = { id: 1, name: 'TestItem1' }
+  const item2 = { id: 2, name: 'TestItem2' }
+
+  beforeEach(() => {
+    backend = TestBed.get(HttpTestingController)
+    fixture = TestBed.createComponent(PropMultiSelectComponent);
+    component = fixture.componentInstance;
+    component.objarray = [item1]
+    component.valuearray = new SimpleEntityCollection();
+    component.valuearray.display_name = 'TestEntity'
+    component.valuearray.values = [item1, item2]
+    fixture.detectChanges()
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy()
+  })
+
+  it('should add item', () => {
+    component.refreshValue([2])
+    component.addSelectedItems()
+  })
+
+  it('should remove item', () => {
+    component.removeSelectedItem(item1)
+  })
+})

@@ -32,23 +32,24 @@ export class CustomerSearchService {
       this.lastSearchParams = searchParams;
     }
 
-    // Set up post request
-    const req = this.http.post<CustomersLoaded>(
-      '/customers/search',
-      searchParams || this.lastSearchParams
-    )
+    return new Promise<CustomersLoaded>((resolve, reject) => {
+      // Set up post request
+      const req = this.http.post<CustomersLoaded>(
+        '/customers/search',
+        searchParams || this.lastSearchParams
+      )
 
-    // Execute post request and subscribe to response
-    req.subscribe(
-      data => {
-        // Prepare data fetched from server
-        this.$customersLoaded.next(data);
-      },
-      error => {
-        // ToDo: Implement error handler
-      });
-
-    return
+      // Execute post request and subscribe to response
+      req.subscribe(
+        data => {
+          // Prepare data fetched from server
+          this.$customersLoaded.next(data);
+          resolve(data)
+        },
+        error => {
+          reject(error)
+        });
+    })
   }
 
 }

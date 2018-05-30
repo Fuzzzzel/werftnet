@@ -10,16 +10,25 @@ import { CustomerCompactComponent } from '../customer-compact/customer-compact.c
 import { CustomerEditService } from '../customer-edit/customer-edit.service';
 import { NgbPagination, NgbModule, NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CoreDataServiceMock } from '../../core/core-data.service-mock';
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
+import { Customer } from '../customer.model';
 
 describe('CustomerSearchComponent', () => {
   let component: CustomerSearchComponent;
   let fixture: ComponentFixture<CustomerSearchComponent>;
+  let backend: HttpTestingController
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
-        RouterTestingModule,
+        HttpClientTestingModule,
+        RouterTestingModule.withRoutes([
+          {
+            path: 'customer/edit',
+            redirectTo: ''
+          }
+        ]),
         NgbModule
       ],
       declarations: [
@@ -38,6 +47,7 @@ describe('CustomerSearchComponent', () => {
   }));
 
   beforeEach(() => {
+    backend = TestBed.get(HttpTestingController)
     fixture = TestBed.createComponent(CustomerSearchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -46,4 +56,32 @@ describe('CustomerSearchComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should search customers', () => {
+    component.searchCustomers(null)
+  })
+
+  it('should edit customer', (done) => {
+    let customerToEdit = new Customer()
+    customerToEdit.id = 1
+    component.editCustomer(customerToEdit)
+      .then(() => {
+        done()
+      })
+    const req = backend.expectOne('/customers/' + customerToEdit.id);
+    expect(req.request.method).toBe("GET");
+    req.flush(customerToEdit, { status: 200, statusText: 'OK' });
+  })
+
+  it('should fail to edit customer', (done) => {
+    let customerToEdit = new Customer()
+    customerToEdit.id = 1
+    component.editCustomer(customerToEdit)
+      .catch((error) => {
+        done()
+      })
+    const req = backend.expectOne('/customers/' + customerToEdit.id);
+    expect(req.request.method).toBe("GET");
+    req.flush(customerToEdit, { status: 404, statusText: 'Not Found' });
+  })
 });
