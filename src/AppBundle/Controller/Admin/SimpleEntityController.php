@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\SimpleEntity;
 use Doctrine\Common\Util\Inflector as Inflector;
 use AppBundle\Entity\QueryHelper;
@@ -23,7 +24,7 @@ class SimpleEntityController extends Controller
      *
      * !! Duplicated in DefualtsController --> Move to service?!
      */
-    public function getSimpleEntity($entityName)
+    public function getSimpleEntityCollection($entityName)
     {
         $simpleEntities = new \stdClass;
         $classname = "\\AppBundle\\Entity\\" . $entityName;
@@ -42,6 +43,19 @@ class SimpleEntityController extends Controller
         return $simpleEntities;
     }
 
+    public function getSimpleEntityById($entityName, $id)
+    {
+        $classname = "\\AppBundle\\Entity\\" . $entityName;
+
+        $simpleEntity = $this->getDoctrine()
+            ->getRepository($classname)
+            ->findOneBy(
+                array('id' => $id)
+            );
+
+        return $simpleEntity;
+    }
+
     /**
      * @param $entityName
      * @return object
@@ -51,7 +65,23 @@ class SimpleEntityController extends Controller
     public function fetchSimpleEntity($entityName)
     {
         $entityName = QueryHelper::getFullEntityName($entityName);
-        $result = $this->getSimpleEntity($entityName);
+        $result = $this->getSimpleEntityCollection($entityName);
+        return new JsonResponse($result);
+    }
+
+    /**
+     * @param $entityName
+     * @return object
+     * @Method("GET")
+     * @Route("/admin/simple_entity/{entityName}/{id}", name="fetchSimpleEntityById")
+     */
+    public function fetchSimpleEntityById($entityName, $id)
+    {
+        $entityName = QueryHelper::getFullEntityName($entityName);
+        $result = $this->getSimpleEntityById($entityName, $id);
+        if($result == null) {
+            throw $this->createNotFoundException("Entity {$entityName} mit der Id {$id} konnte nicht gefunden werden");
+        }
         return new JsonResponse($result);
     }
 
@@ -87,7 +117,8 @@ class SimpleEntityController extends Controller
 
         // Falls ja, nicht hinzufügen
         if (($exists != null) && ($newItemName != "")) {
-            return null;
+            $response = new Response("Item mit diesem Namen {$newItemName} existiert bereits", Response::HTTP_BAD_REQUEST);
+            return $response;
         }
 
         $em->persist($newItem);
@@ -118,7 +149,7 @@ class SimpleEntityController extends Controller
 
         // Falls ja, nicht hinzufügen
         if ($entityToRemove == null) {
-            return null;
+            throw $this->createNotFoundException("Das zu löschende Item existiert nicht mehr");
         }
 
         // Falls nein, der Datenbank hinzufügen und mit id zurückgeben
@@ -138,14 +169,14 @@ class SimpleEntityController extends Controller
      */
     function updateSimpleEntityItem($entityName, $id, Request $request)
     {
-        // $entity, $editedItemName
+        // $entity, $itemNewName
         $params = array();
         $content = $request->getContent();
         if (!empty($content)) {
             $params = json_decode($content);
         }
 
-        $editedItemName = $params->itemEditedName;
+        $itemNewName = $params->itemNewName;
 
         $entityName = QueryHelper::getFullEntityName($entityName);
         $classname = "\\AppBundle\\Entity\\" . $entityName;
@@ -159,24 +190,26 @@ class SimpleEntityController extends Controller
 
         // Falls nein, nicht aktualisieren
         if ($entityToUpdate == null) {
-            return null;
+            throw $this->createNotFoundException("Das zu aktualisierende Item existiert nicht");
         }
 
         // Prüfen ob bereits ein Objekt mit diesem Namen existiert
         $exists = $em->getRepository($classname)->findOneBy(
-            array('name' => $editedItemName)
+            array('name' => $itemNewName)
         );
 
-        // Falls ja, nicht hinzufügen
-        if (($exists != null) && ($editedItemName != "")) {
-            return null;
+        if (($exists == null) && is_string($itemNewName) && strlen($itemNewName) > 0) {
+            // Falls ja, Objekt aktualisieren
+            $entityToUpdate->setName($itemNewName);
+            $em->persist($entityToUpdate);
+            $em->flush();
+
+            return new JsonResponse($entityToUpdate);
+        } else {
+            $response = new Response("Ein Item mit dem Namen {$itemNewName} existiert bereits", Response::HTTP_BAD_REQUEST);
+            return $response;
         }
 
-        // Falls ja, Objekt aktualisieren
-        $entityToUpdate->setName($editedItemName);
-        $em->flush();
-
-        return new JsonResponse();
     }
 
 }

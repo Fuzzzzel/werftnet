@@ -123,8 +123,8 @@ class CustomerController extends Controller
      */
     public function getCustomerById(Request $request, $customerId)
     {
-        if (!isset($customerId) && !(intval($customerId) > 0)) {
-            throw new NotFoundHttpException('Customer mit der id {$id} wurde nicht gefunden!');
+        if (!isset($customerId) || !(intval($customerId) > 0)) {
+            return new Response('Customer mit der id {$id} wurde nicht gefunden!', Response::HTTP_BAD_REQUEST);
         }
 
         $repository = $this->getDoctrine()->getRepository('AppBundle:Customer');
@@ -174,8 +174,12 @@ class CustomerController extends Controller
      */
     public function getCustomerContactById(Request $request, $customerId, $customerContactId)
     {
-        if (!isset($customerContactId) && !(intval($customerContactId) > 0)) {
-            throw new NotFoundHttpException("Customer contact mit der id {$customerContactId} wurde nicht gefunden!");
+        if (!isset($customerId) || (!intval($customerId) > 0)) {
+            return new Response("Ungültige Customer Id: {$customerId}", Response::HTTP_BAD_REQUEST);
+        }
+
+        if (!isset($customerContactId) || (!intval($customerContactId) > 0)) {
+            return new Response("Ungültige Contact Id: {$customerContactId}", Response::HTTP_BAD_REQUEST);
         }
 
         $repository = $this->getDoctrine()->getRepository('AppBundle:Customer\CustomerContact');
@@ -273,24 +277,22 @@ class CustomerController extends Controller
      */
     public function deleteContact(Request $request, $customerId, $customerContactId)
     {
-
         // EntityManager laden
         $em = $this->getDoctrine()->getManager();
 
         $contact = $em->find('AppBundle\Entity\Customer\CustomerContact', $customerContactId);
 
-        if ($contact != null) {
+        if ($contact == null) {
+            throw $this->createNotFoundException("Contact mit der Id {$customerContactId} wurde nicht gefunden!");
+        } else {
             if ($contact->getCustomer()->getId() !== intval($customerId)) {
                 throw new BadRequestHttpException('Contact mit der Id {$customerContactId} gehört nicht zum Kunden mit der Id {$customerId}!');
             }
-            $em->remove($contact);
-            $em->flush();
-
-            return new JsonResponse();
         }
 
+        $em->remove($contact);
+        $em->flush();
 
-        // Wenn die Funktion bis hierher kommt, gab es einen Fehler
-        return new Response("Fehler beim Löschen des Ansprechpartners", 500);
+        return new JsonResponse();
     }
 }

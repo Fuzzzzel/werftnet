@@ -33,5 +33,4 @@ class HomeControllerTest extends DefaultWebTestCase
 
         $this->assertContains('index.html', $client->getResponse()->getContent());
     }
-
 }

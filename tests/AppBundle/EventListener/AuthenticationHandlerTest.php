@@ -9,11 +9,20 @@
 namespace Tests\AppBundle\Controller;
 
 
+use AppBundle\Controller\AuthenticationController;
 use AppBundle\Entity\User;
 use Tests\AppBundle\DefaultWebTestCase;
 
 class AuthenticationHandlerTest extends DefaultWebTestCase
 {
+    public function testDummyMethodsForLoginLogout() {
+        // These methods only exist to create a route by annotations
+        $authenticationController = new AuthenticationController();
+
+        $authenticationController->loginCheckAction();
+        $authenticationController->logoutAction();
+    }
+
     public function testOnAuthenticationSuccess()
     {
         $client = $this->getAdminClient();

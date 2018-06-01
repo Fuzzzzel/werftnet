@@ -9,6 +9,7 @@
 namespace Tests\AppBundle\Controller;
 
 
+use Symfony\Component\HttpFoundation\Response;
 use Tests\AppBundle\DefaultWebTestCase;
 
 class FreelancerControllerTest extends DefaultWebTestCase
@@ -28,12 +29,12 @@ class FreelancerControllerTest extends DefaultWebTestCase
         $this->assertJson($content);
 
         // Remove FreelancerPrice
-        $newFreelancer = json_decode($content, true);
-        unset($newFreelancer['prices'][0]['id']);
+        $newFreelancer = json_decode($content);
+        unset($newFreelancer->prices[0]->id);
 
         $client->request(
             'POST',
-            '/freelancers/' . $newFreelancer['id'],
+            '/freelancers/' . $newFreelancer->id,
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),
@@ -42,21 +43,27 @@ class FreelancerControllerTest extends DefaultWebTestCase
 
         $content = $client->getResponse()->getContent();
         $this->assertJson($content);
+
+        return $newFreelancer;
     }
 
-    public function testSearchFreelancersTest() {
+    /**
+     * @depends testCreateFreelancerTest
+     */
+    public function testSearchFreelancers($freelancer) {
 
         $client = $this->getAdminClient();
-        $crawler = $client->request('POST', '/freelancers/search');
 
-        $content = $client->getResponse()->getContent();
-        $this->assertJson($content);
-
-        $freelancerList = json_decode($content, true);
-        $freelancerId = $freelancerList['items'][0]['id'];
-
-        $crawler = $client->request('GET', '/freelancers/'.$freelancerId);
+        $crawler = $client->request('GET', '/freelancers/'.$freelancer->id);
         $this->assertJson($client->getResponse()->getContent());
+    }
+
+    public function testSearchNonExistentFreelancer() {
+
+        $client = $this->getAdminClient();
+
+        $crawler = $client->request('DELETE', '/freelancers/99999');
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
     }
 
     public function testSearchFreelancersBySearchParameters() {
@@ -74,6 +81,14 @@ class FreelancerControllerTest extends DefaultWebTestCase
 
         $content = $client->getResponse()->getContent();
         $this->assertJson($content);
+    }
+
+    public function testDeleteNonExistentFreelancer() {
+
+        $client = $this->getAdminClient();
+
+        $crawler = $client->request('GET', '/freelancers/99999');
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
     }
 
     public function testDeleteFreelancerTest() {

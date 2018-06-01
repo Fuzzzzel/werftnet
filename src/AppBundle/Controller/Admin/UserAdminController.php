@@ -52,44 +52,38 @@ class UserAdminController extends Controller
             DeserializationContext::create()->setGroups(array('create'))
         );
 
+        if ($newUser->getUsername() == "" && $newUser->getUsername() == null) {
+            $response = new Response('Es wurde kein Benutzername angegeben!', Response::HTTP_BAD_REQUEST);
+            return $response;
+        }
 
         $usernameExists = $this->getDoctrine()->getRepository('AppBundle\Entity\User')->findOneBy(array('username' => $newUser->getUsername()));
         if ($usernameExists !== null) {
-            $response = new \stdClass();
-            $response->error = 'Benutzername existiert schon!';
-            return new JsonResponse($response);
+            $response = new Response("Benutzername existiert schon!", Response::HTTP_BAD_REQUEST);
+            return $response;
         }
 
         if (strlen($newUser->getPassword()) < 4) {
-            $response = new \stdClass();
-            $response->error = 'Passwort ist zu kurz (min. 4 Zeichen)!';
-            return new JsonResponse($response);
+            $response = new Response('Passwort ist zu kurz (min. 4 Zeichen)!', Response::HTTP_BAD_REQUEST);
+            return $response;
         }
 
+        $encoder = $this->container->get('security.password_encoder');
+        $encoded = $encoder->encodePassword($newUser, $newUser->getPassword());
+        $newUser->setPassword($encoded);
 
-        if (
-            ($newUser->getUsername() != "" && $newUser->getUsername() != null) &&
-            ($newUser->getPassword() != "" && $newUser->getPassword() != null)
-        ) {
-            $encoder = $this->container->get('security.password_encoder');
-            $encoded = $encoder->encodePassword($newUser, $newUser->getPassword());
-            $newUser->setPassword($encoded);
+        $em->persist($newUser);
+        $em->flush();
 
-            $em->persist($newUser);
-            $em->flush();
+        $response = $serializer->serialize(
+            $newUser,
+            'json',
+            SerializationContext::create()->setGroups(['display'])
+        );
 
-            $response = $serializer->serialize(
-                $newUser,
-                'json',
-                SerializationContext::create()->setGroups(['display'])
-            );
+        return new Response($response);
 
-            return new Response($response);
-        }
 
-        $response = new \stdClass();
-        $response->error = "User konnte nicht angelegt werden";
-        return new JsonResponse($response);
     }
 
 
@@ -196,7 +190,10 @@ class UserAdminController extends Controller
     public
     function changeUserPwd(Request $request, UserPasswordEncoderInterface $userPasswordEncoder, $id)
     {
-        $response = new JsonResponse();
+        if (!intval($id) > 0) {
+            return new Response('Keine gültige Id!', Response::HTTP_BAD_REQUEST);
+        }
+
         $em = $this->getDoctrine()->getManager();
 
         // Daten aus Request in Objekte überführen
@@ -208,29 +205,30 @@ class UserAdminController extends Controller
             $pwdNew = $content; // 2nd param to get as array
         }
 
-        if ($id > 0 && strlen($pwdNew) > 0) {
-
-            if (strlen($pwdNew) < 4) {
-                $response->setContent('Passwort ist zu kurz (min. 4 Zeichen)!');
-                $response->setStatusCode(Response::HTTP_BAD_REQUEST);
-                return $response;
-            }
-
-            $user = $this->getDoctrine()->getRepository('AppBundle\Entity\User')->find($id);
-
-            if ($user != null) {
-                $encoded = $userPasswordEncoder->encodePassword($user, $pwdNew);
-                $user->setPassword($encoded);
-
-                $em->persist($user);
-                $em->flush();
-
-                $response->setStatusCode(Response::HTTP_OK);
-                return $response;
-            }
+        if (strlen($pwdNew) < 4) {
+            return new Response('Passwort ist zu kurz (min. 4 Zeichen)!', Response::HTTP_BAD_REQUEST);
         }
 
-        return $response;
+        $user = $this->getDoctrine()->getRepository('AppBundle\Entity\User')->find($id);
+
+        if ($user == null) {
+            throw $this->createNotFoundException("User mit der Id {$id} wurde nicht gefunden!");
+        }
+
+        $encoded = $userPasswordEncoder->encodePassword($user, $pwdNew);
+        $user->setPassword($encoded);
+
+        $em->persist($user);
+        $em->flush();
+
+        $serializer = $this->get('jms_serializer');
+        $response = $serializer->serialize(
+            $user,
+            'json',
+            SerializationContext::create()->setGroups(['display'])
+        );
+
+        return new Response($response);
     }
 
 }
