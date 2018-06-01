@@ -1,19 +1,19 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { PropMultiSelectComponent } from './prop-multi-select.component';
-import { SharedModule } from '../../shared.module';
-import { UtilService } from '../../../core/util.service';
-import { RouterTestingModule } from '@angular/router/testing';
-import { Component, ViewChild } from '@angular/core';
-import { SimpleEntityCollection } from '../../model/simple-entity.model';
-import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
+import { PropMultiSelectComponent } from './prop-multi-select.component'
+import { SharedModule } from '../../shared.module'
+import { UtilService } from '../../../core/util.service'
+import { RouterTestingModule } from '@angular/router/testing'
+import { Component, ViewChild } from '@angular/core'
+import { SimpleEntityCollection } from '../../model/simple-entity.model'
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing'
 
 // Rendering test
 describe('PropMultiSelectComponent rendering', () => {
-  let component: PropMultiSelectComponent;
-  // let fixture: ComponentFixture<PropMultiSelectComponent>;
-  let testHostComponent: TestHostComponent;
-  let testHostFixture: ComponentFixture<TestHostComponent>;
+  let component: PropMultiSelectComponent
+  // let fixture: ComponentFixture<PropMultiSelectComponent>
+  let testHostComponent: TestHostComponent
+  let testHostFixture: ComponentFixture<TestHostComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -28,19 +28,19 @@ describe('PropMultiSelectComponent rendering', () => {
         UtilService
       ]
     })
-      .compileComponents();
-  }));
+      .compileComponents()
+  }))
 
   beforeEach(() => {
-    testHostFixture = TestBed.createComponent(TestHostComponent);
-    testHostComponent = testHostFixture.componentInstance;
-    testHostComponent.propMultiSelectComponent.valuearray = new SimpleEntityCollection();
-    testHostComponent.propMultiSelectComponent.objarray = [];
-  });
+    testHostFixture = TestBed.createComponent(TestHostComponent)
+    testHostComponent = testHostFixture.componentInstance
+    testHostComponent.propMultiSelectComponent.valuearray = new SimpleEntityCollection()
+    testHostComponent.propMultiSelectComponent.objarray = []
+  })
 
   it('should create', () => {
-    expect(testHostFixture.nativeElement.querySelector('.prop-multi-select')).toBeTruthy();
-  });
+    expect(testHostFixture.nativeElement.querySelector('.prop-multi-select')).toBeTruthy()
+  })
 
   // -------------- Mock up host component ----------------
 
@@ -58,8 +58,8 @@ describe('PropMultiSelectComponent rendering', () => {
 // Functional test
 
 describe('PropMultiSelectComponent', () => {
-  let component: PropMultiSelectComponent;
-  let fixture: ComponentFixture<PropMultiSelectComponent>;
+  let component: PropMultiSelectComponent
+  let fixture: ComponentFixture<PropMultiSelectComponent>
   let backend: HttpTestingController
 
   beforeEach(async(() => {
@@ -75,8 +75,8 @@ describe('PropMultiSelectComponent', () => {
         UtilService
       ]
     })
-      .compileComponents();
-  }));
+      .compileComponents()
+  }))
 
 
   const item1 = { id: 1, name: 'TestItem1' }
@@ -84,14 +84,14 @@ describe('PropMultiSelectComponent', () => {
 
   beforeEach(() => {
     backend = TestBed.get(HttpTestingController)
-    fixture = TestBed.createComponent(PropMultiSelectComponent);
-    component = fixture.componentInstance;
+    fixture = TestBed.createComponent(PropMultiSelectComponent)
+    component = fixture.componentInstance
     component.objarray = [item1]
-    component.valuearray = new SimpleEntityCollection();
+    component.valuearray = new SimpleEntityCollection()
     component.valuearray.display_name = 'TestEntity'
     component.valuearray.values = [item1, item2]
     fixture.detectChanges()
-  });
+  })
 
   it('should create', () => {
     expect(component).toBeTruthy()

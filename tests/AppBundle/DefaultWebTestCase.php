@@ -20,4 +20,14 @@ class DefaultWebTestCase extends WebTestCase
 
         return $client;
     }
+
+    public function getUserClient()
+    {
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'user',
+            'PHP_AUTH_PW'   => 'user',
+        ));
+
+        return $client;
+    }
 }

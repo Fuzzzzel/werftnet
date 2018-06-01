@@ -73,6 +73,10 @@ class FreelancerController extends Controller
     {
         $freelancer = $this->fetchFreelancer($freelancerId);
 
+        if($freelancer === null) {
+            throw $this->createNotFoundException("Freelancer mit der Id {$freelancerId} wurde nicht gefunden!");
+        }
+
         $serializer = SerializerBuilder::create()->build();
         $response = $serializer->serialize(
             $freelancer,
@@ -84,12 +88,10 @@ class FreelancerController extends Controller
 
     private function fetchFreelancer($id)
     {
-        if (!isset($id) && !(intval($id) > 0)) {
-            throw new NotFoundHttpException('Freelancer mit der id {$id} wurde nicht gefunden!');
-        }
-
         $repository = $this->getDoctrine()->getRepository('AppBundle:Freelancer');
-        $freelancer = $repository->find(intval($id));
+        $freelancer = $repository->findOneBy(
+            array('id' => intval($id))
+        );
 
         return $freelancer;
     }
@@ -178,13 +180,17 @@ class FreelancerController extends Controller
      */
     public function deleteFreelancer(Request $request, $freelancerId)
     {
-        $fl = $this->fetchFreelancer($freelancerId);
+        $freelancer = $this->fetchFreelancer($freelancerId);
+
+        if($freelancer === null) {
+            throw $this->createNotFoundException("Freelancer mit der Id {$freelancerId} wurde nicht gefunden!");
+        }
 
         // EntityManager laden
         $em = $this->getDoctrine()->getManager();
 
-        if ($fl != null) {
-            $em->remove($fl);
+        if ($freelancer != null) {
+            $em->remove($freelancer);
             $em->flush();
         }
 

@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class TwoLevelEntityController extends Controller
 {
@@ -59,14 +60,71 @@ class TwoLevelEntityController extends Controller
 
     /**
      * @param $entityName
+     * @return \stdClass
+     *
+     * !! Duplicated in DefaultsController --> Move to service?!
+     */
+    public function getTwoLevelEntityById($entityName, $id)
+    {
+        $classname = "\\AppBundle\\Entity\\" . $entityName;
+
+        $itemFromDb = $this->getDoctrine()
+            ->getRepository($classname)
+            ->findOneBy(
+                array('id' => $id)
+            );
+
+        $mainItem = null;
+
+        if ($itemFromDb != null) {
+            $mainItem = new \stdClass;
+            $mainItem->id = $itemFromDb->getId();
+            $mainItem->name = $itemFromDb->getName();
+
+            $subItems = $this->getDoctrine()
+                ->getRepository($classname)
+                ->findAllSubItems($id);
+
+            // Subsprachen den Hauptsprachen zuordnen
+            foreach ($subItems as $subItem) {
+                $itemObj = new \stdClass();
+                $itemObj->id = $subItem->getId();
+                $itemObj->name = $subItem->getName();
+
+                $mainItem->sub_items[] = $itemObj;
+            }
+        }
+
+
+        return $mainItem;
+    }
+
+    /**
+     * @param $entityName
      * @return object
      * @Method("GET")
      * @Route("/admin/two_level_entity/{entityName}", name="fetchTwoLevelEntity")
      */
-    public function fetchTwoLevelEntityEntity($entityName)
+    public function fetchTwoLevelEntity($entityName)
     {
         $entityName = QueryHelper::getFullEntityName($entityName);
         $result = $this->getTwoLevelEntity($entityName);
+        return new JsonResponse($result);
+    }
+
+    /**
+     * @param $entityName
+     * @return object
+     * @Method("GET")
+     * @Route("/admin/two_level_entity/{entityName}/{id}", name="fetchTwoLevelEntityById")
+     */
+    public function fetchTwoLevelEntityById($entityName, $id)
+    {
+        $entityName = QueryHelper::getFullEntityName($entityName);
+        $result = $this->getTwoLevelEntityById($entityName, $id);
+        if ($result == null) {
+            throw $this->createNotFoundException("Entity {$entityName} mit der Id {$id} konnte nicht gefunden werden");
+        }
         return new JsonResponse($result);
     }
 
@@ -86,7 +144,7 @@ class TwoLevelEntityController extends Controller
      * zugehörigen Hauptitems übergeben.
      *
      * @param String $newItemName Name des neuen Items
-     * @return JsonResponse
+     * @return Response
      * @Method("POST")
      * @Route("/admin/two_level_entity/{entityName}/{mainItemId}/sub_items", name="createTwoLevelEntityItem")
      */
@@ -117,8 +175,8 @@ class TwoLevelEntityController extends Controller
 
         // Falls ja, nicht hinzufügen
         if (($exists !== null) && ($newItemName != "")) {
-            // ToDo: Fehlermeldung zurückgeben
-            return new JsonResponse("Die Bezeichnung existiert schon oder die Bezeichnung ist leer!");
+            $response = new Response("Die Bezeichnung existiert schon oder die Bezeichnung ist leer!", Response::HTTP_BAD_REQUEST);
+            return $response;
         }
 
         // Falls neues Subitem
@@ -176,10 +234,9 @@ class TwoLevelEntityController extends Controller
             array('id' => $removeItemId)
         );
 
-        // Falls nicht gefunden oder Hauptsprache mit Subsprachen abbrechen
+        // Falls nicht gefunden oder Hauptitem mit Subitems abbrechen
         if ($entityToRemove == null) {
-            // ToDo: Fehlermeldung zurückgeben
-            return new JsonResponse();
+            throw $this->createNotFoundException("Item zum löschen wurde nicht gefunden");
         }
 
         $subItems = $repo->findAllSubItems($removeItemId);
@@ -188,8 +245,7 @@ class TwoLevelEntityController extends Controller
             $em->remove($entityToRemove);
             $em->flush();
         } else {
-            // ToDo: Fehlermeldung zurückgeben
-            return new JsonResponse();
+            return new JsonResponse("Item hat noch Subitems und kann nicht gelöscht werden", Response::HTTP_BAD_REQUEST);
         }
 
         return new JsonResponse();
@@ -225,7 +281,7 @@ class TwoLevelEntityController extends Controller
         }
 
         $entityName = QueryHelper::getFullEntityName($entityName);
-        $editedEntityName = $params->itemNewName;
+        $itemNewName = $params->itemNewName;
 
         $classname = "\\AppBundle\\Entity\\" . $entityName;
 
@@ -238,24 +294,24 @@ class TwoLevelEntityController extends Controller
 
         // Falls nein, nicht aktualisieren
         if ($entityToUpdate == null) {
-            return null;
+            throw $this->createNotFoundException("Das zu aktualisierende Item wurde nicht gefunden");
         }
 
         // Prüfen ob bereits ein Objekt mit diesem Namen existiert
         $exists = $em->getRepository($classname)->findOneBy(
-            array('name' => $editedEntityName)
+            array('name' => $itemNewName)
         );
 
         // Falls ja, nicht hinzufügen
-        if (($exists != null) && ($editedEntityName != "")) {
-            return null;
+        if (($exists == null) && is_string($itemNewName) && strlen($itemNewName) > 0) {
+            $entityToUpdate->setName($itemNewName);
+            $em->persist($entityToUpdate);
+            $em->flush();
+
+            return new JsonResponse();
+        } else {
+            return new JsonResponse("Die Bezeichnung existiert schon oder die Bezeichnung ist leer!", Response::HTTP_BAD_REQUEST);
         }
-
-        // Falls ja, Objekt aktualisieren
-        $entityToUpdate->setName($editedEntityName);
-        $em->flush();
-
-        return new JsonResponse();
     }
 
 
@@ -264,15 +320,11 @@ class TwoLevelEntityController extends Controller
      *
      * @param Request $request
      * @return JsonResponse
+     * @Method("POST")
      * @Route("admin/makeMainItem", name="makeMainItem")
      */
     function makeMainItem(Request $request)
     {
-        // $entity, $editedItemName
-        if ($request->getMethod() != 'POST') {
-            return null;
-        }
-
         $params = array();
         $content = $request->getContent();
         if (!empty($content)) {
@@ -296,8 +348,7 @@ class TwoLevelEntityController extends Controller
 
         // Falls nein, Fehlermeldung ausgeben
         if ($item == null) {
-            // ToDo: Fehlermeldung, wenn zu löschende Sprache nicht gefunden
-            return new JsonResponse();
+            throw $this->createNotFoundException("Das zu aktualisierende SubItem wurde nicht gefunden");
         }
 
         // Falls ja, Objekt aktualisieren
@@ -313,15 +364,11 @@ class TwoLevelEntityController extends Controller
      *
      * @param Request $request
      * @return JsonResponse
+     * @Method("POST")
      * @Route("admin/addAsSubItem", name="addAsSubItem")
      */
     function addAsSubItem(Request $request)
     {
-        // $entity, $editedItemName
-        if ($request->getMethod() != 'POST') {
-            return null;
-        }
-
         $params = array();
         $content = $request->getContent();
         if (!empty($content)) {
@@ -347,17 +394,20 @@ class TwoLevelEntityController extends Controller
             array('id' => $itemMainId)
         );
 
-        // Falls Sprache nicht existiert, nicht aktualisieren
+        // Falls Item nicht existiert, nicht aktualisieren
         if ($item == null || $itemMain == null) {
-            // ToDo: Fehlermeldung, dass Sprache nicht gefunden
-            return new JsonResponse();
+            throw $this->createNotFoundException("Das zu aktualisierende Item wurde nicht gefunden");
         }
 
-        // Falls Sprache nicht existiert, nicht aktualisieren
-        if ($item == $itemMain) {
-            // ToDo: Fehlermeldung, dass Sprache nicht Subsprache von sich selbst sein darf.
-            return new JsonResponse();
+        if (!$itemMain->isMainItem()) {
+            return new JsonResponse("Item kann keinem anderen Subitem zugeordnet werden!", Response::HTTP_BAD_REQUEST);
         }
+
+        // Item darf nicht SubItem von sich selbst sein
+        if ($item == $itemMain) {
+            return new JsonResponse("Item kann nicht SubItem von sich selbst sein!", Response::HTTP_BAD_REQUEST);
+        }
+
 
         $subItems = $repo->findAllSubItems($itemId);
 

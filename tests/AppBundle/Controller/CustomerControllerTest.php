@@ -9,10 +9,21 @@
 namespace Tests\AppBundle\Controller;
 
 
+use Symfony\Component\HttpFoundation\Response;
 use Tests\AppBundle\DefaultWebTestCase;
 
 class CustomerControllerTest extends DefaultWebTestCase
 {
+    public function testGetCustomerWithoutId() {
+        $client = $this->getAdminClient();
+        $client->request(
+            'GET',
+            '/customers/xyz'
+        );
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+    }
+
     public function testCreateCustomer() {
         $client = $this->getAdminClient();
         $client->request(
@@ -87,6 +98,44 @@ class CustomerControllerTest extends DefaultWebTestCase
         return array('contact' => $customerContact, 'customerId' => $customerId);
     }
 
+    // CUSTOMER CONTACT
+
+    public function testGetCustomerContactWithoutCustomerId() {
+        $client = $this->getAdminClient();
+        $client->request(
+            'GET',
+            '/customers/xyz/contacts/abc'
+        );
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+    }
+
+    public function testGetCustomerContactWithoutContactId() {
+        $client = $this->getAdminClient();
+        $client->request(
+            'GET',
+            '/customers/1/contacts/abc'
+        );
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @depends testCreateCustomerContact
+     */
+    public function testGetCustomerContactWithWrongCustomerId($customerContactAndCustomerId) {
+        $customerContact = $customerContactAndCustomerId['contact'];
+        $wrongCustomerId = $customerContactAndCustomerId['customerId'] + 1;
+
+        $client = $this->getAdminClient();
+        $client->request(
+            'GET',
+            "/customers/{$wrongCustomerId}/contacts/{$customerContact->id}"
+        );
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+    }
+
     /**
      * @depends testCreateCustomerContact
      */
@@ -105,6 +154,31 @@ class CustomerControllerTest extends DefaultWebTestCase
         );
         $content = $client->getResponse()->getContent();
         $this->assertJson($content);
+    }
+
+    /**
+     * @depends testCreateCustomerContact
+     */
+    public function testDeleteCustomerContactWithWrongCustomerId($customerContactAndCustomerId) {
+        $customerContact = $customerContactAndCustomerId['contact'];
+        $wrongCustomerId = $customerContactAndCustomerId['customerId'] + 1;
+
+        $client = $this->getAdminClient();
+        $client->request(
+            'DELETE',
+            "/customers/{$wrongCustomerId}/contacts/{$customerContact->id}"
+        );
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+    }
+
+    public function testDeleteNonExistentCustomerContact() {
+        $client = $this->getAdminClient();
+        $crawler = $client->request(
+            'DELETE',
+            '/customers/1/contacts/99999'
+        );
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
     }
 
     /**

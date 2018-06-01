@@ -29,7 +29,7 @@ class AppSettingsControllerTest extends DefaultWebTestCase
         $this->assertEquals(1, $settings->id);
     }
 
-    public function testChangeImprint()
+    public function testChangeImprintAsAdmin()
     {
         $client = $this->getAdminClient();
         $client->request(
@@ -63,6 +63,23 @@ class AppSettingsControllerTest extends DefaultWebTestCase
 
         $newSettings = json_decode($content);
         $this->assertEquals("Test for Imprint", $newSettings->imprint);
+    }
+
+    public function testChangeImprintAsUser()
+    {
+        $client = $this->getUserClient();
+
+        $newImprint = "Test for Imprint";
+
+        $client->request(
+            'POST',
+            '/admin/settings/imprint',
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{"imprint": "' . $newImprint . '"}'
+        );
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
 }

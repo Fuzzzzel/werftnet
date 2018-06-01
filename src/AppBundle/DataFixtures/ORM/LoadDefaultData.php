@@ -49,9 +49,9 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
         $roleAdmin->setName("ROLE_ADMIN");
         $manager->persist($roleAdmin);
 
-        $roleAM = new UserRole();
-        $roleAM->setName("ROLE_ACCOUNT_MANAGER");
-        $manager->persist($roleAM);
+        $roleAccountManager = new UserRole();
+        $roleAccountManager->setName("ROLE_ACCOUNT_MANAGER");
+        $manager->persist($roleAccountManager);
 
         // -----------------------------------
         // COMMON
@@ -342,6 +342,19 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
         $manager->persist($user);
         $manager->flush();
 
+        // Normalen Testuser (als Account Manager) anlegen
+        $user = new User();
+        $user->setUsername('user');
+        $user->setEmail('user@some.domain.com');
 
+        $plainPassword = 'user';
+        $encoder = $this->container->get('security.password_encoder');
+        $encoded = $encoder->encodePassword($user, $plainPassword);
+        $user->setPassword($encoded);
+        $user->addRole($roleUser);
+        $user->addRole($roleAccountManager);
+
+        $manager->persist($user);
+        $manager->flush();
     }
 }

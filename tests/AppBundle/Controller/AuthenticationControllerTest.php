@@ -10,6 +10,7 @@ namespace Tests\AppBundle\Controller;
 
 
 use Tests\AppBundle\DefaultWebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthenticationControllerTest extends DefaultWebTestCase
 {

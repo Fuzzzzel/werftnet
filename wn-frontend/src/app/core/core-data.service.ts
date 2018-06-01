@@ -160,12 +160,12 @@ export class CoreDataService {
    *
    * // Change to input on first click, then update on second click!
    */
-  updateSimpleEntityItem(entityName, item_id, item_edited_name): Promise<SimpleEntity> {
+  updateSimpleEntityItem(entityName, item_id, itemNewName): Promise<SimpleEntity> {
     return new Promise((resolve, reject) => {
       if (entityName == null || entityName == "") {
         alert("Bug: Name der Entity nicht angegeben")
         reject && reject();
-      } else if (item_edited_name == null || item_edited_name == "") {
+      } else if (itemNewName == null || itemNewName == "") {
         alert("Der neue Name darf nicht leer sein!");
         reject && reject();
       } else {
@@ -176,7 +176,7 @@ export class CoreDataService {
           const req = this.http.post<SimpleEntity>(
             '/admin/simple_entity/' + entityNameConverted + '/' + item_id,
             {
-              itemEditedName: item_edited_name
+              itemNewName: itemNewName
             }
           )
 
