@@ -2,7 +2,7 @@
   <div class="row-xs">
     <div class="main-item col-sm-12">
       <strong>
-        <a class="clickable" (click)="editFreelancer(freelancer.id)">{{ freelancer.name2 }}, {{ freelancer.name1 }}
+        <a class="clickable" (click)="editFreelancer()">{{ freelancer.name2 }}, {{ freelancer.name1 }}
           <span *ngIf="freelancer.company_name && freelancer.company_name.length > 0">
             &nbsp;({{ freelancer.company_name }})
           </span>

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { AdminUserService } from '../admin-user.service';
-import { BehaviorSubject } from 'rxjs';
-import { User } from '../../user/user.model';
-import { UtilService } from '../../core/util.service';
-import { AdminUserEditService } from '../admin-user-edit/admin-user-edit.service';
+import { Component, OnInit } from '@angular/core'
+import { AdminUserService } from '../admin-user.service'
+import { BehaviorSubject } from 'rxjs'
+import { User } from '../../user/user.model'
+import { UtilService } from '../../core/util.service'
+import { AdminUserEditService } from '../admin-user-edit/admin-user-edit.service'
 
 @Component({
   selector: 'app-admin-user-overview',
@@ -12,7 +12,7 @@ import { AdminUserEditService } from '../admin-user-edit/admin-user-edit.service
 })
 export class AdminUserOverviewComponent implements OnInit {
 
-  userList: User[] = [];
+  userList: User[] = []
 
   constructor(
     private adminUserService: AdminUserService,
@@ -21,12 +21,12 @@ export class AdminUserOverviewComponent implements OnInit {
 
   ngOnInit() {
     this.adminUserService.getUserList().subscribe((userList) => {
-      this.userList = userList;
+      this.userList = userList
     })
   }
 
   editUser(userId) {
-    this.util.goTo('admin/usermanagement/edit_user/' + userId);
+    this.util.goTo('admin/usermanagement/edit_user/' + userId)
   }
 
 }

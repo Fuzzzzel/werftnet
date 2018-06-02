@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { AdminSystemEditImprintService } from './admin-system-edit-imprint.service';
-import { UtilService } from '../../../core/util.service';
+import { Component, OnInit } from '@angular/core'
+import { AdminSystemEditImprintService } from './admin-system-edit-imprint.service'
+import { UtilService } from '../../../core/util.service'
 
 @Component({
   selector: 'app-admin-system-edit-imprint',

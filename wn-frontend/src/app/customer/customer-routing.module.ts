@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
 
-import { AuthGuardService as AuthGuard } from '../user/auth-guard.service';
-import { CustomerSearchComponent } from './customer-search/customer-search.component';
-import { CustomerEditComponent } from './customer-edit/customer-edit.component';
-import { CustomerEditContactComponent } from './customer-edit-contact/customer-edit-contact.component';
+import { AuthGuardService as AuthGuard } from '../user/auth-guard.service'
+import { CustomerSearchComponent } from './customer-search/customer-search.component'
+import { CustomerEditComponent } from './customer-edit/customer-edit.component'
+import { CustomerEditContactComponent } from './customer-edit-contact/customer-edit-contact.component'
 
 /**
  * Routes used in the app
@@ -26,7 +26,7 @@ const ROUTE_CONFIG: Routes = [
     canActivate: [AuthGuard]
   }
 
-];
+]
 
 @NgModule({
   imports: [

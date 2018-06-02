@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { CoreData, CoreDataService } from '../../core/core-data.service';
-import { CustomerEditService } from './customer-edit.service';
-import { Customer } from '../customer.model';
-import { PriceLine } from '../../shared/model/price-line.model';
-import { UtilService } from '../../core/util.service';
-import { CustomerSearchService } from '../customer-search/customer-search.service';
+import { Component, OnInit } from '@angular/core'
+import { CoreData, CoreDataService } from '../../core/core-data.service'
+import { CustomerEditService } from './customer-edit.service'
+import { Customer } from '../customer.model'
+import { PriceLine } from '../../shared/model/price-line.model'
+import { UtilService } from '../../core/util.service'
+import { CustomerSearchService } from '../customer-search/customer-search.service'
 
 @Component({
   selector: 'app-customer-edit',
@@ -13,8 +13,8 @@ import { CustomerSearchService } from '../customer-search/customer-search.servic
 })
 export class CustomerEditComponent implements OnInit {
 
-  cust_edit: Customer;
-  coreData: CoreData = new CoreData();
+  cust_edit: Customer
+  coreData: CoreData = new CoreData()
 
   constructor(
     public util: UtilService,
@@ -25,10 +25,10 @@ export class CustomerEditComponent implements OnInit {
 
   ngOnInit() {
     this.coreDataService.getData().subscribe((data) => {
-      this.coreData = data;
-    });
+      this.coreData = data
+    })
 
-    this.cust_edit = this.customerEditService.getCustomerToEdit();
+    this.cust_edit = this.customerEditService.getCustomerToEdit()
   }
 
   saveCustomer() {
@@ -36,8 +36,8 @@ export class CustomerEditComponent implements OnInit {
       this.customerEditService.saveCustomer(this.cust_edit)
         .then((customer) => {
           resolve(customer)
-          this.customerSearchService.searchCustomers(null);
-          this.util.historyBack();
+          this.customerSearchService.searchCustomers(null)
+          this.util.historyBack()
         })
         .catch((error) => {
           alert(error.message)
@@ -51,8 +51,8 @@ export class CustomerEditComponent implements OnInit {
       this.customerEditService.deleteCustomer(this.cust_edit)
         .then(() => {
           resolve()
-          this.customerSearchService.searchCustomers(null);
-          this.util.historyBack();
+          this.customerSearchService.searchCustomers(null)
+          this.util.historyBack()
         })
         .catch((error) => {
           alert(error.message)
@@ -62,8 +62,8 @@ export class CustomerEditComponent implements OnInit {
   }
 
   cancelEdit() {
-    // this.customerSearchService.searchCustomers(null);
-    this.util.historyBack();
+    // this.customerSearchService.searchCustomers(null)
+    this.util.historyBack()
   }
 
 }

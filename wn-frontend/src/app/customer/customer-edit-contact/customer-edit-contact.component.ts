@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { CoreDataService, CoreData } from '../../core/core-data.service';
-import { CustomerEditService } from '../customer-edit/customer-edit.service';
-import { CustomerContact } from '../customer.model';
-import { UtilService } from '../../core/util.service';
-import { CustomerSearchService } from '../customer-search/customer-search.service';
+import { Component, OnInit } from '@angular/core'
+import { CoreDataService, CoreData } from '../../core/core-data.service'
+import { CustomerEditService } from '../customer-edit/customer-edit.service'
+import { CustomerContact } from '../customer.model'
+import { UtilService } from '../../core/util.service'
+import { CustomerSearchService } from '../customer-search/customer-search.service'
 
 @Component({
   selector: 'app-customer-edit-contact',
@@ -12,8 +12,8 @@ import { CustomerSearchService } from '../customer-search/customer-search.servic
 })
 export class CustomerEditContactComponent implements OnInit {
 
-  contact_edit: CustomerContact;
-  coreData: CoreData = new CoreData();
+  contact_edit: CustomerContact
+  coreData: CoreData = new CoreData()
 
   constructor(
     public util: UtilService,
@@ -26,7 +26,7 @@ export class CustomerEditContactComponent implements OnInit {
     return new Promise<CustomerContact>((resolve, reject) => {
       this.customerEditService.saveCustomerContact(this.contact_edit)
         .then((contact) => {
-          this.customerSearchService.searchCustomers(null);
+          this.customerSearchService.searchCustomers(null)
           resolve(contact)
           this.util.historyBack()
         })
@@ -43,7 +43,7 @@ export class CustomerEditContactComponent implements OnInit {
         .then(() => {
           resolve()
           this.customerSearchService.searchCustomers(null)
-          this.util.historyBack();
+          this.util.historyBack()
         })
         .catch((error) => {
           reject(error)
@@ -52,15 +52,15 @@ export class CustomerEditContactComponent implements OnInit {
   }
 
   cancelEdit() {
-    // this.customerSearchService.searchCustomers(null);
-    this.util.historyBack();
+    // this.customerSearchService.searchCustomers(null)
+    this.util.historyBack()
   }
 
   ngOnInit() {
     this.coreDataService.getData().subscribe((data) => {
-      this.coreData = data;
-    });
+      this.coreData = data
+    })
 
-    this.contact_edit = this.customerEditService.getCustomerContactToEdit();
+    this.contact_edit = this.customerEditService.getCustomerContactToEdit()
   }
 }

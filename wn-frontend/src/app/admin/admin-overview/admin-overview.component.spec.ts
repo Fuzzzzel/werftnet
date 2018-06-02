@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { AdminOverviewComponent } from './admin-overview.component';
-import { SharedModule } from '../../shared/shared.module';
+import { AdminOverviewComponent } from './admin-overview.component'
+import { SharedModule } from '../../shared/shared.module'
 
 describe('AdminOverviewComponent', () => {
-  let component: AdminOverviewComponent;
-  let fixture: ComponentFixture<AdminOverviewComponent>;
+  let component: AdminOverviewComponent
+  let fixture: ComponentFixture<AdminOverviewComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -16,16 +16,16 @@ describe('AdminOverviewComponent', () => {
         AdminOverviewComponent
       ]
     })
-      .compileComponents();
-  }));
+      .compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AdminOverviewComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(AdminOverviewComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

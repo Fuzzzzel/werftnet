@@ -1,14 +1,14 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
 
-import { AuthGuardService as AuthGuard } from '../user/auth-guard.service';
-import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
-import { AdminSimpleEntityComponent } from './admin-simple-entity/admin-simple-entity.component';
-import { AdminTwoLevelEntityComponent } from './admin-two-level-entity/admin-two-level-entity.component';
-import { AdminUserOverviewComponent } from './admin-user-overview/admin-user-overview.component';
-import { AdminUserEditComponent } from './admin-user-edit/admin-user-edit.component';
-import { AdminComponent } from './admin/admin.component';
-import { AdminSystemEditImprintComponent } from './system/admin-system-edit-imprint/admin-system-edit-imprint.component';
+import { AuthGuardService as AuthGuard } from '../user/auth-guard.service'
+import { AdminOverviewComponent } from './admin-overview/admin-overview.component'
+import { AdminSimpleEntityComponent } from './admin-simple-entity/admin-simple-entity.component'
+import { AdminTwoLevelEntityComponent } from './admin-two-level-entity/admin-two-level-entity.component'
+import { AdminUserOverviewComponent } from './admin-user-overview/admin-user-overview.component'
+import { AdminUserEditComponent } from './admin-user-edit/admin-user-edit.component'
+import { AdminComponent } from './admin/admin.component'
+import { AdminSystemEditImprintComponent } from './system/admin-system-edit-imprint/admin-system-edit-imprint.component'
 
 /**
  * Routes used in the module
@@ -150,7 +150,7 @@ const ROUTE_CONFIG: Routes = [
 
     ]
   }
-];
+]
 
 @NgModule({
   imports: [

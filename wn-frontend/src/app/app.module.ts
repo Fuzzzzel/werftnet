@@ -5,7 +5,6 @@ import { RouterModule, Router, Routes } from '@angular/router';
 
 // Third party modules and components
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SelectModule } from 'ng2-select';
 
 // Own modules
 import { AppRoutingModule } from './app-routing.module';
@@ -28,7 +27,6 @@ import { AdminSystemImprintComponent } from './admin/system/admin-system-imprint
   imports: [
     BrowserModule,
     NgbModule.forRoot(),
-    SelectModule,
     CoreModule,
     SharedModule,
     AppRoutingModule,
