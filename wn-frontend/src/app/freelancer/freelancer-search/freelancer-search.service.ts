@@ -32,25 +32,27 @@ export class FreelancerSearchService {
       this.lastSearchParams = searchParams;
     }
 
-    // Set up post request
-    const req = this.http.post<FreelancersLoaded>(
-      '/freelancers/search',
-      searchParams || this.lastSearchParams
-    )
+    return new Promise<FreelancersLoaded>((resolve, reject) => {
+      // Set up post request
+      const req = this.http.post<FreelancersLoaded>(
+        '/freelancers/search',
+        searchParams || this.lastSearchParams
+      )
 
-    // Execute post request and subscribe to response
-    req.subscribe(
-      data => {
-        for (let i = 0; i < data.items.length; i++) {
-          this.util.orderPrices(data.items[i].prices);
-        }
-        this.$freelancersLoaded.next(data);
-      },
-      error => {
-        // ToDo: Implement error handler
-      });
+      // Execute post request and subscribe to response
+      req.subscribe(
+        data => {
+          for (let i = 0; i < data.items.length; i++) {
+            this.util.orderPrices(data.items[i].prices);
+          }
+          this.$freelancersLoaded.next(data);
+          resolve(data)
+        },
+        error => {
+          reject(error)
+        });
 
-    return
+    })
   }
 
 }

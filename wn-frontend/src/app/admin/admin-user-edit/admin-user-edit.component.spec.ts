@@ -94,7 +94,7 @@ describe('AdminUserEditComponent', () => {
       const req1 = backend.expectOne('/admin/users/' + component.userToEdit.id)
       expect(req1.request.method).toBe("GET")
       req1.flush([component.userToEdit], { status: 200, statusText: 'Ok' })
-    }, 50)
+    }, 25)
   })
 
   it('should fail to change user password', (done) => {
@@ -131,7 +131,7 @@ describe('AdminUserEditComponent', () => {
       const req1 = backend.expectOne('/admin/users/' + 1)
       expect(req1.request.method).toBe("GET")
       req1.flush([component.userToEdit], { status: 200, statusText: 'Ok' })
-    }, 50)
+    }, 25)
   })
 
   it('should save user', (done) => {

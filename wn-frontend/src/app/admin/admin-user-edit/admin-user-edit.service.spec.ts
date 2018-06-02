@@ -107,7 +107,7 @@ describe('AdminUserEditService', () => {
       const req1 = backend.expectOne('/admin/users/' + user.id)
       expect(req1.request.method).toBe("GET")
       req1.flush([user], { status: 200, statusText: 'Ok' })
-    }, 50)
+    }, 25)
   })
 
   it('should fail to change user password', (done) => {
@@ -129,7 +129,7 @@ describe('AdminUserEditService', () => {
       const req1 = backend.expectOne('/admin/users/' + user.id)
       expect(req1.request.method).toBe("GET")
       req1.flush([user], { status: 200, statusText: 'Ok' })
-    }, 50)
+    }, 25)
   })
 
   it('should not change userPwd when id is missing', (done) => {

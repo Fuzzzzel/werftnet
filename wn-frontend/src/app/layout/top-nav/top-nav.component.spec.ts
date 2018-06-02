@@ -43,4 +43,8 @@ describe('TopNavComponent', () => {
   it('should not have a logged in user on creation', () => {
     expect(component.isUserLoggedIn()).toBeFalsy()
   })
+
+  it('should logout user', () => {
+    component.logoutUser()
+  })
 })
