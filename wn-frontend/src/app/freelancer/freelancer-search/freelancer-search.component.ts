@@ -26,17 +26,29 @@ export class FreelancerSearchComponent implements OnInit {
   ) { }
 
   searchFreelancers(searchParams) {
-    this.freelancerSearchService.searchFreelancers(searchParams)
+    return new Promise<FreelancersLoaded>((resolve, reject) => {
+      this.freelancerSearchService.searchFreelancers(searchParams)
+        .then((freelancersLoaded) => {
+          resolve(freelancersLoaded)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
   }
 
   editFreelancer(freelancerToEdit: Freelancer) {
-    this.freelancerEditService.prepareEditFreelancer(freelancerToEdit && freelancerToEdit.id)
-      .then((freelancer) => {
-        this.util.goTo('freelancer/edit')
-      })
-      .catch((error) => {
-        alert(error.message)
-      })
+    return new Promise<Freelancer>((resolve, reject) => {
+      this.freelancerEditService.prepareEditFreelancer(freelancerToEdit && freelancerToEdit.id)
+        .then((freelancer) => {
+          resolve(freelancer)
+          this.util.goTo('freelancer/edit')
+        })
+        .catch((error) => {
+          alert(error.message)
+          reject(error)
+        })
+    })
   }
 
   ngOnInit() {

@@ -63,7 +63,7 @@ describe('FreelancerEditComponent', () => {
       const req = backend.expectOne('/freelancers/1')
       expect(req.request.method).toBe("POST")
       req.flush(component.fl_edit, { status: 200, statusText: 'OK' })
-    }, 50)
+    }, 25)
   })
 
 
@@ -77,7 +77,7 @@ describe('FreelancerEditComponent', () => {
       const req = backend.expectOne('/freelancers/1')
       expect(req.request.method).toBe("POST")
       req.flush(null, { status: 404, statusText: 'Not Found' })
-    }, 50)
+    }, 25)
   })
 
   it('should delete freelancer', (done) => {

@@ -88,7 +88,7 @@ describe('FreelancerEditService', () => {
       const req = backend.expectOne('/freelancers/' + freelancerMock.id)
       expect(req.request.method).toBe("POST")
       req.flush(freelancerMock, { status: 200, statusText: 'Ok' })
-    }, 50)
+    }, 25)
   })
 
   it('should save new freelancer', (done) => {
@@ -104,7 +104,7 @@ describe('FreelancerEditService', () => {
       const req = backend.expectOne('/freelancers')
       expect(req.request.method).toBe("POST")
       req.flush(freelancerMock, { status: 200, statusText: 'Ok' })
-    }, 50)
+    }, 25)
   })
 
   it('should fail to save freelancer (route)', (done) => {
@@ -117,7 +117,7 @@ describe('FreelancerEditService', () => {
       const req = backend.expectOne('/freelancers/' + freelancerMock.id)
       expect(req.request.method).toBe("POST")
       req.flush(freelancerMock, { status: 404, statusText: 'Not Found' })
-    }, 50)
+    }, 25)
   })
 
   it('should fail to save freelancer (preparation)', (done) => {
