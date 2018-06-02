@@ -1,12 +1,12 @@
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { AppComponent } from './app.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { UserService } from './user/user.service';
-import { UtilService } from './core/util.service';
-import { CoreDataService } from './core/core-data.service';
-import { TopNavComponent } from './layout/top-nav/top-nav.component';
-import { User } from './user/user.model';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing'
+import { AppComponent } from './app.component'
+import { RouterTestingModule } from '@angular/router/testing'
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
+import { UserService } from './user/user.service'
+import { UtilService } from './core/util.service'
+import { CoreDataService } from './core/core-data.service'
+import { TopNavComponent } from './layout/top-nav/top-nav.component'
+import { User } from './user/user.model'
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>
@@ -36,30 +36,30 @@ describe('AppComponent', () => {
         UserService,
         UtilService
       ]
-    }).compileComponents();
+    }).compileComponents()
     backend = TestBed.get(HttpTestingController)
-    fixture = TestBed.createComponent(AppComponent);
-    app = fixture.debugElement.componentInstance;
-  }));
+    fixture = TestBed.createComponent(AppComponent)
+    app = fixture.debugElement.componentInstance
+  }))
 
   /**
    * Test if the App can be created
    */
   it('should create the app', async(() => {
-    expect(app).toBeTruthy();
-  }));
+    expect(app).toBeTruthy()
+  }))
 
   it('should no user be logged in on init', () => {
-    expect(app.isUserLoggedIn()).toBeFalsy();
-    expect(app.userHasRole('ROLE_USER')).toBeFalsy();
+    expect(app.isUserLoggedIn()).toBeFalsy()
+    expect(app.userHasRole('ROLE_USER')).toBeFalsy()
   })
 
   it('should fail to auto login', () => {
     fixture.detectChanges()
-    spyOn(window, 'alert').and.returnValue(true);
-    const req = backend.expectOne('/get_logged_in_user');
-    expect(req.request.method).toBe("GET");
-    req.flush(null, { status: 404, statusText: '404 Not Found' });
+    spyOn(window, 'alert').and.returnValue(true)
+    const req = backend.expectOne('/get_logged_in_user')
+    expect(req.request.method).toBe("GET")
+    req.flush(null, { status: 404, statusText: '404 Not Found' })
   })
 
 
@@ -68,23 +68,23 @@ describe('AppComponent', () => {
    * Test if the title is displayed correctly
    */
   it(`should have as title 'WerftNET Version 1.1'`, async(() => {
-    expect(app.title).toEqual('WerftNET Version 1.1');
-  }));
+    expect(app.title).toEqual('WerftNET Version 1.1')
+  }))
 
   it('should test for a user logged in', () => {
     fixture.detectChanges()
 
-    const req = backend.expectOne('/get_logged_in_user');
-    expect(req.request.method).toBe("GET");
+    const req = backend.expectOne('/get_logged_in_user')
+    expect(req.request.method).toBe("GET")
 
     let user = new User()
-    user.id = 1;
-    user.username = 'testuser';
-    user.roles = ['ROLE_USER'];
-    req.flush(user, { status: 200, statusText: 'Ok' });
+    user.id = 1
+    user.username = 'testuser'
+    user.roles = ['ROLE_USER']
+    req.flush(user, { status: 200, statusText: 'Ok' })
 
     expect(app.isUserLoggedIn()).toBeTruthy()
     expect(app.userHasRole('ROLE_USER')).toBeTruthy()
   })
 
-});
+})

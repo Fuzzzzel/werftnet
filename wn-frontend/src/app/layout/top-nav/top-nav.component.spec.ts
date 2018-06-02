@@ -1,14 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { TopNavComponent } from './top-nav.component';
-import { UserService } from '../../user/user.service';
-import { UtilService } from '../../core/util.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
+import { RouterTestingModule } from '@angular/router/testing'
+import { TopNavComponent } from './top-nav.component'
+import { UserService } from '../../user/user.service'
+import { UtilService } from '../../core/util.service'
 
 describe('TopNavComponent', () => {
-  let component: TopNavComponent;
-  let fixture: ComponentFixture<TopNavComponent>;
+  let component: TopNavComponent
+  let fixture: ComponentFixture<TopNavComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -27,20 +27,20 @@ describe('TopNavComponent', () => {
         UserService
       ]
     })
-      .compileComponents();
-  }));
+      .compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TopNavComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(TopNavComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    expect(component).toBeTruthy()
+  })
 
   it('should not have a logged in user on creation', () => {
-    expect(component.isUserLoggedIn()).toBeFalsy();
-  });
-});
+    expect(component.isUserLoggedIn()).toBeFalsy()
+  })
+})

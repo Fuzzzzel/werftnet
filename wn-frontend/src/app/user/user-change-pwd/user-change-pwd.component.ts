@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { UserService } from '../user.service';
-import { User } from '../user.model';
-import { UtilService } from '../../core/util.service';
+import { Component, OnInit } from '@angular/core'
+import { UserService } from '../user.service'
+import { User } from '../user.model'
+import { UtilService } from '../../core/util.service'
 
 @Component({
   selector: 'app-user-change-pwd',

@@ -1,16 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { AdminUserOverviewComponent } from './admin-user-overview.component';
-import { SharedModule } from '../../shared/shared.module';
-import { UtilService } from '../../core/util.service';
-import { AdminUserService } from '../admin-user.service';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
-import { User } from '../../user/user.model';
+import { AdminUserOverviewComponent } from './admin-user-overview.component'
+import { SharedModule } from '../../shared/shared.module'
+import { UtilService } from '../../core/util.service'
+import { AdminUserService } from '../admin-user.service'
+import { RouterTestingModule } from '@angular/router/testing'
+import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing'
+import { User } from '../../user/user.model'
 
 describe('AdminUserOverviewComponent', () => {
-  let component: AdminUserOverviewComponent;
-  let fixture: ComponentFixture<AdminUserOverviewComponent>;
+  let component: AdminUserOverviewComponent
+  let fixture: ComponentFixture<AdminUserOverviewComponent>
   let backend: HttpTestingController
 
   beforeEach(async(() => {
@@ -31,21 +31,21 @@ describe('AdminUserOverviewComponent', () => {
       ],
       declarations: [AdminUserOverviewComponent]
     })
-      .compileComponents();
-  }));
+      .compileComponents()
+  }))
 
   beforeEach(() => {
     backend = TestBed.get(HttpTestingController)
-    fixture = TestBed.createComponent(AdminUserOverviewComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(AdminUserOverviewComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    expect(component).toBeTruthy()
+  })
 
   it('should go to edit view', () => {
     component.editUser(1)
-  });
-});
+  })
+})

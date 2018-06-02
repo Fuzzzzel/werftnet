@@ -32,14 +32,13 @@
     "bootstrap": "3.3.7",
     "core-js": "^2.5.6",
     "lodash": "^4.17.10",
-    "ng2-select": "^2.0.0",
     "ngx-bootstrap": "^2.0.5",
     "rxjs": "^5.5.11",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/core": "^0.4.9",
-    "@angular/cli": "1.5.2",
+    "@angular/cli": "^1.5.2",
     "@angular/compiler-cli": "^4.4.7",
     "@angular/language-service": "^4.4.7",
     "@types/jasmine": "^2.8.7",

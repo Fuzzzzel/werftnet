@@ -1,14 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { UserProfileComponent } from './user-profile.component';
-import { SharedModule } from '../../shared/shared.module';
-import { UtilService } from '../../core/util.service';
-import { UserService } from '../user.service';
-import { RouterTestingModule } from '@angular/router/testing';
+import { UserProfileComponent } from './user-profile.component'
+import { SharedModule } from '../../shared/shared.module'
+import { UtilService } from '../../core/util.service'
+import { UserService } from '../user.service'
+import { RouterTestingModule } from '@angular/router/testing'
 
 describe('UserProfileComponent', () => {
-  let component: UserProfileComponent;
-  let fixture: ComponentFixture<UserProfileComponent>;
+  let component: UserProfileComponent
+  let fixture: ComponentFixture<UserProfileComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -22,16 +22,16 @@ describe('UserProfileComponent', () => {
       ],
       declarations: [UserProfileComponent]
     })
-      .compileComponents();
-  }));
+      .compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserProfileComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(UserProfileComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

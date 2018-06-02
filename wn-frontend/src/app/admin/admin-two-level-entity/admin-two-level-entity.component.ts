@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { TwoLevelEntityCollection, TwoLevelEntity } from '../../shared/model/two-level-entity.model';
-import { CoreDataService } from '../../core/core-data.service';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core'
+import { TwoLevelEntityCollection, TwoLevelEntity } from '../../shared/model/two-level-entity.model'
+import { CoreDataService } from '../../core/core-data.service'
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'app-admin-two-level-entity',
@@ -10,10 +10,10 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AdminTwoLevelEntityComponent implements OnInit {
 
-  entityName: string = '';
-  valuearray: TwoLevelEntityCollection = new TwoLevelEntityCollection();
-  main_item_new: string = '';
-  sub_item_new: string = '';
+  entityName: string = ''
+  valuearray: TwoLevelEntityCollection = new TwoLevelEntityCollection()
+  main_item_new: string = ''
+  sub_item_new: string = ''
 
   constructor(
     private coreDataService: CoreDataService,
@@ -21,15 +21,15 @@ export class AdminTwoLevelEntityComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.entityName = this.route.snapshot.data.entity;
-    this.loadTwoLevelEntityValues();
+    this.entityName = this.route.snapshot.data.entity
+    this.loadTwoLevelEntityValues()
   }
 
   loadTwoLevelEntityValues() {
     return new Promise<TwoLevelEntityCollection>((resolve, reject) => {
       this.coreDataService.getFlattenedTwoLevelEntityCollection(this.entityName)
         .then((data) => {
-          this.valuearray = data;
+          this.valuearray = data
           resolve(data)
         })
         .catch((error) => {
@@ -46,13 +46,13 @@ export class AdminTwoLevelEntityComponent implements OnInit {
     return new Promise<TwoLevelEntity>((resolve, reject) => {
       this.coreDataService.createTwoLevelEntityItem(this.entityName, null, newItemName)
         .then((data) => {
-          this.loadTwoLevelEntityValues();
+          this.loadTwoLevelEntityValues()
           resolve(data)
         })
         .catch((error) => {
           reject(error)
         })
-      this.main_item_new = '';
+      this.main_item_new = ''
     })
   }
 
@@ -64,7 +64,7 @@ export class AdminTwoLevelEntityComponent implements OnInit {
     return new Promise<void>((resolve, reject) => {
       this.coreDataService.deleteTwoLevelEntityItem(this.entityName, item_id, null)
         .then(() => {
-          this.loadTwoLevelEntityValues();
+          this.loadTwoLevelEntityValues()
           resolve()
         })
         .catch((error) => {
@@ -83,7 +83,7 @@ export class AdminTwoLevelEntityComponent implements OnInit {
     return new Promise<TwoLevelEntity>((resolve, reject) => {
       this.coreDataService.updateTwoLevelEntityItem(this.entityName, item_id, null, item_edited_name)
         .then((data) => {
-          this.loadTwoLevelEntityValues();
+          this.loadTwoLevelEntityValues()
           resolve(data)
         })
         .catch((error) => {
@@ -103,13 +103,13 @@ export class AdminTwoLevelEntityComponent implements OnInit {
     return new Promise<TwoLevelEntity>((resolve, reject) => {
       this.coreDataService.createTwoLevelEntityItem(this.entityName, mainItemId, newItemName)
         .then((data) => {
-          this.loadTwoLevelEntityValues();
+          this.loadTwoLevelEntityValues()
           resolve(data)
         })
         .catch((error) => {
           reject(error)
         })
-      this.sub_item_new = '';
+      this.sub_item_new = ''
     })
   }
 
@@ -121,7 +121,7 @@ export class AdminTwoLevelEntityComponent implements OnInit {
     return new Promise<any>((resolve, reject) => {
       this.coreDataService.deleteTwoLevelEntityItem(this.entityName, mainItemId, subItemId)
         .then(() => {
-          this.loadTwoLevelEntityValues();
+          this.loadTwoLevelEntityValues()
           resolve()
         })
         .catch((error) => {

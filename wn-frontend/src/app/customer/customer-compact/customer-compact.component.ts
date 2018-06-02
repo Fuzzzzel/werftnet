@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Customer } from '../customer.model';
-import { UtilService } from '../../core/util.service';
-import { CustomerEditService } from '../customer-edit/customer-edit.service';
+import { Component, OnInit, Input } from '@angular/core'
+import { Customer } from '../customer.model'
+import { UtilService } from '../../core/util.service'
+import { CustomerEditService } from '../customer-edit/customer-edit.service'
 
 @Component({
   selector: 'app-customer-compact',
@@ -24,7 +24,7 @@ export class CustomerCompactComponent {
       this.customerEditService.prepareEditCustomer(customer.id)
         .then((customer) => {
           resolve(customer)
-          this.util.goTo('customer/edit');
+          this.util.goTo('customer/edit')
         })
         .catch((error) => {
           alert(error.message)
@@ -36,7 +36,7 @@ export class CustomerCompactComponent {
   editcontact(customer, contact) {
     this.customerEditService.prepareEditCustomerContact(customer && customer.id, contact && contact.id)
       .then(() => {
-        this.util.goTo('customer/edit_contact');
+        this.util.goTo('customer/edit_contact')
       })
       .catch((error) => {
         alert(error.message)

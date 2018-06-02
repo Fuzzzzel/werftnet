@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { UtilService } from '../../../core/util.service';
-import { SystemInfoService } from '../system-info.service';
+import { Component, OnInit } from '@angular/core'
+import { UtilService } from '../../../core/util.service'
+import { SystemInfoService } from '../system-info.service'
 
 @Component({
   selector: 'app-admin-system-imprint',

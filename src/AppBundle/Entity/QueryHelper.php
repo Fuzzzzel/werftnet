@@ -25,9 +25,9 @@ class QueryHelper
      *     $paginator->count() # Count of ALL posts (ie: `20` posts)
      *     $paginator->getIterator() # ArrayIterator
      *
-     * @param \Doctrine\ORM\Query $dql   DQL Query Object or QueryBuilder
-     * @param integer            $page  Current page (defaults to 1)
-     * @param integer            $limit The total number per page (defaults to 10)
+     * @param \Doctrine\ORM\Query $dql DQL Query Object or QueryBuilder
+     * @param integer $page Current page (defaults to 1)
+     * @param integer $limit The total number per page (defaults to 10)
      *
      * @return \Doctrine\ORM\Tools\Pagination\Paginator
      */
@@ -35,21 +35,15 @@ class QueryHelper
     {
         $paginator = new Paginator($dql, false);
 
-        if ($page < 1)
-            $page = 1;
-        /*
-        if($limit < 20)
-            $limit = 20;
-        */
-
         $paginator->getQuery()
-            ->setFirstResult($limit * ($page - 1)) // Offset
+            ->setFirstResult($limit * ($page - 1))// Offset
             ->setMaxResults($limit); // Limit
 
         return $paginator;
     }
 
-    public static function getPaginatedResult(\Doctrine\ORM\Tools\Pagination\Paginator $paginator) {
+    public static function getPaginatedResult(\Doctrine\ORM\Tools\Pagination\Paginator $paginator)
+    {
         $result = new \stdClass();
         $result->items = $paginator->getQuery()->getResult();
         $result->itemsTotal = $paginator->count();
@@ -60,7 +54,8 @@ class QueryHelper
         return $result;
     }
 
-    public static function getSerializableResult(\stdClass $paginatedResult) {
+    public static function getSerializableResult(\stdClass $paginatedResult)
+    {
         // Liefern der Suche als Ergebnis (JSON)
         $serializer = SerializerBuilder::create()->build();
 
@@ -75,20 +70,21 @@ class QueryHelper
         return $paginatedResult;
     }
 
-    public static function getFullEntityName($entityName) {
+    public static function getFullEntityName($entityName)
+    {
         $collections = array("Freelancer", "Customer", "User");
         $entityName = ucfirst($entityName);
         $found = false;
-        for($i = 0; $i < count($collections); $i++) {
-            if(strrpos($entityName, $collections[$i]) === 0) {
+        for ($i = 0; $i < count($collections); $i++) {
+            if (strrpos($entityName, $collections[$i]) === 0) {
                 $entityName = $collections[$i] . "\\" . $entityName;
                 $found = true;
                 break;
             }
         }
 
-        if(!$found) {
-            $entityName = "Common\\".$entityName;
+        if (!$found) {
+            $entityName = "Common\\" . $entityName;
         }
 
         return $entityName;
