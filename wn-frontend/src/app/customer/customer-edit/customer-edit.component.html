@@ -1,150 +1,151 @@
-<div class="container-fluid form-default">
+<div class="form-default">
   <h1 *ngIf="cust_edit.id">Kunden bearbeiten</h1>
   <h1 *ngIf="!cust_edit.id">Kunden anlegen</h1>
-  <div class="row tile">
-    <div class="col-sm-4 form-box">
-      <div class="form-input">
-        <label class="control-label col-md-3">Firma1</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="cust_edit.name1">
+  <div class="row">
+    <form class="col-sm-4 form-box form-horizontal">
+      <div class="form-group row no-gutters">
+        <label class="col-form-label col-md-4">Firma1</label>
+        <div class="col-md-8">
+          <input class="form-control" name="edit-name1" [(ngModel)]="cust_edit.name1">
         </div>
       </div>
-      <div class="form-input">
-        <label class="control-label col-md-3">Firma2</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="cust_edit.name2">
+      <div class="form-group row no-gutters">
+        <label class="col-form-label col-md-4">Firma2</label>
+        <div class="col-md-8">
+          <input class="form-control" name="edit-name2" [(ngModel)]="cust_edit.name2">
         </div>
       </div>
       <!-- <div class="fomr-input">&nbsp;</div> -->
-      <div class="form-input">
-        <label class="control-label col-md-3">Straße</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="cust_edit.address.street">
+      <div class="form-group row no-gutters">
+        <label class="col-form-label col-md-4">Straße</label>
+        <div class="col-md-8">
+          <input class="form-control" name="edit-address-street" [(ngModel)]="cust_edit.address.street">
         </div>
       </div>
-      <div class="form-input">
-        <label class="control-label col-md-3">Straße2</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="cust_edit.address.street2">
+      <div class="form-group row no-gutters">
+        <label class="col-form-label col-md-4">Straße2</label>
+        <div class="col-md-8">
+          <input class="form-control" name="edit-address-street2" [(ngModel)]="cust_edit.address.street2">
         </div>
       </div>
-      <div class="form-input">
-        <label class="control-label col-md-3">Postleitzahl</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="cust_edit.address.zipcode">
+      <div class="form-group row no-gutters">
+        <label class="col-form-label col-md-4">Postleitzahl</label>
+        <div class="col-md-8">
+          <input class="form-control" name="edit-address-zipcode" [(ngModel)]="cust_edit.address.zipcode">
         </div>
       </div>
-      <div class="form-input">
-        <label class="control-label col-md-3">Stadt</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="cust_edit.address.city">
+      <div class="form-group row no-gutters">
+        <label class="col-form-label col-md-4">Stadt</label>
+        <div class="col-md-8">
+          <input class="form-control" name="edit-address-city" [(ngModel)]="cust_edit.address.city">
         </div>
       </div>
-      <div class="form-input">
-        <label class="control-label col-md-3">{{ coreData.country.display_name }}</label>
-        <div class="col-md-9">
-          <select class="form-control" [(ngModel)]="cust_edit.address.country" [compareWith]='util.compareById'>
+      <div class="form-group row no-gutters">
+        <label class="col-form-label col-md-4">{{ coreData.country.display_name }}</label>
+        <div class="col-md-8">
+          <select class="form-control" name="edit-address-country" [(ngModel)]="cust_edit.address.country" [compareWith]='util.compareById'>
             <option [value]='undefined' selected>-- Bitte wählen --</option>
             <option *ngFor="let option of coreData.country.values" [ngValue]="option">{{ option.name }}</option>
           </select>
         </div>
       </div>
-    </div>
-    <div class="col-sm-4 form-box">
-      <div class="form-input">
-        <label class="control-label col-md-3">Kundennr.</label>
-        <div class="col-md-9">
-          <input type="text" class="form-control" [(ngModel)]="cust_edit.customer_no">
+    </form>
+    <form class="col-sm-4 form-box form-horizontal">
+      <div class="form-group row no-gutters">
+        <label class="col-form-label col-md-4">Kundennr.</label>
+        <div class="col-md-8">
+          <input type="text" class="form-control" name="edit-customer_no" [(ngModel)]="cust_edit.customer_no">
         </div>
       </div>
-      <div class="form-input">
-        <label class="control-label col-md-3">E&#8209;Mail</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="cust_edit.email">
+      <div class="form-group row no-gutters">
+        <label class="col-form-label col-md-4">E&#8209;Mail</label>
+        <div class="col-md-8">
+          <input class="form-control" name="edit-email" [(ngModel)]="cust_edit.email">
         </div>
       </div>
-      <div class="form-input">
-        <label class="control-label col-md-3">E&#8209;Mail2</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="cust_edit.email2">
+      <div class="form-group row no-gutters">
+        <label class="col-form-label col-md-4">E&#8209;Mail2</label>
+        <div class="col-md-8">
+          <input class="form-control" name="edit-email2" [(ngModel)]="cust_edit.email2">
         </div>
       </div>
-      <div class="form-input">
-        <label class="control-label col-md-3">Telefon</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="cust_edit.phone">
+      <div class="form-group row no-gutters">
+        <label class="col-form-label col-md-4">Telefon</label>
+        <div class="col-md-8">
+          <input class="form-control" name="edit-phone" [(ngModel)]="cust_edit.phone">
         </div>
       </div>
-      <div class="form-input">
-        <label class="control-label col-md-3">Mobil</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="cust_edit.phone2">
+      <div class="form-group row no-gutters">
+        <label class="col-form-label col-md-4">Mobil</label>
+        <div class="col-md-8">
+          <input class="form-control" name="edit-phone2" [(ngModel)]="cust_edit.phone2">
         </div>
       </div>
-      <div class="form-input">
-        <label class="control-label col-md-3">Fax</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="cust_edit.fax">
+      <div class="form-group row no-gutters">
+        <label class="col-form-label col-md-4">Fax</label>
+        <div class="col-md-8">
+          <input class="form-control" name="edit-fax" [(ngModel)]="cust_edit.fax">
         </div>
       </div>
-      <div class="form-input">
-        <label class="control-label col-md-3">Skype</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="cust_edit.skype">
+      <div class="form-group row no-gutters">
+        <label class="col-form-label col-md-4">Skype</label>
+        <div class="col-md-8">
+          <input class="form-control" name="edit-skype" [(ngModel)]="cust_edit.skype">
         </div>
       </div>
-    </div>
-    <div class="col-sm-4 form-box">
-      <label class="control-label">Interne Info</label>
-      <textarea class="form-control" rows="8" [(ngModel)]="cust_edit.comment"></textarea>
-    </div>
+    </form>
+    <form class="col-sm-4 form-box">
+      <label class="col-form-label">Interne Info</label>
+      <textarea class="form-control" rows="8" name="edit-comment" [(ngModel)]="cust_edit.comment"></textarea>
+    </form>
   </div>
-  <div class="row tile">
-    <div class="col-sm-4 form-box">
-      <div class="form-input">
-        <label class="control-label col-md-3">{{ coreData.customer_status.display_name }}</label>
-        <div class="col-md-9">
-          <select class="form-control" [(ngModel)]="cust_edit.status" [compareWith]='util.compareById'>
+  <div class="row">
+    <form class="col-sm-4 form-box form-horizontal">
+      <div class="form-group row no-gutters">
+        <label class="col-form-label col-md-4">{{ coreData.customer_status.display_name }}</label>
+        <div class="col-md-8">
+          <select class="form-control" name="edit-status" [(ngModel)]="cust_edit.status" [compareWith]='util.compareById'>
             <option [value]='undefined' selected>-- Bitte wählen --</option>
             <option *ngFor="let option of coreData.customer_status.values" [ngValue]="option">{{ option.name }}</option>
           </select>
         </div>
       </div>
-      <div class="form-input">
-        <label class="control-label col-md-3">Accountmgr.</label>
-        <div class="col-md-9">
-          <select class="form-control" [(ngModel)]="cust_edit.account_manager" [compareWith]='util.compareById' ng-options="option.username for option in coreData.account_managers.values | orderBy:'username' track by option.id">
+      <div class="form-group row no-gutters">
+        <label class="col-form-label col-md-4">Accountmgr.</label>
+        <div class="col-md-8">
+          <select class="form-control" name="edit-account_manager" [(ngModel)]="cust_edit.account_manager" [compareWith]='util.compareById'
+            ng-options="option.username for option in coreData.account_managers.values | orderBy:'username' track by option.id">
             <option [value]='undefined' selected>-- Bitte wählen --</option>
             <option *ngFor="let option of coreData.account_managers.values" [ngValue]="option">{{ option.username }}</option>
           </select>
         </div>
       </div>
-      <div class="form-input">
-        <label class="control-label col-md-3">{{ coreData.customer_potential.display_name }}</label>
-        <div class="col-md-9">
-          <select class="form-control" [(ngModel)]="cust_edit.potential" [compareWith]='util.compareById' ng-options="option.name for option in coreData.customer_potential.values track by option.id">
+      <div class="form-group row no-gutters">
+        <label class="col-form-label col-md-4">{{ coreData.customer_potential.display_name }}</label>
+        <div class="col-md-8">
+          <select class="form-control" name="edit-potential" [(ngModel)]="cust_edit.potential" [compareWith]='util.compareById' ng-options="option.name for option in coreData.customer_potential.values track by option.id">
             <option [value]='undefined' selected>-- Bitte wählen --</option>
             <option *ngFor="let option of coreData.customer_potential.values" [ngValue]="option">{{ option.name }}</option>
           </select>
         </div>
       </div>
-      <div class="form-input">
-        <label class="control-label col-md-3">{{ coreData.customer_origin.display_name }}</label>
-        <div class="col-md-9">
-          <select class="form-control" [(ngModel)]="cust_edit.origin" [compareWith]='util.compareById' ng-options="option.name for option in coreData.customer_origin.values track by option.id">
+      <div class="form-group row no-gutters">
+        <label class="col-form-label col-md-4">{{ coreData.customer_origin.display_name }}</label>
+        <div class="col-md-8">
+          <select class="form-control" name="edit-origin" [(ngModel)]="cust_edit.origin" [compareWith]='util.compareById' ng-options="option.name for option in coreData.customer_origin.values track by option.id">
             <option [value]='undefined' selected>-- Bitte wählen --</option>
             <option *ngFor="let option of coreData.customer_origin.values" [ngValue]="option">{{ option.name }}</option>
           </select>
         </div>
       </div>
-    </div>
+    </form>
     <div class="col-sm-4 form-box">
 
     </div>
-    <div class="col-sm-4 form-box">
-      <label class="control-label">Rechnungsbedingungen</label>
-      <textarea class="form-control" rows="5" [(ngModel)]="cust_edit.invoicing_details"></textarea>
-    </div>
+    <form class="col-sm-4 form-box">
+      <label class="col-form-label">Rechnungsbedingungen</label>
+      <textarea class="form-control" rows="5" name="edit-invoicing_details" [(ngModel)]="cust_edit.invoicing_details"></textarea>
+    </form>
   </div>
   <div class="row pull-right">
     <button class="btn btn-primary" (click)="saveCustomer()">Speichern</button>

@@ -1,4 +1,4 @@
-import { TestBed, async, inject } from '@angular/core/testing'
+import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing'
 
 import { CoreDataService, CoreData } from './core-data.service'
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
@@ -26,6 +26,7 @@ describe('CoreDataService', () => {
 
     backend = TestBed.get(HttpTestingController)
     service = TestBed.get(CoreDataService)
+    backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' })
   })
 
 
@@ -34,7 +35,6 @@ describe('CoreDataService', () => {
   }))
 
   it('should be created and default data loaded', () => {
-    backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' })
     expect(service).toBeTruthy()
     expect(service.coreDataLoaded()).toBeTruthy()
     expect(service.getDataLoaded()).toBeTruthy()
@@ -45,8 +45,6 @@ describe('CoreDataService', () => {
   }
 
   it('should show message box when trying to create simple entity item', (done) => {
-    backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' })
-
     spyOn(window, 'confirm').and.returnValue(true)
     service.createSimpleEntityItem(null, 'TestName')
       .catch(() => {
@@ -58,7 +56,6 @@ describe('CoreDataService', () => {
   })
 
   it('should create simple entity item', () => {
-    backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' })
     service.createSimpleEntityItem('testEntity', 'TestName')
     const req = backend.expectOne('/admin/simple_entity/TestEntity')
     expect(req.request.method).toBe("POST")
@@ -67,7 +64,6 @@ describe('CoreDataService', () => {
   })
 
   it('should delete simple entity item', () => {
-    backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' })
     spyOn(window, 'confirm').and.returnValue(true)
     service.deleteSimpleEntityItem('TestEntity', 1)
     const req = backend.expectOne('/admin/simple_entity/TestEntity/1')
@@ -76,8 +72,6 @@ describe('CoreDataService', () => {
   })
 
   it('should show message box when trying to update simple entity item', (done) => {
-    backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' })
-
     spyOn(window, 'confirm').and.returnValue(true)
     service.updateSimpleEntityItem(null, 1, 'TestName')
       .catch(() => {
@@ -89,7 +83,6 @@ describe('CoreDataService', () => {
   })
 
   it('should update simple entity item', () => {
-    backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' })
     service.updateSimpleEntityItem('TestEntity', 1, 'TestEditedName')
     const req = backend.expectOne('/admin/simple_entity/TestEntity/1')
     expect(req.request.method).toBe("POST")
@@ -97,7 +90,6 @@ describe('CoreDataService', () => {
   })
 
   it('should get simple entity collection', () => {
-    backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' })
     service.getSimpleEntityCollection('testEntity')
     const req = backend.expectOne('/admin/simple_entity/TestEntity')
     expect(req.request.method).toBe("GET")
@@ -105,7 +97,6 @@ describe('CoreDataService', () => {
   })
 
   it('should get flattened two level entity collection', () => {
-    backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' })
     service.getFlattenedTwoLevelEntityCollection('testEntity')
     const req = backend.expectOne('/admin/two_level_entity/TestEntity')
     expect(req.request.method).toBe("GET")
@@ -113,8 +104,6 @@ describe('CoreDataService', () => {
   })
 
   it('should show message box when trying to create two level simple entity', (done) => {
-    backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' })
-
     spyOn(window, 'confirm').and.returnValue(true)
     service.createTwoLevelEntityItem(null, 1, 'TestName')
       .catch(() => {
@@ -126,7 +115,6 @@ describe('CoreDataService', () => {
   })
 
   it('should create two level entity item', () => {
-    backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' })
     service.createTwoLevelEntityItem('testEntity', 1, 'NewEntityName')
     const req = backend.expectOne('/admin/two_level_entity/TestEntity/1/sub_items')
     expect(req.request.method).toBe("POST")
@@ -134,8 +122,6 @@ describe('CoreDataService', () => {
   })
 
   it('should show message box when trying to delete two level simple entity', (done) => {
-    backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' })
-
     spyOn(window, 'confirm').and.returnValue(true)
     service.deleteTwoLevelEntityItem(null, -1, -1)
       .catch(() => {
@@ -146,18 +132,16 @@ describe('CoreDataService', () => {
       })
   })
 
-  it('should delete two level entity item', () => {
-    backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' })
-    spyOn(window, 'confirm').and.returnValue(true)
-    service.deleteTwoLevelEntityItem('testEntity', 1, 2)
+  it('should delete two level entity item', (done) => {
+    service.deleteTwoLevelEntityItem('testEntity', 1, 2).then(() => {
+      done()
+    })
     const req = backend.expectOne('/admin/two_level_entity/TestEntity/1/sub_items/2')
     expect(req.request.method).toBe("DELETE")
     req.flush({}, { status: 200, statusText: 'Ok' })
   })
 
   it('should show message box when trying to update two level entity item', (done) => {
-    backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' })
-
     spyOn(window, 'confirm').and.returnValue(true)
     service.updateTwoLevelEntityItem(null, 1, 1, 'TestName')
       .catch(() => {
@@ -169,8 +153,6 @@ describe('CoreDataService', () => {
   })
 
   it('should update two level entity item', () => {
-    backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' })
-
     service.updateTwoLevelEntityItem('testEntity', 1, 2, 'NewEntityName')
       .then((updatedEntity) => {
         expect(updatedEntity).toBeDefined()
@@ -181,9 +163,16 @@ describe('CoreDataService', () => {
   })
 
   it('should fail to refresh data loaded', () => {
-    backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'OK' })
     service.refreshDefaultData(null, () => { })
     backend.expectOne('/getDefaults').flush(coreData, { status: 404, statusText: 'Not Found' })
+  })
+
+  xit('should make main item', (done) => {
+
+  })
+
+  xit('should be added as subitem', (done) => {
+
   })
 
 })

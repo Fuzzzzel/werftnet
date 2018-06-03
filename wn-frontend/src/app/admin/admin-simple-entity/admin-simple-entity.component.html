@@ -4,7 +4,9 @@
     <input [(ngModel)]="item_new" (keydown.enter)="createSimpleEntityItem(item_new)" class="form-control">
     <span class="input-group-btn">
       <button type="button" class="btn btn-primary btn-sm" (click)="createSimpleEntityItem(item_new)">
-        <span class="glyphicon glyphicon-plus clickable iconsmall"></span>
+        <span class="clickable iconsmall">
+          <i class="fa fa-plus fa-lg"></i>
+        </span>
       </button>
     </span>
   </div>
@@ -12,7 +14,9 @@
     <div *ngFor="let value of valuearray.values">
       <div class="alist-simple-item">
         <inline-editor type="text" [(ngModel)]="value.name" (onSave)="updateSimpleEntityItem(value.id, $event)" size="8"></inline-editor>
-        <span class="glyphicon glyphicon-remove clickable clickable-icon iconsmall" (click)="deleteSimpleEntityItem(value.id)"></span>
+        <span class="clickable clickable-icon iconsmall" (click)="deleteSimpleEntityItem(value.id)">
+          <i class="fa fa-trash-o"></i>
+        </span>
       </div>
     </div>
   </div>

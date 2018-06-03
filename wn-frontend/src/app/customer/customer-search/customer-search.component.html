@@ -3,22 +3,22 @@
   <div class="form-default col-sm-12" (keydown.enter)="searchParams.page=1;searchCustomers(searchParams)">
     <div class="row">
       <form class="form-box col-md-5 form-horizontal">
-        <div class="form-input">
-          <label class="control-label col-md-3">Name</label>
+        <div class="form-group row">
+          <label class="col-form-label col-md-3">Name</label>
           <div class="col-md-9">
             <input id="search-name" name="search-name" class="form-control" [(ngModel)]="searchParams.name" />
           </div>
         </div>
-        <div class="form-input">
-          <label class="control-label col-md-3">Ansprechp.</label>
+        <div class="form-group row">
+          <label class="col-form-label col-md-3">Ansprechp.</label>
           <div class="col-md-9">
             <input id="search-asp_name" name="search-asp_name" class="form-control" [(ngModel)]="searchParams.asp_name" />
           </div>
         </div>
       </form>
       <form class="form-box col-md-5 form-horizontal">
-        <div class="form-input">
-          <label class="control-label col-md-3">Herkunft</label>
+        <div class="form-group row">
+          <label class="col-form-label col-md-3">Herkunft</label>
           <div class="col-md-9">
             <select class="form-control" name="search-akquise" [(ngModel)]="searchParams.akquise" [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
@@ -26,8 +26,8 @@
             </select>
           </div>
         </div>
-        <div class="form-input">
-          <label class="control-label col-md-3">AM</label>
+        <div class="form-group row">
+          <label class="col-form-label col-md-3">AM</label>
           <div class="col-md-9">
             <select class="form-control" name="search-account_manager" [(ngModel)]="searchParams.account_manager" [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
@@ -35,8 +35,8 @@
             </select>
           </div>
         </div>
-        <div class="form-input">
-          <label class="control-label col-md-3">Potenzial</label>
+        <div class="form-group row">
+          <label class="col-form-label col-md-3">Potenzial</label>
           <div class="col-md-9">
             <select class="form-control" name="search-potential" [(ngModel)]="searchParams.potential" [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
@@ -44,8 +44,8 @@
             </select>
           </div>
         </div>
-        <div class="form-input">
-          <label class="control-label col-md-3">Status</label>
+        <div class="form-group row">
+          <label class="col-form-label col-md-3">Status</label>
           <div class="col-md-9">
             <select class="form-control" name="search-status" [(ngModel)]="searchParams.status" [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>

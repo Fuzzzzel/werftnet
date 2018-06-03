@@ -95,11 +95,9 @@ export class CoreDataService {
 
     return new Promise((resolve, reject) => {
       if (entityName == null || entityName == "") {
-        alert("Bug: Name der Entity nicht angegeben");
-        reject && reject();
+        reject(new Error("Bug: Name der Entity nicht angegeben"))
       } else if (newItemName == null || newItemName == "") {
-        alert("Der neue Name darf nicht leer sein!");
-        reject && reject();
+        reject(new Error("Der neue Name darf nicht leer sein!"))
       } else {
         const entityNameConverted = this.util.ucfirst(_.camelCase(entityName));
 
@@ -132,26 +130,22 @@ export class CoreDataService {
    */
   deleteSimpleEntityItem(entityName, item_id): Promise<any> {
     return new Promise((resolve, reject) => {
-      if (!confirm("Eintrag wird gelöscht!")) {
-        reject && reject();
-      } else {
-        const entityNameConverted = this.util.ucfirst(_.camelCase(entityName));
+      const entityNameConverted = this.util.ucfirst(_.camelCase(entityName));
 
-        // Set up post request
-        const req = this.http.delete<any>(
-          '/admin/simple_entity/' + entityNameConverted + '/' + item_id
-        )
+      // Set up post request
+      const req = this.http.delete<any>(
+        '/admin/simple_entity/' + entityNameConverted + '/' + item_id
+      )
 
-        // Execute post request and subscribe to response
-        req.subscribe(
-          (data) => {
-            resolve && resolve(data);
-          },
-          error => {
-            reject && reject(error);
-          });
-      }
-    });
+      // Execute post request and subscribe to response
+      req.subscribe(
+        (data) => {
+          resolve(data);
+        },
+        error => {
+          reject(error);
+        })
+    })
   }
 
   /**
@@ -163,11 +157,9 @@ export class CoreDataService {
   updateSimpleEntityItem(entityName, item_id, itemNewName): Promise<SimpleEntity> {
     return new Promise((resolve, reject) => {
       if (entityName == null || entityName == "") {
-        alert("Bug: Name der Entity nicht angegeben")
-        reject && reject();
+        reject(new Error("Bug: Name der Entity nicht angegeben"))
       } else if (itemNewName == null || itemNewName == "") {
-        alert("Der neue Name darf nicht leer sein!");
-        reject && reject();
+        reject(new Error("Der neue Name darf nicht leer sein!"))
       } else {
         {
           const entityNameConverted = this.util.ucfirst(_.camelCase(entityName));
@@ -230,11 +222,9 @@ export class CoreDataService {
 
     return new Promise((resolve, reject) => {
       if (entityName == null || entityName == "") {
-        alert("Bug: Name der Entity nicht angegeben")
-        reject && reject();
+        reject(new Error("Bug: Name der Entity nicht angegeben"))
       } else if (newItemName == null || newItemName == "") {
-        alert("Der neue Name darf nicht leer sein!");
-        reject && reject();
+        reject(new Error("Der neue Name darf nicht leer sein!"))
       } else {
         const entityNameConverted = this.util.ucfirst(_.camelCase(entityName));
 
@@ -265,14 +255,10 @@ export class CoreDataService {
 
   deleteTwoLevelEntityItem(entityName, mainItemId, subItemId): Promise<any> {
     return new Promise((resolve, reject) => {
-      if (!confirm("Eintrag wird gelöscht!")) {
-        reject && reject()
-      } else if (entityName == null || entityName == "") {
-        alert("Bug: Name der Entity nicht angegeben")
-        reject && reject();
+      if (entityName == null || entityName == "") {
+        reject(new Error("Bug: Name der Entity nicht angegeben"))
       } else if (!(mainItemId > 0)) {
-        alert("Bug: Eine der angegebenen Item IDs ist keine positive Zahl!");
-        reject && reject();
+        reject(new Error("Bug: Eine der angegebenen Item IDs ist keine positive Zahl!"))
       } else {
         const entityNameConverted = this.util.ucfirst(_.camelCase(entityName));
 
@@ -300,11 +286,9 @@ export class CoreDataService {
 
     return new Promise((resolve, reject) => {
       if (entityName == null || entityName == "") {
-        alert("Bug: Name der Entity nicht angegeben")
-        reject()
+        reject(new Error("Bug: Name der Entity nicht angegeben"))
       } else if (itemNewName == null || itemNewName == "") {
-        alert("Der neue Name darf nicht leer sein!");
-        reject()
+        reject(new Error("Der neue Name darf nicht leer sein!"))
       } else {
         const entityNameConverted = this.util.ucfirst(_.camelCase(entityName));
 
@@ -330,11 +314,68 @@ export class CoreDataService {
     });
   }
 
-  makeMainItem() {
+  makeMainItem(subItemId, entityName) {
+    return new Promise<TwoLevelEntity>((resolve, reject) => {
+      if (!entityName) {
+        reject('Es wurde kein Entity Name angegeben')
+        return
+      }
 
+      if (subItemId) {
+        // Set up post request
+        const req = this.http.post<TwoLevelEntity>(
+          '/admin/makeMainItem',
+          {
+            entityName: entityName,
+            itemId: subItemId
+          }
+        )
+
+        // Execute post request and subscribe to response
+        req.subscribe(
+          data => {
+            resolve(data);
+          },
+          error => {
+            reject(error);
+          });
+      } else {
+        reject(new Error('Es wurde keine SubItem-Id übergeben!'))
+      }
+
+    })
   }
-  addAsSubItem() {
 
+  addAsSubItem(itemId, newMainItemId, entityName) {
+    return new Promise<TwoLevelEntity>((resolve, reject) => {
+      if (!entityName) {
+        reject('Es wurde kein Entity Name angegeben')
+        return
+      }
+
+      if (itemId && newMainItemId) {
+        // Set up post request
+        const req = this.http.post<TwoLevelEntity>(
+          '/admin/addAsSubItem',
+          {
+            entityName: entityName,
+            itemId: itemId,
+            mainItemId: newMainItemId
+          }
+        )
+
+        // Execute post request and subscribe to response
+        req.subscribe(
+          data => {
+            resolve(data);
+          },
+          error => {
+            reject(error);
+          });
+      } else {
+        reject(new Error('Es müssen eine ItemId und ein neues MainItem angegeben werden!'))
+      }
+    })
   }
 }
 

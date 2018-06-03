@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing'
 
 import { CoreDataService } from '../../core/core-data.service'
 import { SharedModule } from '../../shared/shared.module'
@@ -18,7 +18,7 @@ describe('CustomerSearchComponent', () => {
   let fixture: ComponentFixture<CustomerSearchComponent>
   let backend: HttpTestingController
 
-  beforeEach(async(() => {
+  beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
@@ -44,44 +44,42 @@ describe('CustomerSearchComponent', () => {
       ]
     })
       .compileComponents()
-  }))
 
-  beforeEach(() => {
     backend = TestBed.get(HttpTestingController)
     fixture = TestBed.createComponent(CustomerSearchComponent)
     component = fixture.componentInstance
+    tick()
     fixture.detectChanges()
-  })
+  }))
 
   it('should create', () => {
     expect(component).toBeTruthy()
   })
 
-  it('should search customers', () => {
+  it('should search customers', fakeAsync(() => {
     component.searchCustomers(null)
-  })
+    tick()
+  }))
 
-  it('should edit customer', (done) => {
+  it('should edit customer', fakeAsync(() => {
     let customerToEdit = new Customer()
     customerToEdit.id = 1
     component.editCustomer(customerToEdit)
-      .then(() => {
-        done()
-      })
+    tick()
+
     const req = backend.expectOne('/customers/' + customerToEdit.id)
     expect(req.request.method).toBe("GET")
     req.flush(customerToEdit, { status: 200, statusText: 'OK' })
-  })
+  }))
 
-  it('should fail to edit customer', (done) => {
+  it('should fail to edit customer', fakeAsync(() => {
     let customerToEdit = new Customer()
     customerToEdit.id = 1
     component.editCustomer(customerToEdit)
-      .catch((error) => {
-        done()
-      })
+    tick()
+
     const req = backend.expectOne('/customers/' + customerToEdit.id)
     expect(req.request.method).toBe("GET")
     req.flush(customerToEdit, { status: 404, statusText: 'Not Found' })
-  })
+  }))
 })

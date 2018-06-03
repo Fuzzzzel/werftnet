@@ -97,12 +97,12 @@ describe('PropMultiSelectComponent', () => {
     expect(component).toBeTruthy()
   })
 
-  it('should add item', () => {
+  it('should add item', async(() => {
     component.refreshValue([2])
     component.addSelectedItems()
-  })
+  }))
 
-  it('should remove item', () => {
+  it('should remove item', async(() => {
     component.removeSelectedItem(item1)
-  })
+  }))
 })

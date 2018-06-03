@@ -19,18 +19,14 @@ export class CustomerCompactComponent {
   ) { }
 
   editCustomer(customer) {
-    return new Promise<Customer>((resolve, reject) => {
-      // Reload customer or pass empty new customer
-      this.customerEditService.prepareEditCustomer(customer.id)
-        .then((customer) => {
-          resolve(customer)
-          this.util.goTo('customer/edit')
-        })
-        .catch((error) => {
-          alert(error.message)
-          reject(error)
-        })
-    })
+    // Reload customer or pass empty new customer
+    this.customerEditService.prepareEditCustomer(customer.id)
+      .then((customer) => {
+        this.util.goTo('customer/edit')
+      })
+      .catch((error) => {
+        alert('Kunde konnte nicht gespeichert werden: ' + error.message)
+      })
   }
 
   editcontact(customer, contact) {
@@ -39,7 +35,7 @@ export class CustomerCompactComponent {
         this.util.goTo('customer/edit_contact')
       })
       .catch((error) => {
-        alert(error.message)
+        alert('Kundenkontakt konnte nicht gespeichert werden: ' + error.message)
       })
   }
 }

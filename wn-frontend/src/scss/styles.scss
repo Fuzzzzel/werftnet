@@ -22,6 +22,10 @@ h3 {
   font-size: 1.2*$font-size-default;
 }
 
+h4, h5, h6 {
+  font-size: 1.1*$font-size-default;
+}
+
 #bg_frame {
   background-color: $col-bg-frame;
 }
@@ -69,16 +73,15 @@ h3 {
   margin-bottom: 1.2*$font-size-compact;
 }
 
-.compact-default {
-  /*
-  font-size: $font-size-compact;
-  line-height: $font-size-compact*1.4;
-  */
-  padding: $font-size-compact;
-}
+.card {
+    margin-bottom: .5rem;
+  }
 
-.compact-default label {
-  padding-right: 0;
+.compact-default {
+  & label {
+    min-width: 80px;
+    margin-bottom: .15rem;
+  }
 }
 
 .form-default {
@@ -121,6 +124,10 @@ h3 {
 .dropdown-menu {
   max-height: 400px;
   overflow-y: auto;
+}
+
+.dropdown-item.active a, .dropdown-item:active a {
+  color: #fff;
 }
 
 .iconsmall {

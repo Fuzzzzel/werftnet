@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing'
 import { CoreDataService } from '../../core/core-data.service'
 import { SharedModule } from '../../shared/shared.module'
 import { UtilService } from '../../core/util.service'
@@ -20,7 +20,7 @@ describe('FreelancerSearchComponent', () => {
   let fixture: ComponentFixture<FreelancerSearchComponent>
   let backend: HttpTestingController
 
-  beforeEach(async(() => {
+  beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
@@ -47,60 +47,50 @@ describe('FreelancerSearchComponent', () => {
       ]
     })
       .compileComponents()
-  }))
 
-  beforeEach(() => {
     backend = TestBed.get(HttpTestingController)
     fixture = TestBed.createComponent(FreelancerSearchComponent)
     component = fixture.componentInstance
+    tick()
     fixture.detectChanges()
-  })
+  }))
 
   it('should create', () => {
     expect(component).toBeTruthy()
   })
 
-  it('should search freelancers', (done) => {
+  it('should search freelancers', fakeAsync(() => {
     component.searchFreelancers({})
-      .then(() => {
-        done()
-      })
 
+    tick()
     const req = backend.expectOne('/freelancers/search')
     expect(req.request.method).toBe("POST")
     req.flush(new FreelancersLoaded(), { status: 200, statusText: 'Ok' })
-  })
+  }))
 
-  it('should search freelancers', (done) => {
+  it('should search freelancers', fakeAsync(() => {
     component.searchFreelancers({})
-      .catch(() => {
-        done()
-      })
 
+    tick()
     const req = backend.expectOne('/freelancers/search')
     expect(req.request.method).toBe("POST")
     req.flush(null, { status: 404, statusText: 'Not Found' })
-  })
+  }))
 
-  it('should edit freelancer', (done) => {
+  it('should edit freelancer', fakeAsync(() => {
     component.editFreelancer(new Freelancer())
-      .then((freelancer) => {
-        done()
-      })
-  })
+    tick()
+  }))
 
-  it('should fail to edit freelancer', (done) => {
+  it('should fail to edit freelancer', fakeAsync(() => {
     let freelancer = new Freelancer()
     freelancer.id = 1
     spyOn(window, 'alert').and.returnValue(true)
     component.editFreelancer(freelancer)
-      .catch((error) => {
-        done()
-      })
 
+    tick()
     const req = backend.expectOne('/freelancers/1')
     expect(req.request.method).toBe("GET")
     req.flush(null, { status: 404, statusText: 'Not Found' })
-
-  })
+  }))
 })

@@ -24,16 +24,13 @@ export class AdminSystemEditImprintComponent implements OnInit {
   }
 
   saveImprint() {
-    return new Promise<string>((resolve, reject) => {
-      this.imprintService.saveImprint(this.imprint)
-        .then((imprint) => {
-          resolve(imprint)
-          this.util.historyBack()
-        })
-        .catch((error) => {
-          reject(new Error('Fehler beim Speichern des Impressums!'))
-        })
-    })
+    this.imprintService.saveImprint(this.imprint)
+      .then((imprint) => {
+        this.util.historyBack()
+      })
+      .catch((error) => {
+        alert('Fehler beim Speichern des Impressums: ' + error.message)
+      })
   }
 
 }

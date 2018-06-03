@@ -49,46 +49,38 @@ export class AdminUserEditComponent implements OnInit {
   }
 
   changeUserPwd(userEditPwdForm) {
-    return new Promise<User>((resolve, reject) => {
-      if (userEditPwdForm.invalid) {
-        reject(new Error('Eingegebenes Passwort entspricht nicht den Richtlinien (min. 4 Zeichen)'))
-        return
-      }
+    if (userEditPwdForm.invalid) {
+      alert('Eingegebenes Passwort entspricht nicht den Richtlinien (min. 4 Zeichen)')
+      return
+    }
 
-      if (!(this.userToEdit.id > 0)) {
-        reject(new Error('User hat keine Id'))
-        return
-      }
+    if (!(this.userToEdit.id > 0)) {
+      alert('User hat keine Id')
+      return
+    }
 
-      this.adminUserEditService.changeUserPwd(this.pwdNew)
-        .then((user) => {
-          resolve(user)
-          this.util.historyBack()
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
+    this.adminUserEditService.changeUserPwd(this.pwdNew)
+      .then((user) => {
+        this.util.historyBack()
+      })
+      .catch((error) => {
+        alert('Password konnte nicht geändert werden: ' + error.message)
+      })
   }
 
   saveUser(userForm) {
-    return new Promise<User>((resolve, reject) => {
-      this.submittedForm = true
-      if (!userForm.valid) {
-        alert('Bitte alle Pflichtfelder ausfüllen!')
-        reject()
-      } else {
-        this.adminUserEditService.saveUser(this.userToEdit)
-          .then((user) => {
-            resolve(user)
-            this.util.historyBack()
-          })
-          .catch((error) => {
-            alert(error.message)
-            reject(error)
-          })
-      }
-    })
+    this.submittedForm = true
+    if (!userForm.valid) {
+      alert('Bitte alle Pflichtfelder ausfüllen!')
+    } else {
+      this.adminUserEditService.saveUser(this.userToEdit)
+        .then((user) => {
+          this.util.historyBack()
+        })
+        .catch((error) => {
+          alert(error.message)
+        })
+    }
   }
 
   deleteUser() {

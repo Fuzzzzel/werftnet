@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing'
 
 import { CustomerEditComponent } from './customer-edit.component'
 import { SharedModule } from '../../shared/shared.module'
@@ -18,7 +18,7 @@ describe('CustomerEditComponent', () => {
   let backend: HttpTestingController
   let customerEditService: CustomerEditService
 
-  beforeEach(async(() => {
+  beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
@@ -34,64 +34,59 @@ describe('CustomerEditComponent', () => {
       declarations: [CustomerEditComponent]
     })
       .compileComponents()
-  }))
 
-  beforeEach(() => {
     backend = TestBed.get(HttpTestingController)
     customerEditService = TestBed.get(CustomerEditService)
     fixture = TestBed.createComponent(CustomerEditComponent)
     component = fixture.componentInstance
+    tick()
     fixture.detectChanges()
     component.cust_edit = customerMock
-  })
+  }))
 
   it('should create', () => {
     expect(component).toBeTruthy()
   })
 
-  it('should save customer', (done) => {
+  it('should save customer', fakeAsync(() => {
     component.saveCustomer()
-      .then(() => {
-        done()
-      })
+    tick()
+
     const req = backend.expectOne('/customers/1')
     expect(req.request.method).toBe("POST")
     req.flush(component.cust_edit, { status: 200, statusText: 'OK' })
-  })
+  }))
 
 
-  it('should fail to save customer', (done) => {
+  it('should fail to save customer', fakeAsync(() => {
     component.saveCustomer()
-      .catch(() => {
-        done()
-      })
+    tick()
+
     const req = backend.expectOne('/customers/1')
     expect(req.request.method).toBe("POST")
     req.flush(null, { status: 404, statusText: 'Not Found' })
-  })
+  }))
 
-  it('should delete customer', (done) => {
+  it('should delete customer', fakeAsync(() => {
     spyOn(window, 'confirm').and.returnValue(true)
     component.deleteCustomer()
-      .then(() => {
-        done()
-      })
+    tick()
+
     const req = backend.expectOne('/customers/1')
     expect(req.request.method).toBe("DELETE")
     req.flush(component.cust_edit, { status: 200, statusText: 'OK' })
-  })
+  }))
 
 
-  it('should fail to delete customer', (done) => {
+  it('should fail to delete customer', fakeAsync(() => {
     spyOn(window, 'confirm').and.returnValue(true)
     component.deleteCustomer()
-      .catch(() => {
-        done()
-      })
+    tick()
+
     const req = backend.expectOne('/customers/1')
     expect(req.request.method).toBe("DELETE")
     req.flush(null, { status: 404, statusText: 'Not Found' })
-  })
+  }))
 
   it('should cancel edit', () => {
     component.cancelEdit()
