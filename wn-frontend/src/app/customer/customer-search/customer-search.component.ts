@@ -30,17 +30,13 @@ export class CustomerSearchComponent implements OnInit {
   }
 
   editCustomer(customerToEdit: Customer) {
-    return new Promise<Customer>((resolve, reject) => {
-      this.customerEditService.prepareEditCustomer(customerToEdit && customerToEdit.id)
-        .then((customer) => {
-          resolve(customer)
-          this.util.goTo('customer/edit')
-        })
-        .catch((error) => {
-          alert(error.message)
-          reject(error)
-        })
-    })
+    this.customerEditService.prepareEditCustomer(customerToEdit && customerToEdit.id)
+      .then((customer) => {
+        this.util.goTo('customer/edit')
+      })
+      .catch((error) => {
+        alert('Kunde konnte nicht gespeichert werden: ' + error.message)
+      })
   }
 
   ngOnInit() {

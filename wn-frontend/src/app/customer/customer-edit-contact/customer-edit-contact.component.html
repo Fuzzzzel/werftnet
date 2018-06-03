@@ -1,93 +1,95 @@
-<div class="container-fluid">
-  <h1 *ngIf="contact_edit.id">Kontakt bearbeiten</h1>
-  <h1 *ngIf="!contact_edit.id">Kontakt anlegen</h1>
-  <div class="row-md tile">
-    <div class="form-box col-md-4 form-horizontal">
-      <div class="form-input">
-        <label class="control-label col-md-3">{{ coreData.anrede.display_name }}</label>
-        <div class="col-md-9">
-          <select class="form-control" [(ngModel)]="contact_edit.anrede" [compareWith]='util.compareById' required>
-            <option [value]='undefined' selected>-- Bitte wählen --</option>
-            <option *ngFor="let option of coreData.anrede.values" [ngValue]="option">{{ option.name }}</option>
-          </select>
+<h1 *ngIf="contact_edit.id">Kontakt bearbeiten</h1>
+<h1 *ngIf="!contact_edit.id">Kontakt anlegen</h1>
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <form class="form-box col-md-4 form-horizontal">
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-md-4">{{ coreData.anrede.display_name }}</label>
+          <div class="col-md-8">
+            <select class="form-control" name="edit-anrede" [(ngModel)]="contact_edit.anrede" [compareWith]='util.compareById' required>
+              <option [value]='undefined' selected>-- Bitte wählen --</option>
+              <option *ngFor="let option of coreData.anrede.values" [ngValue]="option">{{ option.name }}</option>
+            </select>
+          </div>
         </div>
-      </div>
-      <div class="form-input">
-        <label class="control-label col-md-3">Vorname</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="contact_edit.name1">
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-md-4">Vorname</label>
+          <div class="col-md-8">
+            <input class="form-control" name="edit-name1" [(ngModel)]="contact_edit.name1">
+          </div>
         </div>
-      </div>
-      <div class="form-input">
-        <label class="control-label col-md-3">Nachname</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="contact_edit.name2">
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-md-4">Nachname</label>
+          <div class="col-md-8">
+            <input class="form-control" name="edit-name2" [(ngModel)]="contact_edit.name2">
+          </div>
         </div>
-      </div>
-      <div class="form-input">
-        <label class="control-label col-md-3">Position</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="contact_edit.position">
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-md-4">Position</label>
+          <div class="col-md-8">
+            <input class="form-control" name="edit-position" [(ngModel)]="contact_edit.position">
+          </div>
         </div>
-      </div>
-      <div class="form-input">
-        <label class="control-label col-md-3">Korr.Spr.</label>
-        <div class="col-md-9">
-          <select class="form-control" [(ngModel)]="contact_edit.correspond_language" [compareWith]='util.compareById'>
-            <option [value]='undefined' selected>-- Bitte wählen --</option>
-            <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
-          </select>
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-md-4">Korr.Spr.</label>
+          <div class="col-md-8">
+            <select class="form-control" name="edit-correspond_language" [(ngModel)]="contact_edit.correspond_language" [compareWith]='util.compareById'>
+              <option [value]='undefined' selected>-- Bitte wählen --</option>
+              <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
+            </select>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="form-box col-md-4 form-horizontal">
-      <div class="form-input row">
-        <label class="control-label col-md-3">E-Mail</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="contact_edit.email">
+      </form>
+      <form class="form-box col-md-4 form-horizontal">
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-md-4">E-Mail</label>
+          <div class="col-md-8">
+            <input class="form-control" name="edit-email" [(ngModel)]="contact_edit.email">
+          </div>
         </div>
-      </div>
-      <div class="form-input row">
-        <label class="control-label col-md-3">E-Mail2</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="contact_edit.email2">
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-md-4">E-Mail2</label>
+          <div class="col-md-8">
+            <input class="form-control" name="edit-email2" [(ngModel)]="contact_edit.email2">
+          </div>
         </div>
-      </div>
-      <div class="form-input row">
-        <label class="control-label col-md-3">Telefon</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="contact_edit.phone">
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-md-4">Telefon</label>
+          <div class="col-md-8">
+            <input class="form-control" name="edit-phone" [(ngModel)]="contact_edit.phone">
+          </div>
         </div>
-      </div>
-      <div class="form-input row">
-        <label class="control-label col-md-3">Mobil</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="contact_edit.phone2">
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-md-4">Mobil</label>
+          <div class="col-md-8">
+            <input class="form-control" name="edit-phone2" [(ngModel)]="contact_edit.phone2">
+          </div>
         </div>
-      </div>
-      <div class="form-input row">
-        <label class="control-label col-md-3">Fax</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="contact_edit.fax">
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-md-4">Fax</label>
+          <div class="col-md-8">
+            <input class="form-control" name="edit-fax" [(ngModel)]="contact_edit.fax">
+          </div>
         </div>
-      </div>
-      <div class="form-input row">
-        <label class="control-label col-md-3">Skype</label>
-        <div class="col-md-9">
-          <input class="form-control" [(ngModel)]="contact_edit.skype">
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-md-4">Skype</label>
+          <div class="col-md-8">
+            <input class="form-control" name="edit-skype" [(ngModel)]="contact_edit.skype">
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="form-box col-md-4">
-      <label class="control-label col-md-3">Interne Info</label>
-      <textarea class="form-control" rows="8" [(ngModel)]="contact_edit.comment"></textarea>
+      </form>
+      <form class="form-box col-md-4">
+        <label class="col-form-label col-md-12">Interne Info</label>
+        <textarea class="form-control" rows="8" name="edit-comment" [(ngModel)]="contact_edit.comment"></textarea>
+      </form>
     </div>
   </div>
+</div>
 
-  <div class="row-md pull-right">
-    <button class="btn btn-primary" (click)="saveCustomerContact()">Speichern</button>
-    <button class="btn btn-danger" (click)="cancelEdit()">Abbrechen</button>
-    <button class="btn btn-default" (click)="deleteCustomerContact()" ng-disabled="contact_edit.id == null">Löschen
-    </button>
-  </div>
+<div class="row pull-right">
+  <button class="btn btn-primary" (click)="saveCustomerContact()">Speichern</button>
+  <button class="btn btn-danger" (click)="cancelEdit()">Abbrechen</button>
+  <button class="btn btn-default" (click)="deleteCustomerContact()" ng-disabled="contact_edit.id == null">Löschen
+  </button>
 </div>

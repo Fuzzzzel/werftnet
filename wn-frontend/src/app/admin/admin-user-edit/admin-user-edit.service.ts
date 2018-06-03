@@ -50,51 +50,46 @@ export class AdminUserEditService {
     this.$userToEdit.next(new User());
   }
 
-  saveUser(editedUser): Promise<User> {
-    return new Promise<User>(
-      (resolve, reject) => {
-        const req = this.http.post<any>(
-          '/admin/users' + (editedUser.id > 0 ? '/' + editedUser.id : ''),
-          editedUser
-        )
+  saveUser(editedUser) {
+    return new Promise<User>((resolve, reject) => {
+      const req = this.http.post<any>(
+        '/admin/users' + (editedUser.id > 0 ? '/' + editedUser.id : ''),
+        editedUser
+      )
 
-        // Execute post request and subscribe to response
-        req.subscribe(
-          data => {
-            this.$userToEdit.next(data);
-            this.adminUserService.fetchAllUsers();
-            resolve(data);
-          },
-          error => {
-            reject(error);
-          });
-      }
-    )
+      // Execute post request and subscribe to response
+      req.subscribe(
+        data => {
+          this.$userToEdit.next(data);
+          this.adminUserService.fetchAllUsers();
+        },
+        error => {
+          alert('Fehler beim Speichern des Benutzers: ' + error.message)
+        });
+    })
   }
 
-  changeUserPwd(newPwd): Promise<any> {
-    return new Promise(
-      (resolve, reject) => {
-        if (!(this.$userToEdit.getValue().id > 0)) {
-          reject('Der User hat keine Id. Passwort kann nicht geändert werden');
-          return
-        }
-        const req = this.http.post<any>(
-          '/admin/users' + (this.$userToEdit.getValue().id > 0 ? '/' + this.$userToEdit.getValue().id : '') + '/password',
-          newPwd
-        )
-
-        // Execute post request and subscribe to response
-        req.subscribe(
-          data => {
-            this.$userToEdit.next(data);
-            this.adminUserService.fetchAllUsers();
-            resolve && resolve(data);
-          },
-          error => {
-            reject && reject(error);
-          });
+  changeUserPwd(newPwd) {
+    return new Promise<User>((resolve, reject) => {
+      if (!(this.$userToEdit.getValue().id > 0)) {
+        reject('Der User hat keine Id. Passwort kann nicht geändert werden');
+        return
       }
-    );
+      const req = this.http.post<any>(
+        '/admin/users' + (this.$userToEdit.getValue().id > 0 ? '/' + this.$userToEdit.getValue().id : '') + '/password',
+        newPwd
+      )
+
+      // Execute post request and subscribe to response
+      req.subscribe(
+        data => {
+          this.$userToEdit.next(data);
+          resolve(data)
+          this.adminUserService.fetchAllUsers();
+        },
+        error => {
+          reject(error)
+        });
+    })
   }
 }

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing'
 
 import { CustomerEditContactComponent } from './customer-edit-contact.component'
 import { SharedModule } from '../../shared/shared.module'
@@ -51,29 +51,28 @@ describe('CustomerEditContactComponent', () => {
     component.cancelEdit()
   })
 
-  it('should save cutomer contact', (done) => {
+  it('should save cutomer contact', fakeAsync(() => {
     component.contact_edit = new CustomerContact()
     component.contact_edit.id = 2
 
     customerEditService.prepareEditCustomerContact(1, 2)
       .then(() => {
         component.saveCustomerContact()
-          .then((contact) => {
-            done()
-          })
+        tick()
 
         const req2 = backend.expectOne('/customers/1/contacts/2')
         expect(req2.request.method).toBe("POST")
         req2.flush(component.contact_edit, { status: 200, statusText: 'Ok' })
       })
 
+    tick()
     const req = backend.expectOne('/customers/1/contacts/2')
     expect(req.request.method).toBe("GET")
     req.flush(component.contact_edit, { status: 200, statusText: 'Ok' })
 
-  })
+  }))
 
-  it('should fail to save cutomer contact', (done) => {
+  it('should fail to save cutomer contact', fakeAsync(() => {
     component.contact_edit = new CustomerContact()
     component.contact_edit.id = 2
 
@@ -81,50 +80,45 @@ describe('CustomerEditContactComponent', () => {
     customerEditService.prepareEditCustomerContact(1, 2)
       .then(() => {
         component.saveCustomerContact()
-          .catch(() => {
-            done()
-          })
+        tick()
 
         const req2 = backend.expectOne('/customers/1/contacts/2')
         expect(req2.request.method).toBe("POST")
         req2.flush(null, { status: 404, statusText: 'Not Found' })
       })
 
+    tick()
     const req = backend.expectOne('/customers/1/contacts/2')
     expect(req.request.method).toBe("GET")
     req.flush(component.contact_edit, { status: 200, statusText: 'Ok' })
 
-  })
+  }))
 
-  it('should delete cutomer contact', (done) => {
+  it('should delete cutomer contact', fakeAsync(() => {
     component.contact_edit = new CustomerContact()
     component.contact_edit.id = 2
     component.contact_edit['customer_id'] = 1
 
     spyOn(window, 'confirm').and.returnValue(true)
     component.deleteCustomerContact()
-      .then((contact) => {
-        done()
-      })
+    tick()
 
     const req2 = backend.expectOne('/customers/1/contacts/2')
     expect(req2.request.method).toBe("DELETE")
     req2.flush(component.contact_edit, { status: 200, statusText: 'Ok' })
-  })
+  }))
 
-  it('should fail to delete cutomer contact', (done) => {
+  it('should fail to delete cutomer contact', fakeAsync(() => {
     component.contact_edit = new CustomerContact()
     component.contact_edit.id = 2
     component.contact_edit['customer_id'] = 1
 
     spyOn(window, 'confirm').and.returnValue(true)
     component.deleteCustomerContact()
-      .catch(() => {
-        done()
-      })
+    tick()
 
     const req2 = backend.expectOne('/customers/1/contacts/2')
     expect(req2.request.method).toBe("DELETE")
     req2.flush(null, { status: 404, statusText: 'Not Found' })
-  })
+  }))
 })

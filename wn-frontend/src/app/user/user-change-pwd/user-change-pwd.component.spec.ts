@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing'
 
 import { UserChangePwdComponent } from './user-change-pwd.component'
 import { SharedModule } from '../../shared/shared.module'
@@ -13,7 +13,7 @@ describe('UserChangePwdComponent', () => {
   let fixture: ComponentFixture<UserChangePwdComponent>
   let backend: HttpTestingController
 
-  beforeEach(async(() => {
+  beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
@@ -27,14 +27,13 @@ describe('UserChangePwdComponent', () => {
       declarations: [UserChangePwdComponent]
     })
       .compileComponents()
-  }))
 
-  beforeEach(() => {
     backend = TestBed.get(HttpTestingController)
     fixture = TestBed.createComponent(UserChangePwdComponent)
     component = fixture.componentInstance
+    tick()
     fixture.detectChanges()
-  })
+  }))
 
   it('should create', () => {
     expect(component).toBeTruthy()
@@ -44,7 +43,7 @@ describe('UserChangePwdComponent', () => {
     component.goBack()
   })
 
-  it('should set new password for user', (done) => {
+  it('should set new password for user', fakeAsync(() => {
     const pwdForm = {}
     const user = new User()
     user.id = 1
@@ -53,16 +52,13 @@ describe('UserChangePwdComponent', () => {
 
     spyOn(window, 'alert').and.returnValue(true)
     component.setNewPassword(pwdForm)
-      .then(() => {
-        done()
-      })
 
     const req = backend.expectOne('/user/change_pwd')
     expect(req.request.method).toBe("POST")
     req.flush([user], { status: 200, statusText: 'Ok' })
-  })
+  }))
 
-  it('should fail to set new password for user', (done) => {
+  it('should fail to set new password for user', fakeAsync(() => {
     const pwdForm = {}
     const user = new User()
     user.id = 1
@@ -71,12 +67,10 @@ describe('UserChangePwdComponent', () => {
 
     spyOn(window, 'alert').and.returnValue(true)
     component.setNewPassword(pwdForm)
-      .catch(() => {
-        done()
-      })
 
+    tick()
     const req = backend.expectOne('/user/change_pwd')
     expect(req.request.method).toBe("POST")
     req.flush([user], { status: 404, statusText: 'Not Found' })
-  })
+  }))
 })

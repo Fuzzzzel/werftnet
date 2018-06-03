@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing'
 
 import { AdminSystemEditImprintComponent } from './admin-system-edit-imprint.component'
 import { SharedModule } from '../../../shared/shared.module'
@@ -12,7 +12,7 @@ describe('AdminSystemEditImprintComponent', () => {
   let fixture: ComponentFixture<AdminSystemEditImprintComponent>
   let backend: HttpTestingController
 
-  beforeEach(async(() => {
+  beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
@@ -27,13 +27,11 @@ describe('AdminSystemEditImprintComponent', () => {
     })
       .compileComponents()
     backend = TestBed.get(HttpTestingController)
-  }))
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(AdminSystemEditImprintComponent)
     component = fixture.componentInstance
+    tick()
     fixture.detectChanges()
-  })
+  }))
 
   it('should create', () => {
     expect(component).toBeTruthy()
@@ -43,23 +41,21 @@ describe('AdminSystemEditImprintComponent', () => {
     component.cancelSaveImprint()
   })
 
-  it('should save imprint', (done) => {
+  it('should save imprint', fakeAsync(() => {
     const req = backend.expectOne('/admin/settings/imprint')
     expect(req.request.method).toBe("GET")
     req.flush('New Imprint Text', { status: 200, statusText: 'Imprint Text' })
 
     component.imprint = 'Imprint Text'
     component.saveImprint()
-      .then((imprint) => {
-        done()
-      })
+    tick()
 
     const req2 = backend.expectOne('/admin/settings/imprint')
     expect(req2.request.method).toBe("POST")
     req2.flush('New Imprint Text', { status: 200, statusText: 'OK' })
-  })
+  }))
 
-  it('should fail to save imprint', (done) => {
+  it('should fail to save imprint', fakeAsync(() => {
     const req = backend.expectOne('/admin/settings/imprint')
     expect(req.request.method).toBe("GET")
     req.flush('New Imprint Text', { status: 200, statusText: 'Imprint Text' })
@@ -68,12 +64,10 @@ describe('AdminSystemEditImprintComponent', () => {
 
     component.imprint = 'Imprint Text'
     component.saveImprint()
-      .catch((error) => {
-        done()
-      })
+    tick()
 
     const req2 = backend.expectOne('/admin/settings/imprint')
     expect(req2.request.method).toBe("POST")
     req2.flush('New Imprint Text', { status: 404, statusText: '404 Not Found' })
-  })
+  }))
 })

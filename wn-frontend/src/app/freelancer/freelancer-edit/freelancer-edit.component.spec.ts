@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing'
 
 import { FreelancerEditComponent } from './freelancer-edit.component'
 import { SharedModule } from '../../shared/shared.module'
@@ -20,7 +20,7 @@ describe('FreelancerEditComponent', () => {
   let backend: HttpTestingController
   let freelancerEditService: FreelancerEditService
 
-  beforeEach(async(() => {
+  beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
@@ -38,70 +38,58 @@ describe('FreelancerEditComponent', () => {
       ]
     })
       .compileComponents()
-  }))
 
-  beforeEach(() => {
     backend = TestBed.get(HttpTestingController)
     freelancerEditService = TestBed.get(FreelancerEditService)
     fixture = TestBed.createComponent(FreelancerEditComponent)
     component = fixture.componentInstance
+    tick()
     fixture.detectChanges()
     component.fl_edit = freelancerMock
-  })
+  }))
 
   it('should create', () => {
     expect(component).toBeTruthy()
   })
 
-  it('should save freelancer', (done) => {
+  it('should save freelancer', fakeAsync(() => {
     component.saveFreelancer()
-      .then(() => {
-        done()
-      })
 
-    setTimeout(() => {
-      const req = backend.expectOne('/freelancers/1')
-      expect(req.request.method).toBe("POST")
-      req.flush(component.fl_edit, { status: 200, statusText: 'OK' })
-    }, 25)
-  })
+    tick()
+    const req = backend.expectOne('/freelancers/1')
+    expect(req.request.method).toBe("POST")
+    req.flush(component.fl_edit, { status: 200, statusText: 'OK' })
+  }))
 
-
-  it('should fail to save freelancer', (done) => {
+  it('should fail to save freelancer', fakeAsync(() => {
     component.saveFreelancer()
-      .catch(() => {
-        done()
-      })
 
-    setTimeout(() => {
-      const req = backend.expectOne('/freelancers/1')
-      expect(req.request.method).toBe("POST")
-      req.flush(null, { status: 404, statusText: 'Not Found' })
-    }, 25)
-  })
+    tick()
+    const req = backend.expectOne('/freelancers/1')
+    expect(req.request.method).toBe("POST")
+    req.flush(null, { status: 404, statusText: 'Not Found' })
+  }))
 
-  it('should delete freelancer', (done) => {
+  it('should delete freelancer', fakeAsync(() => {
     spyOn(window, 'confirm').and.returnValue(true)
     component.deleteFreelancer()
-      .then(() => {
-        done()
-      })
+
+    tick()
     const req = backend.expectOne('/freelancers/1')
     expect(req.request.method).toBe("DELETE")
     req.flush(component.fl_edit, { status: 200, statusText: 'OK' })
-  })
+  }))
 
 
-  it('should fail to delete freelancer', (done) => {
+  it('should fail to delete freelancer', fakeAsync(() => {
     spyOn(window, 'confirm').and.returnValue(true)
     component.deleteFreelancer()
-      .catch(() => {
-        done()
-      })
+
+    tick()
     const req = backend.expectOne('/freelancers/1')
     expect(req.request.method).toBe("DELETE")
     req.flush(null, { status: 404, statusText: 'Not Found' })
-  })
+  }))
 
   it('should add freelancer price', () => {
     let priceLine = new PriceLine()

@@ -1,94 +1,99 @@
-<div class="container-fluid compact-default tile small">
-  <div class="row-xs">
-    <div class="main-item col-sm-12">
-      <strong>
-        <a class="clickable" (click)="editFreelancer()">{{ freelancer.name2 }}, {{ freelancer.name1 }}
-          <span *ngIf="freelancer.company_name && freelancer.company_name.length > 0">
-            &nbsp;({{ freelancer.company_name }})
-          </span>
-        </a>
-      </strong>
-    </div>
+<div class="container-fluid card small compact-default">
+  <div class="card-body">
+    <h3 class="card-title">
+      <a class="clickable" (click)="editFreelancer()">{{ freelancer.name2 }}, {{ freelancer.name1 }}
+        <span *ngIf="freelancer.company_name && freelancer.company_name.length > 0">
+          &nbsp;({{ freelancer.company_name }})
+        </span>
+      </a>
+      <br />
+      <span class="text-muted">{{ freelancer.address && freelancer.address.city }} ({{ freelancer.address && freelancer.address.country && freelancer.address.country.name
+        }})
+      </span>
+    </h3>
 
-  </div>
-  <div class="row-sm">
-    <div class="col-sm-2">
-      <div class="row">
-        <div class="col-xs-12">
-          {{ freelancer.address && freelancer.address.city }} ({{ freelancer.address && freelancer.address.country && freelancer.address.country.name
-          }})
+    <div class="row">
+      <div class="col-sm-2">
+        <div class="row">
+          <div class="col">
+            <label>Rating:</label> {{ freelancer.fl_rating && freelancer.fl_rating.name }}
+          </div>
         </div>
-      </div>
-      <div>&nbsp;</div>
-      <div class="row">
-        <label class="col-xs-5">Rating:</label>
-        <div class="col-xs-7">{{ freelancer.fl_rating && freelancer.fl_rating.name }}</div>
-      </div>
-      <div class="row">
-        <label class="col-xs-5">Status:</label>
-        <div class="col-xs-7">{{ freelancer.fl_status && freelancer.fl_status.name }}</div>
-      </div>
-      <div class="row">
-        <label class="col-xs-5">DSGVO:</label>
-        <div class="col-xs-7">{{ freelancer.dsgvo && freelancer.dsgvo.name }}</div>
-      </div>
-      <div class="row">
-        <label class="col-xs-5">NDA:</label>
-        <div class="col-xs-7">{{ freelancer.nda && freelancer.nda.name }}</div>
-      </div>
-      <div class="row">
-        <label class="col-xs-5">Vereidigt:</label>
-        <div class="col-xs-7">{{ freelancer.sworn }}</div>
-      </div>
-    </div>
-    <div class="col-sm-3">
-      <div class="row">
-        <label class="col-xs-3">E-Mail:</label>
-        <div class="col-xs-9">
-          <a href="mailto:{{ freelancer.email }}">{{ freelancer.email }}</a>
+        <div class="row">
+          <div class="col">
+            <label>Status:</label> {{ freelancer.fl_status && freelancer.fl_status.name }}
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <label class="col-xs-3">E-Mail2:</label>
-        <div class="col-xs-9">
-          <a href="mailto:{{ freelancer.email2 }}">{{ freelancer.email2 }}</a>
+        <div class="row">
+          <div class="col">
+            <label>DSGVO:</label> {{ freelancer.dsgvo && freelancer.dsgvo.name }}
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <label class="col-xs-3">Fon:</label>
-        <div class="col-xs-9">{{ freelancer.phone }}</div>
-      </div>
-      <div class="row">
-        <label class="col-xs-3">Mobil:</label>
-        <div class="col-xs-9">{{ freelancer.phone2 }}</div>
-      </div>
-      <div class="row">
-        <label class="col-xs-3">Fax:</label>
-        <div class="col-xs-9">{{ freelancer.fax }}</div>
-      </div>
-      <div class="row">
-        <label class="col-xs-3">Skype:</label>
-        <div class="col-xs-9">
-          <a [href]="'skype:'+freelancer.skype+'?chat' | safeUrl">{{ freelancer.skype }}</a>
+        <div class="row">
+          <div class="col">
+            <label>NDA:</label> {{ freelancer.nda && freelancer.nda.name }}
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="col-sm-7">
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="row" *ngFor="let price of freelancer.prices">
-            <div class="col-xs-3">{{ getCombinedDisplayName(price.lng_source) }}</div>
-            <div class="col-xs-1">
-              <span class="glyphicon glyphicon-arrow-right iconsmall"></span>
-            </div>
-            <div class="col-xs-3">{{ getCombinedDisplayName(price.lng_target) }}</div>
-            <div class="col-xs-3">{{ price.service && price.service.name }} pro {{ price.price_unit && price.price_unit.name }}</div>
-            <div class="col-xs-2">{{ price.price_per_unit | currency:(price.currency && price.currency.name):3 }}</div>
+        <div class="row">
+          <div class="col">
+            <label>Vereidigt:</label> {{ freelancer.sworn }}
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-xs-12">
+      <div class="col-sm-3">
+        <div class="row">
+          <div class="col">
+            <label>E-Mail:</label>
+            <a href="mailto:{{ freelancer.email }}">{{ freelancer.email }}</a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label>E-Mail2:</label>
+            <a href="mailto:{{ freelancer.email2 }}">{{ freelancer.email2 }}</a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label>Fon:</label>
+            {{ freelancer.phone }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label>Mobil:</label>
+            {{ freelancer.phone2 }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label>Fax:</label>
+            {{ freelancer.fax }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label>Skype:</label>
+            <a [href]="'skype:'+freelancer.skype+'?chat' | safeUrl">{{ freelancer.skype }}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-7">
+        <div class="container-fluid">
+          <div class="row no-gutters" *ngFor="let price of freelancer.prices">
+            <div class="col-sm-3">{{ getCombinedDisplayName(price.lng_source) }}</div>
+            <div class="col-sm-1">
+              <span class="iconsmall">
+                <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+              </span>
+            </div>
+            <div class="col-sm-3">{{ getCombinedDisplayName(price.lng_target) }}</div>
+            <div class="col-sm-3">{{ price.service && price.service.name }}/{{ price.price_unit && price.price_unit.name }}</div>
+            <div class="col-sm-2">{{ price.price_per_unit | currency:(price.currency && price.currency.name):3 }}</div>
+          </div>
+        </div>
+        <div class="container-fluid">
+          <div>&nbsp;</div>
           <div>{{ freelancer.comment }}</div>
         </div>
       </div>

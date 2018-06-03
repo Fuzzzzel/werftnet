@@ -19,18 +19,14 @@ export class FreelancerCompactComponent {
   ) { }
 
   editFreelancer() {
-    return new Promise<Freelancer>((resolve, reject) => {
-      // Reload freelancer or pass empty new freelancer
-      this.freelancerEditService.prepareEditFreelancer(this.freelancer.id)
-        .then((freelancer) => {
-          resolve(freelancer)
-          this.util.goTo('freelancer/edit')
-        })
-        .catch((error) => {
-          alert(error.message)
-          reject(error)
-        })
-    })
+    // Reload freelancer or pass empty new freelancer
+    this.freelancerEditService.prepareEditFreelancer(this.freelancer.id)
+      .then((freelancer) => {
+        this.util.goTo('freelancer/edit')
+      })
+      .catch((error) => {
+        alert('Freelancer konnte nicht gespeichert werden: ' + error.message)
+      })
   }
 
   getCombinedDisplayName(entity) {

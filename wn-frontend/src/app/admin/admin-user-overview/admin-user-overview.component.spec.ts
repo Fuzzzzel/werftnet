@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing'
 
 import { AdminUserOverviewComponent } from './admin-user-overview.component'
 import { SharedModule } from '../../shared/shared.module'
@@ -13,7 +13,7 @@ describe('AdminUserOverviewComponent', () => {
   let fixture: ComponentFixture<AdminUserOverviewComponent>
   let backend: HttpTestingController
 
-  beforeEach(async(() => {
+  beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
@@ -32,14 +32,13 @@ describe('AdminUserOverviewComponent', () => {
       declarations: [AdminUserOverviewComponent]
     })
       .compileComponents()
-  }))
 
-  beforeEach(() => {
     backend = TestBed.get(HttpTestingController)
     fixture = TestBed.createComponent(AdminUserOverviewComponent)
     component = fixture.componentInstance
+    tick()
     fixture.detectChanges()
-  })
+  }))
 
   it('should create', () => {
     expect(component).toBeTruthy()
