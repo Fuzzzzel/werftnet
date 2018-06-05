@@ -33,4 +33,15 @@ class HomeControllerTest extends DefaultWebTestCase
 
         $this->assertContains('index.html', $client->getResponse()->getContent());
     }
+
+    /**
+     * Test that login page is shown when user navigates to login
+     */
+    public function testF5RedirectAction() {
+
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/dist/#/test');
+
+        $this->assertContains('login', $client->getResponse()->getContent());
+    }
 }
