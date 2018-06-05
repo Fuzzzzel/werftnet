@@ -49,7 +49,7 @@ export class CustomerEditComponent implements OnInit {
         this.util.historyBack()
       })
       .catch((error) => {
-        alert('Kunder konnte nicht gelöscht werden: ' + error.message)
+        alert('Kunde konnte nicht gelöscht werden: ' + error.message)
       })
   }
 
