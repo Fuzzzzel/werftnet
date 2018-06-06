@@ -12,6 +12,7 @@ import { HttpTestingController, HttpClientTestingModule } from '@angular/common/
 import { Freelancer } from '../freelancer.model';
 import { PriceLine } from '../../shared/model/price-line.model';
 import { PriceUnit, Service } from '../../shared/model/common.model';
+import { FreelancersLoaded } from '../freelancer-search/freelancers-loaded.model';
 const freelancerMock = require('./../freelancer.mock.json')
 
 describe('FreelancerEditComponent', () => {
@@ -54,8 +55,9 @@ describe('FreelancerEditComponent', () => {
 
   it('should save freelancer', fakeAsync(() => {
     component.saveFreelancer()
-
     tick()
+
+    // Save freelancer
     const req = backend.expectOne('/freelancers/1')
     expect(req.request.method).toBe("POST")
     req.flush(component.fl_edit, { status: 200, statusText: 'OK' })

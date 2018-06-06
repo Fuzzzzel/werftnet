@@ -34,12 +34,10 @@ describe('CustomerSearchService', () => {
       .then(() => {
         done()
       })
-    setTimeout(() => {
 
-      const req = backend.expectOne('/customers/search')
-      expect(req.request.method).toBe("POST")
-      req.flush({}, { status: 200, statusText: 'OK' })
-    }, 25)
+    const req = backend.expectOne('/customers/search')
+    expect(req.request.method).toBe("POST")
+    req.flush({}, { status: 200, statusText: 'OK' })
   })
 
   it('should fail to search customers', (done) => {
