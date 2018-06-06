@@ -52,11 +52,12 @@ describe('CustomerCompactComponent', () => {
       ]
     })
       .compileComponents()
+    backend = TestBed.get(HttpTestingController)
     fixture = TestBed.createComponent(CustomerCompactComponent)
     component = fixture.componentInstance
     component.customer = customerMock
-    backend = TestBed.get(HttpTestingController)
     tick()
+    fixture.detectChanges()
   }))
 
   it('should create', () => {
