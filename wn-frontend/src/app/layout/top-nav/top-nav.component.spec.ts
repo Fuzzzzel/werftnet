@@ -44,6 +44,11 @@ describe('TopNavComponent', () => {
     expect(component).toBeTruthy()
   })
 
+  it('should evaluate user role', () => {
+    const hasRole = component.userHasRole('ROLE_USER')
+    expect(hasRole).toBeFalsy()
+  })
+
   it('should not have a logged in user on creation', () => {
     expect(component.isUserLoggedIn()).toBeFalsy()
   })

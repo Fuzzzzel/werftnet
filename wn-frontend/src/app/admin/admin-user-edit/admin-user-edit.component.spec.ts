@@ -143,6 +143,7 @@ describe('AdminUserEditComponent', () => {
     const req = backend.expectOne('/admin/users/' + component.userToEdit.id)
     expect(req.request.method).toBe("POST")
     req.flush(new User(), { status: 200, statusText: 'Ok' })
+    tick()
   }))
 
   it('should fail to save user', fakeAsync(() => {
