@@ -167,12 +167,76 @@ describe('CoreDataService', () => {
     backend.expectOne('/getDefaults').flush(coreData, { status: 404, statusText: 'Not Found' })
   })
 
-  xit('should make main item', (done) => {
+  it('should make main item', (done) => {
+    service.makeMainItem(1, 'TestEntity')
+      .then((item) => {
+        done()
+      })
 
+    const req = backend.expectOne('/admin/makeMainItem')
+    expect(req.request.method).toBe("POST")
+    req.flush(new TwoLevelEntity(), { status: 200, statusText: 'Ok' })
   })
 
-  xit('should be added as subitem', (done) => {
+  it('should fail make main item (entity name missing)', (done) => {
+    service.makeMainItem(1, null)
+      .catch((item) => {
+        done()
+      })
+  })
 
+  it('should fail make main item (id missing)', (done) => {
+    service.makeMainItem(null, 'TestEntity')
+      .catch((item) => {
+        done()
+      })
+  })
+
+  it('should fail make main item (404)', (done) => {
+    service.makeMainItem(1, 'TestEntity')
+      .catch((item) => {
+        done()
+      })
+
+    const req = backend.expectOne('/admin/makeMainItem')
+    expect(req.request.method).toBe("POST")
+    req.flush(new TwoLevelEntity(), { status: 404, statusText: 'Ok' })
+  })
+
+  it('should be added as sub item', (done) => {
+    service.addAsSubItem(1, 2, 'TestEntity')
+      .then((item) => {
+        done()
+      })
+
+    const req = backend.expectOne('/admin/addAsSubItem')
+    expect(req.request.method).toBe("POST")
+    req.flush(new TwoLevelEntity(), { status: 200, statusText: 'Ok' })
+  })
+
+  it('should fail to be added as sub item (entity name missing)', (done) => {
+    service.addAsSubItem(1, 2, null)
+      .catch((item) => {
+        done()
+      })
+  })
+
+  it('should fail to be added as sub item (id missing)', (done) => {
+    service.addAsSubItem(null, null, 'TestEntity')
+      .catch((item) => {
+        done()
+      })
+  })
+
+  it('should fail to be added as sub item (404)', (done) => {
+    service.addAsSubItem(1, 2, 'TestEntity')
+      .catch((item) => {
+        done()
+      })
+
+    const req = backend.expectOne('/admin/addAsSubItem')
+    expect(req.request.method).toBe("POST")
+    req.flush(new TwoLevelEntity(), { status: 404, statusText: 'Ok' })
   })
 
 })

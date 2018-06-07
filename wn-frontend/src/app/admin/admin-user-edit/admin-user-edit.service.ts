@@ -61,10 +61,11 @@ export class AdminUserEditService {
       req.subscribe(
         data => {
           this.$userToEdit.next(data);
+          resolve(data)
           this.adminUserService.fetchAllUsers();
         },
         error => {
-          alert('Fehler beim Speichern des Benutzers: ' + error.message)
+          reject(new Error('Fehler beim Speichern des Benutzers: ' + error.message))
         });
     })
   }
