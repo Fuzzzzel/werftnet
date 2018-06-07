@@ -41,6 +41,7 @@ module.exports = function (config) {
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: true,
+        browserNoActivityTimeout: 20000,
         browsers: ['ChromeDebugging'],
         customLaunchers: {
             ChromeDebugging: {
