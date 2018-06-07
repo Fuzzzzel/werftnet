@@ -138,7 +138,7 @@ class TwoLevelEntityControllerTest extends DefaultWebTestCase
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),
-            '{"entityName": "Sector", "itemId": "' . $subItem->id . '",  "itemMainId": "' . $newItem->id . '"}'
+            '{"entityName": "Sector", "itemId": "' . $subItem->id . '",  "mainItemId": "' . $newItem->id . '"}'
         );
         $response = $client->getResponse()->getContent();
         $this->assertJson($response);
@@ -150,7 +150,7 @@ class TwoLevelEntityControllerTest extends DefaultWebTestCase
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),
-            '{"entityName": "Sector", "itemId": 99999,  "itemMainId": 99999}'
+            '{"entityName": "Sector", "itemId": 99999,  "mainItemId": 99999}'
         );
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
 
@@ -161,7 +161,7 @@ class TwoLevelEntityControllerTest extends DefaultWebTestCase
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),
-            '{"entityName": "Sector", "itemId": "' . $newItem->id . '",  "itemMainId": "' . $newItem->id . '"}'
+            '{"entityName": "Sector", "itemId": "' . $newItem->id . '",  "mainItemId": "' . $newItem->id . '"}'
         );
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
 
@@ -172,7 +172,7 @@ class TwoLevelEntityControllerTest extends DefaultWebTestCase
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),
-            '{"entityName": "Sector", "itemId": "' . $newItem->id . '",  "itemMainId": "' . $subItem->id . '"}'
+            '{"entityName": "Sector", "itemId": "' . $newItem->id . '",  "mainItemId": "' . $subItem->id . '"}'
         );
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
     }
@@ -206,22 +206,14 @@ class TwoLevelEntityControllerTest extends DefaultWebTestCase
      */
     public function testFetchAndDeleteTwoLevelEntity($itemToDelete)
     {
-        // Fetch simple entity
+        // Fetch two level entity to delete
         $client = $this->getAdminClient();
         $crawler = $client->request('GET', '/admin/two_level_entity/sector/' . $itemToDelete->id);
         $responseBody = $client->getResponse()->getContent();
         $this->assertJson($responseBody);
 
-        // Choose item to delete and test that in array
         $response = json_decode($responseBody);
         $mainItemToDelete = $response;
-
-        // Delete non existing item
-        $crawler = $client->request(
-            'DELETE',
-            "/admin/two_level_entity/sector/99999"
-        );
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
 
         // Delete item while still subitems
         $crawler = $client->request(
@@ -244,6 +236,14 @@ class TwoLevelEntityControllerTest extends DefaultWebTestCase
             "/admin/two_level_entity/sector/{$mainItemToDelete->id}"
         );
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        // Delete non existing item
+        $crawler = $client->request(
+            'DELETE',
+            "/admin/two_level_entity/sector/99999"
+        );
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+
     }
 
     private function findItemById($arr, $id)

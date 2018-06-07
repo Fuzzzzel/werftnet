@@ -4,7 +4,9 @@
     <input [(ngModel)]="main_item_new" (keydown.enter)="createTwoLevelEntityMainItem(main_item_new)" class="form-control">
     <span class="input-group-btn">
       <button type="button" class="btn btn-primary btn-sm" (click)="createTwoLevelEntityMainItem(main_item_new)">
-        <span class="glyphicon glyphicon-plus clickable clickable-icon iconsmall"></span>
+        <span class="clickable iconsmall">
+          <i class="fa fa-plus fa-lg"></i>
+        </span>
       </button>
     </span>
   </div>
@@ -13,19 +15,24 @@
     <div *ngFor="let mainProp of valuearray.values">
 
       <!-- New MainItem -->
-
       <div>
         <inline-editor type="text" [(ngModel)]="mainProp.name" (onSave)="updateTwoLevelEntityMainItem(mainProp.id, $event)" size="8"></inline-editor>
-        <span class="glyphicon glyphicon-remove clickable clickable-icon iconsmall" (click)="deleteTwoLevelEntityMainItem(valuearray, mainProp.id)"></span>
+        <span class="clickable clickable-icon iconsmall" (click)="deleteTwoLevelEntityMainItem(valuearray, mainProp.id)">
+          <i class="fa fa-trash-o"></i>
+        </span>
+        <span class="clickable clickable-icon iconsmall" (click)="makeSubItem(mainProp)">
+          <i class="fa fa-link" aria-hidden="true"></i>
+        </span>
       </div>
 
       <!-- New SubItem -->
-
       <div class="alist-sub-item-new alist-sub-item input-group">
         <input [(ngModel)]="sub_item_new" (keydown.enter)="createTwoLevelEntitySubItem(mainProp.id, sub_item_new)" class="form-control">
         <span class="input-group-btn">
           <button type="button" class="btn btn-primary btn-sm" (click)="createTwoLevelEntitySubItem(mainProp.id, sub_item_new)">
-            <span class="glyphicon glyphicon-plus clickable iconsmall"></span>
+            <span class="clickable iconsmall">
+              <i class="fa fa-plus fa-lg"></i>
+            </span>
           </button>
         </span>
       </div>
@@ -36,11 +43,15 @@
         <div>
           <inline-editor type="text" [(ngModel)]="subProp.name" (onSave)="updateTwoLevelEntitySubItem(mainProp.id, subProp.id,
         $event)" size="8"></inline-editor>
-          <span class="glyphicon glyphicon-remove clickable clickable-icon iconsmall" (click)="deleteTwoLevelEntitySubItem(mainProp.id,
-        subProp.id)"></span>
+          <span class="clickable clickable-icon iconsmall" (click)="deleteTwoLevelEntitySubItem(mainProp.id,
+        subProp.id)">
+            <i class="fa fa-trash-o"></i>
+          </span>
+          <span class="clickable clickable-icon iconsmall" (click)="makeMainItem(subProp.id)">
+            <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+          </span>
         </div>
       </div>
     </div>
   </div>
-
 </div>

@@ -23,32 +23,27 @@ export class CustomerEditContactComponent implements OnInit {
   ) { }
 
   saveCustomerContact() {
-    return new Promise<CustomerContact>((resolve, reject) => {
-      this.customerEditService.saveCustomerContact(this.contact_edit)
-        .then((contact) => {
-          this.customerSearchService.searchCustomers(null)
-          resolve(contact)
-          this.util.historyBack()
-        })
-        .catch((error) => {
-          alert(error.message)
-          reject(error)
-        })
-    })
+    this.customerEditService.saveCustomerContact(this.contact_edit)
+      .then((contact) => {
+        this.customerSearchService.searchCustomers(null)
+        this.util.historyBack()
+      })
+      .catch((error) => {
+        alert('Kundenkontakt konnte nicht gespeichert werden: ' + error.message)
+      })
   }
 
   deleteCustomerContact() {
-    return new Promise<any>((resolve, reject) => {
+    if (confirm('Kundenkontakt wirklich löschen?')) {
       this.customerEditService.deleteCustomerContact(this.contact_edit)
         .then(() => {
-          resolve()
           this.customerSearchService.searchCustomers(null)
           this.util.historyBack()
         })
         .catch((error) => {
-          reject(error)
+          alert('Kundenkontakt konnte nicht gelsöcht werden: ' + error.message)
         })
-    })
+    }
   }
 
   cancelEdit() {

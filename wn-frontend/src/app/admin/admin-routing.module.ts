@@ -24,6 +24,7 @@ const ROUTE_CONFIG: Routes = [
     children: [
       {
         path: '',
+        pathMatch: 'full',
         redirectTo: 'overview',
       },
       {

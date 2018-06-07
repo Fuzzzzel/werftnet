@@ -8,7 +8,7 @@ import { UserService } from '../../user/user.service'
 })
 export class TopNavComponent implements OnInit {
 
-  isCollapsed: Boolean = false
+  isNavbarCollapsed = true
 
   constructor(
     private userService: UserService

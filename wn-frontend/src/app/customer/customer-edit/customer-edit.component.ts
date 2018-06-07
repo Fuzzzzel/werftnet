@@ -32,33 +32,25 @@ export class CustomerEditComponent implements OnInit {
   }
 
   saveCustomer() {
-    return new Promise<Customer>((resolve, reject) => {
-      this.customerEditService.saveCustomer(this.cust_edit)
-        .then((customer) => {
-          resolve(customer)
-          this.customerSearchService.searchCustomers(null)
-          this.util.historyBack()
-        })
-        .catch((error) => {
-          alert(error.message)
-          reject(error)
-        })
-    })
+    this.customerEditService.saveCustomer(this.cust_edit)
+      .then((customer) => {
+        this.customerSearchService.searchCustomers(null)
+        this.util.historyBack()
+      })
+      .catch((error) => {
+        alert('Kunde konnte nicht gespeichert werden: ' + error.message)
+      })
   }
 
   deleteCustomer() {
-    return new Promise<any>((resolve, reject) => {
-      this.customerEditService.deleteCustomer(this.cust_edit)
-        .then(() => {
-          resolve()
-          this.customerSearchService.searchCustomers(null)
-          this.util.historyBack()
-        })
-        .catch((error) => {
-          alert(error.message)
-          reject(error)
-        })
-    })
+    this.customerEditService.deleteCustomer(this.cust_edit)
+      .then(() => {
+        this.customerSearchService.searchCustomers(null)
+        this.util.historyBack()
+      })
+      .catch((error) => {
+        alert('Kunde konnte nicht gelöscht werden: ' + error.message)
+      })
   }
 
   cancelEdit() {

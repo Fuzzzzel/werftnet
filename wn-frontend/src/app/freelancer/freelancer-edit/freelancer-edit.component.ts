@@ -27,33 +27,25 @@ export class FreelancerEditComponent implements OnInit {
 
 
   saveFreelancer() {
-    return new Promise<Freelancer>((resolve, reject) => {
-      this.freelancerEditService.saveFreelancer(this.fl_edit)
-        .then((freelancer) => {
-          this.freelancerSearchService.searchFreelancers(null);
-          resolve(freelancer)
-          this.util.historyBack();
-        })
-        .catch((error) => {
-          alert(error.msg)
-          reject(error)
-        })
-    })
+    this.freelancerEditService.saveFreelancer(this.fl_edit)
+      .then((freelancer) => {
+        this.freelancerSearchService.searchFreelancers(null);
+        this.util.historyBack();
+      })
+      .catch((error) => {
+        alert('Freelancer konnte nicht gespeichert werden: ' + error.msg)
+      })
   }
 
   deleteFreelancer() {
-    return new Promise<any>((resolve, reject) => {
-      this.freelancerEditService.deleteFreelancer(this.fl_edit)
-        .then(() => {
-          this.freelancerSearchService.searchFreelancers(null);
-          resolve()
-          this.util.historyBack();
-        })
-        .catch((error) => {
-          alert(error.message)
-          reject()
-        })
-    })
+    this.freelancerEditService.deleteFreelancer(this.fl_edit)
+      .then(() => {
+        this.freelancerSearchService.searchFreelancers(null);
+        this.util.historyBack();
+      })
+      .catch((error) => {
+        alert('Freelancer konnte nicht gelöscht werden: ' + error.message)
+      })
   }
 
   cancelEdit() {

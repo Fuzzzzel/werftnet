@@ -6,7 +6,9 @@
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let user of userList">
           <span>{{ user.username }}</span>
-          <span class="glyphicon glyphicon-edit clickable clickable-icon iconsmall" (click)="editUser(user.id)" title="Benutzer bearbeiten"></span>
+          <span class="clickable clickable-icon iconsmall" (click)="editUser(user.id)" title="Benutzer bearbeiten">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </span>
         </li>
       </ul>
     </div>

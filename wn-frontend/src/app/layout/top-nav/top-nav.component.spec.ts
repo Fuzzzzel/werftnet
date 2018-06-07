@@ -5,6 +5,8 @@ import { RouterTestingModule } from '@angular/router/testing'
 import { TopNavComponent } from './top-nav.component'
 import { UserService } from '../../user/user.service'
 import { UtilService } from '../../core/util.service'
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from '../../shared/shared.module';
 
 describe('TopNavComponent', () => {
   let component: TopNavComponent
@@ -20,7 +22,9 @@ describe('TopNavComponent', () => {
             path: 'login',
             redirectTo: ''
           }
-        ])
+        ]),
+        SharedModule,
+        NgbDropdownModule.forRoot()
       ],
       providers: [
         UtilService,
@@ -38,6 +42,11 @@ describe('TopNavComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy()
+  })
+
+  it('should evaluate user role', () => {
+    const hasRole = component.userHasRole('ROLE_USER')
+    expect(hasRole).toBeFalsy()
   })
 
   it('should not have a logged in user on creation', () => {

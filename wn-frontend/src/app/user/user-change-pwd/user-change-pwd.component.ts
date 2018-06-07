@@ -26,20 +26,16 @@ export class UserChangePwdComponent implements OnInit {
   }
 
   setNewPassword(pwdForm) {
-    return new Promise<User>((resolve, reject) => {
-      this.formSubmitted = true
-      this.errorMessage = null
-      this.userService.setNewPassword(this.pwdOld, this.pwdNew)
-        .then((user) => {
-          alert('Passwort wurde erfolgreich geändert')
-          resolve(user)
-          this.util.historyBack()
-        })
-        .catch((err) => {
-          this.errorMessage = err.error
-          reject(err)
-        })
-    })
+    this.formSubmitted = true
+    this.errorMessage = null
+    this.userService.setNewPassword(this.pwdOld, this.pwdNew)
+      .then((user) => {
+        alert('Passwort wurde erfolgreich geändert')
+        this.util.historyBack()
+      })
+      .catch((error) => {
+        alert('Neues Passwort konnte nicht gesetzt werden: ' + error.message)
+      })
   }
 
   goBack() {

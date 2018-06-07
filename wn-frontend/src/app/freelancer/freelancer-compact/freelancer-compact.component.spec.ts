@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing'
 
 import { FreelancerCompactComponent } from './freelancer-compact.component'
 import { SharedModule } from '../../shared/shared.module'
@@ -17,7 +17,7 @@ describe('FreelancerCompactComponent', () => {
   let fixture: ComponentFixture<FreelancerCompactComponent>
   let backend: HttpTestingController
 
-  beforeEach(async(() => {
+  beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
@@ -40,44 +40,39 @@ describe('FreelancerCompactComponent', () => {
       ]
     })
       .compileComponents()
-  }))
-
-  beforeEach(() => {
     backend = TestBed.get(HttpTestingController)
     fixture = TestBed.createComponent(FreelancerCompactComponent)
     component = fixture.componentInstance
     component.freelancer = freelancerMock
+    tick()
     fixture.detectChanges()
-  })
+  }))
 
   it('should create', () => {
     expect(component).toBeTruthy()
   })
 
-  it('should go to edit freelancer', (done) => {
+  it('should go to edit freelancer', fakeAsync(() => {
     component.editFreelancer()
-      .then((freelancer) => {
-        done()
-      })
 
+    tick()
     const req = backend.expectOne('/freelancers/' + freelancerMock.id)
     expect(req.request.method).toBe("GET")
     req.flush(freelancerMock, { status: 200, statusText: 'Ok' })
-  })
+  }))
 
-  it('should fail to go to edit freelancer', (done) => {
+  it('should fail to go to edit freelancer', fakeAsync(() => {
     component.editFreelancer()
-      .catch((error) => {
-        done()
-      })
-
     spyOn(window, 'alert').and.returnValue(true)
+
+    tick()
     const req = backend.expectOne('/freelancers/' + freelancerMock.id)
     expect(req.request.method).toBe("GET")
     req.flush(freelancerMock, { status: 404, statusText: 'Not Found' })
-  })
+  }))
 
   it('should return combined display name', () => {
-    component.getCombinedDisplayName({})
+    let combinedDisplayName = component.getCombinedDisplayName(null)
+    expect(combinedDisplayName).toBeNull()
   })
 })

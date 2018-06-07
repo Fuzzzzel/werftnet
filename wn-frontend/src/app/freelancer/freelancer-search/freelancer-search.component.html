@@ -1,17 +1,17 @@
 <div>
   <h1>Freelancer</h1>
-  <div class="form-default col-sm-12" (keydown.enter)="searchParams.page=1;searchFreelancers(searchParams)">
+  <div class="form-default col-md-12" (keydown.enter)="searchParams.page=1;searchFreelancers(searchParams)">
     <div class="row">
-      <form class="form-box col-sm-5 form-horizontal">
-        <div class="form-input">
-          <label class="control-label col-sm-3">Lieferant</label>
-          <div class="col-sm-9">
+      <form class="form-box col-md-5 form-horizontal">
+        <div class="form-group row">
+          <label class="col-form-label col-md-3">Lieferant</label>
+          <div class="col-md-9">
             <input id="search-name" name="search-name" class="form-control" [(ngModel)]="searchParams.name" />
           </div>
         </div>
-        <div class="form-input">
-          <label class="control-label col-sm-3">Status</label>
-          <div class="col-sm-9">
+        <div class="form-group row">
+          <label class="col-form-label col-md-3">Status</label>
+          <div class="col-md-9">
             <select class="form-control" name="search-sector" [(ngModel)]="searchParams.fl_status" [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
               <option *ngFor="let option of coreData.freelancer_status.values" [ngValue]="option">{{ option.name }}</option>
@@ -19,28 +19,28 @@
           </div>
         </div>
       </form>
-      <form class="form-box col-sm-5 form-horizontal">
-        <div class="form-input">
-          <label class="control-label col-sm-3">Quellsprache</label>
-          <div class="col-sm-9">
+      <form class="form-box col-md-5 form-horizontal">
+        <div class="form-group row">
+          <label class="col-form-label col-md-3">Quellsprache</label>
+          <div class="col-md-9">
             <select class="form-control" name="search-lng_source" [(ngModel)]="searchParams.lng_source" [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
               <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
             </select>
           </div>
         </div>
-        <div class="form-input">
-          <label class="control-label col-sm-3">Zielsprache</label>
-          <div class="col-sm-9">
+        <div class="form-group row">
+          <label class="col-form-label col-md-3">Zielsprache</label>
+          <div class="col-md-9">
             <select class="form-control" name="search-lng_target" [(ngModel)]="searchParams.lng_target" [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
               <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
             </select>
           </div>
         </div>
-        <div class="form-input">
-          <label class="control-label col-sm-3">Fachgebiet</label>
-          <div class="col-sm-9">
+        <div class="form-group row">
+          <label class="col-form-label col-md-3">Fachgebiet</label>
+          <div class="col-md-9">
             <select class="form-control" name="search-sector" [(ngModel)]="searchParams.sector" [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
               <option *ngFor="let option of coreData.sectors_flat.values" [ngValue]="option">{{ option.name }}</option>
@@ -48,7 +48,7 @@
           </div>
         </div>
       </form>
-      <div class="button-area col-sm-2 form-horizontal">
+      <div class="button-area col-md-2 form-horizontal">
         <button class="btn btn-block btn-primary" (click)="searchParams.page=1;searchFreelancers(searchParams)">Suchen</button>
         <button class="btn btn-block btn-default" (click)="editFreelancer(null)">Neuer Freelancer</button>
       </div>

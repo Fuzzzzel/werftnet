@@ -58,29 +58,22 @@ describe('AdminUserEditService', () => {
     })
   })
 
-  it('should save user', (done) => {
+  it('should save user', () => {
     let user = new User()
     user.id = 1
 
     service.saveUser(user)
-      .then((data) => {
-        expect(data).toBeTruthy()
-        done()
-      })
 
     const req = backend.expectOne('/admin/users/' + user.id)
     expect(req.request.method).toBe("POST")
     req.flush(user, { status: 200, statusText: 'Ok' })
   })
 
-  it('should fail to save user', (done) => {
+  it('should fail to save user', () => {
     let user = new User()
     user.id = 123
 
     service.saveUser(user)
-      .catch((error) => {
-        done()
-      })
 
     const req = backend.expectOne('/admin/users/' + user.id)
     expect(req.request.method).toBe("POST")
@@ -93,8 +86,7 @@ describe('AdminUserEditService', () => {
 
     service.fetchUser(user.id).then((data) => {
       service.changeUserPwd('TestPassword')
-        .then((data) => {
-          expect(data).toBeTruthy()
+        .then(() => {
           done()
         })
 
@@ -133,10 +125,10 @@ describe('AdminUserEditService', () => {
   })
 
   it('should not change userPwd when id is missing', (done) => {
-    service.changeUserPwd(null).catch((err) => {
-      expect(err).toBeTruthy()
-      done()
-    })
+    service.changeUserPwd(null)
+      .catch(() => {
+        done()
+      })
   })
 
 

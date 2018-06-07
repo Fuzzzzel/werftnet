@@ -25,4 +25,13 @@ class HomeController extends Controller
     {
         return new RedirectResponse("/dist/index.html");
     }
+
+    /**
+     * @Route("/dist/{req}", name="f5redirect", requirements={"req"=".*"})
+     */
+    public function f5redirectAction(Request $request)
+    {
+        return new RedirectResponse("/dist/index.html");
+    }
+
 }

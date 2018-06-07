@@ -34,6 +34,7 @@ describe('CustomerSearchService', () => {
       .then(() => {
         done()
       })
+
     const req = backend.expectOne('/customers/search')
     expect(req.request.method).toBe("POST")
     req.flush({}, { status: 200, statusText: 'OK' })

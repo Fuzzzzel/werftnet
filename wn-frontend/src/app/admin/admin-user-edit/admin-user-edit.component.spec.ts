@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing'
 
 import { AdminUserEditComponent } from './admin-user-edit.component'
 import { SharedModule } from '../../shared/shared.module'
@@ -20,7 +20,7 @@ describe('AdminUserEditComponent', () => {
   let adminUserEditService: AdminUserEditService
   let activatedRoute: ActivatedRoute
 
-  beforeEach(async(() => {
+  beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
@@ -44,6 +44,7 @@ describe('AdminUserEditComponent', () => {
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute)
     activatedRoute.params = Observable.of({ userId: 1 })
     fixture.detectChanges()
+    tick()
   }))
 
   function initWithUser() {
@@ -60,20 +61,21 @@ describe('AdminUserEditComponent', () => {
     req.flush(new User(), { status: 200, statusText: 'Ok' })
   }
 
-  it('should create', () => {
+  it('should create', fakeAsync(() => {
     expect(component).toBeTruthy()
-  })
+  }))
 
-  it('should fail to init', () => {
+  it('should fail to init', fakeAsync(() => {
     let user = new User()
     user.id = 1
     spyOn(window, 'alert').and.returnValue(true)
+    tick()
     const req = backend.expectOne('/admin/users/' + user.id)
     expect(req.request.method).toBe("GET")
     req.flush(user, { status: 404, statusText: 'not found' })
-  })
+  }))
 
-  it('should change user password', (done) => {
+  it('should change user password', fakeAsync(() => {
     initWithUser()
     let userEditPwdForm = { valid: true }
     component.pwdNew = 'New password'
@@ -81,23 +83,21 @@ describe('AdminUserEditComponent', () => {
     component.userToEdit.id = 1
     adminUserEditService.fetchUser(component.userToEdit.id).then((data) => {
       component.changeUserPwd(userEditPwdForm)
-        .then(() => {
-          done()
-        })
+      tick()
 
       const req = backend.expectOne('/admin/users/' + component.userToEdit.id + '/password')
       expect(req.request.method).toBe("POST")
       req.flush(new User(), { status: 200, statusText: 'OK' })
     })
 
-    setTimeout(() => {
-      const req1 = backend.expectOne('/admin/users/' + component.userToEdit.id)
-      expect(req1.request.method).toBe("GET")
-      req1.flush([component.userToEdit], { status: 200, statusText: 'Ok' })
-    }, 25)
-  })
+    tick()
+    const req1 = backend.expectOne('/admin/users/' + component.userToEdit.id)
+    expect(req1.request.method).toBe("GET")
+    req1.flush([component.userToEdit], { status: 200, statusText: 'Ok' })
 
-  it('should fail to change user password', (done) => {
+  }))
+
+  it('should fail to change user password', fakeAsync(() => {
     initWithUser()
     let userEditPwdForm = { invalid: true }
     component.pwdNew = 'New password'
@@ -105,36 +105,32 @@ describe('AdminUserEditComponent', () => {
     component.userToEdit.id = null
 
     adminUserEditService.fetchUser(1)
-      .then(() => {
-        spyOn(window, 'alert').and.returnValue(true)
-        component.changeUserPwd(userEditPwdForm)
-          .catch(() => {
-            // Error: Eingegebenes Password
-            userEditPwdForm.invalid = false
-            component.changeUserPwd(userEditPwdForm)
-              .catch(() => {
-                // Error: User hat keine Id
-                component.userToEdit.id = 1
-                component.changeUserPwd(userEditPwdForm)
-                  .catch((error) => {
-                    // Error 404
-                    done()
-                  })
+    tick()
+    spyOn(window, 'alert').and.returnValue(true)
+    const req = backend.expectOne('/admin/users/' + 1)
+    expect(req.request.method).toBe("GET")
+    req.flush([component.userToEdit], { status: 200, statusText: 'Ok' })
 
-                const req = backend.expectOne('/admin/users/' + component.userToEdit.id + '/password')
-                expect(req.request.method).toBe("POST")
-                req.flush(null, { status: 404, statusText: 'Not Found' })
-              })
-          })
-      })
-    setTimeout(() => {
-      const req1 = backend.expectOne('/admin/users/' + 1)
-      expect(req1.request.method).toBe("GET")
-      req1.flush([component.userToEdit], { status: 200, statusText: 'Ok' })
-    }, 25)
-  })
+    // Error: Eingegebenes Password
+    component.changeUserPwd(userEditPwdForm)
+    tick()
 
-  it('should save user', (done) => {
+    // Error: User hat keine Id
+    userEditPwdForm.invalid = false
+    component.changeUserPwd(userEditPwdForm)
+    tick()
+
+    // Error 404
+    component.userToEdit.id = 1
+    component.changeUserPwd(userEditPwdForm)
+    tick()
+
+    const req2 = backend.expectOne('/admin/users/' + component.userToEdit.id + '/password')
+    expect(req2.request.method).toBe("POST")
+    req2.flush(null, { status: 404, statusText: 'Not Found' })
+  }))
+
+  it('should save user', fakeAsync(() => {
     initWithUser()
     let userForm = { valid: true }
     component.pwdNew = 'New password'
@@ -142,16 +138,15 @@ describe('AdminUserEditComponent', () => {
     component.userToEdit.id = 1
 
     component.saveUser(userForm)
-      .then(() => {
-        done()
-      })
+    tick()
 
     const req = backend.expectOne('/admin/users/' + component.userToEdit.id)
     expect(req.request.method).toBe("POST")
     req.flush(new User(), { status: 200, statusText: 'Ok' })
-  })
+    tick()
+  }))
 
-  it('should fail to save user', (done) => {
+  it('should fail to save user', fakeAsync(() => {
     initWithUser()
     let userForm = { valid: false }
     component.pwdNew = 'New password'
@@ -161,28 +156,26 @@ describe('AdminUserEditComponent', () => {
     // Error: Nicht alle Pflichtangaben gemacht
     spyOn(window, 'alert').and.returnValue(true)
     component.saveUser(userForm)
-      .catch(() => {
-        // Error: No route
-        userForm = { valid: true }
-        component.saveUser(userForm)
-          .catch(() => {
-            done()
-          })
 
-        const req = backend.expectOne('/admin/users/' + component.userToEdit.id)
-        expect(req.request.method).toBe("POST")
-        req.flush(new User(), { status: 404, statusText: 'Not Found' })
-      })
+    // Error: No route
+    userForm = { valid: true }
+    component.saveUser(userForm)
+    tick()
 
-  })
+    const req = backend.expectOne('/admin/users/' + component.userToEdit.id)
+    expect(req.request.method).toBe("POST")
+    req.flush(new User(), { status: 404, statusText: 'Not Found' })
+  }))
 
-  it('should delete user', () => {
+  it('should delete user', fakeAsync(() => {
     initWithUser()
     component.deleteUser()
-  })
+    tick()
+  }))
 
-  it('should cancel edit', () => {
+  it('should cancel edit', fakeAsync(() => {
     initWithUser()
     component.cancelEdit()
-  })
+    tick()
+  }))
 })

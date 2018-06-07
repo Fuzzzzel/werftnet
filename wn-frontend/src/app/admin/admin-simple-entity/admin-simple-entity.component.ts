@@ -25,16 +25,13 @@ export class AdminSimpleEntityComponent implements OnInit {
   }
 
   loadSimpleEntityValues() {
-    return new Promise<SimpleEntityCollection>((resolve, reject) => {
-      this.coreDataService.getSimpleEntityCollection(this.entityName)
-        .then((data) => {
-          this.valuearray = data;
-          resolve(data)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
+    this.coreDataService.getSimpleEntityCollection(this.entityName)
+      .then((data) => {
+        this.valuearray = data;
+      })
+      .catch((error) => {
+        alert(error.message)
+      })
   }
 
   /**
@@ -42,17 +39,14 @@ export class AdminSimpleEntityComponent implements OnInit {
      * to the according array in angular
      */
   createSimpleEntityItem(newItemName) {
-    return new Promise<SimpleEntity>((resolve, reject) => {
-      this.coreDataService.createSimpleEntityItem(this.entityName, newItemName)
-        .then((data) => {
-          this.loadSimpleEntityValues();
-          resolve(data)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-      this.item_new = '';
-    })
+    this.coreDataService.createSimpleEntityItem(this.entityName, newItemName)
+      .then((data) => {
+        this.loadSimpleEntityValues();
+      })
+      .catch((error) => {
+        alert(error.message)
+      })
+    this.item_new = '';
   }
 
   /**
@@ -60,16 +54,17 @@ export class AdminSimpleEntityComponent implements OnInit {
    * on success
    */
   deleteSimpleEntityItem(item_id) {
-    return new Promise<any>((resolve, reject) => {
+    if (confirm("Eintrag wird gelöscht!")) {
       this.coreDataService.deleteSimpleEntityItem(this.entityName, item_id)
         .then(() => {
           this.loadSimpleEntityValues();
-          resolve()
         })
         .catch((error) => {
-          reject(error)
+          if (error && error.message) {
+            alert(error.message)
+          }
         })
-    })
+    }
   }
 
   /**
@@ -79,16 +74,14 @@ export class AdminSimpleEntityComponent implements OnInit {
    * // Change to input on first click, then update on second click!
    */
   updateSimpleEntityItem(item_id, item_edited_name) {
-    return new Promise<SimpleEntity>((resolve, reject) => {
-      this.coreDataService.updateSimpleEntityItem(this.entityName, item_id, item_edited_name)
-        .then((data) => {
-          this.loadSimpleEntityValues();
-          resolve(data)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
+    this.coreDataService.updateSimpleEntityItem(this.entityName, item_id, item_edited_name)
+      .then((data) => {
+        this.loadSimpleEntityValues();
+
+      })
+      .catch((error) => {
+        this.loadSimpleEntityValues();
+      })
   }
 
 }

@@ -26,29 +26,22 @@ export class FreelancerSearchComponent implements OnInit {
   ) { }
 
   searchFreelancers(searchParams) {
-    return new Promise<FreelancersLoaded>((resolve, reject) => {
-      this.freelancerSearchService.searchFreelancers(searchParams)
-        .then((freelancersLoaded) => {
-          resolve(freelancersLoaded)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
+    this.freelancerSearchService.searchFreelancers(searchParams)
+      .then((freelancersLoaded) => {
+      })
+      .catch((error) => {
+        alert('Suche der Freelancer fehlgeschlagen: ' + error.message)
+      })
   }
 
   editFreelancer(freelancerToEdit: Freelancer) {
-    return new Promise<Freelancer>((resolve, reject) => {
-      this.freelancerEditService.prepareEditFreelancer(freelancerToEdit && freelancerToEdit.id)
-        .then((freelancer) => {
-          resolve(freelancer)
-          this.util.goTo('freelancer/edit')
-        })
-        .catch((error) => {
-          alert(error.message)
-          reject(error)
-        })
-    })
+    this.freelancerEditService.prepareEditFreelancer(freelancerToEdit && freelancerToEdit.id)
+      .then((freelancer) => {
+        this.util.goTo('freelancer/edit')
+      })
+      .catch((error) => {
+        alert('Freelancer konnte nicht zum Bearbeiten geöffnet werden: ' + error.message)
+      })
   }
 
   ngOnInit() {

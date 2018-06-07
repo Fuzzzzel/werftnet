@@ -378,7 +378,7 @@ class TwoLevelEntityController extends Controller
         $entityName = $params->entityName;
         $entityName = QueryHelper::getFullEntityName($entityName);
         $itemId = $params->itemId;
-        $itemMainId = $params->itemMainId;
+        $mainItemId = $params->mainItemId;
 
         $classname = "\\AppBundle\\Entity\\" . $entityName;
 
@@ -391,7 +391,7 @@ class TwoLevelEntityController extends Controller
         );
 
         $itemMain = $repo->findOneBy(
-            array('id' => $itemMainId)
+            array('id' => $mainItemId)
         );
 
         // Falls Item nicht existiert, nicht aktualisieren

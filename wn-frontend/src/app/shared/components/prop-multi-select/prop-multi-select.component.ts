@@ -30,7 +30,7 @@ export class PropMultiSelectComponent implements OnInit {
     enableSearch: true,
     checkedStyle: 'fontawesome',
     buttonClasses: 'btn btn-default btn-block',
-    dynamicTitleMaxItems: 3,
+    dynamicTitleMaxItems: 0,
     displayAllSelectedText: true
   }
 
@@ -42,7 +42,7 @@ export class PropMultiSelectComponent implements OnInit {
     searchPlaceholder: 'Find',
     searchEmptyResult: 'Nothing found...',
     searchNoRenderText: 'Type in search box to see results...',
-    defaultTitle: 'Select',
+    defaultTitle: '-- Bitte wählen --',
     allSelected: 'All selected',
   }
 

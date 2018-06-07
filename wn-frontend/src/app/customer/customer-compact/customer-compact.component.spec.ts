@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing'
 
 import { CustomerCompactComponent } from './customer-compact.component'
 import { UtilService } from '../../core/util.service'
@@ -17,7 +17,7 @@ describe('CustomerCompactComponent', () => {
   let fixture: ComponentFixture<CustomerCompactComponent>
   let backend: HttpTestingController
 
-  beforeEach(async(() => {
+  beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
@@ -52,55 +52,57 @@ describe('CustomerCompactComponent', () => {
       ]
     })
       .compileComponents()
+    backend = TestBed.get(HttpTestingController)
     fixture = TestBed.createComponent(CustomerCompactComponent)
     component = fixture.componentInstance
     component.customer = customerMock
-    backend = TestBed.get(HttpTestingController)
+    tick()
+    fixture.detectChanges()
   }))
 
   it('should create', () => {
     expect(fixture.nativeElement.querySelector('.compact-default')).toBeTruthy()
   })
 
-  it('should edit customer', (done) => {
+  it('should edit customer', fakeAsync(() => {
     let customer = new Customer()
     customer.id = 1
     component.editCustomer(customer)
-      .then((customer) => {
-        done()
-      })
+    tick()
+
     const req = backend.expectOne('/customers/' + customer.id)
     expect(req.request.method).toBe("GET")
     req.flush(customer, { status: 200, statusText: 'Ok' })
 
-  })
+  }))
 
-  it('should fail to edit customer', (done) => {
+  it('should fail to edit customer', fakeAsync(() => {
     let customer = new Customer()
     customer.id = 1
     component.editCustomer(customer)
-      .catch((error) => {
-        done()
-      })
+    tick()
+
     const req = backend.expectOne('/customers/' + customer.id)
     expect(req.request.method).toBe("GET")
     req.flush(customer, { status: 404, statusText: 'Not Found' })
-  })
+  }))
 
-  it('should edit customer contact', () => {
+  it('should edit customer contact', fakeAsync(() => {
     let customer = new Customer()
     customer.id = 1
     let contact = new CustomerContact()
     contact.id = 2
 
     component.editcontact(customer, contact)
+    tick()
+
     const req = backend.expectOne('/customers/' + customer.id + '/contacts/' + contact.id)
     expect(req.request.method).toBe("GET")
     req.flush(customer, { status: 200, statusText: 'Ok' })
+  }))
 
-  })
-
-  it('should failt to edit customer contact', () => {
+  it('should failt to edit customer contact', fakeAsync(() => {
     component.editcontact(null, null)
-  })
+    tick()
+  }))
 })
