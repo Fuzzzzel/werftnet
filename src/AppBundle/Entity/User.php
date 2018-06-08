@@ -191,6 +191,7 @@ class User implements AdvancedUserInterface
     public function removeRole(\AppBundle\Entity\User\UserRole $role)
     {
         $this->roles->removeElement($role);
+        $role->removeUser($this);
     }
 
 

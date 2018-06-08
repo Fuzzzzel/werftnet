@@ -9,9 +9,7 @@ import { User } from './user.model';
 
 describe('AuthGuardService', () => {
   let mockSnapshot = jasmine.createSpyObj("RouterStateSnapshot", ['toString'])
-  mockSnapshot.data = {
-    expectedRole: 'ROLE_USER'
-  }
+
   let service: AuthGuardService
   let userService: UserService
   let backend: HttpTestingController
@@ -43,10 +41,39 @@ describe('AuthGuardService', () => {
   })
 
   it('should return not activated, when no user is logged in', () => {
+    mockSnapshot.data = {
+      expectedRole: 'ROLE_USER'
+    }
     expect(service.canActivate(mockSnapshot)).toBeFalsy()
   })
 
-  it('should return activated, when user is logged in', (done) => {
+  it('should return activated, when user is logged in and has role', (done) => {
+    mockSnapshot.data = {
+      expectedRole: 'ROLE_USER'
+    }
+
+    let userResponse = new User()
+    userResponse.id = 1
+    userResponse.username = 'user'
+    userResponse.roles = ['ROLE_USER']
+
+    userService.loginUser({ username: 'user', password: 'user' })
+      .then((data) => {
+        expect(data.username).toEqual('user')
+        expect(userService.isLoggedIn()).toBeTruthy()
+        expect(service.canActivate(mockSnapshot)).toBeTruthy()
+        done()
+      })
+
+    const req = backend.expectOne('/login_check')
+    expect(req.request.method).toBe("POST")
+    req.flush(userResponse, { status: 200, statusText: 'OK' })
+  })
+
+  it('should return activated, when user is logged in and no role needed', (done) => {
+    mockSnapshot.data = {
+    }
+
     let userResponse = new User()
     userResponse.id = 1
     userResponse.username = 'user'

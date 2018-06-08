@@ -32,6 +32,7 @@ class UserTest extends DefaultWebTestCase
         $this->assertEquals(1, count($user->getRealRoles()));
         $this->assertTrue($user->hasRole($role));
         $this->assertFalse($user->hasRole(new UserRole()));
+        $this->assertGreaterThan(0, count($role->getUsers()));
         $user->removeRole($role);
         $this->assertEquals(0, count($user->getRoles()));
 

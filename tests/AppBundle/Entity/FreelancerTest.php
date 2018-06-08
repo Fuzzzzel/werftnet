@@ -176,6 +176,10 @@ class FreelancerTest extends DefaultWebTestCase
         $freelancer->removeCatTool($catTool);
         $this->assertNotContains($catTool, $freelancer->getCatTools());
 
+        $flPaymentType = new Freelancer\FreelancerPaymentType();
+        $freelancer->setFlPaymentType($flPaymentType);
+        $this->assertEquals($flPaymentType, $freelancer->getFlPaymentType());
+
         $createdBy = new User();
         $freelancer->setCreatedBy($createdBy);
         $this->assertEquals($freelancer->getCreatedBy(), $createdBy);
