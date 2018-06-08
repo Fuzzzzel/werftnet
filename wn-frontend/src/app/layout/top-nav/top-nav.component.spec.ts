@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing'
 
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 import { RouterTestingModule } from '@angular/router/testing'
@@ -11,6 +11,7 @@ import { SharedModule } from '../../shared/shared.module';
 describe('TopNavComponent', () => {
   let component: TopNavComponent
   let fixture: ComponentFixture<TopNavComponent>
+  let backend: HttpTestingController
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -20,6 +21,10 @@ describe('TopNavComponent', () => {
         RouterTestingModule.withRoutes([
           {
             path: 'login',
+            redirectTo: ''
+          },
+          {
+            path: 'logout',
             redirectTo: ''
           }
         ]),
@@ -35,6 +40,7 @@ describe('TopNavComponent', () => {
   }))
 
   beforeEach(() => {
+    backend = TestBed.get(HttpTestingController)
     fixture = TestBed.createComponent(TopNavComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
@@ -53,7 +59,22 @@ describe('TopNavComponent', () => {
     expect(component.isUserLoggedIn()).toBeFalsy()
   })
 
-  it('should logout user', () => {
+  it('should logout user', fakeAsync(() => {
     component.logoutUser()
-  })
+    tick()
+
+    const req = backend.expectOne('/logout')
+    expect(req.request.method).toBe("GET")
+    req.flush(null, { status: 200, statusText: 'OK' })
+  }))
+
+  it('should fail to logout user (404)', fakeAsync(() => {
+    component.logoutUser()
+    tick()
+
+    spyOn(window, 'alert').and.returnValue(true)
+    const req = backend.expectOne('/logout')
+    expect(req.request.method).toBe("GET")
+    req.flush(null, { status: 404, statusText: 'Not Found' })
+  }))
 })

@@ -9,6 +9,7 @@ import { RouterTestingModule } from '@angular/router/testing'
 import { SharedModule } from '../../shared/shared.module'
 
 describe('LoginComponent', () => {
+  let backend: HttpTestingController
   let component: LoginComponent
   let fixture: ComponentFixture<LoginComponent>
 
@@ -22,6 +23,10 @@ describe('LoginComponent', () => {
           {
             path: 'login',
             redirectTo: ''
+          },
+          {
+            path: 'home',
+            redirectTo: ''
           }
         ])
       ],
@@ -34,30 +39,47 @@ describe('LoginComponent', () => {
   }))
 
   beforeEach(() => {
+    backend = TestBed.get(HttpTestingController)
     fixture = TestBed.createComponent(LoginComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
   })
 
-  afterEach(inject([HttpTestingController], (backend: HttpTestingController) => {
-    backend.verify()
-  }))
-
   it('should create', () => {
     expect(component).toBeTruthy()
   })
 
-  it('should send login request',
-    async(inject([UserService, HttpTestingController],
-      (userService: UserService, backend: HttpTestingController) => {
+  it('should send login request and succeed',
+    async(() => {
+      let user = new User()
+      user.id = 1
 
-        const compiled = fixture.debugElement.nativeElement
-        compiled.querySelector('#username').text = 'testuser'
-        compiled.querySelector('#password').text = 'testpass'
-        compiled.querySelector('#login_button').click()
+      const compiled = fixture.debugElement.nativeElement
+      compiled.querySelector('#username').text = 'testuser'
+      compiled.querySelector('#password').text = 'testpass'
+      compiled.querySelector('#login_button').click()
 
-        backend.expectOne('/login_check')
-      })
-    )
+
+      const req = backend.expectOne('/login_check')
+      expect(req.request.method).toBe("POST")
+      req.flush(user, { status: 200, statusText: 'Ok' })
+    })
+  )
+
+  it('should send login request and fail',
+    async(() => {
+      let user = new User()
+      user.id = 1
+
+      const compiled = fixture.debugElement.nativeElement
+      compiled.querySelector('#username').text = 'testuser'
+      compiled.querySelector('#password').text = 'testpass'
+      compiled.querySelector('#login_button').click()
+
+
+      const req = backend.expectOne('/login_check')
+      expect(req.request.method).toBe("POST")
+      req.flush(user, { status: 401, statusText: 'Not Authorized' })
+    })
   )
 })

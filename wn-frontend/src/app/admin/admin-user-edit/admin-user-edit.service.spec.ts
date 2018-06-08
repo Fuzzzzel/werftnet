@@ -63,6 +63,9 @@ describe('AdminUserEditService', () => {
     user.id = 1
 
     service.saveUser(user)
+      .then((user) => {
+        expect(user).toBeTruthy()
+      })
 
     const req = backend.expectOne('/admin/users/' + user.id)
     expect(req.request.method).toBe("POST")
@@ -74,6 +77,9 @@ describe('AdminUserEditService', () => {
     user.id = 123
 
     service.saveUser(user)
+      .catch((error) => {
+        expect(error).toBeTruthy()
+      })
 
     const req = backend.expectOne('/admin/users/' + user.id)
     expect(req.request.method).toBe("POST")

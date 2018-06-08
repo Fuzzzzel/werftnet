@@ -12,13 +12,15 @@ describe('UserService', () => {
 
   const userResponse = new User()
   userResponse.id = 1
-  userResponse.username = 'testuser'
+  userResponse.username = 'user'
   userResponse.roles.push('ROLE_USER')
+
+  let service: UserService
+  let backend: HttpTestingController
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientModule,
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([
           {
@@ -36,111 +38,115 @@ describe('UserService', () => {
         AuthGuardService
       ]
     })
+    backend = TestBed.get(HttpTestingController)
+    service = TestBed.get(UserService)
   })
 
-  afterEach(inject([HttpTestingController], (backend: HttpTestingController) => {
-    backend.verify()
-  }))
-
-  it('should be created', inject([UserService], (service: UserService) => {
+  it('should be created', () => {
     expect(service).toBeTruthy()
-  }))
+  })
 
-  it('should send a login request',
-    inject([UserService, HttpClient, HttpTestingController], (service: UserService, http: HttpClient, backend: HttpTestingController) => {
+  it('should send a login request and login user', (done) => {
 
-      service.loginUser({ username: 'tbrzuska', password: 'pipapole' }, null, null)
+    service.loginUser({ username: 'user', password: 'user' })
+      .then((data) => {
+        expect(data.username).toEqual('user')
+        expect(service.isLoggedIn()).toBeTruthy()
+        done()
+      })
 
-      backend.expectOne((req: HttpRequest<any>) => {
-        const body = new HttpParams({ fromString: req.body })
-        return req.url === '/login_check'
-      }, 'POST __username and __password')
+    const req = backend.expectOne('/login_check')
+    expect(req.request.method).toBe("POST")
+    req.flush(userResponse, { status: 200, statusText: 'OK' })
+  })
 
+  it('should send a login request and fail to login user (401)', (done) => {
+
+    service.loginUser({ username: 'user', password: 'user' })
+      .catch((data) => {
+        done()
+      })
+
+    const req = backend.expectOne('/login_check')
+    expect(req.request.method).toBe("POST")
+    req.flush(userResponse, { status: 401, statusText: 'Not Authorised' })
+  })
+
+  it('should send a login request and fail to login user (404)', (done) => {
+
+    service.loginUser({ username: 'user', password: 'user' })
+      .catch((data) => {
+        done()
+      })
+
+    const req = backend.expectOne('/login_check')
+    expect(req.request.method).toBe("POST")
+    req.flush(userResponse, { status: 404, statusText: 'Not Found' })
+  })
+
+  it('test for logged in user should return user with role ROLE_USER',
+    async(() => {
+
+      function resolve(data: User) {
+        expect(data.username).toEqual('testuser')
+        expect(service.isLoggedIn()).toBeTruthy()
+        expect(service.userHasRole('ROLE_USER')).toBeTruthy()
+      }
+
+      service.testServerForLoggedInUser()
+        .then((user) => {
+          expect(user.id).toBeGreaterThan(0)
+        })
+      backend.expectOne('/get_logged_in_user').flush(userResponse, { status: 200, statusText: 'Ok' })
     })
   )
 
-  it('should emit 200 and return a user object',
-    async(inject([UserService, HttpTestingController],
-      (userService: UserService, backend: HttpTestingController) => {
-
-        function resolve(data: User) {
-          expect(data.username).toEqual('testuser')
-          expect(userService.isLoggedIn()).toBeTruthy()
-        }
-
-        userService.loginUser({ username: 'testuser', password: 'testpass' }, resolve, null)
-        backend.expectOne('/login_check').flush(userResponse, { status: 200, statusText: 'Ok' })
-      })
-    )
-  )
-
-  it('should emit 401 and return error',
-    async(inject([UserService, HttpTestingController],
-      (userService: UserService, backend: HttpTestingController) => {
-
-        function resolve(data: User) {
-          expect(userService.isLoggedIn()).toBeFalsy()
-        }
-
-        userService.loginUser({ username: 'testuser', password: 'testpass' }, resolve, null)
-        backend.expectOne('/login_check').flush(userResponse, { status: 401, statusText: 'Unauthorized' })
-      })
-    )
-  )
-
-  it('test for logged in user should return user with role ROLE_USER',
-    async(inject([UserService, HttpTestingController],
-      (userService: UserService, backend: HttpTestingController) => {
-
-        function resolve(data: User) {
-          expect(data.username).toEqual('testuser')
-          expect(userService.isLoggedIn()).toBeTruthy()
-          expect(userService.userHasRole('ROLE_USER')).toBeTruthy()
-        }
-
-        userService.testServerForLoggedInUser()
-          .then((user) => {
-            expect(user.id).toBeGreaterThan(0)
-          })
-        backend.expectOne('/get_logged_in_user').flush(userResponse, { status: 200, statusText: 'Ok' })
-      })
-    )
-  )
-
   it('test for logged in user should fail with no user logged in',
-    async(inject([UserService, HttpTestingController],
-      (userService: UserService, backend: HttpTestingController) => {
+    async(() => {
 
-        function reject(data: User) {
-          expect(userService.userHasRole('ROLE_USER')).toBeFalsy()
-        }
+      function reject(data: User) {
+        expect(service.userHasRole('ROLE_USER')).toBeFalsy()
+      }
 
-        userService.testServerForLoggedInUser()
-          .catch((error) => {
-            expect(error).toBeTruthy()
+      service.testServerForLoggedInUser()
+        .catch((error) => {
+          expect(error).toBeTruthy()
+          expect(service.userHasRole('ROLE_USER')).toBeFalsy()
+        })
+      backend.expectOne('/get_logged_in_user').flush(null, { status: 404, statusText: 'Not Found' })
+    })
+  )
+
+  it('test for logged in user should fail when user without id is returned',
+    async(() => {
+      service.testServerForLoggedInUser()
+        .catch((error) => {
+          expect(error).toBeTruthy()
+        })
+      backend.expectOne('/get_logged_in_user').flush({}, { status: 200, statusText: 'OK' })
+    })
+  )
+
+  it('should login and logout', (done) => {
+    service.loginUser({ username: 'testuser', password: 'testpass' })
+      .then((user) => {
+        expect(service.isLoggedIn()).toBeTruthy()
+        service.logoutUser()
+          .then(() => {
+            expect(service.isLoggedIn()).toBeFalsy()
+            done()
           })
-        backend.expectOne('/get_logged_in_user').flush(null, { status: 404, statusText: 'Not Found' })
+        backend.expectOne('/logout').flush(null, { status: 200, statusText: 'Ok' })
       })
-    )
-  )
+    backend.expectOne('/login_check').flush(userResponse, { status: 200, statusText: 'Ok' })
+  })
 
-  it('should login and logout',
-    async(inject([UserService, HttpTestingController],
-      (userService: UserService, backend: HttpTestingController) => {
+  it('should fail to logout', (done) => {
 
-        function resolveLogout() {
-          expect(userService.isLoggedIn()).toBeFalsy()
-        }
-
-        function resolveLogin(data: User) {
-          expect(userService.isLoggedIn()).toBeTruthy()
-          userService.logoutUser(resolveLogout, null)
-          backend.expectOne('/logout').flush(null, { status: 200, statusText: 'Ok' })
-        }
-
-        userService.loginUser({ username: 'testuser', password: 'testpass' }, resolveLogin, null)
-        backend.expectOne('/login_check').flush(userResponse, { status: 200, statusText: 'Ok' })
+    service.logoutUser()
+      .catch((error) => {
+        done()
       })
-    )
-  )
+    backend.expectOne('/logout').flush(null, { status: 404, statusText: 'Not Found' })
+  })
 })

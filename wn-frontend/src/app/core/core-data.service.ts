@@ -49,11 +49,11 @@ export class CoreDataService {
         data.sectors_flat = this.util.getFlattenedTwoLevelEntity(data.sectors);
         this.$data.next(data);
 
-        resolve && resolve(data);
+        resolve(data);
       },
       error => {
 
-        reject && reject(error);
+        reject(error);
       });
 
     return
@@ -79,10 +79,10 @@ export class CoreDataService {
           let arrayOfValues = this.$data.getValue();
           arrayOfValues[_.snakeCase(entityName)] = data;
           this.$data.next(arrayOfValues);
-          resolve && resolve(data);
+          resolve(data);
         },
         error => {
-          reject && reject(error);
+          reject(error);
         });
     });
   }
@@ -112,10 +112,10 @@ export class CoreDataService {
         // Execute post request and subscribe to response
         req.subscribe(
           data => {
-            resolve && resolve(data);
+            resolve(data);
           },
           error => {
-            reject && reject(error);
+            reject(error);
           });
       }
 
@@ -175,10 +175,10 @@ export class CoreDataService {
           // Execute post request and subscribe to response
           req.subscribe(
             data => {
-              resolve && resolve(data);
+              resolve(data);
             },
             error => {
-              reject && reject(error);
+              reject(error);
             });
         }
       }
@@ -210,10 +210,10 @@ export class CoreDataService {
           arrayOfValues[_.snakeCase(entityName) + '_flat'] = this.util.getFlattenedTwoLevelEntity(data);;
           this.$data.next(arrayOfValues);
 
-          resolve && resolve(data);
+          resolve(data);
         },
         error => {
-          reject && reject(error);
+          reject(error);
         });
     });
   }
@@ -305,10 +305,10 @@ export class CoreDataService {
         // Execute post request and subscribe to response
         req.subscribe(
           data => {
-            resolve && resolve(data);
+            resolve(data);
           },
           error => {
-            reject && reject(error);
+            reject(error);
           });
       }
     });

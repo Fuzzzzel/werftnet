@@ -10,10 +10,6 @@ export class UserService {
 
   private user: User = new User();
 
-  loginError = {
-    message: ''
-  };
-
   constructor(
     private http: HttpClient,
     private util: UtilService
@@ -27,10 +23,6 @@ export class UserService {
     return typeof this.user.id !== 'undefined' && typeof this.user.username !== 'undefined' && this.user.id !== null && this.user.username !== null;
   }
 
-  getLoginError(): Observable<{ message: string }> {
-    return of(this.loginError);
-  }
-
   userHasRole(role: string) {
     return this.user.hasRole(role);
   }
@@ -38,7 +30,7 @@ export class UserService {
   /**
    * Validate credentials with server and receive webtoken
    */
-  loginUser(credentials, resolve, reject): void {
+  loginUser(credentials): Promise<User> {
     const formData = new FormData();
     formData.append('_username', credentials.username)
     formData.append('_password', credentials.password)
@@ -50,57 +42,55 @@ export class UserService {
       formData
     )
 
-    // Execute post request and subscribe to response
-    req.subscribe(
-      data => {
-        this.user.clearData();
+    return new Promise<User>((resolve, reject) => {
+      // Execute post request and subscribe to response
+      req.subscribe(
+        data => {
+          this.user.clearData();
 
-        this.user.id = data.id;
-        this.user.username = data.username;
-        this.user.roles = data.roles;
+          this.user.id = data.id;
+          this.user.username = data.username;
+          this.user.roles = data.roles;
 
-        this.loginError.message = '';
-
-        // Navigate to main page
-        this.util.goTo('home');
-
-        resolve && resolve(data);
-      },
-      error => {
-        this.user.clearData();
-        if (error.status === 401) {
-          this.loginError.message = 'Kombination aus Benutzername und Passwort ist unbekannt';
-        }
-        reject && reject(error);
-      });
-
-    return
+          resolve(data);
+        },
+        error => {
+          this.user.clearData();
+          if (error.status === 401) {
+            error.message = 'Kombination aus Benutzername und Passwort ist unbekannt';
+          } else {
+            error.message = 'Es ist ein Fehler beim Login aufgetreten'
+          }
+          reject(error);
+        });
+    })
   }
 
   /**
    * Logging out clears the user and redirects to main page.
    *
    */
-  logoutUser(resolve, reject): void {
+  logoutUser(): Promise<void> {
     // Set up request
     const req = this.http.get<void>(
       '/logout'
     )
 
-    // Execute post request and subscribe to response
-    req.subscribe(
-      data => {
-        this.user.clearData();
+    return new Promise<void>((resolve, reject) => {
+      // Execute post request and subscribe to response
+      req.subscribe(
+        data => {
+          this.user.clearData();
 
-        // Navigate to main page
-        this.util.goTo('logout');
+          resolve(data);
 
-        resolve && resolve(data);
-      },
-      error => {
-        alert('Es ist ein Fehler beim Logout aufgetreten');
-        reject && reject(error);
-      });
+          // Navigate to main page
+          this.util.goTo('logout');
+        },
+        error => {
+          reject(error);
+        });
+    })
   }
 
   /**

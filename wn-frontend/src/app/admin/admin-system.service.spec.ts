@@ -5,7 +5,9 @@ import { AdminSystemService } from './admin-system.service'
 describe('AdminSystemService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AdminSystemService]
+      providers: [
+        AdminSystemService
+      ]
     })
   })
 

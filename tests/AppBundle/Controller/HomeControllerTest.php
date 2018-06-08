@@ -39,9 +39,9 @@ class HomeControllerTest extends DefaultWebTestCase
      */
     public function testF5RedirectAction() {
 
-        $client = static::createClient();
+        $client = $this->getUserClient();
         $crawler = $client->request('GET', '/dist/#/test');
 
-        $this->assertContains('login', $client->getResponse()->getContent());
+        $this->assertContains('index.html', $client->getResponse()->getContent());
     }
 }

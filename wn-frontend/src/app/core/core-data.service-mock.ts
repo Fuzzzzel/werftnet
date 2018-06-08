@@ -33,7 +33,7 @@ export class CoreDataServiceMock extends CoreDataService {
     coreDataProcessed.sectors_flat = this.util.getFlattenedTwoLevelEntity(sectors)
 
     this.$data.next(coreDataProcessed)
-    resolve && resolve(coreDataMock)
+    resolve(coreDataMock)
 
   }
 }

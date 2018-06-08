@@ -23,7 +23,13 @@ export class TopNavComponent implements OnInit {
   }
 
   logoutUser() {
-    return this.userService.logoutUser(null, null)
+    this.userService.logoutUser()
+      .then(() => {
+        // Do nothing, service redirects to login page already
+      })
+      .catch((error) => {
+        alert('Es ist ein Fehler beim Logout aufgetreten');
+      })
   }
 
   ngOnInit() {
