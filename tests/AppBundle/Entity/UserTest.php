@@ -43,6 +43,10 @@ class UserTest extends DefaultWebTestCase
         $isActive = true;
         $user->setIsActive($isActive);
         $this->assertEquals($isActive, $user->getIsActive());
+
+        // Serialize and deserialize without assertion
+        $serialized = $user->serialize();
+        $deserialized = $user->unserialize($serialized);
     }
 
 }
