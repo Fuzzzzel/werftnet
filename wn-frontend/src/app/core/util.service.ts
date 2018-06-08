@@ -48,15 +48,13 @@ export class UtilService {
     let result = new SimpleEntityCollection();
     let flatArr: SimpleEntity[] = [];
 
-    if (Array.isArray(arrTemp.values)) {
-      for (var idxMain = 0; idxMain < arrTemp.values.length; idxMain++) {
+    for (var idxMain = 0; idxMain < arrTemp.values.length; idxMain++) {
 
-        flatArr.push(arrTemp.values[idxMain]);
-        if (typeof arrTemp.values[idxMain].sub_items !== 'undefined') {
-          for (var idxSub = 0; idxSub < arrTemp.values[idxMain].sub_items.length; idxSub++) {
-            arrTemp.values[idxMain].sub_items[idxSub].name = arrTemp.values[idxMain].name + ' (' + arrTemp.values[idxMain].sub_items[idxSub].name + ')';
-            flatArr.push(arrTemp.values[idxMain].sub_items[idxSub]);
-          }
+      flatArr.push(arrTemp.values[idxMain]);
+      if (typeof arrTemp.values[idxMain].sub_items !== 'undefined') {
+        for (var idxSub = 0; idxSub < arrTemp.values[idxMain].sub_items.length; idxSub++) {
+          arrTemp.values[idxMain].sub_items[idxSub].name = arrTemp.values[idxMain].name + ' (' + arrTemp.values[idxMain].sub_items[idxSub].name + ')';
+          flatArr.push(arrTemp.values[idxMain].sub_items[idxSub]);
         }
       }
     }
@@ -121,19 +119,16 @@ export class UtilService {
 
       let valA = this.getCombinedDisplayName(a.lng_source);
       let valB = this.getCombinedDisplayName(b.lng_source);
-      if (valA && valB)
-        result = valA.localeCompare(valB);
+      result = valA.localeCompare(valB);
 
       if (result === 0) {
         valA = this.getCombinedDisplayName(a.lng_target);
         valB = this.getCombinedDisplayName(b.lng_target);
-        if (valA && valB)
-          result = valA.localeCompare(valB);
+        result = valA.localeCompare(valB);
       }
 
       if (result === 0) {
-        if (a.service && b.service)
-          result = a.service.name.localeCompare(b.service.name);
+        result = a.service.name.localeCompare(b.service.name);
       }
 
       return result;

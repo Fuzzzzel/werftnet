@@ -41,13 +41,15 @@ describe('AdminUserEditComponent', () => {
 
     fixture = TestBed.createComponent(AdminUserEditComponent)
     component = fixture.componentInstance
-    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute)
-    activatedRoute.params = Observable.of({ userId: 1 })
-    fixture.detectChanges()
+
     tick()
   }))
 
   function initWithUser() {
+    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute)
+    activatedRoute.params = Observable.of({ userId: 1 })
+    fixture.detectChanges()
+
     let user = new User()
     user.id = 1
     const req = backend.expectOne('/admin/users/' + user.id)
@@ -56,23 +58,32 @@ describe('AdminUserEditComponent', () => {
   }
 
   function initWithoutUser() {
-    const req = backend.expectOne('/admin/users')
+    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute)
+    activatedRoute.params = Observable.of({})
+    fixture.detectChanges()
+  }
+
+  function initFail() {
+    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute)
+    activatedRoute.params = Observable.of({ userId: 1 })
+    fixture.detectChanges()
+
+    let user = new User()
+    user.id = 1
+    const req = backend.expectOne('/admin/users/' + user.id)
     expect(req.request.method).toBe("GET")
-    req.flush([], { status: 200, statusText: 'Ok' })
+    req.flush(null, { status: 404, statusText: 'Not Found' })
   }
 
   it('should create', fakeAsync(() => {
+    initWithoutUser()
     expect(component).toBeTruthy()
   }))
 
   it('should fail to init', fakeAsync(() => {
-    let user = new User()
-    user.id = 1
     spyOn(window, 'alert').and.returnValue(true)
     tick()
-    const req = backend.expectOne('/admin/users/' + user.id)
-    expect(req.request.method).toBe("GET")
-    req.flush(user, { status: 404, statusText: 'not found' })
+    initFail()
   }))
 
   it('should change user password', fakeAsync(() => {

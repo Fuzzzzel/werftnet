@@ -13,7 +13,7 @@
   <div class="alist_list">
     <div *ngFor="let value of valuearray.values">
       <div class="alist-simple-item">
-        <inline-editor type="text" [(ngModel)]="value.name" (onSave)="updateSimpleEntityItem(value.id, $event)" size="8"></inline-editor>
+        <inline-editor type="text" [(ngModel)]="value.name" (onSave)="updateSimpleEntityItem(value.id, $event)" size="32"></inline-editor>
         <span class="clickable clickable-icon iconsmall" (click)="deleteSimpleEntityItem(value.id)">
           <i class="fa fa-trash-o"></i>
         </span>

@@ -41,6 +41,13 @@ describe('UtilService', () => {
     expect(combinedNameNull).toBeNull();
   });
 
+  it('should compare by id', () => {
+    const obj1 = { id: 1, name: 'Object 1' }
+    const obj2 = { id: 1, name: 'Object 2' }
+    const sameId = service.compareById(obj1, obj2)
+    expect(sameId).toBeTruthy()
+  })
+
   let arr = [
     {
       id: 1,
