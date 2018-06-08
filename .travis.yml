@@ -17,7 +17,7 @@ matrix:
     - NODE_RELEASE=8.x
     before-install:
     # Set tip of branch to head of active branch
-    git checkout ${TRAVIS_BRANCH}
+    - git checkout ${TRAVIS_BRANCH}
     # php
     - composer self-update
     # node
