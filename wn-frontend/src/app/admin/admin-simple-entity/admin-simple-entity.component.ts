@@ -60,9 +60,7 @@ export class AdminSimpleEntityComponent implements OnInit {
           this.loadSimpleEntityValues();
         })
         .catch((error) => {
-          if (error && error.message) {
-            alert(error.message)
-          }
+          alert(error.message)
         })
     }
   }

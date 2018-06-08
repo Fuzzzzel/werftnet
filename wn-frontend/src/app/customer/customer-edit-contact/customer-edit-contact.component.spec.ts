@@ -121,4 +121,9 @@ describe('CustomerEditContactComponent', () => {
     expect(req2.request.method).toBe("DELETE")
     req2.flush(null, { status: 404, statusText: 'Not Found' })
   }))
+
+  it('should not delete cutomer contact', fakeAsync(() => {
+    spyOn(window, 'confirm').and.returnValue(false)
+    component.deleteCustomerContact()
+  }))
 })

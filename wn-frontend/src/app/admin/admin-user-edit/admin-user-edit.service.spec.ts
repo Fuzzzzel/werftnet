@@ -22,8 +22,13 @@ describe('AdminUserEditService', () => {
         UtilService
       ]
     })
+
     service = TestBed.get(AdminUserEditService)
     backend = TestBed.get(HttpTestingController)
+
+    const req1 = backend.expectOne('/admin/users')
+    expect(req1.request.method).toBe("GET")
+    req1.flush([], { status: 200, statusText: 'Ok' })
   })
 
   it('should be created', () => {
@@ -58,13 +63,14 @@ describe('AdminUserEditService', () => {
     })
   })
 
-  it('should save user', () => {
+  it('should save user', (done) => {
     let user = new User()
     user.id = 1
 
     service.saveUser(user)
       .then((user) => {
         expect(user).toBeTruthy()
+        done()
       })
 
     const req = backend.expectOne('/admin/users/' + user.id)
@@ -72,13 +78,28 @@ describe('AdminUserEditService', () => {
     req.flush(user, { status: 200, statusText: 'Ok' })
   })
 
-  it('should fail to save user', () => {
+  it('should save new user', (done) => {
+    let user = new User()
+
+    service.saveUser(user)
+      .then((user) => {
+        expect(user).toBeTruthy()
+        done()
+      })
+
+    const req = backend.expectOne('/admin/users')
+    expect(req.request.method).toBe("POST")
+    req.flush(user, { status: 200, statusText: 'Ok' })
+  })
+
+  it('should fail to save user', (done) => {
     let user = new User()
     user.id = 123
 
     service.saveUser(user)
       .catch((error) => {
         expect(error).toBeTruthy()
+        done()
       })
 
     const req = backend.expectOne('/admin/users/' + user.id)

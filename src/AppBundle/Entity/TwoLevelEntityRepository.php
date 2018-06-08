@@ -31,7 +31,7 @@ class TwoLevelEntityRepository extends EntityRepository
 
         // Falls Parameter nicht angegeben, null zurückgeben
         if (empty($mainId)) {
-            return null;
+            throw new \InvalidArgumentException('Es wurde keine gültige Id übergeben');
         }
 
         $q = $this->createQueryBuilder('item');

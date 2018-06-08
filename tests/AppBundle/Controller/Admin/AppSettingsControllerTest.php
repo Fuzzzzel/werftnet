@@ -9,11 +9,18 @@
 namespace Tests\AppBundle\Controller;
 
 
+use AppBundle\Entity\Settings\AppSettings;
 use AppBundle\Entity\User;
 use Tests\AppBundle\DefaultWebTestCase;
 
 class AppSettingsControllerTest extends DefaultWebTestCase
 {
+    public function testGetAppSettingsId()
+    {
+        $appSettings = new AppSettings();
+        $this->assertEquals(1, $appSettings->getId());
+    }
+
     public function testGetAppSettings()
     {
         $client = $this->getAdminClient();

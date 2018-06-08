@@ -62,7 +62,6 @@ export class AdminUserEditService {
         data => {
           this.$userToEdit.next(data);
           resolve(data)
-          this.adminUserService.fetchAllUsers();
         },
         error => {
           reject(new Error('Fehler beim Speichern des Benutzers: ' + error.message))
@@ -72,12 +71,13 @@ export class AdminUserEditService {
 
   changeUserPwd(newPwd) {
     return new Promise<User>((resolve, reject) => {
-      if (!(this.$userToEdit.getValue().id > 0)) {
+      let user = this.$userToEdit.getValue()
+      if (!(user.id > 0)) {
         reject('Der User hat keine Id. Passwort kann nicht geändert werden');
         return
       }
       const req = this.http.post<any>(
-        '/admin/users' + (this.$userToEdit.getValue().id > 0 ? '/' + this.$userToEdit.getValue().id : '') + '/password',
+        '/admin/users/' + user.id + '/password',
         newPwd
       )
 

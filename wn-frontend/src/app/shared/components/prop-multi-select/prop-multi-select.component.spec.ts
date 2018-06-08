@@ -98,8 +98,19 @@ describe('PropMultiSelectComponent', () => {
   })
 
   it('should add item', async(() => {
+    // Should add item
     component.refreshValue([2])
     component.addSelectedItems()
+
+    expect(component.objarray.length).toEqual(2)
+  }))
+
+  it('should not add item again', async(() => {
+    // Should add item
+    component.refreshValue([1])
+    component.addSelectedItems()
+
+    expect(component.objarray.length).toEqual(1)
   }))
 
   it('should remove item', async(() => {

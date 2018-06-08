@@ -5,6 +5,7 @@ import { AdminUserEditService } from './admin-user-edit.service'
 import { UtilService } from '../../core/util.service'
 import { CoreData, CoreDataService } from '../../core/core-data.service'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { AdminUserService } from '../admin-user.service';
 
 @Component({
   selector: 'app-admin-user-edit',
@@ -23,6 +24,7 @@ export class AdminUserEditComponent implements OnInit {
     private route: ActivatedRoute,
     private coreDataService: CoreDataService,
     private adminUserEditService: AdminUserEditService,
+    private adminUserService: AdminUserService,
     private util: UtilService
   ) { }
 
@@ -75,6 +77,7 @@ export class AdminUserEditComponent implements OnInit {
     } else {
       this.adminUserEditService.saveUser(this.userToEdit)
         .then((user) => {
+          this.adminUserService.fetchAllUsers();
           this.util.historyBack()
         })
         .catch((error) => {

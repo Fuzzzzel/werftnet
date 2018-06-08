@@ -209,6 +209,20 @@ describe('CustomerEditService', () => {
     req.flush({}, { status: 200, statusText: 'Ok' })
   })
 
+  it('should save new customer contact', (done) => {
+    let customerContactToSave = { id: null, customer_id: null }
+
+    customerContactToSave.customer_id = 1
+
+    service.saveCustomerContact(customerContactToSave)
+      .then((customerContact) => {
+        done()
+      })
+    const req = backend.expectOne('/customers/1/contacts')
+    expect(req.request.method).toBe("POST")
+    req.flush({}, { status: 200, statusText: 'Ok' })
+  })
+
   it('should fail to save customer contact', (done) => {
     let customerContactToSave = { id: null, customer_id: null }
 

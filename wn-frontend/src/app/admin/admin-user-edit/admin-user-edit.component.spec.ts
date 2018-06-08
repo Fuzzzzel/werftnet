@@ -56,9 +56,9 @@ describe('AdminUserEditComponent', () => {
   }
 
   function initWithoutUser() {
-    const req = backend.expectOne('/admin/users/')
+    const req = backend.expectOne('/admin/users')
     expect(req.request.method).toBe("GET")
-    req.flush(new User(), { status: 200, statusText: 'Ok' })
+    req.flush([], { status: 200, statusText: 'Ok' })
   }
 
   it('should create', fakeAsync(() => {
