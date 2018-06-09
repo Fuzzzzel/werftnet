@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
 
 class CustomerRepository extends EntityRepository
 {
-    public function findAllBySearchParams($search, $limit = null, $page = null)
+    public function findAllBySearchParams($search = [], $limit = null, $page = null)
     {
         $qb = $this->createQueryBuilder('c');
 
@@ -59,9 +59,12 @@ class CustomerRepository extends EntityRepository
 
         $query = $qb->getQuery();
 
-        if ($page == null && $limit = null)
+        if (intval($page) !== 0)
         {
             // Get unpaginated result
+            if($limit > 0) {
+                $query->setMaxResults($limit);
+            }
             return $query->getResult();
         }
         else

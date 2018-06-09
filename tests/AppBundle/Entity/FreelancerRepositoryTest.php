@@ -6,9 +6,9 @@
  * Time: 21:31
  */
 
-use AppBundle\Entity\Common\Language;
+use AppBundle\Entity\Freelancer;
 
-class TwoLevelEntityRepositoryTest extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
+class FreelancerRepositoryTest extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
 {
     private $em;
 
@@ -24,11 +24,12 @@ class TwoLevelEntityRepositoryTest extends \Symfony\Bundle\FrameworkBundle\Test\
     /**
      * Should fail if no id passed
      */
-    public function testFindAllSubItems()
+    public function testFindAllFreelancersUnpaginated()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $subItems = $this->em
-            ->getRepository(Language::class)
-            ->findAllSubItems(null);
+        $customers = $this->em
+            ->getRepository(Freelancer::class)
+            ->findAllBySearchParams(null, 5);
+
+        $this->assertTrue(is_array($customers));
     }
 }
