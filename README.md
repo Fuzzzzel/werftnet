@@ -5,8 +5,8 @@
   
 A simple tool to manage your translators and customers. Simple project management to be added soon.  
   
-* Frontend: Angular 4, Bootstrap 3.4  
-* Backend: PHP 7.1, Symfony 3.4, Doctrine  
+* Frontend: Angular 5, Bootstrap 4  
+* Backend: PHP 7.1, Symfony 3.4, MySQL  
   
 ## Installation instructions  
 ### Environment setup  
