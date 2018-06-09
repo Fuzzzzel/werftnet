@@ -59,7 +59,7 @@ class CustomerRepository extends EntityRepository
 
         $query = $qb->getQuery();
 
-        if (intval($page) !== 0)
+        if (intval($page) === 0)
         {
             // Get unpaginated result
             if($limit > 0) {
