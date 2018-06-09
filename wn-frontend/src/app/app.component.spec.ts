@@ -73,8 +73,8 @@ describe('AppComponent', () => {
   /**
    * Test if the title is displayed correctly
    */
-  it(`should have as title 'WerftNET Version 1.1'`, async(() => {
-    expect(app.title).toEqual('WerftNET Version 1.1')
+  it(`should have as title 'WerftNET Version X.Y'`, async(() => {
+    expect(app.title).toEqual('WerftNET Version ' + app.version)
   }))
 
   it('should test for a user logged in', fakeAsync(() => {

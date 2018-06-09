@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core'
 import { CoreDataService } from './core/core-data.service'
 import { UserService } from './user/user.service'
 import { UtilService } from './core/util.service'
+import { environment } from '../../environment'
+
 
 @Component({
   selector: 'app-root',
@@ -9,7 +11,8 @@ import { UtilService } from './core/util.service'
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'WerftNET Version 1.1'
+  public version: string = environment.VERSION
+  title = 'WerftNET Version ' + this.version
   coreDataLoaded: Boolean = false
 
   constructor(
@@ -37,7 +40,7 @@ export class AppComponent implements OnInit {
         this.util.goTo('home')
       })
       .catch((error) => {
-        alert('Es ist ein Fehler beim automatischen Login aufgetreten')
+        this.util.goTo('login')
       })
   }
 }

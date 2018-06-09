@@ -103,7 +103,7 @@ export class UserService {
   testServerForLoggedInUser() {
 
     return new Promise<User>((resolve, reject) => {
-      // Set up post request
+      // Set up post request (returns empty object if no user is logged in)
       const req = this.http.get<User>(
         '/get_logged_in_user'
       )
