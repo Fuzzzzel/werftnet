@@ -1,39 +1,39 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core'
 import { SimpleEntity, SimpleEntityCollection } from '../shared/model/simple-entity.model'
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
-import { TwoLevelEntity, TwoLevelEntityCollection } from '../shared/model/two-level-entity.model';
-import { UtilService } from './util.service';
-import { User } from '../user/user.model';
-import * as _ from "lodash";
+import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { BehaviorSubject } from 'rxjs'
+import { TwoLevelEntity, TwoLevelEntityCollection } from '../shared/model/two-level-entity.model'
+import { UtilService } from './util.service'
+import { User } from '../user/user.model'
+import * as _ from "lodash"
 
 @Injectable()
 export class CoreDataService {
 
-  protected $data: BehaviorSubject<CoreData>;
-  protected $dataLoaded: BehaviorSubject<Boolean>;
+  protected $data: BehaviorSubject<CoreData>
+  protected $dataLoaded: BehaviorSubject<Boolean>
 
   constructor(
     protected util: UtilService,
     protected http: HttpClient
   ) {
-    this.$dataLoaded = <BehaviorSubject<Boolean>>new BehaviorSubject(false);
-    this.$data = <BehaviorSubject<CoreData>>new BehaviorSubject(new CoreData);
+    this.$dataLoaded = <BehaviorSubject<Boolean>>new BehaviorSubject(false)
+    this.$data = <BehaviorSubject<CoreData>>new BehaviorSubject(new CoreData)
 
-    this.refreshDefaultData(() => { this.$dataLoaded.next(true) }, null);
+    this.refreshDefaultData(() => { this.$dataLoaded.next(true) }, null)
   }
 
 
   getData() {
-    return this.$data.asObservable();
+    return this.$data.asObservable()
   }
 
   getDataLoaded() {
-    return this.$dataLoaded.asObservable();
+    return this.$dataLoaded.asObservable()
   }
 
   coreDataLoaded(): Boolean {
-    return this.$dataLoaded.getValue();
+    return this.$dataLoaded.getValue()
   }
 
   refreshDefaultData(resolve, reject) {
@@ -45,16 +45,16 @@ export class CoreDataService {
     // Execute post request and subscribe to response
     req.subscribe(
       data => {
-        data.languages_flat = this.util.getFlattenedTwoLevelEntity(data.languages);
-        data.sectors_flat = this.util.getFlattenedTwoLevelEntity(data.sectors);
-        this.$data.next(data);
+        data.languages_flat = this.util.getFlattenedTwoLevelEntity(data.languages)
+        data.sectors_flat = this.util.getFlattenedTwoLevelEntity(data.sectors)
+        this.$data.next(data)
 
-        resolve(data);
+        resolve(data)
       },
       error => {
 
-        reject(error);
-      });
+        reject(error)
+      })
 
     return
   }
@@ -66,7 +66,7 @@ export class CoreDataService {
   getSimpleEntityCollection(entityName: string): Promise<SimpleEntityCollection> {
 
     return new Promise((resolve, reject) => {
-      const entityNameConverted = this.util.ucfirst(_.camelCase(entityName));
+      const entityNameConverted = this.util.ucfirst(_.camelCase(entityName))
 
       // Set up post request
       const req = this.http.get<SimpleEntityCollection>(
@@ -76,15 +76,15 @@ export class CoreDataService {
       // Execute post request and subscribe to response
       req.subscribe(
         data => {
-          let arrayOfValues = this.$data.getValue();
-          arrayOfValues[_.snakeCase(entityName)] = data;
-          this.$data.next(arrayOfValues);
-          resolve(data);
+          let arrayOfValues = this.$data.getValue()
+          arrayOfValues[_.snakeCase(entityName)] = data
+          this.$data.next(arrayOfValues)
+          resolve(data)
         },
         error => {
-          reject(error);
-        });
-    });
+          reject(error)
+        })
+    })
   }
 
   /**
@@ -99,7 +99,7 @@ export class CoreDataService {
       } else if (newItemName == null || newItemName == "") {
         reject(new Error("Der neue Name darf nicht leer sein!"))
       } else {
-        const entityNameConverted = this.util.ucfirst(_.camelCase(entityName));
+        const entityNameConverted = this.util.ucfirst(_.camelCase(entityName))
 
         // Set up post request
         const req = this.http.post<SimpleEntity>(
@@ -112,16 +112,13 @@ export class CoreDataService {
         // Execute post request and subscribe to response
         req.subscribe(
           data => {
-            resolve(data);
+            resolve(data)
           },
           error => {
-            reject(error);
-          });
+            reject(new Error('Fehler beim Speichern: ' + error.error))
+          })
       }
-
-
-    });
-
+    })
   }
 
   /**
@@ -130,7 +127,7 @@ export class CoreDataService {
    */
   deleteSimpleEntityItem(entityName, item_id): Promise<any> {
     return new Promise((resolve, reject) => {
-      const entityNameConverted = this.util.ucfirst(_.camelCase(entityName));
+      const entityNameConverted = this.util.ucfirst(_.camelCase(entityName))
 
       // Set up post request
       const req = this.http.delete<any>(
@@ -140,10 +137,10 @@ export class CoreDataService {
       // Execute post request and subscribe to response
       req.subscribe(
         (data) => {
-          resolve(data);
+          resolve(data)
         },
         error => {
-          reject(error);
+          reject(new Error('Fehler beim Löschen: ' + error.error))
         })
     })
   }
@@ -162,7 +159,7 @@ export class CoreDataService {
         reject(new Error("Der neue Name darf nicht leer sein!"))
       } else {
         {
-          const entityNameConverted = this.util.ucfirst(_.camelCase(entityName));
+          const entityNameConverted = this.util.ucfirst(_.camelCase(entityName))
 
           // Set up post request
           const req = this.http.post<SimpleEntity>(
@@ -175,14 +172,14 @@ export class CoreDataService {
           // Execute post request and subscribe to response
           req.subscribe(
             data => {
-              resolve(data);
+              resolve(data)
             },
             error => {
-              reject(error);
-            });
+              reject(new Error('Fehler beim Speichern: ' + error.error))
+            })
         }
       }
-    });
+    })
   }
 
 
@@ -194,7 +191,7 @@ export class CoreDataService {
   getFlattenedTwoLevelEntityCollection(entityName: string): Promise<TwoLevelEntityCollection> {
 
     return new Promise((resolve, reject) => {
-      const entityNameConverted = this.util.ucfirst(_.camelCase(entityName));
+      const entityNameConverted = this.util.ucfirst(_.camelCase(entityName))
 
       // Set up post request
       const req = this.http.get<TwoLevelEntityCollection>(
@@ -204,18 +201,18 @@ export class CoreDataService {
       // Execute post request and subscribe to response
       req.subscribe(
         data => {
-          let arrayOfValues = this.$data.getValue();
-          arrayOfValues[_.snakeCase(entityName)] = data;
+          let arrayOfValues = this.$data.getValue()
+          arrayOfValues[_.snakeCase(entityName)] = data
 
-          arrayOfValues[_.snakeCase(entityName) + '_flat'] = this.util.getFlattenedTwoLevelEntity(data);;
-          this.$data.next(arrayOfValues);
+          arrayOfValues[_.snakeCase(entityName) + '_flat'] = this.util.getFlattenedTwoLevelEntity(data);
+          this.$data.next(arrayOfValues)
 
-          resolve(data);
+          resolve(data)
         },
         error => {
-          reject(error);
-        });
-    });
+          reject(error)
+        })
+    })
   }
 
   createTwoLevelEntityItem(entityName, mainItemId, newItemName): Promise<TwoLevelEntity> {
@@ -226,10 +223,10 @@ export class CoreDataService {
       } else if (newItemName == null || newItemName == "") {
         reject(new Error("Der neue Name darf nicht leer sein!"))
       } else {
-        const entityNameConverted = this.util.ucfirst(_.camelCase(entityName));
+        const entityNameConverted = this.util.ucfirst(_.camelCase(entityName))
 
 
-        const url = '/admin/two_level_entity/' + entityNameConverted + (mainItemId ? '/' + mainItemId + '/sub_items' : '');
+        const url = '/admin/two_level_entity/' + entityNameConverted + (mainItemId ? '/' + mainItemId + '/sub_items' : '')
 
         // Set up post request
         const req = this.http.post<TwoLevelEntity>(
@@ -242,14 +239,14 @@ export class CoreDataService {
         // Execute post request and subscribe to response
         req.subscribe(
           data => {
-            resolve(data);
+            resolve(data)
           },
           error => {
-            reject(error);
-          });
+            reject(new Error('Fehler beim Speichern: ' + error.error))
+          })
       }
 
-    });
+    })
   }
 
 
@@ -260,9 +257,9 @@ export class CoreDataService {
       } else if (!(mainItemId > 0)) {
         reject(new Error("Bug: Eine der angegebenen Item IDs ist keine positive Zahl!"))
       } else {
-        const entityNameConverted = this.util.ucfirst(_.camelCase(entityName));
+        const entityNameConverted = this.util.ucfirst(_.camelCase(entityName))
 
-        const url = '/admin/two_level_entity/' + entityNameConverted + '/' + mainItemId + (subItemId ? '/sub_items/' + subItemId : '');
+        const url = '/admin/two_level_entity/' + entityNameConverted + '/' + mainItemId + (subItemId ? '/sub_items/' + subItemId : '')
 
         // Set up post request
         const req = this.http.delete(
@@ -272,14 +269,14 @@ export class CoreDataService {
         // Execute post request and subscribe to response
         req.subscribe(
           data => {
-            resolve(data);
+            resolve(data)
           },
           error => {
-            reject(error);
-          });
+            reject(new Error('Fehler beim Löschen: ' + error.error))
+          })
       }
 
-    });
+    })
   }
 
   updateTwoLevelEntityItem(entityName, mainItemId, subItemId, itemNewName): Promise<TwoLevelEntity> {
@@ -290,9 +287,9 @@ export class CoreDataService {
       } else if (itemNewName == null || itemNewName == "") {
         reject(new Error("Der neue Name darf nicht leer sein!"))
       } else {
-        const entityNameConverted = this.util.ucfirst(_.camelCase(entityName));
+        const entityNameConverted = this.util.ucfirst(_.camelCase(entityName))
 
-        const url = '/admin/two_level_entity/' + entityNameConverted + '/' + mainItemId + (subItemId ? '/sub_items/' + subItemId : '');
+        const url = '/admin/two_level_entity/' + entityNameConverted + '/' + mainItemId + (subItemId ? '/sub_items/' + subItemId : '')
 
         // Set up post request
         const req = this.http.post<TwoLevelEntity>(
@@ -305,13 +302,13 @@ export class CoreDataService {
         // Execute post request and subscribe to response
         req.subscribe(
           data => {
-            resolve(data);
+            resolve(data)
           },
           error => {
-            reject(error);
-          });
+            reject(new Error('Fehler beim Speichern: ' + error.error))
+          })
       }
-    });
+    })
   }
 
   makeMainItem(subItemId, entityName) {
@@ -334,11 +331,11 @@ export class CoreDataService {
         // Execute post request and subscribe to response
         req.subscribe(
           data => {
-            resolve(data);
+            resolve(data)
           },
           error => {
-            reject(error);
-          });
+            reject(new Error('Fehler beim Speichern: ' + error.error))
+          })
       } else {
         reject(new Error('Es wurde keine SubItem-Id übergeben!'))
       }
@@ -367,11 +364,11 @@ export class CoreDataService {
         // Execute post request and subscribe to response
         req.subscribe(
           data => {
-            resolve(data);
+            resolve(data)
           },
           error => {
-            reject(error);
-          });
+            reject(new Error('Fehler beim Speichern: ' + error.error))
+          })
       } else {
         reject(new Error('Es müssen eine ItemId und ein neues MainItem angegeben werden!'))
       }
@@ -380,24 +377,24 @@ export class CoreDataService {
 }
 
 export class CoreData {
-  yes_no_in_progress: SimpleEntityCollection;
-  anrede: SimpleEntityCollection;
-  country: SimpleEntityCollection;
-  sectors: TwoLevelEntityCollection;
-  sectors_flat: SimpleEntityCollection;
-  languages: TwoLevelEntityCollection;
-  languages_flat: SimpleEntityCollection;
-  services: SimpleEntityCollection;
-  price_units: SimpleEntityCollection;
-  currency: SimpleEntityCollection;
-  cat_tools: SimpleEntityCollection;
-  freelancer_payment_types: SimpleEntityCollection;
-  freelancer_invoicing_types: SimpleEntityCollection;
-  freelancer_rating: SimpleEntityCollection;
-  freelancer_status: SimpleEntityCollection;
-  customer_origin: SimpleEntityCollection;
-  customer_potential: SimpleEntityCollection;
-  customer_status: SimpleEntityCollection;
-  user_roles: SimpleEntityCollection;
-  account_managers: User[];
+  yes_no_in_progress: SimpleEntityCollection
+  anrede: SimpleEntityCollection
+  country: SimpleEntityCollection
+  sectors: TwoLevelEntityCollection
+  sectors_flat: SimpleEntityCollection
+  languages: TwoLevelEntityCollection
+  languages_flat: SimpleEntityCollection
+  services: SimpleEntityCollection
+  price_units: SimpleEntityCollection
+  currency: SimpleEntityCollection
+  cat_tools: SimpleEntityCollection
+  freelancer_payment_types: SimpleEntityCollection
+  freelancer_invoicing_types: SimpleEntityCollection
+  freelancer_rating: SimpleEntityCollection
+  freelancer_status: SimpleEntityCollection
+  customer_origin: SimpleEntityCollection
+  customer_potential: SimpleEntityCollection
+  customer_status: SimpleEntityCollection
+  user_roles: SimpleEntityCollection
+  account_managers: User[]
 }

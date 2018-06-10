@@ -36,9 +36,8 @@ export class AdminUserEditService {
         // Execute post request and subscribe to response
         req.subscribe(
           data => {
-            const user = data[0]
-            this.$userToEdit.next(user);
-            resolve(user)
+            this.$userToEdit.next(data);
+            resolve(data)
           },
           error => {
             reject('Fehler beim Laden des Users');
@@ -65,6 +64,24 @@ export class AdminUserEditService {
         },
         error => {
           reject(new Error('Fehler beim Speichern des Benutzers: ' + error.message))
+        });
+    })
+  }
+
+  deleteUser(userToDelete) {
+    return new Promise<User>((resolve, reject) => {
+      const req = this.http.delete<any>(
+        '/admin/users/' + userToDelete.id
+      )
+
+      // Execute post request and subscribe to response
+      req.subscribe(
+        data => {
+          this.clearUser();
+          resolve()
+        },
+        error => {
+          reject(new Error('Fehler beim Löschen des Benutzers: ' + error.message))
         });
     })
   }

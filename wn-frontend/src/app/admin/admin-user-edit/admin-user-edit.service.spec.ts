@@ -107,6 +107,35 @@ describe('AdminUserEditService', () => {
     req.flush(null, { status: 404, statusText: '404 Not Found' })
   })
 
+  it('should delete user', (done) => {
+    let user = new User()
+    user.id = 1
+
+    service.deleteUser(user)
+      .then(() => {
+        done()
+      })
+
+    const req = backend.expectOne('/admin/users/1')
+    expect(req.request.method).toBe("DELETE")
+    req.flush(user, { status: 200, statusText: 'Ok' })
+  })
+
+  it('should fail to delete user', (done) => {
+    let user = new User()
+    user.id = 1
+
+    service.deleteUser(user)
+      .catch((error) => {
+        expect(error).toBeTruthy()
+        done()
+      })
+
+    const req = backend.expectOne('/admin/users/' + user.id)
+    expect(req.request.method).toBe("DELETE")
+    req.flush(null, { status: 404, statusText: '404 Not Found' })
+  })
+
   it('should change user password', (done) => {
     let user = new User()
     user.id = 1
@@ -125,7 +154,7 @@ describe('AdminUserEditService', () => {
     setTimeout(() => {
       const req1 = backend.expectOne('/admin/users/' + user.id)
       expect(req1.request.method).toBe("GET")
-      req1.flush([user], { status: 200, statusText: 'Ok' })
+      req1.flush(user, { status: 200, statusText: 'Ok' })
     }, 25)
   })
 
@@ -147,7 +176,7 @@ describe('AdminUserEditService', () => {
     setTimeout(() => {
       const req1 = backend.expectOne('/admin/users/' + user.id)
       expect(req1.request.method).toBe("GET")
-      req1.flush([user], { status: 200, statusText: 'Ok' })
+      req1.flush(user, { status: 200, statusText: 'Ok' })
     }, 25)
   })
 

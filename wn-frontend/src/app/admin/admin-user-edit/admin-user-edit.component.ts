@@ -73,7 +73,11 @@ export class AdminUserEditComponent implements OnInit {
   saveUser(userForm) {
     this.submittedForm = true
     if (!userForm.valid) {
-      alert('Bitte alle Pflichtfelder ausfüllen!')
+      if (this.userToEdit['password'].length < 4) {
+        alert('Eingegebenes Passwort entspricht nicht den Richtlinien (min. 4 Zeichen)')
+      } else {
+        alert('Bitte alle Pflichtfelder ausfüllen!')
+      }
     } else {
       this.adminUserEditService.saveUser(this.userToEdit)
         .then((user) => {
@@ -87,7 +91,15 @@ export class AdminUserEditComponent implements OnInit {
   }
 
   deleteUser() {
-
+    console.log(this.userToEdit)
+    this.adminUserEditService.deleteUser(this.userToEdit)
+      .then((user) => {
+        this.adminUserService.fetchAllUsers();
+        this.util.historyBack()
+      })
+      .catch((error) => {
+        alert(error.message)
+      })
   }
 
   cancelEdit() {

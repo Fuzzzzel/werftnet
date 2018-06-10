@@ -23,7 +23,7 @@
             <div class="form-group row" [ngClass]="{'has-error': submittedForm && password.invalid}">
                 <label class="control-label col-md-3">Passwort</label>
                 <div class="col-md-9">
-                    <input name="password" class="form-control" [(ngModel)]="userToEdit.password" #password="ngModel" minlength="6" required>
+                    <input name="password" class="form-control" [(ngModel)]="userToEdit.password" #password="ngModel" minlength="4" required>
                 </div>
             </div>
         </div>

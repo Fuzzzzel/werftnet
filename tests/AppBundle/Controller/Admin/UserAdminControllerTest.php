@@ -128,7 +128,7 @@ class UserAdminControllerTest extends DefaultWebTestCase
         $content = $client->getResponse()->getContent();
         $this->assertJson($content);
         $response = json_decode($content);
-        $user = $response[0];
+        $user = $response;
 
         $newEmail = "testuser-edited@unit.test";
         $user->email = $newEmail;

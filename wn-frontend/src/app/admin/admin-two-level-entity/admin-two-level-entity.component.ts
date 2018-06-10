@@ -15,7 +15,7 @@ export class AdminTwoLevelEntityComponent implements OnInit {
   entityName: string = ''
   valuearray: TwoLevelEntityCollection = new TwoLevelEntityCollection()
   main_item_new: string = ''
-  sub_item_new: string = ''
+  subItemNew: string[] = []
 
   constructor(
     private util: UtilService,
@@ -47,12 +47,12 @@ export class AdminTwoLevelEntityComponent implements OnInit {
   createTwoLevelEntityMainItem(newItemName) {
     this.coreDataService.createTwoLevelEntityItem(this.entityName, null, newItemName)
       .then((data) => {
+        this.main_item_new = ''
         this.loadTwoLevelEntityValues()
       })
       .catch((error) => {
         alert(error.message)
       })
-    this.main_item_new = ''
   }
 
   /**
@@ -95,12 +95,12 @@ export class AdminTwoLevelEntityComponent implements OnInit {
   createTwoLevelEntitySubItem(mainItemId, newItemName) {
     this.coreDataService.createTwoLevelEntityItem(this.entityName, mainItemId, newItemName)
       .then((data) => {
+        this.subItemNew[mainItemId] = ''
         this.loadTwoLevelEntityValues()
       })
       .catch((error) => {
         alert(error.message)
       })
-    this.sub_item_new = ''
   }
 
   /**

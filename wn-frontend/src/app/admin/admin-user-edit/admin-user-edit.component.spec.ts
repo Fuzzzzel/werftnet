@@ -90,37 +90,23 @@ describe('AdminUserEditComponent', () => {
     initWithUser()
     let userEditPwdForm = { valid: true }
     component.pwdNew = 'New password'
-    component.userToEdit = new User()
-    component.userToEdit.id = 1
-    adminUserEditService.fetchUser(component.userToEdit.id).then((data) => {
-      component.changeUserPwd(userEditPwdForm)
-      tick()
 
-      const req = backend.expectOne('/admin/users/' + component.userToEdit.id + '/password')
-      expect(req.request.method).toBe("POST")
-      req.flush(new User(), { status: 200, statusText: 'OK' })
-    })
-
+    component.changeUserPwd(userEditPwdForm)
     tick()
-    const req1 = backend.expectOne('/admin/users/' + component.userToEdit.id)
-    expect(req1.request.method).toBe("GET")
-    req1.flush([component.userToEdit], { status: 200, statusText: 'Ok' })
 
+    const req = backend.expectOne('/admin/users/' + component.userToEdit.id + '/password')
+    expect(req.request.method).toBe("POST")
+    req.flush(new User(), { status: 200, statusText: 'OK' })
   }))
 
   it('should fail to change user password', fakeAsync(() => {
     initWithUser()
     let userEditPwdForm = { invalid: true }
     component.pwdNew = 'New password'
-    component.userToEdit = new User()
     component.userToEdit.id = null
 
-    adminUserEditService.fetchUser(1)
     tick()
     spyOn(window, 'alert').and.returnValue(true)
-    const req = backend.expectOne('/admin/users/' + 1)
-    expect(req.request.method).toBe("GET")
-    req.flush([component.userToEdit], { status: 200, statusText: 'Ok' })
 
     // Error: Eingegebenes Password
     component.changeUserPwd(userEditPwdForm)
@@ -145,8 +131,6 @@ describe('AdminUserEditComponent', () => {
     initWithUser()
     let userForm = { valid: true }
     component.pwdNew = 'New password'
-    component.userToEdit = new User()
-    component.userToEdit.id = 1
 
     component.saveUser(userForm)
     tick()
@@ -160,12 +144,14 @@ describe('AdminUserEditComponent', () => {
   it('should fail to save user', fakeAsync(() => {
     initWithUser()
     let userForm = { valid: false }
-    component.pwdNew = 'New password'
-    component.userToEdit = new User()
-    component.userToEdit.id = 1
+
+    // Error: Passwort zu kurz
+    spyOn(window, 'alert').and.returnValue(true)
+    component.userToEdit['password'] = '12'
+    component.saveUser(userForm)
 
     // Error: Nicht alle Pflichtangaben gemacht
-    spyOn(window, 'alert').and.returnValue(true)
+    component.userToEdit['password'] = '1234'
     component.saveUser(userForm)
 
     // Error: No route
@@ -180,8 +166,24 @@ describe('AdminUserEditComponent', () => {
 
   it('should delete user', fakeAsync(() => {
     initWithUser()
+
     component.deleteUser()
     tick()
+
+    const req = backend.expectOne('/admin/users/' + component.userToEdit.id)
+    expect(req.request.method).toBe("DELETE")
+    req.flush(new User(), { status: 200, statusText: 'OK' })
+  }))
+
+  it('should fail to delete user', fakeAsync(() => {
+    initWithUser()
+    spyOn(window, 'alert').and.returnValue(true)
+    component.deleteUser()
+    tick()
+
+    const req = backend.expectOne('/admin/users/' + component.userToEdit.id)
+    expect(req.request.method).toBe("DELETE")
+    req.flush(new User(), { status: 404, statusText: 'Not Found' })
   }))
 
   it('should cancel edit', fakeAsync(() => {

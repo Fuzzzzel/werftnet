@@ -23,6 +23,7 @@ export class AdminUserOverviewComponent implements OnInit {
     this.adminUserService.getUserList().subscribe((userList) => {
       this.userList = userList
     })
+    this.adminUserService.fetchAllUsers()
   }
 
   editUser(userId) {

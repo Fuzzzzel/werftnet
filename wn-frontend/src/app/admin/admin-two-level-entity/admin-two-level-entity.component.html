@@ -27,9 +27,10 @@
 
       <!-- New SubItem -->
       <div class="alist-sub-item-new alist-sub-item input-group">
-        <input [(ngModel)]="sub_item_new" (keydown.enter)="createTwoLevelEntitySubItem(mainProp.id, sub_item_new)" class="form-control">
+        <input [(ngModel)]="subItemNew[mainProp.id]" (keydown.enter)="createTwoLevelEntitySubItem(mainProp.id, subItemNew[mainProp.id])"
+          class="form-control">
         <span class="input-group-btn">
-          <button type="button" class="btn btn-primary btn-sm" (click)="createTwoLevelEntitySubItem(mainProp.id, sub_item_new)">
+          <button type="button" class="btn btn-primary btn-sm" (click)="createTwoLevelEntitySubItem(mainProp.id, subItemNew[mainProp.id])">
             <span class="clickable iconsmall">
               <i class="fa fa-plus fa-lg"></i>
             </span>

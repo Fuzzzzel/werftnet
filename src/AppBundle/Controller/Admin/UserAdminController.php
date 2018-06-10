@@ -141,7 +141,7 @@ class UserAdminController extends Controller
             $em->remove($user);
             $em->flush();
 
-            return new Response("User wurde gelöscht");
+            return new Response();
         }
 
         return new Response("User mit der Id {$id} wurde nicht gefunden!", Response::HTTP_NOT_FOUND);
@@ -149,7 +149,7 @@ class UserAdminController extends Controller
 
 
     /**
-     * Alle user ausgeben
+     * Return all users if no id was given (array) otherwise return one user if found
      *
      * @Method("GET")
      * @Route("/admin/users/{id}", defaults={"id"=null}, name="getUsers")
@@ -159,14 +159,16 @@ class UserAdminController extends Controller
     {
 
         if ($id === null) {
-            $users = $this->getDoctrine()->getRepository('AppBundle\Entity\User')->findAll();
-        } else {
             $users = $this->getDoctrine()->getRepository('AppBundle\Entity\User')->findBy(
-                array(
-                    'id' => $id
-                ),
+                array(),
                 array(
                     'username' => 'ASC'
+                )
+            );
+        } else {
+            $users = $this->getDoctrine()->getRepository('AppBundle\Entity\User')->findOneBy(
+                array(
+                    'id' => $id
                 )
             );
         }
