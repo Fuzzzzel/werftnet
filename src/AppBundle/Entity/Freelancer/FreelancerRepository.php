@@ -6,9 +6,10 @@
  * Time: 22:15
  */
 
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\Freelancer;
 
 
+use AppBundle\Entity\QueryHelper;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 

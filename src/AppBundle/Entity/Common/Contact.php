@@ -6,7 +6,6 @@ Klasse beschreibt ein Freelancer-Objekt
 namespace AppBundle\Entity\Common;
 
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Entity\Common\Anrede;
 use JMS\Serializer\Annotation as JMS;
 
 /**

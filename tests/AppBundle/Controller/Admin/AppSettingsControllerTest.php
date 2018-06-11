@@ -10,7 +10,6 @@ namespace Tests\AppBundle\Controller;
 
 
 use AppBundle\Entity\Settings\AppSettings;
-use AppBundle\Entity\User;
 use Tests\AppBundle\DefaultWebTestCase;
 
 class AppSettingsControllerTest extends DefaultWebTestCase

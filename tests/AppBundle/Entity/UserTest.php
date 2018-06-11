@@ -9,7 +9,7 @@
 namespace Tests\AppBundle\Controller;
 
 
-use AppBundle\Entity\User;
+use AppBundle\Entity\User\User;
 use AppBundle\Entity\User\UserRole;
 use Tests\AppBundle\DefaultWebTestCase;
 

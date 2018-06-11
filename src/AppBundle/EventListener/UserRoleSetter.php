@@ -9,7 +9,7 @@
 namespace AppBundle\EventListener;
 
 
-use AppBundle\Entity\User;
+use AppBundle\Entity\User\User;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 
 class UserRoleSetter

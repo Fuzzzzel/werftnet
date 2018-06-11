@@ -6,8 +6,9 @@
  * Time: 22:15
  */
 
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\Customer;
 
+use AppBundle\Entity\QueryHelper;
 use Doctrine\ORM\EntityRepository;
 
 class CustomerRepository extends EntityRepository

@@ -6,7 +6,7 @@
  * Time: 21:31
  */
 
-use AppBundle\Entity\Customer;
+use AppBundle\Entity\Customer\Customer;
 
 class CustomerRepositoryTest extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
 {

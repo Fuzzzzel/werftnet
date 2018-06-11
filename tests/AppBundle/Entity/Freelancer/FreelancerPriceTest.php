@@ -13,13 +13,14 @@ use AppBundle\Entity\Common\Currency;
 use AppBundle\Entity\Common\Language;
 use AppBundle\Entity\Common\PriceUnit;
 use AppBundle\Entity\Common\Service;
-use AppBundle\Entity\Freelancer;
+use AppBundle\Entity\Freelancer\Freelancer;
+use AppBundle\Entity\Freelancer\FreelancerPrice;
 use Tests\AppBundle\DefaultWebTestCase;
 
 class FreelancerPriceTest extends DefaultWebTestCase
 {
     public function testFreelancerPrice() {
-        $freelancerPrice = new Freelancer\FreelancerPrice();
+        $freelancerPrice = new FreelancerPrice();
         
         $lngSource = new Language();
         $freelancerPrice->setLngSource($lngSource);

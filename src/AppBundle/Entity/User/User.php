@@ -6,7 +6,7 @@
  * Time: 21:56
  */
 
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\User;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -20,7 +20,7 @@ use JMS\Serializer\Annotation as JMS;
  *
  * !!! Eventlistener OnBeforePersist adds the USER_ROLE to each new User !!!
  *
- * @ORM\Entity(repositoryClass="AppBundle\Entity\UserRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\User\UserRepository")
  * @ORM\Table(name="User")
  */
 class User implements AdvancedUserInterface

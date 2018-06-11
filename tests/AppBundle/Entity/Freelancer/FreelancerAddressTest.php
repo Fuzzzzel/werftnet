@@ -10,14 +10,15 @@ namespace Tests\AppBundle\Controller;
 
 
 use AppBundle\Entity\Common\Country;
-use AppBundle\Entity\Freelancer;
+use AppBundle\Entity\Freelancer\Freelancer;
+use AppBundle\Entity\Freelancer\FreelancerAddress;
 use Tests\AppBundle\DefaultWebTestCase;
 
 class FreelancerAddressTest extends DefaultWebTestCase
 {
     public function testFreelancerAddress()
     {
-        $address = new Freelancer\FreelancerAddress();
+        $address = new FreelancerAddress();
 
         $street = 'FreelancerAddressTest-Street';
         $address->setStreet($street);

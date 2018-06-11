@@ -14,8 +14,14 @@ use AppBundle\Entity\Common\CatTool;
 use AppBundle\Entity\Common\Language;
 use AppBundle\Entity\Common\Sector;
 use AppBundle\Entity\Common\YesNoInProgress;
-use AppBundle\Entity\Freelancer;
-use AppBundle\Entity\User;
+use AppBundle\Entity\Freelancer\Freelancer;
+use AppBundle\Entity\Freelancer\FreelancerAddress;
+use AppBundle\Entity\Freelancer\FreelancerInvoicingType;
+use AppBundle\Entity\Freelancer\FreelancerPaymentType;
+use AppBundle\Entity\Freelancer\FreelancerPrice;
+use AppBundle\Entity\Freelancer\FreelancerRating;
+use AppBundle\Entity\Freelancer\FreelancerStatus;
+use AppBundle\Entity\User\User;
 use Tests\AppBundle\DefaultWebTestCase;
 
 class FreelancerTest extends DefaultWebTestCase
@@ -97,12 +103,12 @@ class FreelancerTest extends DefaultWebTestCase
         $freelancer->setCompanyName($companyName);
         $this->assertEquals($freelancer->getCompanyName(), $companyName);
 
-        $address = new Freelancer\FreelancerAddress();
+        $address = new FreelancerAddress();
         $freelancer->setAddress($address);
         $this->assertEquals($freelancer->getAddress(), $address);
         $this->assertEquals($freelancer->getAddress()->getFreelancer(), $freelancer);
 
-        $flStatus = new Freelancer\FreelancerStatus();
+        $flStatus = new FreelancerStatus();
         $freelancer->setFlStatus($flStatus);
         $this->assertEquals($freelancer->getFlStatus(), $flStatus);
 
@@ -114,7 +120,7 @@ class FreelancerTest extends DefaultWebTestCase
         $freelancer->setMothertounge2($mothertounge2);
         $this->assertEquals($freelancer->getMothertounge2(), $mothertounge2);
 
-        $flRating = new Freelancer\FreelancerRating();
+        $flRating = new FreelancerRating();
         $freelancer->setFlRating($flRating);
         $this->assertEquals($freelancer->getFlRating(), $flRating);
 
@@ -146,7 +152,7 @@ class FreelancerTest extends DefaultWebTestCase
         $freelancer->setAnrede($flPaymentType);
         $this->assertEquals($freelancer->getAnrede(), $flPaymentType);
 
-        $flInvoicingType = new Freelancer\FreelancerInvoicingType();
+        $flInvoicingType = new FreelancerInvoicingType();
         $freelancer->setFlInvoicingType($flInvoicingType);
         $this->assertEquals($freelancer->getFlInvoicingType(), $flInvoicingType);
 
@@ -154,7 +160,7 @@ class FreelancerTest extends DefaultWebTestCase
         $freelancer->setBankdetails($bankdetails);
         $this->assertEquals($freelancer->getBankdetails(), $bankdetails);
 
-        $price = new Freelancer\FreelancerPrice();
+        $price = new FreelancerPrice();
         $freelancer->addPrice($price);
         $this->assertContains($price, $freelancer->getPrices());
         $freelancer->removePrice($price);
@@ -176,7 +182,7 @@ class FreelancerTest extends DefaultWebTestCase
         $freelancer->removeCatTool($catTool);
         $this->assertNotContains($catTool, $freelancer->getCatTools());
 
-        $flPaymentType = new Freelancer\FreelancerPaymentType();
+        $flPaymentType = new FreelancerPaymentType();
         $freelancer->setFlPaymentType($flPaymentType);
         $this->assertEquals($flPaymentType, $freelancer->getFlPaymentType());
 

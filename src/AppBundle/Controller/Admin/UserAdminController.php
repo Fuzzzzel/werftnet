@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use AppBundle\Entity\User;
+use AppBundle\Entity\User\User;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -47,7 +47,7 @@ class UserAdminController extends Controller
 
         $newUser = $serializer->deserialize(
             $content,
-            'AppBundle\Entity\User',
+            'AppBundle\Entity\User\User',
             'json',
             DeserializationContext::create()->setGroups(array('create'))
         );
@@ -57,7 +57,7 @@ class UserAdminController extends Controller
             return $response;
         }
 
-        $usernameExists = $this->getDoctrine()->getRepository('AppBundle\Entity\User')->findOneBy(array('username' => $newUser->getUsername()));
+        $usernameExists = $this->getDoctrine()->getRepository('AppBundle\Entity\User\User')->findOneBy(array('username' => $newUser->getUsername()));
         if ($usernameExists !== null) {
             $response = new Response("Benutzername existiert schon!", Response::HTTP_BAD_REQUEST);
             return $response;
@@ -102,7 +102,7 @@ class UserAdminController extends Controller
         $serializer = $this->get('jms_serializer');
         $user = $serializer->deserialize(
             $content,
-            'AppBundle\Entity\User',
+            'AppBundle\Entity\User\User',
             'json',
             DeserializationContext::create()->setGroups(array('update'))
         );
@@ -135,7 +135,7 @@ class UserAdminController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $user = $this->getDoctrine()->getRepository('AppBundle\Entity\User')->find($id);
+        $user = $this->getDoctrine()->getRepository('AppBundle\Entity\User\User')->find($id);
 
         if ($user != null) {
             $em->remove($user);
@@ -159,14 +159,14 @@ class UserAdminController extends Controller
     {
 
         if ($id === null) {
-            $users = $this->getDoctrine()->getRepository('AppBundle\Entity\User')->findBy(
+            $users = $this->getDoctrine()->getRepository('AppBundle\Entity\User\User')->findBy(
                 array(),
                 array(
                     'username' => 'ASC'
                 )
             );
         } else {
-            $users = $this->getDoctrine()->getRepository('AppBundle\Entity\User')->findOneBy(
+            $users = $this->getDoctrine()->getRepository('AppBundle\Entity\User\User')->findOneBy(
                 array(
                     'id' => $id
                 )
@@ -211,7 +211,7 @@ class UserAdminController extends Controller
             return new Response('Passwort ist zu kurz (min. 4 Zeichen)!', Response::HTTP_BAD_REQUEST);
         }
 
-        $user = $this->getDoctrine()->getRepository('AppBundle\Entity\User')->find($id);
+        $user = $this->getDoctrine()->getRepository('AppBundle\Entity\User\User')->find($id);
 
         if ($user == null) {
             throw $this->createNotFoundException("User mit der Id {$id} wurde nicht gefunden!");

@@ -10,7 +10,7 @@ namespace Tests\AppBundle\Controller;
 
 
 use AppBundle\Controller\AuthenticationController;
-use AppBundle\Entity\User;
+use AppBundle\Entity\User\User;
 use Tests\AppBundle\DefaultWebTestCase;
 
 class AuthenticationHandlerTest extends DefaultWebTestCase

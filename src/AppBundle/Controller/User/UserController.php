@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use AppBundle\Entity\User;
+use AppBundle\Entity\User\User;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;

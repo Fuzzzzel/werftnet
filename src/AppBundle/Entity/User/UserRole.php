@@ -9,7 +9,7 @@
 namespace AppBundle\Entity\User;
 
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Entity\User;
+use AppBundle\Entity\User\User;
 use AppBundle\Entity\SimpleEntity;
 
 /**
@@ -26,7 +26,7 @@ class UserRole extends SimpleEntity
     }
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="roles")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User\User", mappedBy="roles")
      */
     private $users;
     /**

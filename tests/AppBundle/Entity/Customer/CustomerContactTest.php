@@ -10,13 +10,14 @@ namespace Tests\AppBundle\Controller;
 
 
 use AppBundle\Entity\Common\Country;
-use AppBundle\Entity\Customer;
+use AppBundle\Entity\Customer\Customer;
+use AppBundle\Entity\Customer\CustomerContact;
 use Tests\AppBundle\DefaultWebTestCase;
 
 class CustomerContactTest extends DefaultWebTestCase
 {
     public function testCustomerContact() {
-        $contact = new Customer\CustomerContact();
+        $contact = new CustomerContact();
         
         $position = 'CustomerContactTest-Position';
         $contact->setPosition($position);

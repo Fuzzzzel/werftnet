@@ -6,9 +6,10 @@
  * Time: 18:44
  */
 
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\Customer;
 
 use AppBundle\Entity\Common\Company;
+use AppBundle\Entity\User\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
@@ -17,7 +18,7 @@ use JMS\Serializer\Annotation as JMS;
  * Class Customer
  * @package AppBundle\Entity
  *
- * @ORM\Entity(repositoryClass="AppBundle\Entity\CustomerRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Customer\CustomerRepository")
  * @ORM\Table(name="Customer")
  */
 class Customer extends Company
@@ -55,9 +56,9 @@ class Customer extends Company
     private $potential;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\User")
      * @ORM\JoinColumn(name="account_manager_id", referencedColumnName="id")
-     * @JMS\Type("AppBundle\Entity\User")
+     * @JMS\Type("AppBundle\Entity\User\User")
      * @JMS\Groups({"display", "update"})
      */
     private $accountManager;
@@ -157,7 +158,7 @@ class Customer extends Company
      *
      * @return Customer
      */
-    public function setAddress(\AppBundle\Entity\Customer\CustomerAddress $address = null)
+    public function setAddress(CustomerAddress $address = null)
     {
         if ($address !== null) {
             $address->setCustomer($this);
@@ -184,7 +185,7 @@ class Customer extends Company
      *
      * @return Customer
      */
-    public function setOrigin(\AppBundle\Entity\Customer\CustomerOrigin $origin = null)
+    public function setOrigin(CustomerOrigin $origin = null)
     {
         $this->origin = $origin;
 
@@ -208,7 +209,7 @@ class Customer extends Company
      *
      * @return Customer
      */
-    public function setPotential(\AppBundle\Entity\Customer\CustomerPotential $potential = null)
+    public function setPotential(CustomerPotential $potential = null)
     {
         $this->potential = $potential;
 
@@ -218,7 +219,7 @@ class Customer extends Company
     /**
      * Get accountManager
      *
-     * @return \AppBundle\Entity\User
+     * @return \AppBundle\Entity\User\User
      */
     public function getAccountManager()
     {
@@ -228,11 +229,11 @@ class Customer extends Company
     /**
      * Set accountManager
      *
-     * @param \AppBundle\Entity\User $accountManager
+     * @param \AppBundle\Entity\User\User $accountManager
      *
      * @return Customer
      */
-    public function setAccountManager(\AppBundle\Entity\User $accountManager = null)
+    public function setAccountManager(User $accountManager = null)
     {
         $this->accountManager = $accountManager;
 
@@ -256,7 +257,7 @@ class Customer extends Company
      *
      * @return Customer
      */
-    public function setStatus(\AppBundle\Entity\Customer\CustomerStatus $status = null)
+    public function setStatus(CustomerStatus $status = null)
     {
         $this->status = $status;
 
@@ -280,7 +281,7 @@ class Customer extends Company
      *
      * @return Customer
      */
-    public function addContact(\AppBundle\Entity\Customer\CustomerContact $contact)
+    public function addContact(CustomerContact $contact)
     {
         $contact->setCustomer($this);
         $this->contacts[] = $contact;
@@ -293,7 +294,7 @@ class Customer extends Company
      *
      * @param \AppBundle\Entity\Customer\CustomerContact $contact
      */
-    public function removeContact(\AppBundle\Entity\Customer\CustomerContact $contact)
+    public function removeContact(CustomerContact $contact)
     {
         $contact->setCustomer(null);
         $this->contacts->removeElement($contact);

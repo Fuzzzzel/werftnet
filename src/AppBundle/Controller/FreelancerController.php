@@ -9,7 +9,7 @@
 namespace AppBundle\Controller;
 
 
-use AppBundle\Entity\Freelancer;
+use AppBundle\Entity\Freelancer\Freelancer;
 use AppBundle\Entity\QueryHelper;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
@@ -51,7 +51,7 @@ class FreelancerController extends Controller
         if (!isset($params['page']))
             $params['page'] = 1;
 
-        $repository = $this->getDoctrine()->getRepository('AppBundle:Freelancer');
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Freelancer\\Freelancer');
         $flPaginatedResult = $repository->findAllBySearchParams($params, 20, $params['page']);
 
         $flSerializableResult = QueryHelper::getSerializableResult($flPaginatedResult);
@@ -88,7 +88,7 @@ class FreelancerController extends Controller
 
     private function fetchFreelancer($id)
     {
-        $repository = $this->getDoctrine()->getRepository('AppBundle:Freelancer');
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Freelancer\\Freelancer');
         $freelancer = $repository->findOneBy(
             array('id' => intval($id))
         );
@@ -110,7 +110,7 @@ class FreelancerController extends Controller
         $content = $request->getContent();
 
         $serializer = $this->get('jms_serializer');
-        $fl = $serializer->deserialize($content, 'AppBundle\Entity\Freelancer', 'json', DeserializationContext::create()->setGroups(array('update')));
+        $fl = $serializer->deserialize($content, 'AppBundle\Entity\Freelancer\Freelancer', 'json', DeserializationContext::create()->setGroups(array('update')));
 
         // EntityManager laden
         $em = $this->getDoctrine()->getManager();

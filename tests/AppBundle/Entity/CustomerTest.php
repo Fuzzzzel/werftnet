@@ -14,8 +14,13 @@ use AppBundle\Entity\Common\CatTool;
 use AppBundle\Entity\Common\Language;
 use AppBundle\Entity\Common\Sector;
 use AppBundle\Entity\Common\YesNoInProgress;
-use AppBundle\Entity\Customer;
-use AppBundle\Entity\User;
+use AppBundle\Entity\Customer\Customer;
+use AppBundle\Entity\Customer\CustomerAddress;
+use AppBundle\Entity\Customer\CustomerContact;
+use AppBundle\Entity\Customer\CustomerOrigin;
+use AppBundle\Entity\Customer\CustomerPotential;
+use AppBundle\Entity\Customer\CustomerStatus;
+use AppBundle\Entity\User\User;
 use Tests\AppBundle\DefaultWebTestCase;
 
 class CustomerTest extends DefaultWebTestCase
@@ -74,16 +79,16 @@ class CustomerTest extends DefaultWebTestCase
         $customer->setCustomerNo($customerNo);
         $this->assertEquals($customer->getCustomerNo(), $customerNo);
 
-        $address = new Customer\CustomerAddress();
+        $address = new CustomerAddress();
         $customer->setAddress($address);
         $this->assertEquals($customer->getAddress(), $address);
         $this->assertEquals($customer->getAddress()->getCustomer(), $customer);
 
-        $origin = new Customer\CustomerOrigin();
+        $origin = new CustomerOrigin();
         $customer->setOrigin($origin);
         $this->assertEquals($customer->getOrigin(), $origin);
 
-        $potential = new Customer\CustomerPotential();
+        $potential = new CustomerPotential();
         $customer->setPotential($potential);
         $this->assertEquals($customer->getPotential(), $potential);
 
@@ -91,7 +96,7 @@ class CustomerTest extends DefaultWebTestCase
         $customer->setAccountManager($accountManager);
         $this->assertEquals($customer->getAccountManager(), $accountManager);
 
-        $status = new Customer\CustomerStatus();
+        $status = new CustomerStatus();
         $customer->setStatus($status);
         $this->assertEquals($customer->getStatus(), $status);
 
@@ -99,7 +104,7 @@ class CustomerTest extends DefaultWebTestCase
         $customer->setInvoicingDetails($invoicingDetails);
         $this->assertEquals($customer->getInvoicingDetails(), $invoicingDetails);
 
-        $customerContact = new Customer\CustomerContact();
+        $customerContact = new CustomerContact();
         $customer->addContact($customerContact);
         $this->assertContains($customerContact, $customer->getContacts());
         $customer->removeContact($customerContact);

@@ -22,8 +22,8 @@ use JMS\Serializer\Annotation as JMS;
 class CustomerAddress extends Address
 {
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Customer", mappedBy="address")
-     * @JMS\Type("AppBundle\Entity\Customer")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Customer\Customer", mappedBy="address")
+     * @JMS\Type("AppBundle\Entity\Customer\Customer")
      */
     private $customer;
     /**
@@ -37,11 +37,11 @@ class CustomerAddress extends Address
     /**
      * Set customer
      *
-     * @param \AppBundle\Entity\Customer $customer
+     * @param \AppBundle\Entity\Customer\Customer $customer
      *
      * @return CustomerAddress
      */
-    public function setCustomer(\AppBundle\Entity\Customer $customer)
+    public function setCustomer(\AppBundle\Entity\Customer\Customer $customer)
     {
         $this->customer = $customer;
 

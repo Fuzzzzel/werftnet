@@ -9,7 +9,7 @@
 namespace Tests\AppBundle\Controller;
 
 
-use AppBundle\Entity\User;
+use AppBundle\Entity\User\User;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\AppBundle\DefaultWebTestCase;
 

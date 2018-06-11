@@ -3,7 +3,7 @@
  * Klasse beschreibt ein Freelancer-Objekt
  */
 
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\Freelancer;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -14,7 +14,7 @@ use JMS\Serializer\Annotation as JMS;
  * Class Freelancer
  * @package AppBundle\Entity
  *
- * @ORM\Entity(repositoryClass="AppBundle\Entity\FreelancerRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Freelancer\FreelancerRepository")
  * @ORM\Table(name="Freelancer")
  */
 class Freelancer extends Person
@@ -183,8 +183,8 @@ class Freelancer extends Person
     // Abwesenheiten --> Genauer eruieren, was gewünscht ist
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
-     * @JMS\Type("AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\User")
+     * @JMS\Type("AppBundle\Entity\User\User")
      * @JMS\Groups({"display"})
      */
     protected $createdBy; // User
@@ -721,11 +721,11 @@ class Freelancer extends Person
     /**
      * Set createdBy
      *
-     * @param \AppBundle\Entity\User $createdBy
+     * @param \AppBundle\Entity\User\User $createdBy
      *
      * @return Freelancer
      */
-    public function setCreatedBy(\AppBundle\Entity\User $createdBy = null)
+    public function setCreatedBy(\AppBundle\Entity\User\User $createdBy = null)
     {
         $this->createdBy = $createdBy;
 
@@ -735,7 +735,7 @@ class Freelancer extends Person
     /**
      * Get createdBy
      *
-     * @return \AppBundle\Entity\User
+     * @return \AppBundle\Entity\User\User
      */
     public function getCreatedBy()
     {

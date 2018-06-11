@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\SimpleEntity;
 
 /**
- * Class Freelancer
+ * Class CatTool
  * @package AppBundle\Entity
  *
  * @ORM\Entity

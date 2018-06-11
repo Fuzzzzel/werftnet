@@ -6,7 +6,7 @@
  * Time: 21:31
  */
 
-use AppBundle\Entity\Freelancer;
+use AppBundle\Entity\Freelancer\Freelancer;
 
 class FreelancerRepositoryTest extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
 {

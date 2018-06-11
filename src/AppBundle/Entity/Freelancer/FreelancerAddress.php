@@ -22,9 +22,9 @@ use JMS\Serializer\Annotation as JMS;
 class FreelancerAddress extends Address
 {
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Freelancer", mappedBy="address")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Freelancer\Freelancer", mappedBy="address")
      * @ORM\JoinColumn(name="freelancer_id", referencedColumnName="id", onDelete="SET NULL")
-     * @JMS\Type("AppBundle\Entity\Freelancer")
+     * @JMS\Type("AppBundle\Entity\Freelancer\Freelancer")
      */
     private $freelancer;
 
@@ -43,7 +43,7 @@ class FreelancerAddress extends Address
      *
      * @return FreelancerAddress
      */
-    public function setFreelancer(\AppBundle\Entity\Freelancer $freelancer)
+    public function setFreelancer(\AppBundle\Entity\Freelancer\Freelancer $freelancer)
     {
         $this->freelancer = $freelancer;
 

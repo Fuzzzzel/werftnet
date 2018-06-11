@@ -11,7 +11,7 @@ namespace AppBundle\Entity\Freelancer;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Common\Service;
 use AppBundle\Entity\Common\PriceUnit;
-use AppBundle\Entity\Freelancer;
+use AppBundle\Entity\Freelancer\Freelancer;
 use JMS\Serializer\Annotation as JMS;
 
 /**
@@ -88,9 +88,9 @@ class FreelancerPrice
     private $minimumPrice;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Freelancer", inversedBy="prices")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Freelancer\Freelancer", inversedBy="prices")
      * @ORM\JoinColumn(name="freelancer_id", referencedColumnName="id", onDelete="CASCADE")
-     * @JMS\Type("AppBundle\Entity\Freelancer")
+     * @JMS\Type("AppBundle\Entity\Freelancer\Freelancer")
      */
     private $freelancer;
 
@@ -275,11 +275,11 @@ class FreelancerPrice
     /**
      * Set freelancer
      *
-     * @param \AppBundle\Entity\Freelancer $freelancer
+     * @param \AppBundle\Entity\Freelancer\Freelancer $freelancer
      *
      * @return FreelancerPrice
      */
-    public function setFreelancer(\AppBundle\Entity\Freelancer $freelancer = null)
+    public function setFreelancer(\AppBundle\Entity\Freelancer\Freelancer $freelancer = null)
     {
         $this->freelancer = $freelancer;
 
@@ -289,7 +289,7 @@ class FreelancerPrice
     /**
      * Get freelancer
      *
-     * @return \AppBundle\Entity\Freelancer
+     * @return \AppBundle\Entity\Freelancer\Freelancer
      */
     public function getFreelancer()
     {

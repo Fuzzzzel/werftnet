@@ -19,9 +19,9 @@ use JMS\Serializer\Annotation as JMS;
 class CustomerContact extends Person
 {
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Customer", inversedBy="contacts")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Customer\Customer", inversedBy="contacts")
      * @ORM\JoinColumn(name="customer_id", referencedColumnName="id")
-     * @JMS\Type("AppBundle\Entity\Customer")
+     * @JMS\Type("AppBundle\Entity\Customer\Customer")
      */
     private $customer;
 
@@ -60,11 +60,11 @@ class CustomerContact extends Person
     /**
      * Set customer
      *
-     * @param \AppBundle\Entity\Customer $customer
+     * @param \AppBundle\Entity\Customer\Customer $customer
      *
      * @return CustomerContact
      */
-    public function setCustomer(\AppBundle\Entity\Customer $customer = null)
+    public function setCustomer(\AppBundle\Entity\Customer\Customer $customer = null)
     {
         $this->customer = $customer;
 

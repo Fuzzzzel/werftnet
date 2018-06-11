@@ -10,13 +10,14 @@ namespace Tests\AppBundle\Controller;
 
 
 use AppBundle\Entity\Common\Country;
-use AppBundle\Entity\Customer;
+use AppBundle\Entity\Customer\Customer;
+use AppBundle\Entity\Customer\CustomerAddress;
 use Tests\AppBundle\DefaultWebTestCase;
 
 class CustomerAddressTest extends DefaultWebTestCase
 {
     public function testCustomerAddress() {
-        $address = new Customer\CustomerAddress();
+        $address = new CustomerAddress();
         
         $street = 'CustomerAddressTest-Street';
         $address->setStreet($street);

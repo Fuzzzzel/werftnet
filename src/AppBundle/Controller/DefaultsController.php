@@ -142,7 +142,7 @@ class DefaultsController extends Controller
     public function getAccountManagers()
     {
         $accountManagers = new \stdClass;
-        $classname = "\\AppBundle\\Entity\\User";
+        $classname = "\\AppBundle\\Entity\\User\\User";
 
         $ams = $this->getDoctrine()
             ->getRepository($classname)

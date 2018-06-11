@@ -15,7 +15,7 @@ use AppBundle\Entity\Common\YesNoInProgress;
 use AppBundle\Entity\Customer\CustomerOrigin;
 use AppBundle\Entity\Customer\CustomerPotential;
 use AppBundle\Entity\Customer\CustomerStatus;
-use AppBundle\Entity\User;
+use AppBundle\Entity\User\User;
 use AppBundle\Entity\User\UserRole;
 use AppBundle\Entity\Freelancer\FreelancerPaymentType;
 use AppBundle\Entity\Freelancer\FreelancerInvoicingType;

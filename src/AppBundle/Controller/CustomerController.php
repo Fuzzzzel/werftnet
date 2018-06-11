@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\SerializerBuilder;
-use AppBundle\Entity\Customer;
+use AppBundle\Entity\Customer\Customer;
 use AppBundle\Entity\QueryHelper;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -53,7 +53,7 @@ class CustomerController extends Controller
         if (!isset($params['page']))
             $params['page'] = 1;
 
-        $repository = $this->getDoctrine()->getRepository('AppBundle:Customer');
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Customer\Customer');
         $custPaginatedResult = $repository->findAllBySearchParams($params, 20, $params['page']);
 
         $custSerializableResult = QueryHelper::getSerializableResult($custPaginatedResult);
@@ -81,7 +81,7 @@ class CustomerController extends Controller
         $serializer = $this->get('jms_serializer');
         $cust = $serializer->deserialize(
             $content,
-            'AppBundle\Entity\Customer',
+            'AppBundle\Entity\Customer\Customer',
             'json',
             DeserializationContext::create()->setGroups(array('update'))
         );
@@ -127,7 +127,7 @@ class CustomerController extends Controller
             return new Response('Customer mit der id {$id} wurde nicht gefunden!', Response::HTTP_BAD_REQUEST);
         }
 
-        $repository = $this->getDoctrine()->getRepository('AppBundle:Customer');
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Customer\Customer');
         $customer = $repository->find(intval($customerId));
 
         $serializer = SerializerBuilder::create()->build();
@@ -152,7 +152,7 @@ class CustomerController extends Controller
         // EntityManager laden
         $em = $this->getDoctrine()->getManager();
 
-        $cu = $em->find('AppBundle\Entity\Customer', intval($customerId));
+        $cu = $em->find('AppBundle\Entity\Customer\Customer', intval($customerId));
 
         if ($cu != null) {
             $em->remove($cu);
@@ -240,7 +240,7 @@ class CustomerController extends Controller
         }
 
         // Neuen Kontakt zu Kunde hinzufügen
-        $customer = $em->find('AppBundle\Entity\Customer', $customerId);
+        $customer = $em->find('AppBundle\Entity\Customer\Customer', $customerId);
         $customer->addContact($contact);
 
         // Daten speichern

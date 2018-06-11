@@ -89,7 +89,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
 
         $user = null;
 
-        $repo = $this->em->getRepository('AppBundle:User');
+        $repo = $this->em->getRepository('AppBundle:User\\User');
         $user = $repo->findOneByUsername($exception->getToken()->getUsername());
 
         if ($user !== null) {
