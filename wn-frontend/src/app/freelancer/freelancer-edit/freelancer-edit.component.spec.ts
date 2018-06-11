@@ -11,8 +11,9 @@ import { CoreDataServiceMock } from '../../core/core-data.service-mock'
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 import { Freelancer } from '../freelancer.model';
 import { PriceLine } from '../../shared/model/price-line.model';
-import { PriceUnit, Service } from '../../shared/model/common.model';
+import { PriceUnit, Service, Language } from '../../shared/model/common.model';
 import { FreelancersLoaded } from '../freelancer-search/freelancers-loaded.model';
+import { FreelancerEditPriceComponent } from '../freelancer-edit-price/freelancer-edit-price.component';
 const freelancerMock = require('./../freelancer.mock.json')
 
 describe('FreelancerEditComponent', () => {
@@ -29,7 +30,8 @@ describe('FreelancerEditComponent', () => {
         RouterTestingModule
       ],
       declarations: [
-        FreelancerEditComponent
+        FreelancerEditComponent,
+        FreelancerEditPriceComponent
       ],
       providers: [
         UtilService,
@@ -95,11 +97,17 @@ describe('FreelancerEditComponent', () => {
 
   it('should add freelancer price', () => {
     let priceLine = new PriceLine()
+    priceLine.lng_source = new Language()
+    priceLine.lng_target = new Language()
     priceLine.price_unit = new PriceUnit()
     priceLine.price_per_unit = 0.20
     priceLine.service = new Service()
 
     component.addPrice(priceLine)
+  })
+
+  it('should toggle freelancer price line', () => {
+    component.toggleEditPrice({ id: 1 })
   })
 
   it('should fail to add freelancer price', () => {

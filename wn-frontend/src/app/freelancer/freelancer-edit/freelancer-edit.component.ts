@@ -16,7 +16,7 @@ export class FreelancerEditComponent implements OnInit {
   fl_edit: Freelancer
   coreData: CoreData = new CoreData()
   new_price_line: PriceLine = new PriceLine()
-
+  editPrice: boolean[] = []
 
   constructor(
     public util: UtilService,
@@ -55,9 +55,11 @@ export class FreelancerEditComponent implements OnInit {
 
 
   addPrice = function (new_price_line) {
-    if ((new_price_line.price_unit != null) && (new_price_line.service != null) && (new_price_line.price_per_unit != null)) {
-      this.util.addCopyToArray(this.fl_edit.prices, new_price_line)
-    }
+    this.util.addCopyToArray(this.fl_edit.prices, new_price_line)
+  }
+
+  toggleEditPrice = function (element) {
+    this.editPrice[element.id] = !this.editPrice[element.id]
   }
 
 

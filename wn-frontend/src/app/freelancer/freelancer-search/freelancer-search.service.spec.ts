@@ -39,7 +39,10 @@ describe('FreelancerSearchService', () => {
     expect(req.request.method).toBe("POST")
 
     let freelancersLoaded = new FreelancersLoaded()
+    // Set to empty array - get's prefilled with an empty PriceLine?!
+    freelancerMock.prices = []
     freelancersLoaded.items.push(freelancerMock)
+
     req.flush(freelancersLoaded, { status: 200, statusText: 'Ok' })
   })
 

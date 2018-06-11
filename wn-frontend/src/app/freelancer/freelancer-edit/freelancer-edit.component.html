@@ -231,94 +231,28 @@
           </div>
           <div class="row">
             <div class="col-sm-12">
-              <div class="form-group row no-gutters">
-                <div class="col-sm-2">
-                  <div class="form-group row no-gutters">
-                    <label class="col-form-label">Quellsprache</label>
-                    <select class="form-control" name="edit-new_price_line-lng_source" [(ngModel)]="new_price_line.lng_source" [compareWith]='util.compareById'>
-                      <option [value]='undefined' selected>-- Bitte wählen --</option>
-                      <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-sm-2">
-                  <div class="form-group row no-gutters">
-                    <label class="col-form-label">Zielsprache</label>
-                    <select class="form-control" name="edit-new_price_line-lng_target" [(ngModel)]="new_price_line.lng_target" [compareWith]='util.compareById'>
-                      <option [value]='undefined' selected>-- Bitte wählen --</option>
-                      <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-sm-2">
-                  <div class="form-group row no-gutters">
-                    <label class="col-form-label">Leistung</label>
-                    <select class="form-control" name="edit-new_price_line-service" [(ngModel)]="new_price_line.service" [compareWith]='util.compareById'>
-                      <option [value]='undefined' selected>-- Bitte wählen --</option>
-                      <option *ngFor="let option of coreData.services.values" [ngValue]="option">{{ option.name }}</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-sm-2">
-                  <div class="form-group row no-gutters">
-                    <label class="col-form-label">Einheit</label>
-                    <select class="form-control" name="edit-new_price_line-price_unit" [(ngModel)]="new_price_line.price_unit" [compareWith]='util.compareById'>
-                      <option [value]='undefined' selected>-- Bitte wählen --</option>
-                      <option *ngFor="let option of coreData.price_units.values" [ngValue]="option">{{ option.name }}</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-sm-1">
-                  <div class="form-group row no-gutters">
-                    <label class="col-form-label">Preis</label>
-                    <input class="form-control" type="number" step="0.01" min="0" name="edit-new_price_line-price_per_unit" [(ngModel)]="new_price_line.price_per_unit">
-                  </div>
-
-                </div>
-                <div class="col-sm-1">
-                  <div class="form-group row no-gutters">
-                    <label class="col-form-label">MAW</label>
-                    <input class="form-control" type="number" step="0.01" min="0" name="edit-new_price_line-minimum_price" [(ngModel)]="new_price_line.minimum_price">
-                  </div>
-
-                </div>
-                <div class="col-sm-1">
-                  <div class="form-group row no-gutters">
-                    <label class="col-form-label">Währung</label>
-                    <select class="form-control" name="edit-new_price_line-currency" [(ngModel)]="new_price_line.currency" [compareWith]='util.compareById'>
-                      <option [value]='undefined' selected>-- Bitte wählen --</option>
-                      <option *ngFor="let option of coreData.currency.values" [ngValue]="option">{{ option.name }}</option>
-                    </select>
-                  </div>
-
-                </div>
-                <div class="col-sm-1 pull-right">
-                  <div class="form-group row no-gutters">
-                    <label class="col-form-label" style="width: 100%">&nbsp;</label>
-                    <span class="clickable clickable-icon iconsmall" (click)="addPrice(new_price_line)">
-                      <i class="fa fa-plus fa-lg"></i>
-                    </span>
-                  </div>
-                </div>
-                <div class="clearfix"></div>
-              </div>
+              <app-freelancer-edit-price (save)="addPrice($event)"></app-freelancer-edit-price>
             </div>
           </div>
 
           <div class="row" *ngFor="let element of fl_edit.prices">
             <div class="col-sm-12">
-              <div class="form-group row no-gutters">
+              <div *ngIf="!editPrice[element.id]" class="form-group row no-gutters">
                 <div class="col-sm-2">{{ util.getCombinedDisplayName(element.lng_source) }}</div>
                 <div class="col-sm-2">{{ util.getCombinedDisplayName(element.lng_target) }}</div>
                 <div class="col-sm-4">{{ element.service.name }} pro {{ element.price_unit.name }}</div>
                 <div class="col-sm-1">{{ element.price_per_unit | currency:(element.currency && element.currency.name):3 }}</div>
                 <div class="col-sm-1">{{ element.minimum_price | currency:(element.currency && element.currency.name):2 }}</div>
                 <div class="col-sm-2 pull-right">
+                  <span class="clickable clickable-icon iconsmall" (click)="toggleEditPrice(element)" title="Preis bearbeiten">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                  </span>
                   <span class="clickable clickable-icon iconsmall" (click)="util.removeFromArray(fl_edit.prices, element)">
                     <i class="fa fa-trash-o"></i>
                   </span>
                 </div>
               </div>
+              <app-freelancer-edit-price *ngIf="editPrice[element.id]" [priceLine]="element" (save)="toggleEditPrice(element)" (cancel)="toggleEditPrice(element)"></app-freelancer-edit-price>
             </div>
           </div>
 

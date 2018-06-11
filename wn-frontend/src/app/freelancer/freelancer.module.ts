@@ -6,7 +6,8 @@ import { FreelancerSearchService } from './freelancer-search/freelancer-search.s
 import { FreelancerEditService } from './freelancer-edit/freelancer-edit.service'
 import { FreelancerSearchComponent } from './freelancer-search/freelancer-search.component'
 import { FreelancerEditComponent } from './freelancer-edit/freelancer-edit.component'
-import { FreelancerCompactComponent } from './freelancer-compact/freelancer-compact.component'
+import { FreelancerCompactComponent } from './freelancer-compact/freelancer-compact.component';
+import { FreelancerEditPriceComponent } from './freelancer-edit-price/freelancer-edit-price.component'
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { FreelancerCompactComponent } from './freelancer-compact/freelancer-comp
   declarations: [
     FreelancerSearchComponent,
     FreelancerCompactComponent,
-    FreelancerEditComponent
+    FreelancerEditComponent,
+    FreelancerEditPriceComponent
   ],
   exports: [
     FreelancerSearchComponent,

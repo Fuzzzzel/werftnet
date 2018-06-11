@@ -149,7 +149,6 @@ export class AdminTwoLevelEntityComponent implements OnInit {
   makeSubItem(item) {
     if (item && item.id) {
       // Open Modal to select new main item
-      console.log('addAsSubItem() called')
       this.openAddAsSubItemModal(item)
         .then((mainItem) => {
           // Send request

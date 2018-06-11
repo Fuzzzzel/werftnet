@@ -38,7 +38,6 @@ describe('FreelancerSearchComponent', () => {
         FreelancerCompactComponent
       ],
       providers: [
-        CoreDataServiceMock,
         UtilService,
         FreelancerSearchService,
         FreelancerEditService,
@@ -68,7 +67,7 @@ describe('FreelancerSearchComponent', () => {
     req.flush(new FreelancersLoaded(), { status: 200, statusText: 'Ok' })
   }))
 
-  it('should search freelancers', fakeAsync(() => {
+  it('should fail to search freelancers', fakeAsync(() => {
     component.searchFreelancers({})
 
     tick()
