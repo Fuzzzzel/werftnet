@@ -71,8 +71,6 @@ export class FreelancerEditService {
     return new Promise<Freelancer>((resolve, reject) => {
       this.prepareFreelancerToSave(freelancerToSave)
         .then((freelancerPrepared) => {
-          freelancerPrepared
-
           // Set up post request
           const req = this.http.post<Freelancer>(
             '/freelancers' + (freelancerPrepared.id ? '/' + freelancerPrepared.id : ''),

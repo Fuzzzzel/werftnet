@@ -1,0 +1,239 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Fuzzzzel
+ * Date: 14.06.2018
+ * Time: 10:59
+ */
+
+namespace Tests\AppBundle\Controller\Project\Order;
+
+use http\Env\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Tests\AppBundle\DefaultWebTestCase;
+
+class OrderControllerTest extends DefaultWebTestCase
+{
+    public function testGetOrderWithoutId() {
+        $client = $this->getAdminClient();
+        $client->request(
+            'GET',
+            '/orders/xyz'
+        );
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testCreateOrder() {
+        $client = $this->getAdminClient();
+
+        $deliveryDate = new \DateTime('now');
+        $deliveryDate = $deliveryDate->add(new \DateInterval('PT3H'));
+        $deliveryDateJson = $deliveryDate->format('Y-m-d\TH:i:s.000\Z');
+
+        $deliveryDateDesired = $deliveryDate->add(new \DateInterval('PT3H'));
+        $deliveryDateDesiredJson = $deliveryDateDesired->format('Y-m-d\TH:i:s.000\Z');
+
+        $client->request(
+            'POST',
+            '/orders',
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{"customer": null, "title": "OrderTest-Title", "description": "Order-Test-Description", "number_of_files": 3, "source_format": "OrderTest-SourceFormat", "target_format": "OrderTest-TargetFormat", "comment": "OrderTest-Comment", "delivery_date_desired":"'.$deliveryDateDesiredJson.'", "delivery_date":"'.$deliveryDateJson.'", "status": null}'
+        );
+
+        $response = $client->getResponse();
+        $this->assertJson($response->getContent());
+        $orderCreated = json_decode($response->getContent());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        return $orderCreated;
+    }
+
+    /**
+     * @depends testCreateOrder
+     */
+    public function testGetOrderById($order) {
+        $client = $this->getAdminClient();
+        $client->request(
+            'GET',
+            "/orders/{$order->id}"
+        );
+
+        $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+    }
+
+    public function testSearchOrders() {
+
+        // Search order
+        $client = $this->getAdminClient();
+        $crawler = $client->request('POST', '/orders/search');
+
+        $content = $client->getResponse()->getContent();
+        $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        $this->assertJson($content);
+    }
+
+    public function testSearchOrdersBySearchParameters() {
+
+        // Search order
+        $client = $this->getAdminClient();
+        $crawler = $client->request(
+            'POST',
+            '/orders/search',
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{"search_text": "Test", "status": {"id": 1}}'
+        );
+
+        $content = $client->getResponse()->getContent();
+        $this->assertJson($content);
+    }
+
+    /**
+     * @depends testCreateOrder
+     */
+    public function testCreateOrderPosition($order) {
+        $client = $this->getAdminClient();
+        $crawler = $client->request(
+            'POST',
+            '/orders/' . $order->id . '/positions',
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{"order": '. json_encode($order) .'}'
+        );
+        $content = $client->getResponse()->getContent();
+        $this->assertJson($content);
+
+        // Get position by id
+        $orderPosition = json_decode($content);
+        $this->assertGreaterThan(0,$orderPosition->id);
+
+        return array('orderPosition' => $orderPosition, 'order' => $order);
+    }
+
+    /**
+     * @depends testCreateOrderPosition
+     */
+    public function testGetOrderPositionById($orderPositionAndOrderId) {
+        $orderPosition = $orderPositionAndOrderId['orderPosition'];
+        $order = $orderPositionAndOrderId['order'];
+
+        $client = $this->getAdminClient();
+        $client->request(
+            'GET',
+            "/orders/{$order->id}/positions/{$orderPosition->id}"
+        );
+
+        $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        $this->assertJson($client->getResponse()->getContent());
+    }
+
+    public function testGetOrderPositionWithoutOrderId() {
+        $client = $this->getAdminClient();
+        $client->request(
+            'GET',
+            '/orders/xyz/positions/abc'
+        );
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @depends testCreateOrder
+     */
+    public function testGetOrderPositionWithoutOrderPositionId($order) {
+        $client = $this->getAdminClient();
+        $client->request(
+            'GET',
+            "/orders/{$order->id}/positions/abc"
+        );
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @depends testCreateOrderPosition
+     */
+    public function testGetOrderPositionWithWrongOrderId($orderPositionAndOrderId) {
+        $orderPosition = $orderPositionAndOrderId['orderPosition'];
+        $wrongOrderId = $orderPositionAndOrderId['order']->id + 1;
+
+        $client = $this->getAdminClient();
+        $client->request(
+            'GET',
+            "/orders/{$wrongOrderId}/positions/{$orderPosition->id}"
+        );
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+    }
+    
+    // --------------
+
+    /**
+     * @depends testCreateOrderPosition
+     */
+    public function testDeleteOrderPositionWithWrongCustomerId($orderPositionAndOrder) {
+        $orderPosition = $orderPositionAndOrder['orderPosition'];
+        $wrongOrderId = $orderPositionAndOrder['order']->id + 1;
+
+        $client = $this->getAdminClient();
+        $client->request(
+            'DELETE',
+            "/orders/{$wrongOrderId}/positions/{$orderPosition->id}"
+        );
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @depends testCreateOrderPosition
+     */
+    public function testDeleteNonExistentOrderPosition($orderPositionAndOrder) {
+        $orderPosition = $orderPositionAndOrder['orderPosition'];
+        $order = $orderPositionAndOrder['order'];
+
+        $client = $this->getAdminClient();
+        $crawler = $client->request(
+            'DELETE',
+            "/orders/{$order->id}/positions/99999"
+        );
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @depends testCreateOrderPosition
+     */
+    public function testDeleteOrderPosition($orderPositionAndOrder) {
+        $orderPosition = $orderPositionAndOrder['orderPosition'];
+        $order = $orderPositionAndOrder['order'];
+
+        $client = $this->getAdminClient();
+        $crawler = $client->request(
+            'DELETE',
+            '/orders/' . $order->id . '/positions/' . $orderPosition->id
+        );
+        $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        $this->assertJson($client->getResponse()->getContent());
+    }
+
+
+    /**
+     * @depends testCreateOrder
+     */
+    public function testDeleteOrder($order) {
+
+        $client = $this->getAdminClient();
+        $crawler = $client->request(
+            'DELETE',
+            '/orders/' . $order->id
+        );
+        $this->assertJson($client->getResponse()->getContent());
+    }
+}

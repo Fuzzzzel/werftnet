@@ -18,22 +18,22 @@ use AppBundle\Entity\Project\Project;
  * Class Order
  * @package AppBundle\Entity\Project\Order
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Project\Order\OrderRepository")
  * @ORM\Table(name="Orders")
  */
 class Order extends Project
 {
     /**
      * @ORM\Column(type="datetime")
-     * @JMS\Type("DateTime")
-     * @JMS\Groups({"display"})
+     * @JMS\Type("DateTime<'Y-m-d\TH:i:s.u\Z'>")
+     * @JMS\Groups({"display", "update"})
      */
     protected $deliveryDateDesired;
 
     /**
      * @ORM\Column(type="datetime")
-     * @JMS\Type("DateTime")
-     * @JMS\Groups({"display"})
+     * @JMS\Type("DateTime<'Y-m-d\TH:i:s.u\Z'>")
+     * @JMS\Groups({"display", "update"})
      */
     protected $deliveryDate;
 
@@ -64,6 +64,15 @@ class Order extends Project
 
     public function getDeliveryDate() {
         return $this->deliveryDate;
+    }
+
+    public function setDeliveryDateDesired($deliveryDateDesired) {
+        $this->deliveryDateDesired = $deliveryDateDesired;
+        return $this;
+    }
+
+    public function getDeliveryDateDesired() {
+        return $this->deliveryDateDesired;
     }
 
     public function setStatus($status) {

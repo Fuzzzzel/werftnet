@@ -36,6 +36,15 @@ class OrderPosition
      */
     private $order;
 
+    /**
+     * @ORM\Column(type="datetime")
+     * @JMS\Type("DateTime")
+     * @JMS\Groups({"display"})
+     */
+    private $createdAt;
+
+    // Getters and Setters
+
     public function getId() {
         return $this->id;
     }
@@ -47,5 +56,14 @@ class OrderPosition
 
     public function getOrder() {
         return $this->order;
+    }
+
+    public function setCreatedAt($createdAt) {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getCreatedAt() {
+        return $this->createdAt;
     }
 }

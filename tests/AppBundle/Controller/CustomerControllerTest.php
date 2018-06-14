@@ -75,6 +75,7 @@ class CustomerControllerTest extends DefaultWebTestCase
         $this->assertJson($content);
     }
 
+
     /**
      * @depends testSearchCustomers
      */
@@ -97,8 +98,6 @@ class CustomerControllerTest extends DefaultWebTestCase
 
         return array('contact' => $customerContact, 'customerId' => $customerId);
     }
-
-    // CUSTOMER CONTACT
 
     public function testGetCustomerContactWithoutCustomerId() {
         $client = $this->getAdminClient();
