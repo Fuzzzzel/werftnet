@@ -213,8 +213,8 @@ export class AdminTwoLevelEntityComponent implements OnInit {
       </select>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-default" (click)="activeModal.dismiss()">Abbrechen</button>
-      <button type="button" class="btn btn-primary" (click)="activeModal.close(newMainItem)">Speichern</button>
+      <button type="button" class="btn btn-sm btn-default" (click)="activeModal.dismiss()">Abbrechen</button>
+      <button type="button" class="btn btn-sm btn-primary" (click)="activeModal.close(newMainItem)">Speichern</button>
     </div>
   `
 })

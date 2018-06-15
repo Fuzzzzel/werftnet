@@ -1,15 +1,15 @@
+<button class="btn btn-sm btn-default float-right" (click)="clearAllButName()">Clear</button>
 <h1 *ngIf="fl_edit.id">Lieferanten bearbeiten</h1>
 <h1 *ngIf="!fl_edit.id">Lieferanten anlegen</h1>
 <div class="form-default">
   <div class="card">
     <div class="card-body">
       <div class="row">
-        <form class="col-sm-4 form-box form-horizontal">
+        <form class="col-sm-4  form-horizontal">
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">{{ coreData.anrede.display_name }}</label>
             <div class="col-md-8">
-              <select class="form-control form-control-sm" name="edit-anrede" [(ngModel)]="fl_edit.anrede" [compareWith]='util.compareById'
-                required>
+              <select class="form-control form-control-sm" name="edit-anrede" [(ngModel)]="fl_edit.anrede" [compareWith]='util.compareById'>
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
                 <option *ngFor="let option of coreData.anrede.values" [ngValue]="option">{{ option.name }}</option>
               </select>
@@ -68,7 +68,7 @@
             </div>
           </div>
         </form>
-        <form class="col-sm-4 form-box form-horizontal">
+        <form class="col-sm-4  form-horizontal">
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">Lieferantennr.</label>
             <div class="col-md-8">
@@ -127,7 +127,7 @@
             </div>
           </div>
         </form>
-        <form class="col-sm-4 form-box form-horizontal">
+        <form class="col-sm-4  form-horizontal">
           <div>
             <label>Interne Info</label>
           </div>
@@ -139,12 +139,11 @@
   <div class="card">
     <div class="card-body">
       <div class="row">
-        <form class="col-sm-4 form-box form-horizontal">
+        <form class="col-sm-4  form-horizontal">
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">{{ coreData.freelancer_status.display_name }}</label>
             <div class="col-md-8">
-              <select class="form-control form-control-sm" name="edit-fl_status" [(ngModel)]="fl_edit.fl_status" [compareWith]='util.compareById'
-                required>
+              <select class="form-control form-control-sm" name="edit-fl_status" [(ngModel)]="fl_edit.fl_status" [compareWith]='util.compareById'>
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
                 <option *ngFor="let option of coreData.freelancer_status.values" [ngValue]="option">{{ option.name }}</option>
               </select>
@@ -162,8 +161,7 @@
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">DSGVO</label>
             <div class="col-md-8">
-              <select class="form-control form-control-sm" name="edit-dsgvo" [(ngModel)]="fl_edit.dsgvo" [compareWith]='util.compareById'
-                required>
+              <select class="form-control form-control-sm" name="edit-dsgvo" [(ngModel)]="fl_edit.dsgvo" [compareWith]='util.compareById'>
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
                 <option *ngFor="let option of coreData.yes_no_in_progress.values" [ngValue]="option">{{ option.name }}</option>
               </select>
@@ -172,14 +170,14 @@
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">NDA</label>
             <div class="col-md-8">
-              <select class="form-control form-control-sm" name="edit-nda" [(ngModel)]="fl_edit.nda" [compareWith]='util.compareById' required>
+              <select class="form-control form-control-sm" name="edit-nda" [(ngModel)]="fl_edit.nda" [compareWith]='util.compareById'>
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
                 <option *ngFor="let option of coreData.yes_no_in_progress.values" [ngValue]="option">{{ option.name }}</option>
               </select>
             </div>
           </div>
         </form>
-        <form class="col-sm-4 form-box form-horizontal">
+        <form class="col-sm-4  form-horizontal">
           <div class="form-group row no-gutters">
             <label class="col-md-3" for="edit-sworn">Vereidigt</label>
             <div class="col-md-8 form-check checkbox-after-label">
@@ -205,7 +203,7 @@
             </div>
           </div>
         </form>
-        <form class="col-sm-4 form-box form-horizontal">
+        <form class="col-sm-4  form-horizontal">
           <app-prop-multi-select [objarray]="fl_edit.cat_tools" [valuearray]="coreData.cat_tools">
           </app-prop-multi-select>
         </form>
@@ -215,7 +213,7 @@
   <div class="card">
     <div class="card-body">
       <div class="row">
-        <form class="col-sm-12 form-box form-horizontal">
+        <form class="col-sm-12  form-horizontal">
           <div class="row">
             <div class="col-sm-12">
               <h4>Preise</h4>
@@ -266,11 +264,11 @@
   <div class="card">
     <div class="card-body">
       <form class="row">
-        <div class="col-sm-4 form-box form-horizontal">
+        <div class="col-sm-4  form-horizontal">
           <app-prop-multi-select [objarray]="fl_edit.sectors" [valuearray]="coreData.sectors_flat">
           </app-prop-multi-select>
         </div>
-        <div class="col-sm-4 form-box form-horizontal">
+        <div class="col-sm-4  form-horizontal">
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">{{ coreData.freelancer_payment_types.display_name }}</label>
             <div class="col-md-8">
@@ -310,7 +308,7 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-4 form-box form-horizontal">
+        <div class="col-sm-4  form-horizontal">
           <div>
             <label>Bankverbindung</label>
           </div>
@@ -319,13 +317,12 @@
       </form>
     </div>
   </div>
-  <div class="row pull-right">
-    <div class="col-sm-12">
-      <button class="btn btn-primary" (click)="saveFreelancer()">Speichern</button>
-      <button class="btn btn-default" (click)="cancelEdit()">Abbrechen</button>
-      <button class="btn btn-danger" (click)="deleteFreelancer()" [disabled]="fl_edit.id==null">
-        Löschen
-      </button>
-    </div>
+
+  <div class="btn-group pull-right my-2" role="group">
+    <button class="btn btn-sm btn-primary mx-1" (click)="saveFreelancer()">Speichern</button>
+    <button class="btn btn-sm btn-default mx-1" (click)="cancelEdit()">Abbrechen</button>
+    <button class="btn btn-sm btn-danger mx-1" (click)="deleteFreelancer()" [disabled]="fl_edit.id==null">
+      Löschen
+    </button>
   </div>
 </div>

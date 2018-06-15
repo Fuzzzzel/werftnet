@@ -2,7 +2,7 @@
   <h1>Auftrag</h1>
   <div class="form-default col-md-12" (keydown.enter)="searchParams.page=1;searchOrders(searchParams)">
     <div class="row">
-      <form class="form-box col-md-5 form-horizontal">
+      <form class=" col-md-5 form-horizontal">
         <div class="form-group row">
           <label class="col-form-label col-form-label-sm col-md-3">Suchtext</label>
           <div class="col-md-9">
@@ -28,7 +28,7 @@
           </div>
         </div>
       </form>
-      <form class="form-box col-md-5 form-horizontal">
+      <form class=" col-md-5 form-horizontal">
         <div class="form-group row">
           <label class="col-form-label col-form-label-sm col-md-3">Von</label>
           <div class="col-md-9">
@@ -45,8 +45,8 @@
         </div>
       </form>
       <div class="button-area col-md-2 form-horizontal">
-        <button class="btn btn-block btn-primary" (click)="searchParams.page=1;searchOrders(searchParams)">Suchen</button>
-        <button class="btn btn-block btn-default" (click)="editOrder(null)">Neuer Auftrag</button>
+        <button class="btn btn-sm btn-block btn-primary mx-1" (click)="searchParams.page=1;searchOrders(searchParams)">Suchen</button>
+        <button class="btn btn-sm btn-block btn-default mx-1" (click)="editOrder(null)">Neuer Auftrag</button>
       </div>
     </div>
   </div>

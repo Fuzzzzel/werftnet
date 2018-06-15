@@ -1,36 +1,11 @@
 <div class="alist">
   <h2>{{ valuearray.display_name }}</h2>
-  <div class="alist-main-item-new input-group">
-    <input [(ngModel)]="main_item_new" (keydown.enter)="createTwoLevelEntityMainItem(main_item_new)" class="form-control form-control-sm">
-    <span class="input-group-btn">
-      <button type="button" class="btn btn-primary btn-sm" (click)="createTwoLevelEntityMainItem(main_item_new)">
-        <span class="clickable iconsmall">
-          <i class="fa fa-plus"></i>
-        </span>
-      </button>
-    </span>
-  </div>
-
-  <div class="alist_list">
-    <div *ngFor="let mainProp of valuearray.values">
-
-      <!-- New MainItem -->
-      <div>
-        <inline-editor type="text" [(ngModel)]="mainProp.name" (onSave)="updateTwoLevelEntityMainItem(mainProp.id, $event)" size="32"></inline-editor>
-        <span class="clickable clickable-icon iconsmall" (click)="deleteTwoLevelEntityMainItem(valuearray, mainProp.id)">
-          <i class="fa fa-trash-o"></i>
-        </span>
-        <span class="clickable clickable-icon iconsmall" (click)="makeSubItem(mainProp)">
-          <i class="fa fa-link" aria-hidden="true"></i>
-        </span>
-      </div>
-
-      <!-- New SubItem -->
-      <div class="alist-sub-item-new alist-sub-item input-group">
-        <input [(ngModel)]="subItemNew[mainProp.id]" (keydown.enter)="createTwoLevelEntitySubItem(mainProp.id, subItemNew[mainProp.id])"
-          class="form-control form-control-sm">
+  <div class="row justify-content-center">
+    <div class="col-sm-8 col-md-6">
+      <div class="alist-main-item-new input-group">
+        <input [(ngModel)]="main_item_new" (keydown.enter)="createTwoLevelEntityMainItem(main_item_new)" class="form-control form-control-sm">
         <span class="input-group-btn">
-          <button type="button" class="btn btn-primary btn-sm" (click)="createTwoLevelEntitySubItem(mainProp.id, subItemNew[mainProp.id])">
+          <button type="button" class="btn btn-sm btn-primary mx-1" (click)="createTwoLevelEntityMainItem(main_item_new)">
             <span class="clickable iconsmall">
               <i class="fa fa-plus"></i>
             </span>
@@ -38,19 +13,48 @@
         </span>
       </div>
 
-      <!-- List of SubItems-->
+      <div class="alist_list">
+        <div *ngFor="let mainProp of valuearray.values">
 
-      <div *ngFor="let subProp of mainProp.sub_items" class="alist-sub-item">
-        <div class="clearfix">
-          <inline-editor type="text" [(ngModel)]="subProp.name" (onSave)="updateTwoLevelEntitySubItem(mainProp.id, subProp.id,
+          <!-- New MainItem -->
+          <div>
+            <inline-editor type="text" [(ngModel)]="mainProp.name" (onSave)="updateTwoLevelEntityMainItem(mainProp.id, $event)" size="32"></inline-editor>
+            <span class="clickable clickable-icon iconsmall" (click)="deleteTwoLevelEntityMainItem(valuearray, mainProp.id)">
+              <i class="fa fa-trash-o"></i>
+            </span>
+            <span class="clickable clickable-icon iconsmall" (click)="makeSubItem(mainProp)">
+              <i class="fa fa-link" aria-hidden="true"></i>
+            </span>
+          </div>
+
+          <!-- New SubItem -->
+          <div class="alist-sub-item-new alist-sub-item input-group">
+            <input [(ngModel)]="subItemNew[mainProp.id]" (keydown.enter)="createTwoLevelEntitySubItem(mainProp.id, subItemNew[mainProp.id])"
+              class="form-control form-control-sm">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-sm btn-primary mx-1" (click)="createTwoLevelEntitySubItem(mainProp.id, subItemNew[mainProp.id])">
+                <span class="clickable iconsmall">
+                  <i class="fa fa-plus"></i>
+                </span>
+              </button>
+            </span>
+          </div>
+
+          <!-- List of SubItems-->
+
+          <div *ngFor="let subProp of mainProp.sub_items" class="alist-sub-item">
+            <div class="clearfix">
+              <inline-editor type="text" [(ngModel)]="subProp.name" (onSave)="updateTwoLevelEntitySubItem(mainProp.id, subProp.id,
         $event)" size="32"></inline-editor>
-          <span class="clickable clickable-icon iconsmall" (click)="deleteTwoLevelEntitySubItem(mainProp.id,
+              <span class="clickable clickable-icon iconsmall" (click)="deleteTwoLevelEntitySubItem(mainProp.id,
         subProp.id)">
-            <i class="fa fa-trash-o"></i>
-          </span>
-          <span class="clickable clickable-icon iconsmall" (click)="makeMainItem(subProp.id)">
-            <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
-          </span>
+                <i class="fa fa-trash-o"></i>
+              </span>
+              <span class="clickable clickable-icon iconsmall" (click)="makeMainItem(subProp.id)">
+                <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

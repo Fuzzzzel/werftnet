@@ -1,14 +1,16 @@
 <div class="container-fluid card compact-default">
   <div class="card-body">
     <h3 class="card-title">
-      <a class="clickable" (click)="editFreelancer()">{{ freelancer.name2 }}, {{ freelancer.name1 }}
+      <a class="clickable" (click)="editFreelancer()">
+        {{ freelancer.name2 }}{{(freelancer.name2 && freelancer.name1) ? ', ' : '' }}{{ freelancer.name1 }}
         <span *ngIf="freelancer.company_name && freelancer.company_name.length > 0">
-          &nbsp;({{ freelancer.company_name }})
+          ({{ freelancer.company_name }})
         </span>
       </a>
       <br />
-      <span class="text-muted">{{ freelancer.address && freelancer.address.city }} ({{ freelancer.address && freelancer.address.country && freelancer.address.country.name
-        }})
+      <span class="text-muted">
+        <span>{{ freelancer.address && freelancer.address.city }}</span>
+        <span *ngIf="freelancer.address && freelancer.address.country">({{ freelancer.address.country.name }})</span>
       </span>
     </h3>
 

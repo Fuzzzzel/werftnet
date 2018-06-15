@@ -3,7 +3,7 @@
   <h3>Angemeldet als {{ currentUser.username }} </h3>
   <form class="container-fluid form-default" name="user_changepwd_form" (keydown.enter)="setNewPassword(pwdForm)" #pwdForm="ngForm">
     <div class="row tile">
-      <div class="col-sm-12 form-box">
+      <div class="col-sm-12 ">
         <div class="form-group" [ngClass]="{'has-error': pwdOldInput.invalid }">
           <div class="col-md-3"></div>
           <label class="control-label col-md-2">Altes Passwort</label>
@@ -12,7 +12,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-12 form-box">
+      <div class="col-sm-12 ">
         <div class="form-group" [ngClass]="{'has-error': pwdNewInput.invalid || (pwdNew !== pwdNewRepeated) }">
           <div class="col-md-3"></div>
           <label class="control-label col-md-2">Neues Passwort</label>
@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-12 form-box">
+      <div class="col-sm-12 ">
         <div class="form-group" [ngClass]="{'has-error': pwdNewRepeatedInput.invalid || (pwdNew !== pwdNewRepeated) }">
           <div class="col-md-3"></div>
           <label class="control-label col-md-2">Wiederholen</label>
@@ -34,7 +34,7 @@
       <div *ngIf="errorMessage" style="color: red; text-align: center">{{ errorMessage }}</div>
     </div>
   </form>
-  <button class="btn btn-primary" type="button" (click)="setNewPassword(pwdForm)">Speichern
+  <button class="btn btn-sm btn-primary mx-1" type="button" (click)="setNewPassword(pwdForm)">Speichern
   </button>
-  <button class="btn btn-danger" type="button" (click)="goBack()">Abbrechen</button>
+  <button class="btn btn-sm btn-danger mx-1" type="button" (click)="goBack()">Abbrechen</button>
 </div>

@@ -4,7 +4,7 @@
   <div class="card">
     <div class="card-body">
       <div class="row">
-        <form class="col-sm-4 form-box form-horizontal">
+        <form class="col-sm-4  form-horizontal">
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">Kunde</label>
             <div class="col-md-8">
@@ -33,7 +33,7 @@
             </div>
           </div>
         </form>
-        <form class="col-sm-4 form-box form-horizontal">
+        <form class="col-sm-4  form-horizontal">
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">Lieferdatum</label>
             <div class="col-md-8">
@@ -62,14 +62,14 @@
             </div>
           </div>
         </form>
-        <form class="col-sm-4 form-box">
+        <form class="col-sm-4 ">
           <div class="form-group row no-gutters">
             <textarea placeholder="Interne Notiz" class="form-control form-control-sm" rows="8" name="edit-comment" [(ngModel)]="order_edit.comment"></textarea>
           </div>
         </form>
       </div>
       <div class="row">
-        <form class="col-sm-12 form-box form-horizontal">
+        <form class="col-sm-12  form-horizontal">
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">Titel</label>
             <input class="form-control form-control-sm" name="edit-title" [(ngModel)]="order_edit.title">
@@ -87,10 +87,10 @@
       <h3 class="card-title">Positionen</h3>
     </div>
   </div>
-  <div class="row pull-right">
-    <button class="btn btn-primary" (click)="saveOrder()">Speichern</button>
-    <button class="btn btn-default" (click)="cancelEdit()">Abbrechen</button>
-    <button class="btn btn-danger" (click)="deleteOrder()" [disabled]="order_edit.id == null">
+  <div class="btn-group pull-right my-2" role="group">
+    <button class="btn btn-sm btn-primary mx-1" (click)="saveOrder()">Speichern</button>
+    <button class="btn btn-sm btn-default mx-1" (click)="cancelEdit()">Abbrechen</button>
+    <button class="btn btn-sm btn-danger mx-1" (click)="deleteOrder()" [disabled]="order_edit.id == null">
       Löschen
     </button>
   </div>

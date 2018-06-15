@@ -3,7 +3,7 @@
 <div class="card">
   <div class="card-body">
     <div class="row">
-      <form class="form-box col-md-4 form-horizontal">
+      <form class=" col-md-4 form-horizontal">
         <div class="form-group row no-gutters">
           <label class="col-form-label col-form-label-sm col-md-4">{{ coreData.anrede.display_name }}</label>
           <div class="col-md-8">
@@ -43,7 +43,7 @@
           </div>
         </div>
       </form>
-      <form class="form-box col-md-4 form-horizontal">
+      <form class=" col-md-4 form-horizontal">
         <div class="form-group row no-gutters">
           <label class="col-form-label col-form-label-sm col-md-4">E-Mail</label>
           <div class="col-md-8">
@@ -81,7 +81,7 @@
           </div>
         </div>
       </form>
-      <form class="form-box col-md-4">
+      <form class=" col-md-4">
         <label class="col-form-label col-form-label-sm col-md-12">Interne Info</label>
         <textarea class="form-control form-control-sm" rows="8" name="edit-comment" [(ngModel)]="contact_edit.comment"></textarea>
       </form>
@@ -89,9 +89,9 @@
   </div>
 </div>
 
-<div class="row pull-right">
-  <button class="btn btn-primary" (click)="saveCustomerContact()">Speichern</button>
-  <button class="btn btn-default" (click)="cancelEdit()">Abbrechen</button>
-  <button class="btn btn-danger" (click)="deleteCustomerContact()" ng-disabled="contact_edit.id == null">Löschen
+<div class="btn-group pull-right my-2" role="group">
+  <button class="btn btn-sm btn-primary mx-1" (click)="saveCustomerContact()">Speichern</button>
+  <button class="btn btn-sm btn-default mx-1" (click)="cancelEdit()">Abbrechen</button>
+  <button class="btn btn-sm btn-danger mx-1" (click)="deleteCustomerContact()" ng-disabled="contact_edit.id == null">Löschen
   </button>
 </div>

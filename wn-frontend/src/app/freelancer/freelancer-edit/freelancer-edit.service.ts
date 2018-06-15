@@ -83,7 +83,7 @@ export class FreelancerEditService {
               resolve(data)
             },
             error => {
-              reject(new Error("Fehler beim Speichern:" + error.message))
+              reject(new Error("Fehler beim Speichern:" + error.error))
             });
         })
         .catch((error) => {

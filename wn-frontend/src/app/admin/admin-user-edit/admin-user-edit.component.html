@@ -1,7 +1,7 @@
 <h3>{{ userToEdit.id ? 'Benuterdaten bearbeiten' : 'Benutzer anlegen '}}</h3>
 <form class="container-fluid form-default" name="user_edit_form" #userForm="ngForm">
     <div class="row">
-        <div class="col-sm-12 form-box">
+        <div class="col-sm-12 ">
             <div class="form-group row" [ngClass]="{'has-error': (!userToEdit.id && submittedForm && username && username.invalid) }">
                 <label class="control-label col-md-3">Benutzername</label>
                 <div class="col-md-9">
@@ -11,7 +11,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 form-box">
+        <div class="col-sm-12 ">
             <div class="form-group row" [ngClass]="{'has-error': submittedForm && email.invalid}">
                 <label class="control-label col-md-3">E-Mail</label>
                 <div class="col-md-9">
@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="!userToEdit.id" class="col-sm-12 form-box">
+        <div *ngIf="!userToEdit.id" class="col-sm-12 ">
             <div class="form-group row" [ngClass]="{'has-error': submittedForm && password.invalid}">
                 <label class="control-label col-md-3">Passwort</label>
                 <div class="col-md-9">
@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 form-box">
+        <div class="col-sm-12 ">
             <app-prop-multi-select [objarray]="userToEdit.roles" [valuearray]="coreData.user_roles">
             </app-prop-multi-select>
         </div>
@@ -36,20 +36,22 @@
 </form>
 <form class="container-fluid form-default" name="user_edit_pwd_form" *ngIf="userToEdit.id" #userEditPwdForm="ngForm">
     <div class="row">
-        <div class="col-md-12 form-box">
+        <div class="col-md-12 ">
             <div class="form-group row" [ngClass]="{'has-error': submittedPw && pwdnew.invalid}">
                 <label class="control-label col-md-3">Neues Passwort</label>
                 <div class="col-md-6">
                     <input name="pwdNew" class="form-control form-control-sm" [(ngModel)]="pwdNew" #pwdnew="ngModel" minlength="4" required>
                 </div>
                 <div class="col-md-3">
-                    <button class="btn btn-primary" type="button" (click)="changeUserPwd(userEditPwdForm)">Passwort ändern</button>
+                    <button class="btn btn-sm btn-primary mx-1" type="button" (click)="changeUserPwd(userEditPwdForm)">Passwort ändern</button>
                 </div>
             </div>
         </div>
     </div>
 </form>
-<button class="btn btn-primary" type="button" (click)="saveUser(userForm)">Speichern
-</button>
-<button class="btn btn-danger" type="button" (click)="deleteUser()">Löschen</button>
-<button class="btn btn-default" type="button" (click)="cancelEdit()">Abbrechen</button>
+<div class="btn-group pull-right my-2" role="group">
+    <button class="btn btn-sm btn-primary mx-1" type="button" (click)="saveUser(userForm)">Speichern
+    </button>
+    <button class="btn btn-sm btn-danger mx-1" type="button" (click)="deleteUser()">Löschen</button>
+    <button class="btn btn-sm btn-default mx-1" type="button" (click)="cancelEdit()">Abbrechen</button>
+</div>

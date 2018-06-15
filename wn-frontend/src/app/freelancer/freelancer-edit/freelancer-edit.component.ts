@@ -25,6 +25,14 @@ export class FreelancerEditComponent implements OnInit {
     private freelancerSearchService: FreelancerSearchService
   ) { }
 
+  clearAllButName() {
+    let allButNameFreelancer = new Freelancer()
+    delete allButNameFreelancer["name1"]
+    delete allButNameFreelancer["name2"]
+    delete allButNameFreelancer["company_name"]
+    allButNameFreelancer.address.id = this.fl_edit.address.id
+    Object.assign(this.fl_edit, allButNameFreelancer)
+  }
 
   saveFreelancer() {
     this.freelancerEditService.saveFreelancer(this.fl_edit)

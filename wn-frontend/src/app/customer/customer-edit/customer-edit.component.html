@@ -4,7 +4,7 @@
   <div class="card">
     <div class="card-body">
       <div class="row">
-        <form class="col-sm-4 form-box form-horizontal">
+        <form class="col-sm-4  form-horizontal">
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">Firma1</label>
             <div class="col-md-8">
@@ -52,7 +52,7 @@
             </div>
           </div>
         </form>
-        <form class="col-sm-4 form-box form-horizontal">
+        <form class="col-sm-4  form-horizontal">
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">Kundennr.</label>
             <div class="col-md-8">
@@ -96,7 +96,7 @@
             </div>
           </div>
         </form>
-        <form class="col-sm-4 form-box">
+        <form class="col-sm-4 ">
           <label class="col-form-label col-form-label-sm">Interne Info</label>
           <textarea class="form-control form-control-sm" rows="8" name="edit-comment" [(ngModel)]="cust_edit.comment"></textarea>
         </form>
@@ -106,7 +106,7 @@
   <div class="card">
     <div class="card-body">
       <div class="row">
-        <form class="col-sm-4 form-box form-horizontal">
+        <form class="col-sm-4  form-horizontal">
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">{{ coreData.customer_status.display_name }}</label>
             <div class="col-md-8">
@@ -147,20 +147,20 @@
             </div>
           </div>
         </form>
-        <div class="col-sm-4 form-box">
+        <div class="col-sm-4 ">
 
         </div>
-        <form class="col-sm-4 form-box">
+        <form class="col-sm-4 ">
           <label class="col-form-label col-form-label-sm">Rechnungsbedingungen</label>
           <textarea class="form-control form-control-sm" rows="5" name="edit-invoicing_details" [(ngModel)]="cust_edit.invoicing_details"></textarea>
         </form>
       </div>
     </div>
   </div>
-  <div class="row pull-right">
-    <button class="btn btn-primary" (click)="saveCustomer()">Speichern</button>
-    <button class="btn btn-default" (click)="cancelEdit()">Abbrechen</button>
-    <button class="btn btn-danger" (click)="deleteCustomer()" [disabled]="cust_edit.id == null">
+  <div class="btn-group pull-right my-2" role="group">
+    <button class="btn btn-sm btn-primary mx-1" (click)="saveCustomer()">Speichern</button>
+    <button class="btn btn-sm btn-default mx-1" (click)="cancelEdit()">Abbrechen</button>
+    <button class="btn btn-sm btn-danger mx-1" (click)="deleteCustomer()" [disabled]="cust_edit.id == null">
       Löschen
     </button>
   </div>

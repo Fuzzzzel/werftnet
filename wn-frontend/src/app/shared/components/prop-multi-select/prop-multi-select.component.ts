@@ -30,7 +30,7 @@ export class PropMultiSelectComponent implements OnInit {
   multiselectSettings: IMultiSelectSettings = {
     enableSearch: true,
     checkedStyle: 'fontawesome',
-    buttonClasses: 'btn btn-default btn-block btn-sm btn-multi-select',
+    buttonClasses: 'btn btn-sm btn-default btn-block btn-multi-select',
     dynamicTitleMaxItems: 0,
     displayAllSelectedText: true
   }

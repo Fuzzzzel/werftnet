@@ -2,7 +2,7 @@
   <h1>Freelancer</h1>
   <div class="form-default col-md-12" (keydown.enter)="searchParams.page=1;searchFreelancers(searchParams)">
     <div class="row">
-      <form class="form-box col-md-5 form-horizontal">
+      <form class="col-md-5 form-horizontal">
         <div class="form-group row">
           <label class="col-form-label col-form-label-sm col-md-3">Lieferant</label>
           <div class="col-md-9">
@@ -19,7 +19,7 @@
           </div>
         </div>
       </form>
-      <form class="form-box col-md-5 form-horizontal">
+      <form class=" col-md-5 form-horizontal">
         <div class="form-group row">
           <label class="col-form-label col-form-label-sm col-md-3">Quellsprache</label>
           <div class="col-md-9">
@@ -49,8 +49,8 @@
         </div>
       </form>
       <div class="button-area col-md-2 form-horizontal">
-        <button class="btn btn-block btn-primary" (click)="searchParams.page=1;searchFreelancers(searchParams)">Suchen</button>
-        <button class="btn btn-block btn-default" (click)="editFreelancer(null)">Neuer Freelancer</button>
+        <button class="btn btn-sm btn-block btn-primary mx-1" (click)="searchParams.page=1;searchFreelancers(searchParams)">Suchen</button>
+        <button class="btn btn-sm btn-block btn-default mx-1" (click)="editFreelancer(null)">Neuer Freelancer</button>
       </div>
     </div>
   </div>

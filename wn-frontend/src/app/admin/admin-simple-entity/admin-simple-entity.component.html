@@ -1,22 +1,26 @@
 <div class="alist">
   <h2>{{ valuearray.display_name }}</h2>
-  <div class="alist-simple-item-new input-group">
-    <input [(ngModel)]="item_new" (keydown.enter)="createSimpleEntityItem(item_new)" class="form-control form-control-sm">
-    <span class="input-group-btn">
-      <button type="button" class="btn btn-primary btn-sm" (click)="createSimpleEntityItem(item_new)">
-        <span class="clickable iconsmall">
-          <i class="fa fa-plus"></i>
+  <div class="row justify-content-center">
+    <div class="col-sm-8 col-md-6">
+      <div class="alist-simple-item-new input-group">
+        <input [(ngModel)]="item_new" (keydown.enter)="createSimpleEntityItem(item_new)" class="form-control form-control-sm">
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-sm btn-primary mx-1" (click)="createSimpleEntityItem(item_new)">
+            <span class="clickable iconsmall">
+              <i class="fa fa-plus"></i>
+            </span>
+          </button>
         </span>
-      </button>
-    </span>
-  </div>
-  <div class="alist_list">
-    <div *ngFor="let value of valuearray.values">
-      <div class="alist-simple-item">
-        <inline-editor type="text" [(ngModel)]="value.name" (onSave)="updateSimpleEntityItem(value.id, $event)" size="32"></inline-editor>
-        <span class="clickable clickable-icon iconsmall" (click)="deleteSimpleEntityItem(value.id)">
-          <i class="fa fa-trash-o"></i>
-        </span>
+      </div>
+      <div class="alist_list">
+        <div *ngFor="let value of valuearray.values">
+          <div class="alist-simple-item">
+            <inline-editor type="text" [(ngModel)]="value.name" (onSave)="updateSimpleEntityItem(value.id, $event)" size="32"></inline-editor>
+            <span class="clickable clickable-icon iconsmall" (click)="deleteSimpleEntityItem(value.id)">
+              <i class="fa fa-trash-o"></i>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
