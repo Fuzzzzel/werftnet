@@ -4,50 +4,51 @@
     <div class="row">
       <form class="form-box col-md-5 form-horizontal">
         <div class="form-group row">
-          <label class="col-form-label col-md-3">Name</label>
+          <label class="col-form-label col-form-label-sm col-md-3">Name</label>
           <div class="col-md-9">
-            <input id="search-name" name="search-name" class="form-control" [(ngModel)]="searchParams.name" />
+            <input id="search-name" name="search-name" class="form-control form-control-sm" [(ngModel)]="searchParams.name" />
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-form-label col-md-3">Ansprechp.</label>
+          <label class="col-form-label col-form-label-sm col-md-3">Ansprechp.</label>
           <div class="col-md-9">
-            <input id="search-asp_name" name="search-asp_name" class="form-control" [(ngModel)]="searchParams.asp_name" />
+            <input id="search-asp_name" name="search-asp_name" class="form-control form-control-sm" [(ngModel)]="searchParams.asp_name"
+            />
           </div>
         </div>
       </form>
       <form class="form-box col-md-5 form-horizontal">
         <div class="form-group row">
-          <label class="col-form-label col-md-3">Herkunft</label>
+          <label class="col-form-label col-form-label-sm col-md-3">Herkunft</label>
           <div class="col-md-9">
-            <select class="form-control" name="search-akquise" [(ngModel)]="searchParams.akquise" [compareWith]='util.compareById'>
+            <select class="form-control form-control-sm" name="search-akquise" [(ngModel)]="searchParams.akquise" [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
               <option *ngFor="let option of coreData.customer_origin.values" [ngValue]="option">{{ option.name }}</option>
             </select>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-form-label col-md-3">AM</label>
+          <label class="col-form-label col-form-label-sm col-md-3">AM</label>
           <div class="col-md-9">
-            <select class="form-control" name="search-account_manager" [(ngModel)]="searchParams.account_manager" [compareWith]='util.compareById'>
+            <select class="form-control form-control-sm" name="search-account_manager" [(ngModel)]="searchParams.account_manager" [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
               <option *ngFor="let option of coreData.account_managers.values" [ngValue]="option">{{ option.username }}</option>
             </select>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-form-label col-md-3">Potenzial</label>
+          <label class="col-form-label col-form-label-sm col-md-3">Potenzial</label>
           <div class="col-md-9">
-            <select class="form-control" name="search-potential" [(ngModel)]="searchParams.potential" [compareWith]='util.compareById'>
+            <select class="form-control form-control-sm" name="search-potential" [(ngModel)]="searchParams.potential" [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
               <option *ngFor="let option of coreData.customer_potential.values" [ngValue]="option">{{ option.name }}</option>
             </select>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-form-label col-md-3">Status</label>
+          <label class="col-form-label col-form-label-sm col-md-3">Status</label>
           <div class="col-md-9">
-            <select class="form-control" name="search-status" [(ngModel)]="searchParams.status" [compareWith]='util.compareById'>
+            <select class="form-control form-control-sm" name="search-status" [(ngModel)]="searchParams.status" [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
               <option *ngFor="let option of coreData.customer_status.values" [ngValue]="option">{{ option.name }}</option>
             </select>

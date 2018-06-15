@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ViewEncapsulation } from '@angular/core'
 import { CoreDataService } from './core/core-data.service'
 import { UserService } from './user/user.service'
 import { UtilService } from './core/util.service'
@@ -8,7 +8,8 @@ import { environment } from '../../environment'
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
   public version: string = environment.VERSION

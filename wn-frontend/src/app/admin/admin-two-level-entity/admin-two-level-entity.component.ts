@@ -207,7 +207,7 @@ export class AdminTwoLevelEntityComponent implements OnInit {
       <h4 class="modal-title">Neues Hauptitem für {{ item.name }} wählen</h4>
     </div>
     <div class="modal-body">
-      <select class="form-control" name="select-new-main-item" [(ngModel)]="newMainItem" [compareWith]='util.compareById'>
+      <select class="form-control form-control-sm" name="select-new-main-item" [(ngModel)]="newMainItem" [compareWith]='util.compareById'>
         <option [value]='undefined' selected>-- Bitte wählen --</option>
         <option *ngFor="let option of valuearray.values" [ngValue]="option">{{ option.name }}</option>
       </select>

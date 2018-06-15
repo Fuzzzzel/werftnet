@@ -1,5 +1,5 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div id="bg_frame">
+<div id="bg_frame" class="">
   <div id="loading" flex="100" flex-gt-sm="none" layout="row" *ngIf="!coreDataLoaded">
     Daten werden geladen ...
   </div>
@@ -8,7 +8,7 @@
       <div id="version-info">WerftNET Version {{version}}</div>
       <app-top-nav *ngIf="isUserLoggedIn()"></app-top-nav>
     </div>
-    <div id="content" ng-controller="shellController as shell">
+    <div id="content" class="small" ng-controller="shellController as shell">
       <router-outlet></router-outlet>
     </div>
     <div id="footer">

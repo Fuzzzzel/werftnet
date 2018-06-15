@@ -3,12 +3,12 @@
   <div class="col-md-3">&nbsp;</div>
   <form class="col-md-6">
     <div class="form-group">
-      <label for="username" class="col-form-label">Benutzer</label>
-      <input id="username" name="username" type="text" [(ngModel)]="username" class="form-control">
+      <label for="username" class="col-form-label col-form-label-sm">Benutzer</label>
+      <input id="username" name="username" type="text" [(ngModel)]="username" class="form-control form-control-sm">
     </div>
     <div class="form-group">
-      <label for="password" class="col-form-label">Passwort</label>
-      <input id="password" name="password" type="password" [(ngModel)]="password" class="form-control">
+      <label for="password" class="col-form-label col-form-label-sm">Passwort</label>
+      <input id="password" name="password" type="password" [(ngModel)]="password" class="form-control form-control-sm">
     </div>
     <div class="form-group">
       <button id="login_button" class="btn btn-block btn-primary" (click)="loginUser(username, password)">Login</button>

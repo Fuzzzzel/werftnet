@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core'
+import { Component, OnInit, Input, ChangeDetectorRef, ViewEncapsulation } from '@angular/core'
 import { SimpleEntity, SimpleEntityCollection } from '../../model/simple-entity.model'
 import { UtilService } from '../../../core/util.service'
 import { FormControl, FormGroup } from '@angular/forms'
@@ -8,7 +8,8 @@ import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'ang
 @Component({
   selector: 'app-prop-multi-select',
   templateUrl: './prop-multi-select.component.html',
-  styleUrls: ['./prop-multi-select.component.scss']
+  styleUrls: ['./prop-multi-select.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PropMultiSelectComponent implements OnInit {
 
@@ -29,7 +30,7 @@ export class PropMultiSelectComponent implements OnInit {
   multiselectSettings: IMultiSelectSettings = {
     enableSearch: true,
     checkedStyle: 'fontawesome',
-    buttonClasses: 'btn btn-default btn-block',
+    buttonClasses: 'btn btn-default btn-block btn-sm btn-multi-select',
     dynamicTitleMaxItems: 0,
     displayAllSelectedText: true
   }

@@ -6,57 +6,57 @@
       <div class="row">
         <form class="col-sm-4 form-box form-horizontal">
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Kunde</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Kunde</label>
             <div class="col-md-8">
-              <select class="form-control" name="edit-customer" [(ngModel)]="order_edit.customer" [compareWith]='util.compareById'>
+              <select class="form-control form-control-sm" name="edit-customer" [(ngModel)]="order_edit.customer" [compareWith]='util.compareById'>
                 <option [value]='null' selected>-- Bitte wählen --</option>
                 <option *ngFor="let option of customers" [ngValue]="option">{{ option.name }}</option>
               </select>
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Anz. Dateien</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Anz. Dateien</label>
             <div class="col-md-8">
-              <input type="number" class="form-control" name="edit-number_of_files" [(ngModel)]="order_edit.number_of_files">
+              <input type="number" class="form-control form-control-sm" name="edit-number_of_files" [(ngModel)]="order_edit.number_of_files">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Quellformat</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Quellformat</label>
             <div class="col-md-8">
-              <input class="form-control" name="edit-source_format" [(ngModel)]="order_edit.source_format">
+              <input class="form-control form-control-sm" name="edit-source_format" [(ngModel)]="order_edit.source_format">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Zielformat</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Zielformat</label>
             <div class="col-md-8">
-              <input class="form-control" name="edit-target_format" [(ngModel)]="order_edit.target_format">
+              <input class="form-control form-control-sm" name="edit-target_format" [(ngModel)]="order_edit.target_format">
             </div>
           </div>
         </form>
         <form class="col-sm-4 form-box form-horizontal">
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Lieferdatum</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Lieferdatum</label>
             <div class="col-md-8">
-              <input type="datetime" class="form-control" name="edit-delivery_date" [(ngModel)]="order_edit.delivery_date">
+              <input type="datetime" class="form-control form-control-sm" name="edit-delivery_date" [(ngModel)]="order_edit.delivery_date">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Lieferd. Kunde</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Lieferd. Kunde</label>
             <div class="col-md-8">
-              <input class="form-control" name="edit-delivery_date_desired" [(ngModel)]="order_edit.delivery_date_desired">
+              <input class="form-control form-control-sm" name="edit-delivery_date_desired" [(ngModel)]="order_edit.delivery_date_desired">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Status</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Status</label>
             <div class="col-md-8">
-              <select class="form-control" name="edit-status" [(ngModel)]="order_edit.status" [compareWith]='util.compareById'>
+              <select class="form-control form-control-sm" name="edit-status" [(ngModel)]="order_edit.status" [compareWith]='util.compareById'>
                 <option [value]='null' selected>-- Bitte wählen --</option>
                 <option *ngFor="let option of coreData.order_status.values" [ngValue]="option">{{ option.name }}</option>
               </select>
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Anlagedatum</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Anlagedatum</label>
             <div class="col-md-8">
               {{ order_edit.created_at }}
             </div>
@@ -64,19 +64,19 @@
         </form>
         <form class="col-sm-4 form-box">
           <div class="form-group row no-gutters">
-            <textarea placeholder="Interne Notiz" class="form-control" rows="8" name="edit-comment" [(ngModel)]="order_edit.comment"></textarea>
+            <textarea placeholder="Interne Notiz" class="form-control form-control-sm" rows="8" name="edit-comment" [(ngModel)]="order_edit.comment"></textarea>
           </div>
         </form>
       </div>
       <div class="row">
         <form class="col-sm-12 form-box form-horizontal">
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Titel</label>
-            <input class="form-control" name="edit-title" [(ngModel)]="order_edit.title">
+            <label class="col-form-label col-form-label-sm col-md-4">Titel</label>
+            <input class="form-control form-control-sm" name="edit-title" [(ngModel)]="order_edit.title">
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label">Beschreibung</label>
-            <textarea class="form-control" rows="4" name="edit-description" [(ngModel)]="order_edit.description"></textarea>
+            <label class="col-form-label col-form-label-sm">Beschreibung</label>
+            <textarea class="form-control form-control-sm" rows="4" name="edit-description" [(ngModel)]="order_edit.description"></textarea>
           </div>
         </form>
       </div>
@@ -89,8 +89,8 @@
   </div>
   <div class="row pull-right">
     <button class="btn btn-primary" (click)="saveOrder()">Speichern</button>
-    <button class="btn btn-danger" (click)="cancelEdit()">Abbrechen</button>
-    <button class="btn btn-default" (click)="deleteOrder()" [disabled]="order_edit.id == null">
+    <button class="btn btn-default" (click)="cancelEdit()">Abbrechen</button>
+    <button class="btn btn-danger" (click)="deleteOrder()" [disabled]="order_edit.id == null">
       Löschen
     </button>
   </div>

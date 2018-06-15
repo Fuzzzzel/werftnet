@@ -1,11 +1,11 @@
 <div class="alist">
   <h2>{{ valuearray.display_name }}</h2>
   <div class="alist-main-item-new input-group">
-    <input [(ngModel)]="main_item_new" (keydown.enter)="createTwoLevelEntityMainItem(main_item_new)" class="form-control">
+    <input [(ngModel)]="main_item_new" (keydown.enter)="createTwoLevelEntityMainItem(main_item_new)" class="form-control form-control-sm">
     <span class="input-group-btn">
       <button type="button" class="btn btn-primary btn-sm" (click)="createTwoLevelEntityMainItem(main_item_new)">
         <span class="clickable iconsmall">
-          <i class="fa fa-plus fa-lg"></i>
+          <i class="fa fa-plus"></i>
         </span>
       </button>
     </span>
@@ -28,11 +28,11 @@
       <!-- New SubItem -->
       <div class="alist-sub-item-new alist-sub-item input-group">
         <input [(ngModel)]="subItemNew[mainProp.id]" (keydown.enter)="createTwoLevelEntitySubItem(mainProp.id, subItemNew[mainProp.id])"
-          class="form-control">
+          class="form-control form-control-sm">
         <span class="input-group-btn">
           <button type="button" class="btn btn-primary btn-sm" (click)="createTwoLevelEntitySubItem(mainProp.id, subItemNew[mainProp.id])">
             <span class="clickable iconsmall">
-              <i class="fa fa-plus fa-lg"></i>
+              <i class="fa fa-plus"></i>
             </span>
           </button>
         </span>

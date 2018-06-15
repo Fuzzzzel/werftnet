@@ -1,11 +1,11 @@
 <div class="alist">
   <h2>{{ valuearray.display_name }}</h2>
   <div class="alist-simple-item-new input-group">
-    <input [(ngModel)]="item_new" (keydown.enter)="createSimpleEntityItem(item_new)" class="form-control">
+    <input [(ngModel)]="item_new" (keydown.enter)="createSimpleEntityItem(item_new)" class="form-control form-control-sm">
     <span class="input-group-btn">
       <button type="button" class="btn btn-primary btn-sm" (click)="createSimpleEntityItem(item_new)">
         <span class="clickable iconsmall">
-          <i class="fa fa-plus fa-lg"></i>
+          <i class="fa fa-plus"></i>
         </span>
       </button>
     </span>

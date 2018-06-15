@@ -1,8 +1,9 @@
 <div class="form-group row no-gutters">
   <div class="col-sm-2">
     <div class="form-group row no-gutters">
-      <label *ngIf="!priceLineToEdit.id" class="col-form-label">Quellsprache</label>
-      <select class="form-control" name="edit-priceLineToEdit-lng_source" [(ngModel)]="priceLineToEdit.lng_source" [compareWith]='util.compareById'>
+      <label *ngIf="!priceLineToEdit.id" class="col-form-label col-form-label-sm">Quellsprache</label>
+      <select class="form-control form-control-sm" name="edit-priceLineToEdit-lng_source" [(ngModel)]="priceLineToEdit.lng_source"
+        [compareWith]='util.compareById'>
         <option [value]='null' selected>-- Bitte wählen --</option>
         <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
       </select>
@@ -10,8 +11,9 @@
   </div>
   <div class="col-sm-2">
     <div class="form-group row no-gutters">
-      <label *ngIf="!priceLineToEdit.id" class="col-form-label">Zielsprache</label>
-      <select class="form-control" name="edit-priceLineToEdit-lng_target" [(ngModel)]="priceLineToEdit.lng_target" [compareWith]='util.compareById'>
+      <label *ngIf="!priceLineToEdit.id" class="col-form-label col-form-label-sm">Zielsprache</label>
+      <select class="form-control form-control-sm" name="edit-priceLineToEdit-lng_target" [(ngModel)]="priceLineToEdit.lng_target"
+        [compareWith]='util.compareById'>
         <option [value]='null' selected>-- Bitte wählen --</option>
         <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
       </select>
@@ -19,8 +21,8 @@
   </div>
   <div class="col-sm-2">
     <div class="form-group row no-gutters">
-      <label *ngIf="!priceLineToEdit.id" class="col-form-label">Leistung</label>
-      <select class="form-control" name="edit-priceLineToEdit-service" [(ngModel)]="priceLineToEdit.service" [compareWith]='util.compareById'>
+      <label *ngIf="!priceLineToEdit.id" class="col-form-label col-form-label-sm">Leistung</label>
+      <select class="form-control form-control-sm" name="edit-priceLineToEdit-service" [(ngModel)]="priceLineToEdit.service" [compareWith]='util.compareById'>
         <option [value]='null' selected>-- Bitte wählen --</option>
         <option *ngFor="let option of coreData.services.values" [ngValue]="option">{{ option.name }}</option>
       </select>
@@ -28,8 +30,9 @@
   </div>
   <div class="col-sm-2">
     <div class="form-group row no-gutters">
-      <label *ngIf="!priceLineToEdit.id" class="col-form-label">Einheit</label>
-      <select class="form-control" name="edit-priceLineToEdit-price_unit" [(ngModel)]="priceLineToEdit.price_unit" [compareWith]='util.compareById'>
+      <label *ngIf="!priceLineToEdit.id" class="col-form-label col-form-label-sm">Einheit</label>
+      <select class="form-control form-control-sm" name="edit-priceLineToEdit-price_unit" [(ngModel)]="priceLineToEdit.price_unit"
+        [compareWith]='util.compareById'>
         <option [value]='null' selected>-- Bitte wählen --</option>
         <option *ngFor="let option of coreData.price_units.values" [ngValue]="option">{{ option.name }}</option>
       </select>
@@ -37,22 +40,24 @@
   </div>
   <div class="col-sm-1">
     <div class="form-group row no-gutters">
-      <label *ngIf="!priceLineToEdit.id" class="col-form-label">Preis</label>
-      <input class="form-control" type="number" step="0.01" min="0" name="edit-priceLineToEdit-price_per_unit" [(ngModel)]="priceLineToEdit.price_per_unit">
+      <label *ngIf="!priceLineToEdit.id" class="col-form-label col-form-label-sm">Preis</label>
+      <input class="form-control form-control-sm" type="number" step="0.01" min="0" name="edit-priceLineToEdit-price_per_unit"
+        [(ngModel)]="priceLineToEdit.price_per_unit">
     </div>
 
   </div>
   <div class="col-sm-1">
     <div class="form-group row no-gutters">
-      <label *ngIf="!priceLineToEdit.id" class="col-form-label">MAW</label>
-      <input class="form-control" type="number" step="0.01" min="0" name="edit-priceLineToEdit-minimum_price" [(ngModel)]="priceLineToEdit.minimum_price">
+      <label *ngIf="!priceLineToEdit.id" class="col-form-label col-form-label-sm">MAW</label>
+      <input class="form-control form-control-sm" type="number" step="0.01" min="0" name="edit-priceLineToEdit-minimum_price" [(ngModel)]="priceLineToEdit.minimum_price">
     </div>
 
   </div>
   <div class="col-sm-1">
     <div class="form-group row no-gutters">
-      <label *ngIf="!priceLineToEdit.id" class="col-form-label">Währung</label>
-      <select class="form-control" name="edit-priceLineToEdit-currency" [(ngModel)]="priceLineToEdit.currency" [compareWith]='util.compareById'>
+      <label *ngIf="!priceLineToEdit.id" class="col-form-label col-form-label-sm">Währung</label>
+      <select class="form-control form-control-sm" name="edit-priceLineToEdit-currency" [(ngModel)]="priceLineToEdit.currency"
+        [compareWith]='util.compareById'>
         <option [value]='null' selected>-- Bitte wählen --</option>
         <option *ngFor="let option of coreData.currency.values" [ngValue]="option">{{ option.name }}</option>
       </select>
@@ -61,12 +66,12 @@
   </div>
   <div class="col-sm-1 pull-right">
     <div class="form-group row no-gutters">
-      <label *ngIf="!priceLineToEdit.id" class="col-form-label" style="width: 100%">&nbsp;</label>
-      <button class="btn btn-primary" (click)="savePrice()">
-        <i *ngIf="!priceLineToEdit.id" class="fa fa-plus fa-lg"></i>
+      <label *ngIf="!priceLineToEdit.id" class="col-form-label col-form-label-sm" style="width: 100%">&nbsp;</label>
+      <button class="btn btn-sm btn-primary" (click)="savePrice()">
+        <i *ngIf="!priceLineToEdit.id" class="fa fa-plus"></i>
         <i *ngIf="priceLineToEdit.id" class="fa fa-check fa-lg"></i>
       </button>
-      <button *ngIf="priceLineToEdit.id" class="btn btn-default" (click)="cancelEdit()">
+      <button *ngIf="priceLineToEdit.id" class="btn btn-sm btn-default" (click)="cancelEdit()">
         <i class="fa fa-times fa-lg"></i>
       </button>
     </div>

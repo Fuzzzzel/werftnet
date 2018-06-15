@@ -6,61 +6,62 @@
       <div class="row">
         <form class="col-sm-4 form-box form-horizontal">
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">{{ coreData.anrede.display_name }}</label>
+            <label class="col-form-label col-form-label-sm col-md-4">{{ coreData.anrede.display_name }}</label>
             <div class="col-md-8">
-              <select class="form-control" name="edit-anrede" [(ngModel)]="fl_edit.anrede" [compareWith]='util.compareById' required>
+              <select class="form-control form-control-sm" name="edit-anrede" [(ngModel)]="fl_edit.anrede" [compareWith]='util.compareById'
+                required>
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
                 <option *ngFor="let option of coreData.anrede.values" [ngValue]="option">{{ option.name }}</option>
               </select>
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Vorname</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Vorname</label>
             <div class="col-md-8">
-              <input class="form-control" name="edit-name1" [(ngModel)]="fl_edit.name1">
+              <input class="form-control form-control-sm" name="edit-name1" [(ngModel)]="fl_edit.name1">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Nachname</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Nachname</label>
             <div class="col-md-8">
-              <input class="form-control" name="edit-2" [(ngModel)]="fl_edit.name2">
+              <input class="form-control form-control-sm" name="edit-2" [(ngModel)]="fl_edit.name2">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Firma</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Firma</label>
             <div class="col-md-8">
-              <input class="form-control" name="edit-company_name" [(ngModel)]="fl_edit.company_name">
+              <input class="form-control form-control-sm" name="edit-company_name" [(ngModel)]="fl_edit.company_name">
             </div>
           </div>
           <!-- <div class="fomr-input">&nbsp;</div> -->
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Straße</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Straße</label>
             <div class="col-md-8">
-              <input class="form-control" name="edit-address-street" [(ngModel)]="fl_edit.address.street">
+              <input class="form-control form-control-sm" name="edit-address-street" [(ngModel)]="fl_edit.address.street">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Straße2</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Straße2</label>
             <div class="col-md-8">
-              <input class="form-control" name="edit-address-street2" [(ngModel)]="fl_edit.address.street2">
+              <input class="form-control form-control-sm" name="edit-address-street2" [(ngModel)]="fl_edit.address.street2">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Postleitzahl</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Postleitzahl</label>
             <div class="col-md-8">
-              <input class="form-control" name="edit-address-zipcode" [(ngModel)]="fl_edit.address.zipcode">
+              <input class="form-control form-control-sm" name="edit-address-zipcode" [(ngModel)]="fl_edit.address.zipcode">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Stadt</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Stadt</label>
             <div class="col-md-8">
-              <input class="form-control" name="edit-address-city" [(ngModel)]="fl_edit.address.city">
+              <input class="form-control form-control-sm" name="edit-address-city" [(ngModel)]="fl_edit.address.city">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">{{ coreData.country.display_name }}</label>
+            <label class="col-form-label col-form-label-sm col-md-4">{{ coreData.country.display_name }}</label>
             <div class="col-md-8">
-              <select class="form-control" name="edit-address-country" [(ngModel)]="fl_edit.address.country" [compareWith]='util.compareById'>
+              <select class="form-control form-control-sm" name="edit-address-country" [(ngModel)]="fl_edit.address.country" [compareWith]='util.compareById'>
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
                 <option *ngFor="let option of coreData.country.values" [ngValue]="option">{{ option.name }}</option>
               </select>
@@ -69,57 +70,57 @@
         </form>
         <form class="col-sm-4 form-box form-horizontal">
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Lieferantennr.</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Lieferantennr.</label>
             <div class="col-md-8">
-              <input class="form-control" name="edit-supplier_no" [(ngModel)]="fl_edit.supplier_no">
+              <input class="form-control form-control-sm" name="edit-supplier_no" [(ngModel)]="fl_edit.supplier_no">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">E&#8209;Mail</label>
+            <label class="col-form-label col-form-label-sm col-md-4">E&#8209;Mail</label>
             <div class="col-md-8">
-              <input class="form-control" name="edit-email" [(ngModel)]="fl_edit.email">
+              <input class="form-control form-control-sm" name="edit-email" [(ngModel)]="fl_edit.email">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">E&#8209;Mail2</label>
+            <label class="col-form-label col-form-label-sm col-md-4">E&#8209;Mail2</label>
             <div class="col-md-8">
-              <input class="form-control" name="edit-email2" [(ngModel)]="fl_edit.email2">
+              <input class="form-control form-control-sm" name="edit-email2" [(ngModel)]="fl_edit.email2">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Telefon</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Telefon</label>
             <div class="col-md-8">
-              <input class="form-control" name="edit-phone" [(ngModel)]="fl_edit.phone">
+              <input class="form-control form-control-sm" name="edit-phone" [(ngModel)]="fl_edit.phone">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Mobil</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Mobil</label>
             <div class="col-md-8">
-              <input class="form-control" name="edit-phone2" [(ngModel)]="fl_edit.phone2">
+              <input class="form-control form-control-sm" name="edit-phone2" [(ngModel)]="fl_edit.phone2">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Fax</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Fax</label>
             <div class="col-md-8">
-              <input class="form-control" name="edit-fax" [(ngModel)]="fl_edit.fax">
+              <input class="form-control form-control-sm" name="edit-fax" [(ngModel)]="fl_edit.fax">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Skype</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Skype</label>
             <div class="col-md-8">
-              <input class="form-control" name="edit-skype" [(ngModel)]="fl_edit.skype">
+              <input class="form-control form-control-sm" name="edit-skype" [(ngModel)]="fl_edit.skype">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Geburtstag</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Geburtstag</label>
             <div class="col-md-8">
-              <input type="date" class="form-control" name="edit-date_of_birth" [(ngModel)]="fl_edit.date_of_birth">
+              <input type="date" class="form-control form-control-sm" name="edit-date_of_birth" [(ngModel)]="fl_edit.date_of_birth">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Korr.Spr.</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Korr.Spr.</label>
             <div class="col-md-8">
-              <select class="form-control" name="edit-correspond_language" [(ngModel)]="fl_edit.correspond_language" [compareWith]='util.compareById'>
+              <select class="form-control form-control-sm" name="edit-correspond_language" [(ngModel)]="fl_edit.correspond_language" [compareWith]='util.compareById'>
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
                 <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
               </select>
@@ -130,7 +131,7 @@
           <div>
             <label>Interne Info</label>
           </div>
-          <textarea class="form-control" rows="8" name="edit-comment" [(ngModel)]="fl_edit.comment"></textarea>
+          <textarea class="form-control form-control-sm" rows="8" name="edit-comment" [(ngModel)]="fl_edit.comment"></textarea>
         </form>
       </div>
     </div>
@@ -140,36 +141,38 @@
       <div class="row">
         <form class="col-sm-4 form-box form-horizontal">
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">{{ coreData.freelancer_status.display_name }}</label>
+            <label class="col-form-label col-form-label-sm col-md-4">{{ coreData.freelancer_status.display_name }}</label>
             <div class="col-md-8">
-              <select class="form-control" name="edit-fl_status" [(ngModel)]="fl_edit.fl_status" [compareWith]='util.compareById' required>
+              <select class="form-control form-control-sm" name="edit-fl_status" [(ngModel)]="fl_edit.fl_status" [compareWith]='util.compareById'
+                required>
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
                 <option *ngFor="let option of coreData.freelancer_status.values" [ngValue]="option">{{ option.name }}</option>
               </select>
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">{{ coreData.freelancer_rating.display_name }}</label>
+            <label class="col-form-label col-form-label-sm col-md-4">{{ coreData.freelancer_rating.display_name }}</label>
             <div class="col-md-8">
-              <select class="form-control" name="edit-fl_rating" [(ngModel)]="fl_edit.fl_rating" [compareWith]='util.compareById'>
+              <select class="form-control form-control-sm" name="edit-fl_rating" [(ngModel)]="fl_edit.fl_rating" [compareWith]='util.compareById'>
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
                 <option *ngFor="let option of coreData.freelancer_rating.values" [ngValue]="option">{{ option.name }}</option>
               </select>
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">DSGVO</label>
+            <label class="col-form-label col-form-label-sm col-md-4">DSGVO</label>
             <div class="col-md-8">
-              <select class="form-control" name="edit-dsgvo" [(ngModel)]="fl_edit.dsgvo" [compareWith]='util.compareById' required>
+              <select class="form-control form-control-sm" name="edit-dsgvo" [(ngModel)]="fl_edit.dsgvo" [compareWith]='util.compareById'
+                required>
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
                 <option *ngFor="let option of coreData.yes_no_in_progress.values" [ngValue]="option">{{ option.name }}</option>
               </select>
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">NDA</label>
+            <label class="col-form-label col-form-label-sm col-md-4">NDA</label>
             <div class="col-md-8">
-              <select class="form-control" name="edit-nda" [(ngModel)]="fl_edit.nda" [compareWith]='util.compareById' required>
+              <select class="form-control form-control-sm" name="edit-nda" [(ngModel)]="fl_edit.nda" [compareWith]='util.compareById' required>
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
                 <option *ngFor="let option of coreData.yes_no_in_progress.values" [ngValue]="option">{{ option.name }}</option>
               </select>
@@ -184,18 +187,18 @@
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Muttersp.1</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Muttersp.1</label>
             <div class="col-md-8">
-              <select class="form-control" name="edit-mothertounge" [(ngModel)]="fl_edit.mothertounge" [compareWith]='util.compareById'>
+              <select class="form-control form-control-sm" name="edit-mothertounge" [(ngModel)]="fl_edit.mothertounge" [compareWith]='util.compareById'>
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
                 <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
               </select>
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Muttersp.2</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Muttersp.2</label>
             <div class="col-md-8">
-              <select class="form-control" name="edit-mothertounge2" [(ngModel)]="fl_edit.mothertounge2" [compareWith]='util.compareById'>
+              <select class="form-control form-control-sm" name="edit-mothertounge2" [(ngModel)]="fl_edit.mothertounge2" [compareWith]='util.compareById'>
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
                 <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
               </select>
@@ -221,7 +224,7 @@
           <div class="row">
             <div class="col-sm-12">
               <div class="form-group row no-gutters">
-                <label class="col-form-label col-md-4" for="edit-cat-prices">CAT-Staffel</label>
+                <label class="col-form-label col-form-label-sm col-md-4" for="edit-cat-prices">CAT-Staffel</label>
                 <div class="col-md-8 form-check">
                   <input class="form-check-input" type="checkbox" name="edit-cat_prices" [(ngModel)]="fl_edit.cat_prices" id="edit-swordn"
                     name="edit-cat-prices">
@@ -269,9 +272,9 @@
         </div>
         <div class="col-sm-4 form-box form-horizontal">
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">{{ coreData.freelancer_payment_types.display_name }}</label>
+            <label class="col-form-label col-form-label-sm col-md-4">{{ coreData.freelancer_payment_types.display_name }}</label>
             <div class="col-md-8">
-              <select class="form-control" name="edit-fl_payment_type" [(ngModel)]="fl_edit.fl_payment_type" [compareWith]='util.compareById'>
+              <select class="form-control form-control-sm" name="edit-fl_payment_type" [(ngModel)]="fl_edit.fl_payment_type" [compareWith]='util.compareById'>
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
                 <option *ngFor="let option of coreData.freelancer_payment_types.values" [ngValue]="option">{{ option.name }}</option>
               </select>
@@ -279,28 +282,28 @@
           </div>
 
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">{{ coreData.freelancer_invoicing_types.display_name }}</label>
+            <label class="col-form-label col-form-label-sm col-md-4">{{ coreData.freelancer_invoicing_types.display_name }}</label>
             <div class="col-md-8">
-              <select class="form-control" name="edit-fl_invoicing_type" [(ngModel)]="fl_edit.fl_invoicing_type" [compareWith]='util.compareById'>
+              <select class="form-control form-control-sm" name="edit-fl_invoicing_type" [(ngModel)]="fl_edit.fl_invoicing_type" [compareWith]='util.compareById'>
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
                 <option *ngFor="let option of coreData.freelancer_invoicing_types.values" [ngValue]="option">{{ option.name }}</option>
               </select>
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">USt.-Nr.</label>
+            <label class="col-form-label col-form-label-sm col-md-4">USt.-Nr.</label>
             <div class="col-md-8">
-              <input class="form-control" name="edit-vat_no" [(ngModel)]="fl_edit.vat_no">
+              <input class="form-control form-control-sm" name="edit-vat_no" [(ngModel)]="fl_edit.vat_no">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4">Steuer ID</label>
+            <label class="col-form-label col-form-label-sm col-md-4">Steuer ID</label>
             <div class="col-md-8">
-              <input class="form-control" name="edit-tax_id" [(ngModel)]="fl_edit.tax_id">
+              <input class="form-control form-control-sm" name="edit-tax_id" [(ngModel)]="fl_edit.tax_id">
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-md-4" for="edit-vat_payer">MwSt.</label>
+            <label class="col-form-label col-form-label-sm col-md-4" for="edit-vat_payer">MwSt.</label>
             <div class="col-md-8 form-check">
               <input class="form-check-input" type="checkbox" name="edit-vat_payer" [(ngModel)]="fl_edit.vat_payer" id="edit-vat_payer
              " name="edit-vat_payer">
@@ -311,7 +314,7 @@
           <div>
             <label>Bankverbindung</label>
           </div>
-          <textarea class="form-control" rows="5" name="edit-bankdetails" [(ngModel)]="fl_edit.bankdetails"></textarea>
+          <textarea class="form-control form-control-sm" rows="5" name="edit-bankdetails" [(ngModel)]="fl_edit.bankdetails"></textarea>
         </div>
       </form>
     </div>
@@ -319,8 +322,8 @@
   <div class="row pull-right">
     <div class="col-sm-12">
       <button class="btn btn-primary" (click)="saveFreelancer()">Speichern</button>
-      <button class="btn btn-danger" (click)="cancelEdit()">Abbrechen</button>
-      <button class="btn btn-default" (click)="deleteFreelancer()" [disabled]="fl_edit.id==null">
+      <button class="btn btn-default" (click)="cancelEdit()">Abbrechen</button>
+      <button class="btn btn-danger" (click)="deleteFreelancer()" [disabled]="fl_edit.id==null">
         Löschen
       </button>
     </div>
