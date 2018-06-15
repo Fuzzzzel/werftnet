@@ -19,7 +19,7 @@
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-form-label col-form-label-sm col-md-3">Kunde</label>
+          <label class="col-form-label col-form-label-sm col-md-3">Status</label>
           <div class="col-md-9">
             <select class="form-control form-control-sm" name="search-order_status" [(ngModel)]="searchParams.customer" [compareWith]='util.compareById'>
               <option [value]='null' selected>-- Bitte wählen --</option>
@@ -32,14 +32,14 @@
         <div class="form-group row">
           <label class="col-form-label col-form-label-sm col-md-3">Von</label>
           <div class="col-md-9">
-            <input id="search-from_date" name="search-from_date" class="form-control form-control-sm" [(ngModel)]="searchParams.from_date"
+            <input id="search-from_date" type="date" name="search-from_date" class="form-control form-control-sm" [(ngModel)]="searchParams.from_date"
             />
           </div>
         </div>
         <div class="form-group row">
           <label class="col-form-label col-form-label-sm col-md-3">Bis</label>
           <div class="col-md-9">
-            <input id="search-until_date" name="search-until_date" class="form-control form-control-sm" [(ngModel)]="searchParams.until_date"
+            <input id="search-until_date" type="date" name="search-until_date" class="form-control form-control-sm" [(ngModel)]="searchParams.until_date"
             />
           </div>
         </div>
