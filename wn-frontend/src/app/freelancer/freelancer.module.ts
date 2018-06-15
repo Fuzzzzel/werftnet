@@ -24,7 +24,8 @@ import { FreelancerEditPriceComponent } from './freelancer-edit-price/freelancer
   exports: [
     FreelancerSearchComponent,
     FreelancerCompactComponent,
-    FreelancerEditComponent
+    FreelancerEditComponent,
+    FreelancerEditPriceComponent
   ],
   providers: [
     FreelancerSearchService,

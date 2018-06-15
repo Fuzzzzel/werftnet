@@ -1,0 +1,64 @@
+<div>
+  <h1>Auftrag</h1>
+  <div class="form-default col-md-12" (keydown.enter)="searchParams.page=1;searchOrders(searchParams)">
+    <div class="row">
+      <form class="form-box col-md-5 form-horizontal">
+        <div class="form-group row">
+          <label class="col-form-label col-md-3">Suchtext</label>
+          <div class="col-md-9">
+            <input id="search-name" name="search-name" class="form-control" [(ngModel)]="searchParams.search_text" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-md-3">Kunde</label>
+          <div class="col-md-9">
+            <select class="form-control" name="search-customer" [(ngModel)]="searchParams.customer" [compareWith]='util.compareById'>
+              <option [value]='null' selected>-- Bitte wählen --</option>
+              <option *ngFor="let option of customers" [ngValue]="option">{{ option.name }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-md-3">Kunde</label>
+          <div class="col-md-9">
+            <select class="form-control" name="search-order_status" [(ngModel)]="searchParams.customer" [compareWith]='util.compareById'>
+              <option [value]='null' selected>-- Bitte wählen --</option>
+              <option *ngFor="let option of coreData.order_status.values" [ngValue]="option">{{ option.name }}</option>
+            </select>
+          </div>
+        </div>
+      </form>
+      <form class="form-box col-md-5 form-horizontal">
+        <div class="form-group row">
+          <label class="col-form-label col-md-3">Von</label>
+          <div class="col-md-9">
+            <input id="search-from_date" name="search-from_date" class="form-control" [(ngModel)]="searchParams.from_date" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-md-3">Bis</label>
+          <div class="col-md-9">
+            <input id="search-until_date" name="search-until_date" class="form-control" [(ngModel)]="searchParams.until_date" />
+          </div>
+        </div>
+      </form>
+      <div class="button-area col-md-2 form-horizontal">
+        <button class="btn btn-block btn-primary" (click)="searchParams.page=1;searchOrders(searchParams)">Suchen</button>
+        <button class="btn btn-block btn-default" (click)="editOrder(null)">Neuer Auftrag</button>
+      </div>
+    </div>
+  </div>
+  <h2>Suchergebnisse: {{ ordersLoaded.itemsTotal }}
+    <span *ngIf="ordersLoaded.pageMax > 1">(Seite {{ freelancersLoaded.page }} von {{ freelancersLoaded.pageMax }})
+    </span>
+  </h2>
+  <div *ngFor="let order of ordersLoaded.items">
+    <app-order-compact [order]="order">
+    </app-order-compact>
+  </div>
+
+  <ngb-pagination [collectionSize]="ordersLoaded.itemsTotal" [(page)]="searchParams.page" [pageSize]="20" [maxSize]="10" class="pagination-sm"
+    [rotate]="true" [boundaryLinks]="true" [ellipses]="true" (pageChange)="searchOrders(searchParams)">
+  </ngb-pagination>
+
+</div>

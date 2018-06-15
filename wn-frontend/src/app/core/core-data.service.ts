@@ -6,6 +6,7 @@ import { TwoLevelEntity, TwoLevelEntityCollection } from '../shared/model/two-le
 import { UtilService } from './util.service'
 import { User } from '../user/user.model'
 import * as _ from "lodash"
+import { OrderStatus } from '../project/order/order.model';
 
 @Injectable()
 export class CoreDataService {
@@ -397,4 +398,5 @@ export class CoreData {
   customer_status: SimpleEntityCollection
   user_roles: SimpleEntityCollection
   account_managers: User[]
+  order_status: SimpleEntityCollection
 }

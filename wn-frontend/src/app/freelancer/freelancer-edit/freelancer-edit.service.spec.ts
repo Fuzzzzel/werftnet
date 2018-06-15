@@ -31,8 +31,7 @@ describe('FreelancerEditService', () => {
       ],
       providers: [
         FreelancerEditService,
-        UtilService,
-        FreelancerSearchService
+        UtilService
       ]
     })
     router = TestBed.get(Router)

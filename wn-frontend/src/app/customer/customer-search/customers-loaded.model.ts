@@ -1,9 +1,6 @@
 import { Customer } from "../customer.model";
+import { PaginatedResult } from "../../core/paginated-result.model";
 
-export class CustomersLoaded {
-    items: Customer[] = [];
-    itemsTotal: Number = 0;
-    itemsPerPage: Number = 0;
-    page: Number = 1;
-    pageMax: Number = 0;
+export class CustomersLoaded extends PaginatedResult {
+    items: Customer[] = []
 }

@@ -997,6 +997,39 @@ var coreDataMock =
         }
       ],
       "display_name": "Accountmgr."
+    },
+    "order_status": {
+      "values": [
+        {
+          "id": 1,
+          "name": "Angelegt"
+        },
+        {
+          "id": 2,
+          "name": "In Vorbereitung"
+        },
+        {
+          "id": 3,
+          "name": "In Arbeit"
+        },
+        {
+          "id": 4,
+          "name": "Geliefert"
+        },
+        {
+          "id": 5,
+          "name": "Rechnung erstellt"
+        },
+        {
+          "id": 6,
+          "name": "Rechnung bezahlt"
+        },
+        {
+          "id": 7,
+          "name": "Storniert"
+        },
+      ],
+      "display_name": "Auftragsstatus"
     }
   }
 

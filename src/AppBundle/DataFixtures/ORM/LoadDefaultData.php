@@ -15,6 +15,7 @@ use AppBundle\Entity\Common\YesNoInProgress;
 use AppBundle\Entity\Customer\CustomerOrigin;
 use AppBundle\Entity\Customer\CustomerPotential;
 use AppBundle\Entity\Customer\CustomerStatus;
+use AppBundle\Entity\Project\Order\OrderStatus;
 use AppBundle\Entity\User\User;
 use AppBundle\Entity\User\UserRole;
 use AppBundle\Entity\Freelancer\FreelancerPaymentType;
@@ -100,7 +101,7 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
         }
 
 
-        // Language + 2 Subsprachen
+        // Language1 + 2 Subsprachen
 
         $language = new Language();
         $language->setName("Englisch");
@@ -113,9 +114,36 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
         $lang2->setName("US");
         $lang2->setMainItem($language);
 
+        $lang3 = new Language();
+        $lang3->setName("CA");
+        $lang3->setMainItem($language);
+
         $manager->persist($language);
         $manager->persist($lang1);
         $manager->persist($lang2);
+        $manager->persist($lang3);
+
+        // Language2 + 2 Subsprachen
+
+        $language = new Language();
+        $language->setName("Deutsch");
+
+        $lang1 = new Language();
+        $lang1->setName("DE");
+        $lang1->setMainItem($language);
+
+        $lang2 = new Language();
+        $lang2->setName("CH");
+        $lang2->setMainItem($language);
+
+        $lang3 = new Language();
+        $lang3->setName("AT");
+        $lang3->setMainItem($language);
+
+        $manager->persist($language);
+        $manager->persist($lang1);
+        $manager->persist($lang2);
+        $manager->persist($lang3);
 
 
         // Preiseinheiten
@@ -325,7 +353,26 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
             $status->setName($customerStatus[$i - 1]);
             $manager->persist($status);
         }
-        
+
+        $manager->flush();
+
+        // Order Status
+        $orderStatusList = array(
+            "Angelegt",
+            "In Vorbereitung",
+            "In Arbeit",
+            "Geliefert",
+            "Rechnung erstellt",
+            "Rechnung bezahlt",
+            "Storniert"
+        );
+
+        for ($i = 1; $i <= count($orderStatusList); $i++) {
+            $orderStatus = new OrderStatus();
+            $orderStatus->setName($orderStatusList[$i - 1]);
+            $manager->persist($orderStatus);
+        }
+
         $manager->flush();
 
         // Testuser für den anfänglichen Admin anlegen

@@ -11,8 +11,7 @@ export class FreelancerEditService {
 
   constructor(
     private util: UtilService,
-    private http: HttpClient,
-    private freelancerSearchService: FreelancerSearchService
+    private http: HttpClient
   ) {
 
   }
@@ -118,11 +117,6 @@ export class FreelancerEditService {
     })
   }
 
-  /**
-   * Loads freelancer by id and switches to edit view if found
-   * 
-   * @param id Id of the freelancer to be edited
-   */
   getFreelancerById(id: number) {
     // Set up post request
     const req = this.http.get<Freelancer>(

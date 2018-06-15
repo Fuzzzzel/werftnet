@@ -10,6 +10,7 @@ const freelancerMock = require('./../freelancer.mock.json')
 describe('FreelancerSearchService', () => {
   let service: FreelancerSearchService
   let backend: HttpTestingController
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [

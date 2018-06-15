@@ -54,6 +54,7 @@ class DefaultsController extends Controller
         $defaultData->customer_status = $this->getSimpleEntity('Customer\\CustomerStatus');
         $defaultData->user_roles = $this->getSimpleEntity('User\\UserRole');
         $defaultData->account_managers = $this->getAccountManagers();
+        $defaultData->order_status = $this->getSimpleEntity('Project\\Order\\OrderStatus');
 
         return new JsonResponse($defaultData);
     }
