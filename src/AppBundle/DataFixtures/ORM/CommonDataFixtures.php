@@ -9,25 +9,15 @@ use AppBundle\Entity\Common\Currency;
 use AppBundle\Entity\Common\Language;
 use AppBundle\Entity\Common\PriceUnit;
 use AppBundle\Entity\Common\Sector;
-use AppBundle\Entity\Common\SectorSub;
 use AppBundle\Entity\Common\Service;
 use AppBundle\Entity\Common\YesNoInProgress;
-use AppBundle\Entity\Customer\CustomerOrigin;
-use AppBundle\Entity\Customer\CustomerPotential;
-use AppBundle\Entity\Customer\CustomerStatus;
 use AppBundle\Entity\Project\Order\OrderStatus;
-use AppBundle\Entity\User\User;
-use AppBundle\Entity\User\UserRole;
-use AppBundle\Entity\Freelancer\FreelancerPaymentType;
-use AppBundle\Entity\Freelancer\FreelancerInvoicingType;
-use AppBundle\Entity\Freelancer\FreelancerRating;
-use AppBundle\Entity\Freelancer\FreelancerStatus;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
-class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
+class CommonDataFixtures implements FixtureInterface, ContainerAwareInterface
 {
 
     private $container;
@@ -39,20 +29,10 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
-
-        // USER
-        // StandardRollen
-        $roleUser = new UserRole();
-        $roleUser->setName("ROLE_USER");
-        $manager->persist($roleUser);
-
-        $roleAdmin = new UserRole();
-        $roleAdmin->setName("ROLE_ADMIN");
-        $manager->persist($roleAdmin);
-
-        $roleAccountManager = new UserRole();
-        $roleAccountManager->setName("ROLE_ACCOUNT_MANAGER");
-        $manager->persist($roleAccountManager);
+        $anredeInDb = $manager->getRepository(OrderStatus::class)->findAll();
+        if(count($anredeInDb) > 0) {
+            return;
+        }
 
         // -----------------------------------
         // COMMON
@@ -254,154 +234,6 @@ class LoadDefaultData implements FixtureInterface, ContainerAwareInterface
             $manager->persist($element);
         }
 
-        // FREELANCER
-        // Freelancer Bezahlart
-        $paymentType = array(
-            "Überweisung",
-            "PayPal"
-        );
-
-        for ($i = 1; $i <= count($paymentType); $i++) {
-            $element = new FreelancerPaymentType();
-            $element->setName($paymentType[$i - 1]);
-            $manager->persist($element);
-        }
-
-        // Freelancer Rechnungsart
-        $invoicingType = array(
-            "Rechnung",
-            "Gutschrift"
-        );
-
-        for ($i = 1; $i <= count($invoicingType); $i++) {
-            $element = new FreelancerInvoicingType();
-            $element->setName($invoicingType[$i - 1]);
-            $manager->persist($element);
-        }
-
-
-        // Rating Freelancer
-        $freelancerRating = array(
-            "A (sehr gut)",
-            "B (in Ordnung)",
-            "C (nur als Ausnahme)",
-        );
-
-        for ($i = 1; $i <= count($freelancerRating); $i++) {
-            $element = new FreelancerRating();
-            $element->setName($freelancerRating[$i - 1]);
-            $manager->persist($element);
-        }
-
-
-        // Freelancer Status
-        $freelancerStatus = array(
-            "Lieferant",
-            "Kandidat",
-            "Bewerber",
-            "Kein Interesse",
-        );
-
-        for ($i = 1; $i <= count($freelancerStatus); $i++) {
-            $status = new FreelancerStatus();
-            $status->setName($freelancerStatus[$i - 1]);
-            $manager->persist($status);
-        }
-
-        // KUNDEN
-
-        // Customer Origin
-        $customerOrigin = array(
-            "Akquise",
-            "Empfehlung",
-            "Website",
-            "Quahill"
-        );
-
-        for ($i = 1; $i <= count($customerOrigin); $i++) {
-            $origin = new CustomerOrigin();
-            $origin->setName($customerOrigin[$i - 1]);
-            $manager->persist($origin);
-        }
-
-
-        // Customer Potential
-        $customerPotential = array(
-            "A (Betrag A)",
-            "B (Betrag B)",
-            "C (Betrag C)",
-            "D (Betrag D)",
-        );
-
-        for ($i = 1; $i <= count($customerPotential); $i++) {
-            $potential = new CustomerPotential();
-            $potential->setName($customerPotential[$i - 1]);
-            $manager->persist($potential);
-        }
-
-
-        // Customer Status
-        $customerStatus = array(
-            "Aktiver Kunde",
-            "Möglicher Kunde",
-            "Kein Interesse",
-            "Verlorener Kunde",
-        );
-
-        for ($i = 1; $i <= count($customerStatus); $i++) {
-            $status = new CustomerStatus();
-            $status->setName($customerStatus[$i - 1]);
-            $manager->persist($status);
-        }
-
-        $manager->flush();
-
-        // Order Status
-        $orderStatusList = array(
-            "Angelegt",
-            "In Vorbereitung",
-            "In Arbeit",
-            "Geliefert",
-            "Rechnung erstellt",
-            "Rechnung bezahlt",
-            "Storniert"
-        );
-
-        for ($i = 1; $i <= count($orderStatusList); $i++) {
-            $orderStatus = new OrderStatus();
-            $orderStatus->setName($orderStatusList[$i - 1]);
-            $manager->persist($orderStatus);
-        }
-
-        $manager->flush();
-
-        // Testuser für den anfänglichen Admin anlegen
-        $user = new User();
-        $user->setUsername('admin');
-        $user->setEmail('admin@some.domain.com');
-
-        $plainPassword = 'admin';
-        $encoder = $this->container->get('security.password_encoder');
-        $encoded = $encoder->encodePassword($user, $plainPassword);
-        $user->setPassword($encoded);
-        $user->addRole($roleAdmin);
-
-        $manager->persist($user);
-        $manager->flush();
-
-        // Normalen Testuser (als Account Manager) anlegen
-        $user = new User();
-        $user->setUsername('user');
-        $user->setEmail('user@some.domain.com');
-
-        $plainPassword = 'user';
-        $encoder = $this->container->get('security.password_encoder');
-        $encoded = $encoder->encodePassword($user, $plainPassword);
-        $user->setPassword($encoded);
-        $user->addRole($roleUser);
-        $user->addRole($roleAccountManager);
-
-        $manager->persist($user);
         $manager->flush();
     }
 }
