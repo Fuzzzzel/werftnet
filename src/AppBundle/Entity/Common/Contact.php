@@ -21,21 +21,21 @@ abstract class Contact
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @JMS\Type("integer")
-     * @JMS\Groups({"display", "update"})
+     * @JMS\Groups({"display", "update", "dropdown"})
      */
     protected $id;
 
     /**
      * @ORM\Column(type="string")
      * @JMS\Type("string")
-     * @JMS\Groups({"display", "update"})
+     * @JMS\Groups({"display", "update", "dropdown"})
      */
     protected $name1;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      * @JMS\Type("string")
-     * @JMS\Groups({"display", "update"})
+     * @JMS\Groups({"display", "update", "dropdown"})
      */
     protected $name2;
 

@@ -7,6 +7,7 @@ import { OrderCompactComponent } from '../order-compact/order-compact.component'
 import { RouterTestingModule } from '@angular/router/testing';
 import { CoreDataService } from '../../../core/core-data.service';
 import { CoreDataServiceMock } from '../../../core/core-data.service-mock';
+import { CustomerService } from '../../../customer/customer-service.service';
 
 describe('OrderEditComponent', () => {
   let component: OrderEditComponent;
@@ -24,6 +25,7 @@ describe('OrderEditComponent', () => {
       ],
       providers: [
         UtilService,
+        CustomerService,
         { provide: CoreDataService, useClass: CoreDataServiceMock }
       ]
     })

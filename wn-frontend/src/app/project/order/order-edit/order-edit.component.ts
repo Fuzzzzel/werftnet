@@ -3,6 +3,7 @@ import { UtilService } from '../../../core/util.service';
 import { Customer } from '../../../customer/customer.model';
 import { Order } from '../order.model';
 import { CoreData, CoreDataService } from '../../../core/core-data.service';
+import { CustomerService } from '../../../customer/customer-service.service';
 
 @Component({
   selector: 'app-order-edit',
@@ -17,12 +18,17 @@ export class OrderEditComponent implements OnInit {
 
   constructor(
     public util: UtilService,
-    private coreDataService: CoreDataService
+    private coreDataService: CoreDataService,
+    private customerService: CustomerService
   ) { }
 
   ngOnInit() {
     this.coreDataService.getData().subscribe((data) => {
       this.coreData = data
+    })
+
+    this.customerService.getCustomerDropdownValues().subscribe((data) => {
+      this.customers = data
     })
   }
 

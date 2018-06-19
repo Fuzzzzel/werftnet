@@ -27,7 +27,7 @@ class Customer extends Company
     /**
      * @ORM\Column(type="string", nullable=true)
      * @JMS\Type("string")
-     * @JMS\Groups({"display", "update"})
+     * @JMS\Groups({"display", "update", "dropdown"})
      */
     private $customerNo;
 

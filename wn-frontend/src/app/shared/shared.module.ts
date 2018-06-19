@@ -7,6 +7,7 @@ import { PropMultiSelectComponent } from './components/prop-multi-select/prop-mu
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { InlineEditorModule } from '@qontu/ngx-inline-editor';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { InlineEditorModule } from '@qontu/ngx-inline-editor';
     HttpClientModule,
     NgbModule,
     MultiselectDropdownModule,
-    InlineEditorModule
+    InlineEditorModule,
+    NgSelectModule
   ],
   declarations: [
     PropMultiSelectComponent,
@@ -30,7 +32,8 @@ import { InlineEditorModule } from '@qontu/ngx-inline-editor';
     PropMultiSelectComponent,
     SafeUrlPipe,
     MultiselectDropdownModule,
-    InlineEditorModule
+    InlineEditorModule,
+    NgSelectModule
   ],
   providers: [
     HttpClient

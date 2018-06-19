@@ -25,6 +25,14 @@ export class FreelancerEditComponent implements OnInit {
     private freelancerSearchService: FreelancerSearchService
   ) { }
 
+  ngOnInit() {
+    this.coreDataService.getData().subscribe((data) => {
+      this.coreData = data
+    })
+
+    this.fl_edit = this.freelancerEditService.getFreelancerToEdit()
+  }
+
   clearAllButName() {
     let allButNameFreelancer = new Freelancer()
     delete allButNameFreelancer["name1"]
@@ -68,14 +76,5 @@ export class FreelancerEditComponent implements OnInit {
 
   toggleEditPrice = function (element) {
     this.editPrice[element.id] = !this.editPrice[element.id]
-  }
-
-
-  ngOnInit() {
-    this.coreDataService.getData().subscribe((data) => {
-      this.coreData = data
-    })
-
-    this.fl_edit = this.freelancerEditService.getFreelancerToEdit()
   }
 }

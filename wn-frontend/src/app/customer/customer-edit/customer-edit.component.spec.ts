@@ -25,13 +25,15 @@ describe('CustomerEditComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule
       ],
+      declarations: [
+        CustomerEditComponent
+      ],
       providers: [
         UtilService,
         { provide: CoreDataService, useClass: CoreDataServiceMock },
         CustomerEditService,
         CustomerSearchService
       ],
-      declarations: [CustomerEditComponent]
     })
       .compileComponents()
 

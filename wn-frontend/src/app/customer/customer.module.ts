@@ -8,6 +8,7 @@ import { CustomerSearchComponent } from './customer-search/customer-search.compo
 import { CustomerEditComponent } from './customer-edit/customer-edit.component'
 import { CustomerCompactComponent } from './customer-compact/customer-compact.component'
 import { CustomerEditContactComponent } from './customer-edit-contact/customer-edit-contact.component'
+import { CustomerService } from './customer-service.service';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { CustomerEditContactComponent } from './customer-edit-contact/customer-e
   ],
   providers: [
     CustomerEditService,
-    CustomerSearchService
+    CustomerSearchService,
+    CustomerService
   ]
 })
 export class CustomerModule { }

@@ -12,7 +12,7 @@ import { SharedModule } from './shared/shared.module';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>
-  let app: any
+  let component: any
   let backend: HttpTestingController
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
@@ -43,20 +43,20 @@ describe('AppComponent', () => {
     }).compileComponents()
     backend = TestBed.get(HttpTestingController)
     fixture = TestBed.createComponent(AppComponent)
-    app = fixture.debugElement.componentInstance
+    component = fixture.debugElement.componentInstance
     tick()
   }))
 
   /**
    * Test if the App can be created
    */
-  it('should create the app', () => {
-    expect(app).toBeTruthy()
+  it('should create the component', () => {
+    expect(component).toBeTruthy()
   })
 
   it('should no user be logged in on init', fakeAsync(() => {
-    expect(app.isUserLoggedIn()).toBeFalsy()
-    expect(app.userHasRole('ROLE_USER')).toBeFalsy()
+    expect(component.isUserLoggedIn()).toBeFalsy()
+    expect(component.userHasRole('ROLE_USER')).toBeFalsy()
   }))
 
   it('should fail to auto login', fakeAsync(() => {
@@ -74,7 +74,7 @@ describe('AppComponent', () => {
    * Test if the title is displayed correctly
    */
   it(`should have as title 'WerftNET Version X.Y'`, async(() => {
-    expect(app.title).toEqual('WerftNET Version ' + app.version)
+    expect(component.title).toEqual('WerftNET Version ' + component.version)
   }))
 
   it('should test for a user logged in', fakeAsync(() => {
@@ -90,7 +90,7 @@ describe('AppComponent', () => {
     user.roles = ['ROLE_USER']
     req.flush(user, { status: 200, statusText: 'Ok' })
 
-    expect(app.isUserLoggedIn()).toBeTruthy()
-    expect(app.userHasRole('ROLE_USER')).toBeTruthy()
+    expect(component.isUserLoggedIn()).toBeTruthy()
+    expect(component.userHasRole('ROLE_USER')).toBeTruthy()
   }))
 })

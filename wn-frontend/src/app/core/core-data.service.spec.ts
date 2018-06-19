@@ -12,7 +12,7 @@ let backend: HttpTestingController
 let service: CoreDataService
 
 describe('CoreDataService', () => {
-  beforeEach(() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -27,22 +27,18 @@ describe('CoreDataService', () => {
     backend = TestBed.get(HttpTestingController)
     service = TestBed.get(CoreDataService)
     backend.expectOne('/getDefaults').flush(coreData, { status: 200, statusText: 'Ok' })
-  })
+  }))
 
 
   afterEach(inject([HttpTestingController], (backend: HttpTestingController) => {
     backend.verify()
   }))
 
-  it('should be created and default data loaded', () => {
+  it('should be created and default data loaded', fakeAsync(() => {
     expect(service).toBeTruthy()
     expect(service.coreDataLoaded()).toBeTruthy()
     expect(service.getDataLoaded()).toBeTruthy()
-  })
-
-  const simpleEntityMock = {
-
-  }
+  }))
 
   it('should show message box when trying to create simple entity item', (done) => {
     spyOn(window, 'confirm').and.returnValue(true)
@@ -162,10 +158,19 @@ describe('CoreDataService', () => {
     req.flush(new TwoLevelEntity(), { status: 200, statusText: 'Ok' })
   })
 
-  it('should fail to refresh data loaded', () => {
-    service.refreshDefaultData(null, () => { })
+  it('should refresh data loaded', fakeAsync(() => {
+    service.refreshDefaultData()
+    tick()
     backend.expectOne('/getDefaults').flush(coreData, { status: 404, statusText: 'Not Found' })
-  })
+  }))
+
+  it('should fail to refresh data loaded', fakeAsync(() => {
+    service.refreshDefaultData()
+    spyOn(window, 'alert').and.returnValue(true)
+    tick()
+    backend.expectOne('/getDefaults').flush(null, { status: 404, statusText: 'Not Found' })
+  }))
+
 
   it('should make main item', (done) => {
     service.makeMainItem(1, 'TestEntity')

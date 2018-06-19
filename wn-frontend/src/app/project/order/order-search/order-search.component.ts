@@ -7,6 +7,7 @@ import { OrdersLoaded } from './orders-loaded.model';
 import { CoreDataService, CoreData } from '../../../core/core-data.service';
 import { Order } from '../order.model';
 import { Customer } from '../../../customer/customer.model';
+import { CustomerService } from '../../../customer/customer-service.service';
 
 @Component({
   selector: 'app-order-search',
@@ -24,7 +25,8 @@ export class OrderSearchComponent implements OnInit {
     public util: UtilService,
     private coreDataService: CoreDataService,
     private orderSearchService: OrderSearchService,
-    private orderEditService: OrderEditService
+    private orderEditService: OrderEditService,
+    private customerService: CustomerService
   ) { }
 
   ngOnInit() {
@@ -36,6 +38,10 @@ export class OrderSearchComponent implements OnInit {
 
     this.coreDataService.getData().subscribe((data) => {
       this.coreData = data
+    })
+
+    this.customerService.getCustomerDropdownValues().subscribe((data) => {
+      this.customers = data
     })
   }
 

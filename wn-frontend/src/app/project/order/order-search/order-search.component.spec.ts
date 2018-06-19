@@ -11,6 +11,7 @@ import { HttpTestingController, HttpClientTestingModule } from '@angular/common/
 import { RouterTestingModule } from '@angular/router/testing';
 import { OrderCompactComponent } from '../order-compact/order-compact.component';
 import { NgbModule, NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
+import { CustomerService } from '../../../customer/customer-service.service';
 
 describe('OrderSearchComponent', () => {
   let component: OrderSearchComponent
@@ -38,6 +39,7 @@ describe('OrderSearchComponent', () => {
         UtilService,
         OrderSearchService,
         OrderEditService,
+        CustomerService,
         NgbPaginationConfig,
         { provide: CoreDataService, useClass: CoreDataServiceMock }
       ]

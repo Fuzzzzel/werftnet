@@ -21,7 +21,7 @@ export class CoreDataService {
     this.$dataLoaded = <BehaviorSubject<Boolean>>new BehaviorSubject(false)
     this.$data = <BehaviorSubject<CoreData>>new BehaviorSubject(new CoreData)
 
-    this.refreshDefaultData(() => { this.$dataLoaded.next(true) }, null)
+    this.refreshDefaultData()
   }
 
 
@@ -37,27 +37,35 @@ export class CoreDataService {
     return this.$dataLoaded.getValue()
   }
 
-  refreshDefaultData(resolve, reject) {
-    // Set up post request
-    const req = this.http.get<CoreData>(
-      '/getDefaults'
-    )
+  fetchDefaultData(): Promise<CoreData> {
+    return new Promise<CoreData>((resolve, reject) => {
+      // Set up post request
+      const req = this.http.get<CoreData>(
+        '/getDefaults'
+      )
 
-    // Execute post request and subscribe to response
-    req.subscribe(
-      data => {
-        data.languages_flat = this.util.getFlattenedTwoLevelEntity(data.languages)
-        data.sectors_flat = this.util.getFlattenedTwoLevelEntity(data.sectors)
+      // Execute post request and subscribe to response
+      req.subscribe(
+        data => {
+          data.languages_flat = this.util.getFlattenedTwoLevelEntity(data.languages)
+          data.sectors_flat = this.util.getFlattenedTwoLevelEntity(data.sectors)
+          resolve(data)
+        },
+        error => {
+          reject(new Error(error.error))
+        })
+    })
+  }
+
+  refreshDefaultData() {
+    this.fetchDefaultData()
+      .then((data) => {
+        this.$dataLoaded.next(true)
         this.$data.next(data)
-
-        resolve(data)
-      },
-      error => {
-
-        reject(error)
+      }, null)
+      .catch((error) => {
+        alert('Fehler beim Laden der Basisdaten: ' + error.message)
       })
-
-    return
   }
 
   /**

@@ -211,7 +211,7 @@ terms above.
 MIT
 MIT
 
-@types/lodash@4.14.109
+@types/lodash@4.14.110
 MIT
 MIT License
 
@@ -234,6 +234,10 @@ MIT License
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE
+
+@ng-select/ng-select@1.5.2
+MIT
+MIT
 
 @angular/platform-browser-dynamic@5.2.11
 MIT

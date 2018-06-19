@@ -63,7 +63,6 @@ class CustomerController extends Controller
         return new Response($response);
     }
 
-
     /**
      * @param Request $request
      * @return null
@@ -112,6 +111,32 @@ class CustomerController extends Controller
         return new Response($response);
     }
 
+    /**
+     * @return Response
+     *
+     * @Method("GET")
+     * @Route("/customers/dropdownvalues", name="fetchCustomerDropdownValues")
+     */
+    public function fetchCustomerDropdownValues(Request $request)
+    {
+        // Daten aus Request in Objekte überführen
+        $content = $request->getContent();
+
+        $repository = $this->getDoctrine()->getRepository(Customer::class);
+        $customersForDropdown = $repository->findBy(
+            array(),
+            array('name1' => 'ASC')
+        );
+
+        $serializer = SerializerBuilder::create()->build();
+        $customerDropdownValues = $serializer->serialize(
+            $customersForDropdown,
+            'json',
+            SerializationContext::create()->setGroups(['dropdown'])
+        );
+
+        return new Response($customerDropdownValues);
+    }
 
     /**
      * @param Request $request

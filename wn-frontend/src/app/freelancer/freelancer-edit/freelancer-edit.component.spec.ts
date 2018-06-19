@@ -14,6 +14,8 @@ import { PriceLine } from '../../shared/model/price-line.model';
 import { PriceUnit, Service, Language } from '../../shared/model/common.model';
 import { FreelancersLoaded } from '../freelancer-search/freelancers-loaded.model';
 import { FreelancerEditPriceComponent } from '../freelancer-edit-price/freelancer-edit-price.component';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
 const freelancerMock = require('./../freelancer.mock.json')
 
 describe('FreelancerEditComponent', () => {
@@ -35,9 +37,9 @@ describe('FreelancerEditComponent', () => {
       ],
       providers: [
         UtilService,
+        { provide: CoreDataService, useClass: CoreDataServiceMock },
         FreelancerEditService,
-        FreelancerSearchService,
-        { provide: CoreDataService, useClass: CoreDataServiceMock }
+        FreelancerSearchService
       ]
     })
       .compileComponents()
@@ -117,5 +119,15 @@ describe('FreelancerEditComponent', () => {
 
   it('should cancel edit', () => {
     component.cancelEdit()
+  })
+
+  it('should clear all values but the name', () => {
+    component.fl_edit.name1 = 'Test Name'
+    component.fl_edit.phone = 'Test Phone'
+
+    component.clearAllButName()
+
+    expect(component.fl_edit.name1).toEqual('Test Name')
+    expect(component.fl_edit.phone).toBeFalsy()
   })
 })
