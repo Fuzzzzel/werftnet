@@ -21,7 +21,7 @@ export class OrderEditService {
         // Reload order before editing
         this.getOrderById(id)
           .then((order) => {
-            this.orderToEdit = order;
+            this.orderToEdit = order
             resolve(order)
           })
           .catch((error) => {
@@ -46,7 +46,7 @@ export class OrderEditService {
           resolve(data)
         },
         error => {
-          reject(error);
+          reject(new Error(error.error))
         });
     })
   }

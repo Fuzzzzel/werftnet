@@ -9,6 +9,7 @@
 namespace AppBundle\Entity\Project;
 
 use AppBundle\Entity\Customer\Customer;
+use AppBundle\Entity\Customer\CustomerContact;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
@@ -30,6 +31,14 @@ abstract class Project
      * @JMS\Groups({"display", "update"})
      */
     protected $customer;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Customer\CustomerContact")
+     * @ORM\JoinColumn(name="customer_id", referencedColumnName="id")
+     * @JMS\Type("AppBundle\Entity\Customer\CustomerContact")
+     * @JMS\Groups({"display", "update"})
+     */
+    protected $customerContact;
 
     /**
      * @ORM\Column(type="datetime")
@@ -93,6 +102,15 @@ abstract class Project
 
     public function getCustomer() {
         return $this->customer;
+    }
+
+    public function setCustomerContact(CustomerContact $customerContact) {
+        $this->customerContact = $customerContact;
+        return $this;
+    }
+
+    public function getCustomerContact() {
+        return $this->customerContact;
     }
 
 

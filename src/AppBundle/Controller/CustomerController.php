@@ -192,6 +192,31 @@ class CustomerController extends Controller
     /**
      * @param Request $request
      * @return null
+     *
+     * @Method("GET")
+     * @Route("/customers/{customerId}/contacts", name="getCustomerContacts")
+     */
+    public function getCustomerContacts(Request $request, $customerId)
+    {
+        if (!isset($customerId) || (!intval($customerId) > 0)) {
+            return new Response("Ungültige Customer Id: {$customerId}", Response::HTTP_BAD_REQUEST);
+        }
+
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Customer\CustomerContact');
+        $customerContacts = $repository->findAllByCustomerId(intval($customerId));
+
+        $serializer = SerializerBuilder::create()->build();
+        $response = $serializer->serialize(
+            $customerContacts,
+            'json',
+            SerializationContext::create()->setGroups(['display'])
+        );
+        return new Response($response);
+    }
+
+    /**
+     * @param Request $request
+     * @return null
      * @throws EntityNotFoundException
      *
      * @Method("GET")

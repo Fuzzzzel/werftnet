@@ -91,7 +91,6 @@ export class AdminUserEditComponent implements OnInit {
   }
 
   deleteUser() {
-    console.log(this.userToEdit)
     this.adminUserEditService.deleteUser(this.userToEdit)
       .then((user) => {
         this.adminUserService.fetchAllUsers();

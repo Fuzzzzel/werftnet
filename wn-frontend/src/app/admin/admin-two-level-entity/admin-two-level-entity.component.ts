@@ -163,7 +163,6 @@ export class AdminTwoLevelEntityComponent implements OnInit {
         })
         .catch((error) => {
           // Do nothing, window is only dismissed
-          console.log(error)
         })
     } else {
       alert('Es wurde kein Item mit Id übergeben!')
@@ -181,7 +180,6 @@ export class AdminTwoLevelEntityComponent implements OnInit {
           resolve(result)
         },
         (reason) => {
-          console.log('DISMISSED')
           reject(reason)
         });
     })

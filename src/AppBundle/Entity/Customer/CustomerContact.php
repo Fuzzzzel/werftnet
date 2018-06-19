@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Customer\CustomerContactRepository")
  * @ORM\Table(name="CustomerContact")
  */
 class CustomerContact extends Person

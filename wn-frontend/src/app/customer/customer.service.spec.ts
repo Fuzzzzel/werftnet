@@ -1,5 +1,5 @@
 import { TestBed, inject, tick, fakeAsync, async } from '@angular/core/testing'
-import { CustomerService } from './customer-service.service'
+import { CustomerService } from './customer.service'
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('CustomerService', () => {
@@ -48,4 +48,29 @@ describe('CustomerService', () => {
     expect(req.request.method).toBe("GET")
     req.flush(null, { status: 404, statusText: 'Not Found' })
   }))
+
+  it('should fetch customer contacts', (done) => {
+    let customerId = 1
+    service.fetchCustomerContacts(customerId)
+      .then(() => {
+        done()
+      })
+
+    const req = backend.expectOne('/customers/' + customerId + '/contacts')
+    expect(req.request.method).toBe("GET")
+    req.flush([], { status: 200, statusText: 'Ok' })
+  })
+
+  it('should fail to fetch customer contacts', (done) => {
+    let customerId = 1
+    service.fetchCustomerContacts(customerId)
+      .catch((error) => {
+        expect(error).toBeTruthy()
+        done()
+      })
+
+    const req = backend.expectOne('/customers/' + customerId + '/contacts')
+    expect(req.request.method).toBe("GET")
+    req.flush(null, { status: 404, statusText: 'Not Found' })
+  })
 })

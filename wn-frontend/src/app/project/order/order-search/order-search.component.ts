@@ -7,7 +7,7 @@ import { OrdersLoaded } from './orders-loaded.model';
 import { CoreDataService, CoreData } from '../../../core/core-data.service';
 import { Order } from '../order.model';
 import { Customer } from '../../../customer/customer.model';
-import { CustomerService } from '../../../customer/customer-service.service';
+import { CustomerService } from '../../../customer/customer.service';
 
 @Component({
   selector: 'app-order-search',
@@ -47,7 +47,8 @@ export class OrderSearchComponent implements OnInit {
 
   searchOrders(searchParams) {
     this.orderSearchService.searchOrders(searchParams)
-      .then((ordersLoaded) => {
+      .then((data) => {
+        this.ordersLoaded = data
       })
       .catch((error) => {
         alert('Suche der Aufträge fehlgeschlagen: ' + error.message)
@@ -56,7 +57,7 @@ export class OrderSearchComponent implements OnInit {
 
   editOrder(orderToEdit: Order) {
     this.orderEditService.prepareEditOrder(orderToEdit && orderToEdit.id)
-      .then((order) => {
+      .then((data) => {
         this.util.goTo('order/edit')
       })
       .catch((error) => {

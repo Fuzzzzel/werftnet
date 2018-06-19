@@ -10,6 +10,7 @@ namespace Tests\AppBundle\Entity\Project\Order;
 
 
 use AppBundle\Entity\Customer\Customer;
+use AppBundle\Entity\Customer\CustomerContact;
 use AppBundle\Entity\Project\Order\Order;
 use AppBundle\Entity\Project\Order\OrderPosition;
 use AppBundle\Entity\Project\Order\OrderStatus;
@@ -24,6 +25,10 @@ class OrderTest extends TestCase
         $customer = new Customer();
         $order->setCustomer($customer);
         $this->assertEquals($customer, $order->getCustomer());
+
+        $customerContact = new CustomerContact();
+        $order->setCustomerContact($customerContact);
+        $this->assertEquals($customerContact, $order->getCustomerContact());
 
         $createdAt = new \DateTime();
         $order->setCreatedAt($createdAt);

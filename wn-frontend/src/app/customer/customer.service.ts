@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Customer } from './customer.model';
+import { Customer, CustomerContact } from './customer.model';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { UtilService } from '../core/util.service';
@@ -39,7 +39,24 @@ export class CustomerService {
       // Execute post request and subscribe to response
       req.subscribe(
         data => {
-          console.log(data)
+          resolve(data)
+        },
+        error => {
+          reject(new Error(error.error))
+        })
+    })
+  }
+
+  fetchCustomerContacts(customerId) {
+    return new Promise<CustomerContact[]>((resolve, reject) => {
+      // Set up post request
+      const req = this.http.get<CustomerContact[]>(
+        '/customers/' + customerId + '/contacts'
+      )
+
+      // Execute post request and subscribe to response
+      req.subscribe(
+        data => {
           resolve(data)
         },
         error => {

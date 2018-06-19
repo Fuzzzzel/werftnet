@@ -39,6 +39,21 @@ class CustomerControllerTest extends DefaultWebTestCase
         $this->assertJson($content);
     }
 
+    public function testFetchCustomerDropdownValues() {
+        $client = $this->getAdminClient();
+        $client->request(
+            'GET',
+            "/customers/dropdownvalues"
+        );
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertJson($response->getContent());
+        $contacts = json_decode($response->getContent());
+        $this->assertTrue(is_array($contacts));
+    }
+
     public function testSearchCustomers() {
 
         // Search customer
@@ -74,7 +89,6 @@ class CustomerControllerTest extends DefaultWebTestCase
         $content = $client->getResponse()->getContent();
         $this->assertJson($content);
     }
-
 
     /**
      * @depends testSearchCustomers
@@ -156,6 +170,36 @@ class CustomerControllerTest extends DefaultWebTestCase
     }
 
     /**
+     * @depends testSearchCustomers
+     */
+    public function testGetCustomerContacts($customerId) {
+        $client = $this->getAdminClient();
+        $client->request(
+            'GET',
+            "/customers/{$customerId}/contacts"
+        );
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertJson($response->getContent());
+        $contacts = json_decode($response->getContent());
+        $this->assertTrue(is_array($contacts));
+    }
+
+    public function testGetCustomerContactsWithoutCustomerId() {
+        $client = $this->getAdminClient();
+        $client->request(
+            'GET',
+            "/customers/xyz/contacts"
+        );
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+    }
+
+    /**
      * @depends testCreateCustomerContact
      */
     public function testDeleteCustomerContactWithWrongCustomerId($customerContactAndCustomerId) {
@@ -208,4 +252,5 @@ class CustomerControllerTest extends DefaultWebTestCase
         );
         $this->assertJson($client->getResponse()->getContent());
     }
+
 }

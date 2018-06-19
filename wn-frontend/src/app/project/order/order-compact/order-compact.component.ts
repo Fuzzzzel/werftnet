@@ -28,7 +28,7 @@ export class OrderCompactComponent implements OnInit {
         this.util.goTo('order/edit')
       })
       .catch((error) => {
-        alert('Order konnte nicht gespeichert werden: ' + error.message)
+        alert('Order konnte nicht geladen werden: ' + error.message)
       })
   }
 }

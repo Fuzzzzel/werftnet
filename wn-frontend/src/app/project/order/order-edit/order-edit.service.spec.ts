@@ -29,4 +29,40 @@ describe('OrderEditService', () => {
   it('should be created', inject([OrderEditService], (service: OrderEditService) => {
     expect(service).toBeTruthy();
   }));
+
+  it('should prepare edit order', (done) => {
+    let order: Order = new Order()
+    order.id = 1
+
+    service.prepareEditOrder(order.id)
+      .then((data) => {
+        done()
+      })
+
+    const req = backend.expectOne('/orders/' + order.id)
+    expect(req.request.method).toBe("GET")
+    req.flush([], { status: 200, statusText: 'Ok' })
+  })
+
+  it('should fail to prepare edit order (http)', (done) => {
+    let order: Order = new Order()
+    order.id = 1
+
+    service.prepareEditOrder(order.id)
+      .catch((error) => {
+        expect(error).toBeTruthy()
+        done()
+      })
+
+    const req = backend.expectOne('/orders/' + order.id)
+    expect(req.request.method).toBe("GET")
+    req.flush([], { status: 404, statusText: 'Not Found' })
+  })
+
+  it('should prepare edit order for new order', (done) => {
+    service.prepareEditOrder(null)
+      .then(() => {
+        done()
+      })
+  })
 });
