@@ -32,10 +32,10 @@ class OrderControllerTest extends DefaultWebTestCase
 
         $deliveryDate = new \DateTime('now');
         $deliveryDate = $deliveryDate->add(new \DateInterval('PT3H'));
-        $deliveryDateJson = $deliveryDate->format('Y-m-d\TH:i:s.000\Z');
+        $deliveryDateJson = $deliveryDate->format('Y-m-d\TH:i');
 
         $deliveryDateDesired = $deliveryDate->add(new \DateInterval('PT3H'));
-        $deliveryDateDesiredJson = $deliveryDateDesired->format('Y-m-d\TH:i:s.000\Z');
+        $deliveryDateDesiredJson = $deliveryDateDesired->format('Y-m-d\TH:i');
 
         $client->request(
             'POST',
@@ -88,7 +88,7 @@ class OrderControllerTest extends DefaultWebTestCase
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),
-            '{"search_text": "Test", "status": {"id": 1}}'
+            '{"search_text": "Test", "status": {"id": 1}, "customer": {"id": "1"}}'
         );
 
         $content = $client->getResponse()->getContent();

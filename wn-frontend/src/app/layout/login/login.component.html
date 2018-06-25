@@ -1,7 +1,6 @@
 <h1>Bitte einloggen</h1>
-<div class="row">
-  <div class="col-md-3">&nbsp;</div>
-  <form class="col-md-6">
+<div class="row justify-content-center">
+  <form class="col-md-6 col-lg-4">
     <div class="form-group">
       <label for="username" class="col-form-label col-form-label-sm">Benutzer</label>
       <input id="username" name="username" type="text" [(ngModel)]="username" class="form-control form-control-sm">
@@ -17,5 +16,4 @@
       <div class="text-danger">{{ loginError }}</div>
     </div>
   </form>
-  <div class="col-md-3"></div>
 </div>

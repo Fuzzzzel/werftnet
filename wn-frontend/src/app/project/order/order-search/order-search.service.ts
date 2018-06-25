@@ -41,6 +41,7 @@ export class OrderSearchService {
       // Execute post request and subscribe to response
       req.subscribe(
         data => {
+          this.$ordersLoaded.next(data)
           resolve(data)
         },
         error => {

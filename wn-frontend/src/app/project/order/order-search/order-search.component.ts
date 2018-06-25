@@ -48,7 +48,7 @@ export class OrderSearchComponent implements OnInit {
   searchOrders(searchParams) {
     this.orderSearchService.searchOrders(searchParams)
       .then((data) => {
-        this.ordersLoaded = data
+        // this.ordersLoaded = data
       })
       .catch((error) => {
         alert('Suche der Aufträge fehlgeschlagen: ' + error.message)

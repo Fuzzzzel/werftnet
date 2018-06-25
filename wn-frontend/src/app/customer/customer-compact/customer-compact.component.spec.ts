@@ -10,12 +10,15 @@ import { CustomerEditService } from '../customer-edit/customer-edit.service'
 import { ViewChild, Component } from '@angular/core'
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 import { Customer, CustomerContact } from '../customer.model'
+import { OrderEditService } from '../../project/order/order-edit/order-edit.service';
+import { CoreDataServiceMock } from '../../core/core-data.service-mock';
 let customerMock = require('./../customer.mock.json')
 
 describe('CustomerCompactComponent', () => {
   let component: CustomerCompactComponent
   let fixture: ComponentFixture<CustomerCompactComponent>
   let backend: HttpTestingController
+  let orderEditService: OrderEditService
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
@@ -38,6 +41,10 @@ describe('CustomerCompactComponent', () => {
           {
             path: 'customer/edit_contact',
             redirectTo: ''
+          },
+          {
+            path: 'order/edit',
+            redirectTo: ''
           }
         ]),
         HttpClientTestingModule
@@ -48,7 +55,10 @@ describe('CustomerCompactComponent', () => {
       providers: [
         UtilService,
         CustomerEditService,
-        CustomerSearchService
+        CustomerSearchService,
+        OrderEditService,
+        { provide: CoreDataService, useClass: CoreDataServiceMock }
+
       ]
     })
       .compileComponents()
@@ -56,6 +66,7 @@ describe('CustomerCompactComponent', () => {
     fixture = TestBed.createComponent(CustomerCompactComponent)
     component = fixture.componentInstance
     component.customer = customerMock
+    orderEditService = TestBed.get(OrderEditService)
     tick()
     fixture.detectChanges()
   }))
@@ -101,8 +112,26 @@ describe('CustomerCompactComponent', () => {
     req.flush(customer, { status: 200, statusText: 'Ok' })
   }))
 
-  it('should failt to edit customer contact', fakeAsync(() => {
+  it('should fail to edit customer contact', fakeAsync(() => {
     component.editcontact(null, null)
     tick()
+  }))
+
+  it('should create new order for this customer', fakeAsync(() => {
+    let customer = new Customer()
+    customer.id = 1
+    component.createNewOrder(customer)
+  }))
+
+  it('should fail to create new order for this customer', fakeAsync(() => {
+    spyOn(orderEditService, 'prepareEditOrder').and.callFake(function () {
+      return new Promise((resolve, reject) => {
+        reject(new Error())
+      })
+    });
+
+    let customer = new Customer()
+    customer.id = 1
+    component.createNewOrder(customer)
   }))
 })

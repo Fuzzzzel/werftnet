@@ -1,5 +1,6 @@
 <div class="card compact-default">
   <div class="card-body">
+    <button class="btn btn-sm btn-default float-right" (click)="createNewOrder(customer)">Neuer Auftrag</button>
     <h3 class="card-title">
       <a class="clickable" (click)="editCustomer(customer)">{{ customer.name1 }}{{ customer.name2 ? ' ,' + customer.name2 : '' }}</a>
       <br>

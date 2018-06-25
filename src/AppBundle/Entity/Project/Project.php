@@ -34,7 +34,7 @@ abstract class Project
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Customer\CustomerContact")
-     * @ORM\JoinColumn(name="customer_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="customer_contact_id", referencedColumnName="id")
      * @JMS\Type("AppBundle\Entity\Customer\CustomerContact")
      * @JMS\Groups({"display", "update"})
      */
@@ -48,7 +48,7 @@ abstract class Project
     protected $createdAt;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @JMS\Type("string")
      * @JMS\Groups({"display", "update"})
      */

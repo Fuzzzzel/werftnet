@@ -9,7 +9,7 @@
 namespace AppBundle\Entity\Project\Order;
 
 
-use AppBundle\Entity\SimpleEntity;
+use AppBundle\Entity\SimpleSysEntity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
@@ -20,7 +20,7 @@ use JMS\Serializer\Annotation as JMS;
  * @ORM\Entity
  * @ORM\Table(name="OrderStatus")
  */
-class OrderStatus extends SimpleEntity
+class OrderStatus extends SimpleSysEntity
 {
     public function getDisplayName()
     {

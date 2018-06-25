@@ -5,7 +5,9 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { UtilService } from './util.service'
 import { RouterTestingModule } from '@angular/router/testing'
 import { SimpleEntityCollection } from '../shared/model/simple-entity.model'
+import { SimpleSysEntity, SimpleSysEntityCollection } from '../shared/model/simple-sys-entity.model'
 import { TwoLevelEntityCollection, TwoLevelEntity } from '../shared/model/two-level-entity.model'
+import { OrderStatus } from '../project/order/order.model';
 const coreData = require('./core-data.mock.json')
 
 let backend: HttpTestingController
@@ -33,6 +35,12 @@ describe('CoreDataService', () => {
   afterEach(inject([HttpTestingController], (backend: HttpTestingController) => {
     backend.verify()
   }))
+
+  it('should load SimpleSysEntity and SimpleSysEntityCollection classes', () => {
+    const simpleSysEntity = new SimpleSysEntity()
+    let simpleSysEntityCollection = new SimpleSysEntityCollection()
+    simpleSysEntityCollection.values.push(simpleSysEntity)
+  })
 
   it('should be created and default data loaded', fakeAsync(() => {
     expect(service).toBeTruthy()

@@ -1,6 +1,7 @@
 import { Project } from "../project.model";
 import { SimpleEntity } from "../../shared/model/simple-entity.model";
 import { OrderPosition } from "./order-position.model";
+import { SimpleSysEntity } from "../../shared/model/simple-sys-entity.model";
 
 export class Order extends Project {
     delivery_date_desired: Date = null;
@@ -9,5 +10,5 @@ export class Order extends Project {
     positions: OrderPosition[] = [];
 }
 
-export class OrderStatus extends SimpleEntity {
+export class OrderStatus extends SimpleSysEntity {
 }

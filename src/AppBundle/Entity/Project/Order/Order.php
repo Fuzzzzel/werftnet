@@ -24,15 +24,15 @@ use AppBundle\Entity\Project\Project;
 class Order extends Project
 {
     /**
-     * @ORM\Column(type="datetime")
-     * @JMS\Type("DateTime<'Y-m-d\TH:i:s.u\Z'>")
+     * @ORM\Column(type="datetime", nullable=true)
+     * @JMS\Type("DateTime<'Y-m-d\TH:i'>")
      * @JMS\Groups({"display", "update"})
      */
     protected $deliveryDateDesired;
 
     /**
-     * @ORM\Column(type="datetime")
-     * @JMS\Type("DateTime<'Y-m-d\TH:i:s.u\Z'>")
+     * @ORM\Column(type="datetime", nullable=true)
+     * @JMS\Type("DateTime<'Y-m-d\TH:i'>")
      * @JMS\Groups({"display", "update"})
      */
     protected $deliveryDate;

@@ -4,6 +4,8 @@ import { Customer, CustomerContact } from '../../../customer/customer.model';
 import { Order } from '../order.model';
 import { CoreData, CoreDataService } from '../../../core/core-data.service';
 import { CustomerService } from '../../../customer/customer.service';
+import { OrderEditService } from './order-edit.service';
+import { OrderSearchService } from '../order-search/order-search.service';
 
 @Component({
   selector: 'app-order-edit',
@@ -20,7 +22,9 @@ export class OrderEditComponent implements OnInit {
   constructor(
     public util: UtilService,
     private coreDataService: CoreDataService,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private orderEditService: OrderEditService,
+    private orderSearchService: OrderSearchService
   ) { }
 
   ngOnInit() {
@@ -31,6 +35,11 @@ export class OrderEditComponent implements OnInit {
     this.customerService.getCustomerDropdownValues().subscribe((data) => {
       this.customers = data
     })
+
+    this.order_edit = this.orderEditService.getOrderToEdit()
+    if (this.order_edit.customer) {
+      this.reloadCustomerContacts(this.order_edit.customer)
+    }
   }
 
   reloadCustomerContacts(customer) {
@@ -54,11 +63,27 @@ export class OrderEditComponent implements OnInit {
   }
 
   saveOrder() {
-    alert('Noch nicht implementiert!')
+    this.orderEditService.saveOrder(this.order_edit)
+      .then((data) => {
+        this.orderSearchService.searchOrders(null)
+        this.util.historyBack()
+      })
+      .catch((error) => {
+        alert(error.message)
+      })
   }
 
   deleteOrder() {
-    alert('Noch nicht implementiert!')
+    if (confirm('Soll der Auftrag wirklich gelöscht werden?')) {
+      this.orderEditService.deleteOrder(this.order_edit)
+        .then((data) => {
+          this.orderSearchService.searchOrders(null)
+          this.util.historyBack()
+        })
+        .catch((error) => {
+          alert(error.message)
+        })
+    }
   }
 
 }

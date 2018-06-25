@@ -10,11 +10,15 @@ import { CoreDataServiceMock } from '../../../core/core-data.service-mock';
 import { CustomerService } from '../../../customer/customer.service';
 import { Customer } from '../../../customer/customer.model';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
+import { OrderEditService } from './order-edit.service';
+import { OrderSearchService } from '../order-search/order-search.service';
+import { Order } from '../order.model';
 
 describe('OrderEditComponent', () => {
   let component: OrderEditComponent
   let fixture: ComponentFixture<OrderEditComponent>
   let backend: HttpTestingController
+  let orderEditService: OrderEditService
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -30,6 +34,8 @@ describe('OrderEditComponent', () => {
       providers: [
         UtilService,
         CustomerService,
+        OrderEditService,
+        OrderSearchService,
         { provide: CoreDataService, useClass: CoreDataServiceMock }
       ]
     })
@@ -40,18 +46,32 @@ describe('OrderEditComponent', () => {
     backend = TestBed.get(HttpTestingController)
     fixture = TestBed.createComponent(OrderEditComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    orderEditService = TestBed.get(OrderEditService)
   });
 
+  function initOrderWithCustomer() {
+    orderEditService.orderToEdit = new Order()
+    orderEditService.orderToEdit.customer = new Customer()
+    orderEditService.orderToEdit.customer.id = 99
+    fixture.detectChanges();
+  }
+
+  function initOrderWithoutCustomer() {
+    fixture.detectChanges()
+  }
+
   it('should create', () => {
+    initOrderWithCustomer()
     expect(component).toBeTruthy();
   })
 
   it('should cancel edit', () => {
+    initOrderWithoutCustomer()
     component.cancelEdit()
   })
 
   it('should reload customer contacts', () => {
+    initOrderWithCustomer()
     let customer = new Customer()
     customer.id = 1
     component.reloadCustomerContacts(customer)
@@ -62,12 +82,14 @@ describe('OrderEditComponent', () => {
   })
 
   it('should fail to reload customer contacts (id missing)', () => {
+    initOrderWithCustomer()
     let customer = new Customer()
     spyOn(window, 'alert').and.returnValue(true)
     component.reloadCustomerContacts(customer)
   })
 
   it('should fail to reload customer contacts (http)', () => {
+    initOrderWithCustomer()
     let customer = new Customer()
     customer.id = 1
     spyOn(window, 'alert').and.returnValue(true)
@@ -76,5 +98,55 @@ describe('OrderEditComponent', () => {
     const req = backend.expectOne('/customers/' + customer.id + '/contacts')
     expect(req.request.method).toBe("GET")
     req.flush(null, { status: 404, statusText: 'Not Found' })
+  })
+
+  it('should save order', () => {
+    initOrderWithCustomer()
+    const order = new Order()
+    spyOn(orderEditService, 'saveOrder').and.callFake(function () {
+      return new Promise((resolve, reject) => {
+        resolve(order)
+      })
+    })
+    component.saveOrder()
+  })
+
+  it('should fail to go to edit order', () => {
+    initOrderWithCustomer()
+    const order = new Order()
+    spyOn(window, 'confirm').and.returnValue(true)
+    spyOn(orderEditService, 'saveOrder').and.callFake(function () {
+      return new Promise((resolve, reject) => {
+        reject(new Error())
+      })
+    })
+    spyOn(window, 'alert').and.returnValue(true)
+    component.saveOrder()
+  })
+
+  it('should delete order', () => {
+    initOrderWithCustomer()
+    const order = new Order()
+    spyOn(window, 'confirm').and.returnValue(true)
+    spyOn(orderEditService, 'deleteOrder').and.callFake(function () {
+      return new Promise((resolve, reject) => {
+        resolve(order)
+      })
+    })
+    spyOn(window, 'alert').and.returnValue(true)
+    component.deleteOrder()
+  })
+
+  it('should fail to go to edit order', () => {
+    initOrderWithCustomer()
+    const order = new Order()
+    spyOn(window, 'confirm').and.returnValue(true)
+    spyOn(orderEditService, 'deleteOrder').and.callFake(function () {
+      return new Promise((resolve, reject) => {
+        reject(new Error())
+      })
+    })
+    spyOn(window, 'alert').and.returnValue(true)
+    component.deleteOrder()
   })
 });

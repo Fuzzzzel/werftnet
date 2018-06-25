@@ -1,3 +1,48 @@
-<p>
-  order-compact works!
-</p>
+<div class="card compact-default">
+  <div class="card-body">
+    <h3 class="card-title">
+      <a class="clickable" (click)="editOrder()">{{ order.id }}
+        <span class="text-muted">{{ order.customer && order.customer.name1 }} ({{ order.customer_contact && (order.customer_contact.name2 + ', ' +
+          order.customer_contact.name1) }})
+        </span>
+      </a>
+    </h3>
+
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="row">
+          <div class="col">
+            <label>Status:</label>
+            {{ order.status && order.status.name }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label>Titel:</label>
+            {{ order.title }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label>Beschreibung:</label>
+            {{ order.description }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label>Lieferdatum:</label>
+            {{ order.delivery_date | date: "dd.MM.yyyy HH:mm"}}
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+
+      </div>
+      <div class="col-sm-4">
+        <div>{{ order.comment }}</div>
+      </div>
+      <div class="col-sm-2" style="max-height: 8.4rem; overflow-y: auto">
+      </div>
+    </div>
+  </div>
+</div>

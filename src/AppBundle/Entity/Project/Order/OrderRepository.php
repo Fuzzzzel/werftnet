@@ -24,11 +24,16 @@ class OrderRepository extends EntityRepository
         }
 
         if (isset($search['search_text']) && $search['search_text'] != "") {
-            $searchStrings = mbsplit('\s|,',$search['search_text']);
-            for($i = 0; $i < sizeof($searchStrings); $i++) {
-                $qb->andWhere('o.title LIKE :search_text'.$i.' OR o.description LIKE :search_text'.$i);
-                $qb->setParameter('search_text'.$i, '%'. $searchStrings[$i] . '%');
+            $searchStrings = mbsplit('\s|,', $search['search_text']);
+            for ($i = 0; $i < sizeof($searchStrings); $i++) {
+                $qb->andWhere('o.title LIKE :search_text' . $i . ' OR o.description LIKE :search_text' . $i);
+                $qb->setParameter('search_text' . $i, '%' . $searchStrings[$i] . '%');
             }
+        }
+
+        if (isset($search['customer'])) {
+            $qb->join('o.customer', 'c', 'WITH', 'c.id = :customerId');
+            $qb->setParameter('customerId', $search['customer']['id']);
         }
 
         $qb->orderBy('o.deliveryDate');
@@ -36,16 +41,13 @@ class OrderRepository extends EntityRepository
 
         $query = $qb->getQuery();
 
-        if (intval($page) === 0)
-        {
+        if (intval($page) === 0) {
             // Get unpaginated result
-            if($limit > 0) {
+            if ($limit > 0) {
                 $query->setMaxResults($limit);
             }
             return $query->getResult();
-        }
-        else
-        {
+        } else {
             $qHelper = new QueryHelper();
             $paginator = $qHelper->paginate($query, $page, $limit);
             return $qHelper->getPaginatedResult($paginator);

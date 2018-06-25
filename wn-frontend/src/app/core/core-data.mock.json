@@ -956,5 +956,40 @@
             }
         ],
         "display_name": "Accountmgr."
+    },
+    "order_status": {
+        "values": [
+            {
+                "id": 1,
+                "name": "Angelegt",
+                "value": "CREATED",
+                "item_order": "1"
+            },
+            {
+                "id": 2,
+                "name": "In Vorbereitung",
+                "value": "IN_PREPARATION",
+                "item_order": "2"
+            },
+            {
+                "id": 3,
+                "name": "In Arbeit",
+                "value": "IN_PROGRESS",
+                "item_order": "3"
+            },
+            {
+                "id": 4,
+                "name": "Geliefert",
+                "value": "DELIVERED",
+                "item_order": "4"
+            },
+            {
+                "id": 5,
+                "name": "Storniert",
+                "value": "CANCELLED",
+                "item_order": "99"
+            }
+        ],
+        "display_name": "Auftragsstatus"
     }
 }

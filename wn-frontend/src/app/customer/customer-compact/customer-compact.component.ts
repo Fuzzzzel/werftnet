@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core'
-import { Customer } from '../customer.model'
+import { Customer, CustomerContact } from '../customer.model'
 import { UtilService } from '../../core/util.service'
 import { CustomerEditService } from '../customer-edit/customer-edit.service'
+import { OrderEditService } from '../../project/order/order-edit/order-edit.service';
 
 @Component({
   selector: 'app-customer-compact',
@@ -15,7 +16,8 @@ export class CustomerCompactComponent {
 
   constructor(
     private util: UtilService,
-    private customerEditService: CustomerEditService
+    private customerEditService: CustomerEditService,
+    private orderEditService: OrderEditService
   ) { }
 
   editCustomer(customer) {
@@ -29,13 +31,24 @@ export class CustomerCompactComponent {
       })
   }
 
-  editcontact(customer, contact) {
+  editcontact(customer: Customer, contact: CustomerContact) {
     this.customerEditService.prepareEditCustomerContact(customer && customer.id, contact && contact.id)
       .then(() => {
         this.util.goTo('customer/edit_contact')
       })
       .catch((error) => {
         alert('Kundenkontakt konnte nicht gespeichert werden: ' + error.message)
+      })
+  }
+
+  createNewOrder(customer: Customer) {
+    this.orderEditService.prepareEditOrder(null)
+      .then((data) => {
+        this.orderEditService.setCustomer(customer)
+        this.util.goTo('order/edit')
+      })
+      .catch((error) => {
+        alert('Order konnte nicht zum Bearbeiten geöffnet werden: ' + error.message)
       })
   }
 }

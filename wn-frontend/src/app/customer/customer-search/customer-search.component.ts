@@ -25,20 +25,6 @@ export class CustomerSearchComponent implements OnInit {
     private customerEditService: CustomerEditService
   ) { }
 
-  searchCustomers(searchParams) {
-    this.customerSearchService.searchCustomers(searchParams)
-  }
-
-  editCustomer(customerToEdit: Customer) {
-    this.customerEditService.prepareEditCustomer(customerToEdit && customerToEdit.id)
-      .then((customer) => {
-        this.util.goTo('customer/edit')
-      })
-      .catch((error) => {
-        alert('Kunde konnte nicht gespeichert werden: ' + error.message)
-      })
-  }
-
   ngOnInit() {
     this.searchParams = this.customerSearchService.getLastSearchParams()
 
@@ -51,5 +37,19 @@ export class CustomerSearchComponent implements OnInit {
       this.coreData = data
     })
 
+  }
+
+  searchCustomers(searchParams) {
+    this.customerSearchService.searchCustomers(searchParams)
+  }
+
+  editCustomer(customerToEdit: Customer) {
+    this.customerEditService.prepareEditCustomer(customerToEdit && customerToEdit.id)
+      .then((customer) => {
+        this.util.goTo('customer/edit')
+      })
+      .catch((error) => {
+        alert('Kunde konnte nicht gespeichert werden: ' + error.message)
+      })
   }
 }

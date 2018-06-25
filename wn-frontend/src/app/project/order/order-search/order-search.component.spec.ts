@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 
 import { OrderSearchComponent } from './order-search.component';
 import { SharedModule } from '../../../shared/shared.module';
@@ -12,11 +12,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { OrderCompactComponent } from '../order-compact/order-compact.component';
 import { NgbModule, NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerService } from '../../../customer/customer.service';
+import { Order } from '../order.model';
 
 describe('OrderSearchComponent', () => {
   let component: OrderSearchComponent
   let fixture: ComponentFixture<OrderSearchComponent>
   let backend: HttpTestingController
+  let orderEditService: OrderEditService
+  let orderSearchService: OrderSearchService
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -53,9 +56,52 @@ describe('OrderSearchComponent', () => {
     fixture = TestBed.createComponent(OrderSearchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    orderEditService = TestBed.get(OrderEditService)
+    orderSearchService = TestBed.get(OrderSearchService)
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should search orders', fakeAsync(() => {
+    spyOn(orderSearchService, 'searchOrders').and.callFake(function () {
+      return new Promise((resolve, reject) => {
+        resolve([])
+      })
+    })
+    component.searchOrders(null)
+  }))
+
+  it('should fail to search orders', fakeAsync(() => {
+    spyOn(orderSearchService, 'searchOrders').and.callFake(function () {
+      return new Promise((resolve, reject) => {
+        reject(new Error())
+      })
+    })
+    spyOn(window, 'alert').and.returnValue(true)
+    component.searchOrders(null)
+  }))
+
+  it('should go to edit order', () => {
+    const order = new Order()
+    spyOn(orderEditService, 'prepareEditOrder').and.callFake(function () {
+      return new Promise((resolve, reject) => {
+        resolve(order)
+      })
+    })
+    component.editOrder(order)
+  })
+
+  it('should fail to go to edit order', () => {
+    const order = new Order()
+    spyOn(orderEditService, 'prepareEditOrder').and.callFake(function () {
+      return new Promise((resolve, reject) => {
+        reject(new Error())
+      })
+    })
+    spyOn(window, 'alert').and.returnValue(true)
+    component.editOrder(order)
+  })
+
 });
