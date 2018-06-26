@@ -85,6 +85,7 @@ describe('CustomerEditComponent', () => {
     component.deleteCustomer()
     tick()
 
+    spyOn(window, 'alert').and.returnValue(true)
     const req = backend.expectOne('/customers/1')
     expect(req.request.method).toBe("DELETE")
     req.flush(null, { status: 404, statusText: 'Not Found' })

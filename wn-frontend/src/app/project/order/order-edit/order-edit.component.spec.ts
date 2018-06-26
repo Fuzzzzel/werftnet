@@ -137,6 +137,13 @@ describe('OrderEditComponent', () => {
     component.deleteOrder()
   })
 
+  it('should cancel delete order', () => {
+    initOrderWithCustomer()
+    const order = new Order()
+    spyOn(window, 'confirm').and.returnValue(false)
+    component.deleteOrder()
+  })
+
   it('should fail to go to edit order', () => {
     initOrderWithCustomer()
     const order = new Order()

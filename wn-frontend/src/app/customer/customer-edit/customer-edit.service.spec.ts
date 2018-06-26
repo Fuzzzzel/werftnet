@@ -42,8 +42,8 @@ describe('CustomerEditService', () => {
     router = TestBed.get(Router)
     location = TestBed.get(Location)
     router.initialNavigation()
-    service = TestBed.get(CustomerEditService)
     backend = TestBed.get(HttpTestingController)
+    service = TestBed.get(CustomerEditService)
   })
 
   it('should be created', () => {
@@ -172,14 +172,14 @@ describe('CustomerEditService', () => {
 
   // Customer Contact
 
-  it('should prepare edit new customer', (done) => {
+  it('should prepare edit new customer contact', (done) => {
     service.prepareEditCustomerContact(1, null)
       .then(() => {
         done()
       })
   })
 
-  it('should fail to prepare edit customer', (done) => {
+  it('should fail to prepare edit customer contact', (done) => {
     service.prepareEditCustomerContact(1, 2)
       .catch((error) => {
         done()
@@ -189,7 +189,7 @@ describe('CustomerEditService', () => {
     req.flush(customerMock, { status: 404, statusText: 'Not Found' })
   })
 
-  it('should not edit customer contact if customer id is missing', (done) => {
+  it('should not prepare edit customer contact if customer id is missing', (done) => {
     service.prepareEditCustomerContact(null, 1)
       .catch((error) => {
         done()
@@ -205,7 +205,6 @@ describe('CustomerEditService', () => {
         .catch(() => {
           throw new Error('Das sollte nicht passieren!')
         })
-
 
       const req = backend.expectOne('/customers/1/contacts/2')
       expect(req.request.method).toBe("GET")
@@ -258,13 +257,10 @@ describe('CustomerEditService', () => {
   })
 
   it('should delete customer contact', (done) => {
-    let customerContactToDelete = { id: null, name1: '', name2: '' }
-
+    let customerContactToDelete = new CustomerContact()
     customerContactToDelete.id = 1
 
     prepareEditDummyContact().then(() => {
-      spyOn(window, 'confirm').and.returnValue(true)
-
       service.deleteCustomerContact(customerContactToDelete)
         .then(() => { done() })
         .catch(() => { throw new Error('Das sollte nicht passieren') })
@@ -275,11 +271,10 @@ describe('CustomerEditService', () => {
     })
   })
 
-  it('should fail to delete customer contact if id is missing', (done) => {
-    let customerContactToDelete = { customer_id: 1, name1: '', name2: '' }
+  it('should fail to delete customer contact (id missing)', (done) => {
+    let customerContactToDelete = new CustomerContact()
 
     prepareEditDummyContact().then(() => {
-      spyOn(window, 'confirm').and.returnValues(true)
       service.deleteCustomerContact(customerContactToDelete)
         .catch(() => {
           done()
@@ -287,11 +282,11 @@ describe('CustomerEditService', () => {
     })
   })
 
-  it('should fail to delete customer contact', (done) => {
-    let customerContactToDelete = { id: 1, customer_id: 1, name1: '', name2: '' }
+  it('should fail to delete customer contact (http)', (done) => {
+    let customerContactToDelete = new CustomerContact()
+    customerContactToDelete.id = 1
 
     prepareEditDummyContact().then(() => {
-      spyOn(window, 'confirm').and.returnValues(true)
       service.deleteCustomerContact(customerContactToDelete)
         .catch(() => {
           done()

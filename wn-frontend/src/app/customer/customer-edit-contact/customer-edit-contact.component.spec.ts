@@ -51,11 +51,28 @@ describe('CustomerEditContactComponent', () => {
     component.cancelEdit()
   })
 
+  function prepareEditDummyContact() {
+    return new Promise<CustomerContact>((resolve, reject) => {
+      customerEditService.prepareEditCustomerContact(1, 2)
+        .then((data) => {
+          resolve(data)
+        })
+        .catch(() => {
+          throw new Error('Das sollte nicht passieren!')
+        })
+
+      tick()
+      const req = backend.expectOne('/customers/1/contacts/2')
+      expect(req.request.method).toBe("GET")
+      req.flush(new CustomerContact(), { status: 200, statusText: 'Ok' })
+    })
+  }
+
   it('should save cutomer contact', fakeAsync(() => {
     component.contact_edit = new CustomerContact()
     component.contact_edit.id = 2
 
-    customerEditService.prepareEditCustomerContact(1, 2)
+    prepareEditDummyContact()
       .then(() => {
         component.saveCustomerContact()
         tick()
@@ -66,10 +83,6 @@ describe('CustomerEditContactComponent', () => {
       })
 
     tick()
-    const req = backend.expectOne('/customers/1/contacts/2')
-    expect(req.request.method).toBe("GET")
-    req.flush(component.contact_edit, { status: 200, statusText: 'Ok' })
-
   }))
 
   it('should fail to save cutomer contact', fakeAsync(() => {
@@ -77,7 +90,7 @@ describe('CustomerEditContactComponent', () => {
     component.contact_edit.id = 2
 
     spyOn(window, 'alert').and.returnValue(true)
-    customerEditService.prepareEditCustomerContact(1, 2)
+    prepareEditDummyContact()
       .then(() => {
         component.saveCustomerContact()
         tick()
@@ -88,10 +101,6 @@ describe('CustomerEditContactComponent', () => {
       })
 
     tick()
-    const req = backend.expectOne('/customers/1/contacts/2')
-    expect(req.request.method).toBe("GET")
-    req.flush(component.contact_edit, { status: 200, statusText: 'Ok' })
-
   }))
 
   it('should delete cutomer contact', fakeAsync(() => {
@@ -99,13 +108,18 @@ describe('CustomerEditContactComponent', () => {
     component.contact_edit.id = 2
     component.contact_edit['customer_id'] = 1
 
-    spyOn(window, 'confirm').and.returnValue(true)
-    component.deleteCustomerContact()
-    tick()
+    prepareEditDummyContact()
+      .then(() => {
+        spyOn(window, 'confirm').and.returnValue(true)
+        component.deleteCustomerContact()
+        tick()
 
-    const req2 = backend.expectOne('/customers/1/contacts/2')
-    expect(req2.request.method).toBe("DELETE")
-    req2.flush(component.contact_edit, { status: 200, statusText: 'Ok' })
+        const req2 = backend.expectOne('/customers/1/contacts/2')
+        expect(req2.request.method).toBe("DELETE")
+        req2.flush(null, { status: 200, statusText: 'Ok' })
+        tick()
+      })
+    tick()
   }))
 
   it('should fail to delete cutomer contact', fakeAsync(() => {
@@ -113,16 +127,23 @@ describe('CustomerEditContactComponent', () => {
     component.contact_edit.id = 2
     component.contact_edit['customer_id'] = 1
 
-    spyOn(window, 'confirm').and.returnValue(true)
-    component.deleteCustomerContact()
-    tick()
+    prepareEditDummyContact()
+      .then(() => {
+        spyOn(window, 'confirm').and.returnValue(true)
+        component.deleteCustomerContact()
+        tick()
 
-    const req2 = backend.expectOne('/customers/1/contacts/2')
-    expect(req2.request.method).toBe("DELETE")
-    req2.flush(null, { status: 404, statusText: 'Not Found' })
+        spyOn(window, 'alert').and.returnValue(true)
+        const req2 = backend.expectOne('/customers/1/contacts/2')
+        expect(req2.request.method).toBe("DELETE")
+        req2.flush(null, { status: 404, statusText: 'Not Found' })
+        tick()
+      })
+
+    tick()
   }))
 
-  it('should not delete cutomer contact', fakeAsync(() => {
+  it('should cancel to delete cutomer contact', fakeAsync(() => {
     spyOn(window, 'confirm').and.returnValue(false)
     component.deleteCustomerContact()
   }))
