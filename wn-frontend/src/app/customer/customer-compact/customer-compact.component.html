@@ -84,7 +84,7 @@
       <div class="col-sm-2" style="max-height: 8.4rem; overflow-y: auto">
         <div class="row" *ngFor="let contact of customer.contacts">
           <div>
-            <a class="clickable" (click)="editcontact(customer, contact.id)">{{ contact.name2 }}, {{ contact.name1 }}</a>
+            <a class="clickable" (click)="editcontact(customer, contact)">{{ contact.name2 }}, {{ contact.name1 }}</a>
           </div>
         </div>
         <div class="row">

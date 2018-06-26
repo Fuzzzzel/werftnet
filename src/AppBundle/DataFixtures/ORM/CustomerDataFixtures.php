@@ -23,6 +23,7 @@ class CustomerDataFixtures implements FixtureInterface, ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
+        // ToDo: Refactor to test each property separately
         $customerOriginInDb = $manager->getRepository(CustomerOrigin::class)->findAll();
         if(count($customerOriginInDb) > 0) {
             return;

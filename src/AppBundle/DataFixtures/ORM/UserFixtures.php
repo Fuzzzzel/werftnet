@@ -21,6 +21,7 @@ class UserFixtures implements FixtureInterface, ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
+        // ToDo: Refactor to test each property separately
         $userRolesInDb = $manager->getRepository(UserRole::class)->findAll();
         if(count($userRolesInDb) > 0) {
             return;

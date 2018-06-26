@@ -8,6 +8,8 @@ import { RouterTestingModule } from '@angular/router/testing'
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 import { CustomerSearchService } from '../customer-search/customer-search.service'
 import { Customer, CustomerContact } from '../customer.model'
+import { resolve } from 'path';
+import { reject } from 'q';
 const customerMock = require('./../customer.mock.json')
 
 describe('CustomerEditService', () => {
@@ -194,89 +196,109 @@ describe('CustomerEditService', () => {
       })
   })
 
+  function prepareEditDummyContact() {
+    return new Promise<CustomerContact>((resolve, reject) => {
+      service.prepareEditCustomerContact(1, 2)
+        .then((data) => {
+          resolve(data)
+        })
+        .catch(() => {
+          throw new Error('Das sollte nicht passieren!')
+        })
+
+
+      const req = backend.expectOne('/customers/1/contacts/2')
+      expect(req.request.method).toBe("GET")
+      req.flush(new CustomerContact(), { status: 200, statusText: 'Ok' })
+    })
+  }
+
   it('should save customer contact', (done) => {
-    let customerContactToSave = { id: null, customer_id: null }
-
+    let customerContactToSave = { id: null }
     customerContactToSave.id = 1
-    customerContactToSave.customer_id = 1
 
-    service.saveCustomerContact(customerContactToSave)
-      .then((customerContact) => {
-        done()
-      })
-    const req = backend.expectOne('/customers/1/contacts/1')
-    expect(req.request.method).toBe("POST")
-    req.flush({}, { status: 200, statusText: 'Ok' })
+    prepareEditDummyContact().then(() => {
+      service.saveCustomerContact(customerContactToSave)
+        .then((customerContact) => {
+          done()
+        })
+      const req = backend.expectOne('/customers/1/contacts/1')
+      expect(req.request.method).toBe("POST")
+      req.flush({}, { status: 200, statusText: 'Ok' })
+    })
   })
 
   it('should save new customer contact', (done) => {
-    let customerContactToSave = { id: null, customer_id: null }
+    let customerContactToSave = { id: null }
 
-    customerContactToSave.customer_id = 1
-
-    service.saveCustomerContact(customerContactToSave)
-      .then((customerContact) => {
-        done()
-      })
-    const req = backend.expectOne('/customers/1/contacts')
-    expect(req.request.method).toBe("POST")
-    req.flush({}, { status: 200, statusText: 'Ok' })
+    prepareEditDummyContact().then(() => {
+      service.saveCustomerContact(customerContactToSave)
+        .then((customerContact) => {
+          done()
+        })
+      const req = backend.expectOne('/customers/1/contacts')
+      expect(req.request.method).toBe("POST")
+      req.flush({}, { status: 200, statusText: 'Ok' })
+    })
   })
 
   it('should fail to save customer contact', (done) => {
-    let customerContactToSave = { id: null, customer_id: null }
-
+    let customerContactToSave = new CustomerContact()
     customerContactToSave.id = 1
-    customerContactToSave.customer_id = 1
 
-    service.saveCustomerContact(customerContactToSave)
-      .catch((error) => {
-        done()
-      })
-    const req = backend.expectOne('/customers/1/contacts/1')
-    expect(req.request.method).toBe("POST")
-    req.flush({}, { status: 404, statusText: 'Not Found' })
+    prepareEditDummyContact().then(() => {
+      service.saveCustomerContact(customerContactToSave)
+        .catch((error) => {
+          done()
+        })
+      const req = backend.expectOne('/customers/1/contacts/1')
+      expect(req.request.method).toBe("POST")
+      req.flush({}, { status: 404, statusText: 'Not Found' })
+    })
   })
 
   it('should delete customer contact', (done) => {
-    let customerContactToDelete = { id: null, customer_id: null, name1: '', name2: '' }
+    let customerContactToDelete = { id: null, name1: '', name2: '' }
 
     customerContactToDelete.id = 1
-    customerContactToDelete.customer_id = 1
 
-    let spy = spyOn(window, 'confirm').and.returnValues(false, true)
-    service.deleteCustomerContact(customerContactToDelete)
-      .catch(() => {
-        service.deleteCustomerContact(customerContactToDelete)
-          .then(() => { done() })
-          .catch(() => { throw new Error('Das sollte nicht passieren') })
+    prepareEditDummyContact().then(() => {
+      spyOn(window, 'confirm').and.returnValue(true)
 
-        const req = backend.expectOne('/customers/1/contacts/1')
-        expect(req.request.method).toBe("DELETE")
-        req.flush({}, { status: 200, statusText: 'Ok' })
-      })
+      service.deleteCustomerContact(customerContactToDelete)
+        .then(() => { done() })
+        .catch(() => { throw new Error('Das sollte nicht passieren') })
+
+      const req = backend.expectOne('/customers/1/contacts/1')
+      expect(req.request.method).toBe("DELETE")
+      req.flush({}, { status: 200, statusText: 'Ok' })
+    })
   })
 
   it('should fail to delete customer contact if id is missing', (done) => {
     let customerContactToDelete = { customer_id: 1, name1: '', name2: '' }
 
-    let spy = spyOn(window, 'confirm').and.returnValues(true)
-    service.deleteCustomerContact(customerContactToDelete)
-      .catch(() => {
-        done()
-      })
+    prepareEditDummyContact().then(() => {
+      spyOn(window, 'confirm').and.returnValues(true)
+      service.deleteCustomerContact(customerContactToDelete)
+        .catch(() => {
+          done()
+        })
+    })
   })
 
   it('should fail to delete customer contact', (done) => {
     let customerContactToDelete = { id: 1, customer_id: 1, name1: '', name2: '' }
 
-    let spy = spyOn(window, 'confirm').and.returnValues(true)
-    service.deleteCustomerContact(customerContactToDelete)
-      .catch(() => {
-        done()
-      })
-    const req = backend.expectOne('/customers/1/contacts/1')
-    expect(req.request.method).toBe("DELETE")
-    req.flush({}, { status: 404, statusText: 'Not Found' })
+    prepareEditDummyContact().then(() => {
+      spyOn(window, 'confirm').and.returnValues(true)
+      service.deleteCustomerContact(customerContactToDelete)
+        .catch(() => {
+          done()
+        })
+      const req = backend.expectOne('/customers/1/contacts/1')
+      expect(req.request.method).toBe("DELETE")
+      req.flush({}, { status: 404, statusText: 'Not Found' })
+    })
   })
 })

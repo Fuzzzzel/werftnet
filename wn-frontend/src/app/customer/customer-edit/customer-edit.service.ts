@@ -190,13 +190,10 @@ export class CustomerEditService {
 
     // Kopie des CustomerContacts erstellen, um Datum in yyyy-mm-dd String zu wandeln, falls vorhanden
     let cust_save = this.util.cloneDeep(this.customerContactToEdit)
-    if (!cust_save.customer_id) {
-      cust_save.customer_id = this.customerContactToEdit_CustomerId
-    }
 
     // Set up post request
     const req = this.http.post<CustomerContact>(
-      '/customers/' + cust_save.customer_id + '/contacts' + (cust_save.id ? '/' + cust_save.id : ''),
+      '/customers/' + this.customerContactToEdit_CustomerId + '/contacts' + (cust_save.id ? '/' + cust_save.id : ''),
       cust_save
     )
 
@@ -221,14 +218,9 @@ export class CustomerEditService {
         return
       }
 
-      if (!confirm('Kundenkontakt ' + customerContactToDelete.name2 + ', ' + customerContactToDelete.name1 + ' wirklich löschen?!')) {
-        reject()
-        return;
-      }
-
       // Set up post request
       const req = this.http.delete<any>(
-        '/customers/' + customerContactToDelete.customer_id + '/contacts/' + customerContactToDelete.id
+        '/customers/' + this.customerContactToEdit_CustomerId + '/contacts/' + customerContactToDelete.id
       )
 
       // Execute post request and subscribe to response

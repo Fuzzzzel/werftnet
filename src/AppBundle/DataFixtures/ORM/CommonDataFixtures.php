@@ -29,8 +29,10 @@ class CommonDataFixtures implements FixtureInterface, ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
-        $anredeInDb = $manager->getRepository(OrderStatus::class)->findAll();
-        if(count($anredeInDb) > 0) {
+        // ToDo: Refactor to test each property separately
+        $anredeInDb = $manager->getRepository(Anrede::class)->findAll();
+        $catToolInDb = $manager->getRepository(CatTool::class)->findAll();
+        if(count($anredeInDb) > 0 || count($catToolInDb) > 0) {
             return;
         }
 

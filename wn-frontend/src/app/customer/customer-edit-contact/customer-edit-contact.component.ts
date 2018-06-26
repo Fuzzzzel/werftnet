@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { CoreDataService, CoreData } from '../../core/core-data.service'
 import { CustomerEditService } from '../customer-edit/customer-edit.service'
-import { CustomerContact } from '../customer.model'
+import { CustomerContact, Customer } from '../customer.model'
 import { UtilService } from '../../core/util.service'
 import { CustomerSearchService } from '../customer-search/customer-search.service'
 
@@ -12,6 +12,7 @@ import { CustomerSearchService } from '../customer-search/customer-search.servic
 })
 export class CustomerEditContactComponent implements OnInit {
 
+  customer: Customer
   contact_edit: CustomerContact
   coreData: CoreData = new CoreData()
 
@@ -21,6 +22,14 @@ export class CustomerEditContactComponent implements OnInit {
     private customerEditService: CustomerEditService,
     private customerSearchService: CustomerSearchService
   ) { }
+
+  ngOnInit() {
+    this.coreDataService.getData().subscribe((data) => {
+      this.coreData = data
+    })
+
+    this.contact_edit = this.customerEditService.getCustomerContactToEdit()
+  }
 
   saveCustomerContact() {
     this.customerEditService.saveCustomerContact(this.contact_edit)
@@ -34,7 +43,7 @@ export class CustomerEditContactComponent implements OnInit {
   }
 
   deleteCustomerContact() {
-    if (confirm('Kundenkontakt wirklich löschen?')) {
+    if (confirm('Kundenkontakt ' + this.contact_edit.name2 + ', ' + this.contact_edit.name1 + ' wirklich löschen?!')) {
       this.customerEditService.deleteCustomerContact(this.contact_edit)
         .then(() => {
           this.customerSearchService.searchCustomers(null)
@@ -51,11 +60,4 @@ export class CustomerEditContactComponent implements OnInit {
     this.util.historyBack()
   }
 
-  ngOnInit() {
-    this.coreDataService.getData().subscribe((data) => {
-      this.coreData = data
-    })
-
-    this.contact_edit = this.customerEditService.getCustomerContactToEdit()
-  }
 }

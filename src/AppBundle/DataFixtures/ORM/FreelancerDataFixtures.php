@@ -23,6 +23,7 @@ class FreelancerDataFixtures implements FixtureInterface, ContainerAwareInterfac
 
     public function load(ObjectManager $manager)
     {
+        // ToDo: Refactor to test each property separately
         $paymentTypeInDb = $manager->getRepository(FreelancerPaymentType::class)->findAll();
         if(count($paymentTypeInDb) > 0) {
             return;
