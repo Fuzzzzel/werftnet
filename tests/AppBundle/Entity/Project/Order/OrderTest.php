@@ -84,4 +84,12 @@ class OrderTest extends TestCase
         $this->assertNotContains($orderPosition, $order->getPositions());
     }
 
+    public function testGetOrderNo() {
+        $order = new Order();
+        $order->setCreatedAt(new \DateTime());
+        $order->setNumberInYear(1);
+        $date = new \DateTime();
+        $this->assertEquals($date->format('y'.'-'.'0001'), $order->getOrderNo());
+    }
+
 }

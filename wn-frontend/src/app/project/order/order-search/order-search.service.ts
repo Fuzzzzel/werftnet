@@ -42,6 +42,7 @@ export class OrderSearchService {
       req.subscribe(
         data => {
           this.$ordersLoaded.next(data)
+          console.log(data)
           resolve(data)
         },
         error => {

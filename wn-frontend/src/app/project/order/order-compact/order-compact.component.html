@@ -1,7 +1,7 @@
 <div class="card compact-default">
   <div class="card-body">
     <h3 class="card-title">
-      <a class="clickable" (click)="editOrder()">{{ order.id }}
+      <a class="clickable" (click)="editOrder()">{{ order.order_no }}
         <span class="text-muted">{{ order.customer && order.customer.name1 }} ({{ order.customer_contact && (order.customer_contact.name2 + ', ' +
           order.customer_contact.name1) }})
         </span>

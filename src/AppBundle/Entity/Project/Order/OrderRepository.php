@@ -6,8 +6,8 @@
  * Time: 11:39
  */
 
-namespace AppBundle\Entity\Project\Order;
 
+namespace AppBundle\Entity\Project\Order;
 
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\QueryHelper;
@@ -52,5 +52,25 @@ class OrderRepository extends EntityRepository
             $paginator = $qHelper->paginate($query, $page, $limit);
             return $qHelper->getPaginatedResult($paginator);
         }
+    }
+
+    public function getMaxNumberInYear() {
+        $config = $this->getEntityManager()->getConfiguration();
+        $config->addCustomDatetimeFunction('YEAR', 'DoctrineExtensions\Query\Mysql\Year');
+        $config->addCustomDatetimeFunction('NOW', 'DoctrineExtensions\Query\Mysql\Now');
+
+        $qb = $this->createQueryBuilder('o');
+        $qb->select('o, MAX(o.numberInYear) as maxNumberInYear');
+        $qb->where('YEAR(o.createdAt) = YEAR(NOW())');
+
+        $q = $qb->getQuery();
+        $queryResult = $q->getSingleResult();
+        if($queryResult === null || $queryResult['maxNumberInYear'] === null) {
+            $maxNoInYear = 0;
+        } else {
+            $maxNoInYear = $queryResult['maxNumberInYear'];
+        }
+
+        return $maxNoInYear;
     }
 }
