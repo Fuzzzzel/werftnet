@@ -1,123 +1,14 @@
 <div class="form-default">
   <h1 *ngIf="order_edit.id">Auftrag bearbeiten</h1>
   <h1 *ngIf="!order_edit.id">Auftrag anlegen</h1>
-  <div class="card">
-    <div class="card-body">
-      <div class="row">
-        <form class="col-sm-4  form-horizontal">
-          <div class="form-group row no-gutters">
-            <label class="col-form-label col-form-label-sm col-md-4">Kunde</label>
-            <div class="col-md-8">
-              <!--
-              <select class="form-control form-control-sm" name="edit-customer" [(ngModel)]="order_edit.customer" [compareWith]='util.compareById'>
-                <option [value]='null' selected>-- Bitte wählen --</option>
-                <option *ngFor="let option of customers" [ngValue]="option">{{ option.name1 }}</option>
-              </select>
-               -->
-              <ng-select name="edit-customer" [items]="customers" [(ngModel)]="order_edit.customer" (add)="reloadCustomerContacts($event)"
-                [virtualScroll]="true" bindLabel="name1" placeholder="--- Bitte wählen ---">
-                <ng-template ng-header-tmp>
-                  <!--<small class="form-text text-muted">Loaded {{customersBuffer.length}} of {{customers.length}}</small>-->
-                </ng-template>
-                <ng-template ng-option-tmp let-item="item" let-index="index">
-                  <span [title]="item.name1">{{item.name1}}</span>
-                </ng-template>
-              </ng-select>
-            </div>
-          </div>
-          <div class="form-group row no-gutters">
-            <label class="col-form-label col-form-label-sm col-md-4">Ansprechp.</label>
-            <div class="col-md-8">
-              <ng-select name="edit-customerContact" [items]="customerContacts" [(ngModel)]="order_edit.customer_contact" [virtualScroll]="true"
-                bindLabel="name1" placeholder="--- Bitte wählen ---">
-                <ng-template ng-header-tmp>
-                  <!--<small class="form-text text-muted">Loaded {{customersBuffer.length}} of {{customers.length}}</small>-->
-                </ng-template>
-                <ng-template ng-label-tmp let-item="item" let-index="index">
-                  <span>{{item.name2}}, {{item.name1}}</span>
-                </ng-template>
-                <ng-template ng-option-tmp let-item="item" let-index="index">
-                  <span [title]="item.name2 + ', ' + item.name1">{{item.name2}}, {{item.name1}}</span>
-                </ng-template>
-              </ng-select>
-            </div>
-          </div>
-          <div class="form-group row no-gutters">
-            <label class="col-form-label col-form-label-sm col-md-4">Anz. Dateien</label>
-            <div class="col-md-8">
-              <input type="number" class="form-control form-control-sm" name="edit-number_of_files" [(ngModel)]="order_edit.number_of_files">
-            </div>
-          </div>
-          <div class="form-group row no-gutters">
-            <label class="col-form-label col-form-label-sm col-md-4">Quellformat</label>
-            <div class="col-md-8">
-              <input class="form-control form-control-sm" name="edit-source_format" [(ngModel)]="order_edit.source_format">
-            </div>
-          </div>
-          <div class="form-group row no-gutters">
-            <label class="col-form-label col-form-label-sm col-md-4">Zielformat</label>
-            <div class="col-md-8">
-              <input class="form-control form-control-sm" name="edit-target_format" [(ngModel)]="order_edit.target_format">
-            </div>
-          </div>
-        </form>
-        <form class="col-sm-4  form-horizontal">
-          <div class="form-group row no-gutters">
-            <label class="col-form-label col-form-label-sm col-md-4">Lieferdatum</label>
-            <div class="col-md-8">
-              <input type="datetime-local" class="form-control form-control-sm" name="edit-delivery_date" [(ngModel)]="order_edit.delivery_date">
-            </div>
-          </div>
-          <div class="form-group row no-gutters">
-            <label class="col-form-label col-form-label-sm col-md-4">Lieferd. Kunde</label>
-            <div class="col-md-8">
-              <input type="datetime-local" class="form-control form-control-sm" name="edit-delivery_date_desired" [(ngModel)]="order_edit.delivery_date_desired">
-            </div>
-          </div>
-          <div class="form-group row no-gutters">
-            <label class="col-form-label col-form-label-sm col-md-4">Status</label>
-            <div class="col-md-8">
-              <select class="form-control form-control-sm" name="edit-status" [(ngModel)]="order_edit.status" [compareWith]='util.compareById'>
-                <option [value]='null' selected>-- Bitte wählen --</option>
-                <option *ngFor="let option of coreData.order_status.values" [ngValue]="option">{{ option.name }}</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group row no-gutters">
-            <label class="col-form-label col-form-label-sm col-md-4">Anlagedatum</label>
-            <div class="col-md-8">
-              {{ order_edit.created_at | date: "dd.MM.yyyy HH:mm:ss" }}
-            </div>
-          </div>
-        </form>
-        <form class="col-sm-4 ">
-          <div class="form-group row no-gutters">
-            <textarea placeholder="Interne Notiz" class="form-control form-control-sm" rows="8" name="edit-comment" [(ngModel)]="order_edit.comment"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="row">
-        <form class="col-sm-12  form-horizontal">
-          <div class="form-group row no-gutters">
-            <label class="col-form-label col-form-label-sm col-md-4">Titel</label>
-            <input class="form-control form-control-sm" name="edit-title" [(ngModel)]="order_edit.title">
-          </div>
-          <div class="form-group row no-gutters">
-            <label class="col-form-label col-form-label-sm">Beschreibung</label>
-            <textarea class="form-control form-control-sm" rows="4" name="edit-description" [(ngModel)]="order_edit.description"></textarea>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+  <app-order-head-view [order]="order_edit" (save)="saveOrderHead($event)"></app-order-head-view>
+
   <div class="card">
     <div class="card-body">
       <h3 class="card-title">Positionen</h3>
     </div>
   </div>
   <div class="btn-group pull-right my-2" role="group">
-    <button class="btn btn-sm btn-primary mx-1" (click)="saveOrder()">Speichern</button>
-    <button class="btn btn-sm btn-default mx-1" (click)="cancelEdit()">Abbrechen</button>
     <button class="btn btn-sm btn-danger mx-1" (click)="deleteOrder()" [disabled]="order_edit.id == null">
       Löschen
     </button>

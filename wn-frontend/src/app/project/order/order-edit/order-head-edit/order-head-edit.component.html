@@ -1,0 +1,105 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <form class="col-sm-4  form-horizontal">
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-form-label-sm col-md-4">Kunde</label>
+          <div class="col-md-8">
+            <ng-select name="edit-customer" [items]="customers" [(ngModel)]="orderHead.customer" (add)="reloadCustomerContacts($event)"
+              [virtualScroll]="true" bindLabel="name1" placeholder="--- Bitte wählen ---">
+              <ng-template ng-option-tmp let-item="item" let-index="index">
+                <span [title]="item.name1">{{item.name1}}</span>
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-form-label-sm col-md-4">Ansprechp.</label>
+          <div class="col-md-8">
+            <ng-select name="edit-customerContact" [items]="customerContacts" [(ngModel)]="orderHead.customer_contact" [virtualScroll]="true"
+              bindLabel="name1" placeholder="--- Bitte wählen ---">
+              <ng-template ng-header-tmp>
+              </ng-template>
+              <ng-template ng-label-tmp let-item="item" let-index="index">
+                <span>{{item.name2}}, {{item.name1}}</span>
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item" let-index="index">
+                <span [title]="item.name2 + ', ' + item.name1">{{item.name2}}, {{item.name1}}</span>
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-form-label-sm col-md-4">Anz. Dateien</label>
+          <div class="col-md-8">
+            <input type="number" class="form-control form-control-sm" name="edit-number_of_files" [(ngModel)]="orderHead.number_of_files">
+          </div>
+        </div>
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-form-label-sm col-md-4">Quellformat</label>
+          <div class="col-md-8">
+            <input class="form-control form-control-sm" name="edit-source_format" [(ngModel)]="orderHead.source_format">
+          </div>
+        </div>
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-form-label-sm col-md-4">Zielformat</label>
+          <div class="col-md-8">
+            <input class="form-control form-control-sm" name="edit-target_format" [(ngModel)]="orderHead.target_format">
+          </div>
+        </div>
+      </form>
+      <form class="col-sm-4  form-horizontal">
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-form-label-sm col-md-4">Lieferdatum</label>
+          <div class="col-md-8">
+            <input type="datetime-local" class="form-control form-control-sm" name="edit-delivery_date" [(ngModel)]="orderHead.delivery_date">
+          </div>
+        </div>
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-form-label-sm col-md-4">Lieferd. Kunde</label>
+          <div class="col-md-8">
+            <input type="datetime-local" class="form-control form-control-sm" name="edit-delivery_date_desired" [(ngModel)]="orderHead.delivery_date_desired">
+          </div>
+        </div>
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-form-label-sm col-md-4">Status</label>
+          <div class="col-md-8">
+            <select class="form-control form-control-sm" name="edit-status" [(ngModel)]="orderHead.status" [compareWith]='util.compareById'>
+              <option [value]='null' selected>-- Bitte wählen --</option>
+              <option *ngFor="let option of coreData.order_status.values" [ngValue]="option">{{ option.name }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-form-label-sm col-md-4">Anlagedatum</label>
+          <div class="col-md-8">
+            {{ orderHead.created_at | date: "dd.MM.yyyy HH:mm:ss" }}
+          </div>
+        </div>
+      </form>
+      <form class="col-sm-4 ">
+        <div class="form-group row no-gutters">
+          <textarea placeholder="Interne Notiz" class="form-control form-control-sm" rows="8" name="edit-comment" [(ngModel)]="orderHead.comment"></textarea>
+        </div>
+      </form>
+    </div>
+    <div class="row">
+      <form class="col-sm-12  form-horizontal">
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-form-label-sm col-md-4">Titel</label>
+          <input class="form-control form-control-sm" name="edit-title" [(ngModel)]="orderHead.title">
+        </div>
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-form-label-sm">Beschreibung</label>
+          <textarea class="form-control form-control-sm" rows="4" name="edit-description" [(ngModel)]="orderHead.description"></textarea>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="btn-group pull-right my-2" role="group">
+      <button class="btn btn-sm btn-primary mx-1" (click)="saveOrderHead()">Speichern</button>
+      <button class="btn btn-sm btn-default mx-1" (click)="cancelEditHead()">Abbrechen</button>
+    </div>
+  </div>
+</div>
