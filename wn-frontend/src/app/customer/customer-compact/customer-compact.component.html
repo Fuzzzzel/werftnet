@@ -4,7 +4,8 @@
     <h3 class="card-title">
       <a class="clickable" (click)="editCustomer(customer)">{{ customer.name1 }}{{ customer.name2 ? ' ,' + customer.name2 : '' }}</a>
       <br>
-      <span class="text-muted">{{ customer.address && customer.address.city }} ({{ customer.address && customer.address.country.name }})</span>
+      <span class="text-muted">{{ customer.address && customer.address.city }} ({{ customer.address && customer.address.country && customer.address.country.name
+        }})</span>
     </h3>
 
     <div class="row">

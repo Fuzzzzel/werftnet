@@ -13,6 +13,8 @@ import { HttpTestingController, HttpClientTestingModule } from '@angular/common/
 import { OrderEditService } from './order-edit.service';
 import { OrderSearchService } from '../order-search/order-search.service';
 import { Order } from '../order.model';
+import { OrderHeadViewComponent } from './order-head-view/order-head-view.component';
+import { OrderHeadEditComponent } from './order-head-edit/order-head-edit.component';
 
 describe('OrderEditComponent', () => {
   let component: OrderEditComponent
@@ -29,7 +31,9 @@ describe('OrderEditComponent', () => {
       ],
       declarations: [
         OrderEditComponent,
-        OrderCompactComponent
+        OrderCompactComponent,
+        OrderHeadViewComponent,
+        OrderHeadEditComponent
       ],
       providers: [
         UtilService,
@@ -70,45 +74,16 @@ describe('OrderEditComponent', () => {
     component.cancelEdit()
   })
 
-  it('should reload customer contacts', () => {
-    initOrderWithCustomer()
-    let customer = new Customer()
-    customer.id = 1
-    component.reloadCustomerContacts(customer)
-
-    const req = backend.expectOne('/customers/' + customer.id + '/contacts')
-    expect(req.request.method).toBe("GET")
-    req.flush([], { status: 200, statusText: 'Ok' })
-  })
-
-  it('should fail to reload customer contacts (id missing)', () => {
-    initOrderWithCustomer()
-    let customer = new Customer()
-    spyOn(window, 'alert').and.returnValue(true)
-    component.reloadCustomerContacts(customer)
-  })
-
-  it('should fail to reload customer contacts (http)', () => {
-    initOrderWithCustomer()
-    let customer = new Customer()
-    customer.id = 1
-    spyOn(window, 'alert').and.returnValue(true)
-    component.reloadCustomerContacts(customer)
-
-    const req = backend.expectOne('/customers/' + customer.id + '/contacts')
-    expect(req.request.method).toBe("GET")
-    req.flush(null, { status: 404, statusText: 'Not Found' })
-  })
-
   it('should save order', () => {
     initOrderWithCustomer()
     const order = new Order()
+    const orderHead = delete order['positions']
     spyOn(orderEditService, 'saveOrder').and.callFake(function () {
       return new Promise((resolve, reject) => {
         resolve(order)
       })
     })
-    component.saveOrder()
+    component.saveOrderHead(orderHead)
   })
 
   it('should fail to go to edit order', () => {

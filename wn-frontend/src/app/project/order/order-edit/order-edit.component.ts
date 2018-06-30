@@ -22,7 +22,6 @@ export class OrderEditComponent implements OnInit {
   constructor(
     public util: UtilService,
     private coreDataService: CoreDataService,
-    private customerService: CustomerService,
     private orderEditService: OrderEditService,
     private orderSearchService: OrderSearchService
   ) { }
@@ -32,34 +31,16 @@ export class OrderEditComponent implements OnInit {
       this.coreData = data
     })
 
-    this.customerService.getCustomerDropdownValues().subscribe((data) => {
-      this.customers = data
-    })
-
     this.order_edit = this.orderEditService.getOrderToEdit()
-    if (this.order_edit.customer) {
-      this.reloadCustomerContacts(this.order_edit.customer)
-    }
-  }
-
-  reloadCustomerContacts(customer) {
-    if (customer && customer.id) {
-      this.customerService.fetchCustomerContacts(customer.id)
-        .then((data) => {
-          this.order_edit.customer_contact = null
-          this.customerContacts = data
-        })
-        .catch((error) => {
-          alert(error.message)
-        })
-    } else {
-      this.order_edit.customer_contact = null
-      this.customerContacts = []
-    }
   }
 
   cancelEdit() {
     this.util.historyBack()
+  }
+
+  saveOrderHead(orderHead) {
+    Object.assign(this.order_edit, orderHead)
+    this.saveOrder()
   }
 
   saveOrder() {

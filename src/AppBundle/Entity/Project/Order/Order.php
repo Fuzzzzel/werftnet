@@ -19,10 +19,32 @@ use AppBundle\Entity\Project\Project;
  * @package AppBundle\Entity\Project\Order
  *
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Project\Order\OrderRepository")
- * @ORM\Table(name="Orders")
+ * @ORM\Table(name="Orders",
+ *    uniqueConstraints={
+ *        @ORM\UniqueConstraint(name="order_no_unique",
+ *                 columns={"year", "number_in_year"})
+ *    }
+ * )
  */
 class Order extends Project
 {
+    /**
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    protected $year;
+
+    /**
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    protected $numberInYear;
+
+    /**
+     * @JMS\Type("string")
+     * @JMS\Groups({"display"})
+     * @JMS\Accessor(getter="getOrderNo")
+     */
+    protected $orderNo;
+
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @JMS\Type("DateTime<'Y-m-d\TH:i'>")
@@ -55,6 +77,31 @@ class Order extends Project
 
     public function __construct() {
         $this->positions = new ArrayCollection();
+    }
+
+    public function getYear() {
+        $year = $this->getCreatedAt()->format('y');
+        return intval($year);
+    }
+
+    public function setYear($year) {
+        $this->year = $year;
+        return $this;
+    }
+
+    public function setNumberInYear($numberInYear) {
+        $this->numberInYear = $numberInYear;
+        return $this;
+    }
+
+    public function getNumberInYear() {
+        return $this->numberInYear;
+    }
+
+    public function getOrderNo() {
+        $yearString = str_pad($this->getYear(),2,'0', STR_PAD_LEFT );
+        $numberInYearString = str_pad($this->getNumberInYear(),4,'0', STR_PAD_LEFT );
+        return $yearString . '-' . $numberInYearString;
     }
 
     public function setDeliveryDate($deliveryDate) {

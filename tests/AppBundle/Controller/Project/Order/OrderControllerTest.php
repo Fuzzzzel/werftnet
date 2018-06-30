@@ -46,13 +46,31 @@ class OrderControllerTest extends DefaultWebTestCase
             '{"customer": null, "title": "OrderTest-Title", "description": "Order-Test-Description", "number_of_files": 3, "source_format": "OrderTest-SourceFormat", "target_format": "OrderTest-TargetFormat", "comment": "OrderTest-Comment", "delivery_date_desired":"'.$deliveryDateDesiredJson.'", "delivery_date":"'.$deliveryDateJson.'", "status": null}'
         );
 
+        // Create first order
         $response = $client->getResponse();
         $this->assertJson($response->getContent());
         $orderCreated = json_decode($response->getContent());
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertContains('0001', $orderCreated->order_no);
 
+        // Create second order to test creation of order no
+        $client->request(
+            'POST',
+            '/orders',
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{"customer": null, "title": "OrderTest-Title", "description": "Order-Test-Description", "number_of_files": 3, "source_format": "OrderTest-SourceFormat", "target_format": "OrderTest-TargetFormat", "comment": "OrderTest-Comment", "delivery_date_desired":"'.$deliveryDateDesiredJson.'", "delivery_date":"'.$deliveryDateJson.'", "status": null}'
+        );
+
+        $response = $client->getResponse();
+        $this->assertJson($response->getContent());
+        $orderCreated = json_decode($response->getContent());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertContains('0002', $orderCreated->order_no);
         return $orderCreated;
     }
+
 
     /**
      * @depends testCreateOrder

@@ -7,6 +7,8 @@ import { SharedModule } from '../../shared/shared.module';
 import { OrderRoutingModule } from './order-routing.module';
 import { OrderSearchService } from './order-search/order-search.service';
 import { OrderEditService } from './order-edit/order-edit.service';
+import { OrderHeadViewComponent } from './order-edit/order-head-view/order-head-view.component';
+import { OrderHeadEditComponent } from './order-edit/order-head-edit/order-head-edit.component';
 
 @NgModule({
   imports: [
@@ -16,7 +18,9 @@ import { OrderEditService } from './order-edit/order-edit.service';
   declarations: [
     OrderCompactComponent,
     OrderEditComponent,
-    OrderSearchComponent
+    OrderSearchComponent,
+    OrderHeadViewComponent,
+    OrderHeadEditComponent
   ],
   exports: [
     OrderCompactComponent,

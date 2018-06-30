@@ -9,6 +9,7 @@
 namespace AppBundle\Controller\Project\Order;
 
 
+use AppBundle\Entity\Project\Order\Order;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -83,6 +84,12 @@ class OrderController extends Controller
         if ($order->getId() == null || $orderId === null) {
             $em->detach($order);
             $order->setCreatedAt(new \DateTime());
+            $order->setYear($order->getYear());
+        }
+
+        if ($order->getNumberInYear() == null) {
+            $maxNumberInYear = $em->getRepository(Order::class)->getMaxNumberInYear();
+            $order->setNumberInYear(++$maxNumberInYear);
         }
 
         $em->persist($order);
@@ -109,7 +116,7 @@ class OrderController extends Controller
             return new Response('Order mit der id {$id} wurde nicht gefunden!', Response::HTTP_BAD_REQUEST);
         }
 
-        $repository = $this->getDoctrine()->getRepository('AppBundle:Project\Order\Order');
+        $repository = $this->getDoctrine()->getRepository(Order::class);
         $order = $repository->find(intval($orderId));
 
         $serializer = SerializerBuilder::create()->build();

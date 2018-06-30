@@ -89,7 +89,7 @@ export class OrderEditService {
       // Execute post request and subscribe to response
       req.subscribe(
         data => {
-          this.orderToEdit = data;
+          this.orderToEdit = data
           resolve(data)
         },
         error => {
