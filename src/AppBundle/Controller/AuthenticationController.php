@@ -10,7 +10,7 @@ namespace AppBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -39,7 +39,7 @@ class AuthenticationController extends Controller
     }
 
     /**
-     * @Route("/get_logged_in_user", name="security_get_logged_in_user")
+     * @Route("/get_logged_in_user", name="security_get_logged_in_user", methods={"GET"})
      * @param UserInterface $user
      * @param AuthorizationCheckerInterface $authChecker
      * @return JsonResponse

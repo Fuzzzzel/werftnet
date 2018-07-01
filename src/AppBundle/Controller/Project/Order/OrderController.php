@@ -11,8 +11,7 @@ namespace AppBundle\Controller\Project\Order;
 
 use AppBundle\Entity\Project\Order\Order;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\QueryHelper;
 use Doctrine\ORM\EntityNotFoundException;
 use JMS\Serializer\DeserializationContext;
@@ -28,8 +27,7 @@ class OrderController extends Controller
     /**
      * @return Response
      *
-     * @Method("POST")
-     * @Route("/orders/search", name="searchOrders")
+     * @Route("/orders/search", name="searchOrders", methods={"POST"})
      */
     public function searchOrders(Request $request)
     {
@@ -61,8 +59,7 @@ class OrderController extends Controller
      * @return null
      * @throws EntityNotFoundException
      *
-     * @Method("POST")
-     * @Route("/orders/{orderId}", defaults={"orderId"=null}, name="editOrder")
+     * @Route("/orders/{orderId}", defaults={"orderId"=null}, name="editOrder", methods={"POST"})
      */
     public function editOrder(Request $request, $orderId)
     {
@@ -107,8 +104,7 @@ class OrderController extends Controller
      * @return null
      * @throws EntityNotFoundException
      *
-     * @Method("GET")
-     * @Route("/orders/{orderId}", name="getOrderById")
+     * @Route("/orders/{orderId}", name="getOrderById", methods={"GET"})
      */
     public function getOrderById(Request $request, $orderId)
     {
@@ -132,8 +128,7 @@ class OrderController extends Controller
      * @param Request $request
      * @param $orderId
      * @return null
-     * @Method("DELETE")
-     * @Route("/orders/{orderId}", name="deleteOrder")
+     * @Route("/orders/{orderId}", name="deleteOrder", methods={"DELETE"})
      */
     public function deleteOrder(Request $request, $orderId)
     {
@@ -158,8 +153,7 @@ class OrderController extends Controller
      * @return null
      * @throws EntityNotFoundException
      *
-     * @Method("GET")
-     * @Route("/orders/{orderId}/positions/{orderPositionId}", name="getOrderPositionById")
+     * @Route("/orders/{orderId}/positions/{orderPositionId}", name="getOrderPositionById", methods={"GET"})
      */
     public function getOrderPositionById(Request $request, $orderId, $orderPositionId)
     {
@@ -195,8 +189,7 @@ class OrderController extends Controller
      * @return null
      * @throws EntityNotFoundException
      *
-     * @Method("POST")
-     * @Route("/orders/{orderId}/positions/{orderPositionId}", defaults={"orderPositionId"=null}, name="editOrderPosition")
+     * @Route("/orders/{orderId}/positions/{orderPositionId}", defaults={"orderPositionId"=null}, name="editOrderPosition", methods={"POST"})
      */
     public function editOrderPosition(Request $request, $orderId, $orderPositionId)
     {
@@ -257,8 +250,7 @@ class OrderController extends Controller
      * @return null
      * @throws EntityNotFoundException
      *
-     * @Method("DELETE")
-     * @Route("/orders/{orderId}/positions/{orderPositionId}", name="deletePosition")
+     * @Route("/orders/{orderId}/positions/{orderPositionId}", name="deletePosition", methods={"DELETE"})
      */
     public function deletePosition(Request $request, $orderId, $orderPositionId)
     {

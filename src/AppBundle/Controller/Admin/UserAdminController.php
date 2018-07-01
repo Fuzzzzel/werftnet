@@ -10,8 +10,7 @@ namespace AppBundle\Controller\Admin;
 
 use JMS\Serializer\DeserializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,8 +31,7 @@ class UserAdminController extends Controller
      * Anlegen eines neuen Users
      * Benötigt: username, password (, email noch nicht)
      *
-     * @Method("POST")
-     * @Route("/admin/users", name="addUser")
+     * @Route("/admin/users", name="addUser", methods={"POST"})
      */
     public function addUser(Request $request)
     {
@@ -90,8 +88,7 @@ class UserAdminController extends Controller
     /**
      * Ändern der Daten eines users
      *
-     * @Method("POST")
-     * @Route("/admin/users/{id}", name="editUser")
+     * @Route("/admin/users/{id}", name="editUser", methods={"POST"})
      */
     public function editUser($id, Request $request)
     {
@@ -127,8 +124,7 @@ class UserAdminController extends Controller
     /**
      * Löschen eines Users anhand der ID
      *
-     * @Method("DELETE")
-     * @Route("/admin/users/{id}", name="deleteUser")
+     * @Route("/admin/users/{id}", name="deleteUser", methods={"DELETE"})
      */
     public
     function deleteUser(Request $request, $id)
@@ -151,8 +147,7 @@ class UserAdminController extends Controller
     /**
      * Return all users if no id was given (array) otherwise return one user if found
      *
-     * @Method("GET")
-     * @Route("/admin/users/{id}", defaults={"id"=null}, name="getUsers")
+     * @Route("/admin/users/{id}", defaults={"id"=null}, name="getUsers", methods={"GET"})
      */
     public
     function getUsers($id = null, Request $request)
@@ -186,8 +181,7 @@ class UserAdminController extends Controller
     /**
      * Ändern des Passwort eines Users anhand der ID
      *
-     * @Method("POST")
-     * @Route("/admin/users/{id}/password", name="changeUserPwdAdmin")
+     * @Route("/admin/users/{id}/password", name="changeUserPwdAdmin", methods={"POST"})
      */
     public
     function changeUserPwd(Request $request, UserPasswordEncoderInterface $userPasswordEncoder, $id)

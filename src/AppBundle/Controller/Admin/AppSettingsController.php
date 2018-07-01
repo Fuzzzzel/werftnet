@@ -16,16 +16,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class AppSettingsController extends Controller
 {
     /**
-     * @Method("GET")
-     * @Route("/admin/settings")
+     * @Route("/admin/settings", methods={"GET"})
      */
     public function getAppSettings(AppSettingsService $appSettingsService)
     {
@@ -38,8 +36,7 @@ class AppSettingsController extends Controller
     }
 
     /**
-     * @Method("GET")
-     * @Route("/admin/settings/imprint")
+     * @Route("/admin/settings/imprint", methods={"GET"})
      */
     public function getImprint(Request $request, AppSettingsService $appSettingsService)
     {
@@ -54,8 +51,7 @@ class AppSettingsController extends Controller
     }
 
     /**
-     * @Method("POST")
-     * @Route("/admin/settings/imprint")
+     * @Route("/admin/settings/imprint", methods={"POST"})
      */
     public function setImprint(Request $request, AppSettingsService $appSettingsService, AuthorizationCheckerInterface $authChecker)
     {

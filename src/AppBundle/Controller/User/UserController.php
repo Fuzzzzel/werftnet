@@ -10,9 +10,8 @@ namespace AppBundle\Controller\User;
 
 use JMS\Serializer\DeserializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Annotation\Route;
+use  Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\User\User;
@@ -33,8 +32,7 @@ class UserController extends Controller
     /**
      * Ändern des eigenen Passworts
      *
-     * @Method("POST")
-     * @Route("/user/change_pwd", name="change_pwd")
+     * @Route("/user/change_pwd", name="change_pwd", methods={"POST"})
      */
     public function changeUserPwdAction(Request $request, UserPasswordEncoderInterface $userPasswordEncoder)
     {

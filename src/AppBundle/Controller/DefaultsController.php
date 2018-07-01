@@ -9,8 +9,7 @@
 namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
@@ -30,8 +29,7 @@ use AppBundle\Entity\Common\Sector;
 class DefaultsController extends Controller
 {
     /**
-     * @Route("/getDefaults", name="getDefaults")
-     * @Method("GET")
+     * @Route("/getDefaults", name="getDefaults", methods={"GET"})
      */
     public function returnDefaults()
     {
@@ -60,8 +58,7 @@ class DefaultsController extends Controller
     }
 
     /**
-     * @Route("/getUserRoles", name="getUserRoles")
-     * @Method("GET")
+     * @Route("/getUserRoles", name="getUserRoles", methods={"GET"})
      */
     public function getUserRoles()
     {
