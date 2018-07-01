@@ -8,8 +8,7 @@ namespace AppBundle\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\SimpleEntity;
@@ -59,8 +58,7 @@ class SimpleEntityController extends Controller
     /**
      * @param $entityName
      * @return object
-     * @Method("GET")
-     * @Route("/admin/simple_entity/{entityName}", name="fetchSimpleEntity")
+     * @Route("/admin/simple_entity/{entityName}", name="fetchSimpleEntity", methods={"GET"})
      */
     public function fetchSimpleEntity($entityName)
     {
@@ -72,8 +70,7 @@ class SimpleEntityController extends Controller
     /**
      * @param $entityName
      * @return object
-     * @Method("GET")
-     * @Route("/admin/simple_entity/{entityName}/{id}", name="fetchSimpleEntityById")
+     * @Route("/admin/simple_entity/{entityName}/{id}", name="fetchSimpleEntityById", methods={"GET"})
      */
     public function fetchSimpleEntityById($entityName, $id)
     {
@@ -90,8 +87,7 @@ class SimpleEntityController extends Controller
      * @param String $entityName
      * @param Request $request
      * @return object
-     * @Method("POST")
-     * @Route("/admin/simple_entity/{entityName}", name="createSimpleEntityItem")
+     * @Route("/admin/simple_entity/{entityName}", name="createSimpleEntityItem", methods={"POST"})
      */
     public function createSimpleEntityItem($entityName, Request $request)
     {
@@ -132,8 +128,7 @@ class SimpleEntityController extends Controller
      * @param Integer $id
      * @param Request $request
      * @return null
-     * @Method("DELETE")
-     * @Route("/admin/simple_entity/{entityName}/{id}", name="deleteSimpleEntityItem")
+     * @Route("/admin/simple_entity/{entityName}/{id}", name="deleteSimpleEntityItem", methods={"DELETE"})
      */
     function deleteSimpleEntityItem($entityName, $id, Request $request)
     {
@@ -164,8 +159,7 @@ class SimpleEntityController extends Controller
      * @param Integer $id
      * @param Request $request
      * @return null
-     * @Method("POST")
-     * @Route("admin/simple_entity/{entityName}/{id}", name="updateSimpleEntityItem")
+     * @Route("admin/simple_entity/{entityName}/{id}", name="updateSimpleEntityItem", methods={"POST"})
      */
     function updateSimpleEntityItem($entityName, $id, Request $request)
     {

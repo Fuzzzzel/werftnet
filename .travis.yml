@@ -46,7 +46,7 @@ matrix:
     - sudo service apache2 restart
     script:
     # php
-    - php vendor/bin/simple-phpunit
+    - ./vendor/bin/simple-phpunit
     - cd wn-frontend
     # node
     - npm run test

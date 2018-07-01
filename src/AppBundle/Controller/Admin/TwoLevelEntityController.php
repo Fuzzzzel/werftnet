@@ -11,8 +11,7 @@ namespace AppBundle\Controller\Admin;
 use AppBundle\Entity\QueryHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -102,8 +101,7 @@ class TwoLevelEntityController extends Controller
     /**
      * @param $entityName
      * @return object
-     * @Method("GET")
-     * @Route("/admin/two_level_entity/{entityName}", name="fetchTwoLevelEntity")
+     * @Route("/admin/two_level_entity/{entityName}", name="fetchTwoLevelEntity", methods={"GET"})
      */
     public function fetchTwoLevelEntity($entityName)
     {
@@ -115,8 +113,7 @@ class TwoLevelEntityController extends Controller
     /**
      * @param $entityName
      * @return object
-     * @Method("GET")
-     * @Route("/admin/two_level_entity/{entityName}/{id}", name="fetchTwoLevelEntityById")
+     * @Route("/admin/two_level_entity/{entityName}/{id}", name="fetchTwoLevelEntityById", methods={"GET"})
      */
     public function fetchTwoLevelEntityById($entityName, $id)
     {
@@ -131,8 +128,7 @@ class TwoLevelEntityController extends Controller
     /**
      * @param $entityName
      * @return object
-     * @Method("POST")
-     * @Route("/admin/two_level_entity/{entityName}", name="createTwoLevelEntityMainItem")
+     * @Route("/admin/two_level_entity/{entityName}", name="createTwoLevelEntityMainItem", methods={"POST"})
      */
     public function createTwoLevelEntityMainItem($entityName, Request $request)
     {
@@ -145,8 +141,7 @@ class TwoLevelEntityController extends Controller
      *
      * @param String $newItemName Name des neuen Items
      * @return Response
-     * @Method("POST")
-     * @Route("/admin/two_level_entity/{entityName}/{mainItemId}/sub_items", name="createTwoLevelEntityItem")
+     * @Route("/admin/two_level_entity/{entityName}/{mainItemId}/sub_items", name="createTwoLevelEntityItem", methods={"POST"})
      */
     public function createTwoLevelEntityItem($entityName, $mainItemId = null, Request $request)
     {
@@ -205,8 +200,7 @@ class TwoLevelEntityController extends Controller
      *
      * @param Request $request
      * @return JsonResponse
-     * @Method("DELETE")
-     * @Route("/admin/two_level_entity/{entityName}/{mainItemId}/sub_items/{subItemId}", name="deleteTwoLevelEntitySubItem")
+     * @Route("/admin/two_level_entity/{entityName}/{mainItemId}/sub_items/{subItemId}", name="deleteTwoLevelEntitySubItem", methods={"DELETE"})
      */
     function deleteTwoLevelEntitySubItem($entityName, $mainItemId, $subItemId, Request $request)
     {
@@ -219,8 +213,7 @@ class TwoLevelEntityController extends Controller
      *
      * @param Request $request
      * @return JsonResponse
-     * @Method("DELETE")
-     * @Route("/admin/two_level_entity/{entityName}/{removeItemId}", name="deleteTwoLevelEntityItem")
+     * @Route("/admin/two_level_entity/{entityName}/{removeItemId}", name="deleteTwoLevelEntityItem", methods={"DELETE"})
      */
     function deleteTwoLevelEntityItem($entityName, $removeItemId, Request $request)
     {
@@ -256,8 +249,7 @@ class TwoLevelEntityController extends Controller
      *
      * @param Request $request
      * @return JsonResponse
-     * @Method("POST")
-     * @Route("/admin/two_level_entity/{entityName}/{mainItemId}/sub_items/{subItemId}", name="updateTwoLevelEntitySubItem")
+     * @Route("/admin/two_level_entity/{entityName}/{mainItemId}/sub_items/{subItemId}", name="updateTwoLevelEntitySubItem", methods={"POST"})
      */
     function updateTwoLevelEntitySubItem($entityName, $mainItemId, $subItemId, Request $request)
     {
@@ -269,8 +261,7 @@ class TwoLevelEntityController extends Controller
      *
      * @param Request $request
      * @return JsonResponse
-     * @Method("POST")
-     * @Route("/admin/two_level_entity/{entityName}/{itemId}", name="updateTwoLevelEntityItem")
+     * @Route("/admin/two_level_entity/{entityName}/{itemId}", name="updateTwoLevelEntityItem", methods={"POST"})
      */
     function updateTwoLevelEntityItem($entityName, $itemId, Request $request)
     {
@@ -320,8 +311,7 @@ class TwoLevelEntityController extends Controller
      *
      * @param Request $request
      * @return JsonResponse
-     * @Method("POST")
-     * @Route("admin/makeMainItem", name="makeMainItem")
+     * @Route("admin/makeMainItem", name="makeMainItem", methods={"POST"})
      */
     function makeMainItem(Request $request)
     {
@@ -364,8 +354,7 @@ class TwoLevelEntityController extends Controller
      *
      * @param Request $request
      * @return JsonResponse
-     * @Method("POST")
-     * @Route("admin/addAsSubItem", name="addAsSubItem")
+     * @Route("admin/addAsSubItem", name="addAsSubItem", methods={"POST"})
      */
     function addAsSubItem(Request $request)
     {

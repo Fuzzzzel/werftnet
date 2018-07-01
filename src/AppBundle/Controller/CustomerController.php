@@ -11,8 +11,7 @@ namespace AppBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,8 +35,7 @@ class CustomerController extends Controller
     /**
      * @return Response
      *
-     * @Method("POST")
-     * @Route("/customers/search", name="searchCustomers")
+     * @Route("/customers/search", name="searchCustomers", methods={"POST"})
      */
     public function searchCustomers(Request $request)
     {
@@ -68,8 +66,7 @@ class CustomerController extends Controller
      * @return null
      * @throws EntityNotFoundException
      *
-     * @Method("POST")
-     * @Route("/customers/{customerId}", defaults={"customerId"=null}, name="editCustomer")
+     * @Route("/customers/{customerId}", defaults={"customerId"=null}, name="editCustomer", methods={"POST"})
      */
     public function editCustomer(Request $request, $customerId)
     {
@@ -114,8 +111,7 @@ class CustomerController extends Controller
     /**
      * @return Response
      *
-     * @Method("GET")
-     * @Route("/customers/dropdownvalues", name="fetchCustomerDropdownValues")
+     * @Route("/customers/dropdownvalues", name="fetchCustomerDropdownValues", methods={"GET"})
      */
     public function fetchCustomerDropdownValues(Request $request)
     {
@@ -143,8 +139,7 @@ class CustomerController extends Controller
      * @return null
      * @throws EntityNotFoundException
      *
-     * @Method("GET")
-     * @Route("/customers/{customerId}", name="getCustomerById")
+     * @Route("/customers/{customerId}", name="getCustomerById", methods={"GET"})
      */
     public function getCustomerById(Request $request, $customerId)
     {
@@ -168,8 +163,7 @@ class CustomerController extends Controller
      * @param Request $request
      * @param $customerId
      * @return null
-     * @Method("DELETE")
-     * @Route("/customers/{customerId}", name="deleteCustomer")
+     * @Route("/customers/{customerId}", name="deleteCustomer", methods={"DELETE"})
      */
     public function deleteCustomer(Request $request, $customerId)
     {
@@ -193,8 +187,7 @@ class CustomerController extends Controller
      * @param Request $request
      * @return null
      *
-     * @Method("GET")
-     * @Route("/customers/{customerId}/contacts", name="getCustomerContacts")
+     * @Route("/customers/{customerId}/contacts", name="getCustomerContacts", methods={"GET"})
      */
     public function getCustomerContacts(Request $request, $customerId)
     {
@@ -219,8 +212,7 @@ class CustomerController extends Controller
      * @return null
      * @throws EntityNotFoundException
      *
-     * @Method("GET")
-     * @Route("/customers/{customerId}/contacts/{customerContactId}", name="getCustomerContactById")
+     * @Route("/customers/{customerId}/contacts/{customerContactId}", name="getCustomerContactById", methods={"GET"})
      */
     public function getCustomerContactById(Request $request, $customerId, $customerContactId)
     {
@@ -256,8 +248,7 @@ class CustomerController extends Controller
      * @return null
      * @throws EntityNotFoundException
      *
-     * @Method("POST")
-     * @Route("/customers/{customerId}/contacts/{customerContactId}", defaults={"customerContactId"=null}, name="editCustomerContact")
+     * @Route("/customers/{customerId}/contacts/{customerContactId}", defaults={"customerContactId"=null}, name="editCustomerContact", methods={"POST"})
      */
     public function editCustomerContact(Request $request, $customerId, $customerContactId)
     {
@@ -322,8 +313,7 @@ class CustomerController extends Controller
      * @return null
      * @throws EntityNotFoundException
      *
-     * @Method("DELETE")
-     * @Route("/customers/{customerId}/contacts/{customerContactId}", name="deleteContact")
+     * @Route("/customers/{customerId}/contacts/{customerContactId}", name="deleteContact", methods={"DELETE"})
      */
     public function deleteContact(Request $request, $customerId, $customerContactId)
     {

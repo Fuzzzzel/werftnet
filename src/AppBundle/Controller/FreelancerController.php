@@ -17,8 +17,7 @@ use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,8 +33,7 @@ class FreelancerController extends Controller
     /**
      * @return Response
      *
-     * @Method("POST")
-     * @Route("/freelancers/search", name="searchFreelancers")
+     * @Route("/freelancers/search", name="searchFreelancers", methods={"POST"})
      */
     public function searchFreelancers(Request $request)
     {
@@ -66,8 +64,7 @@ class FreelancerController extends Controller
      * @return null
      * @throws EntityNotFoundException
      *
-     * @Method("GET")
-     * @Route("/freelancers/{freelancerId}", name="getFreelancerById")
+     * @Route("/freelancers/{freelancerId}", name="getFreelancerById", methods={"GET"})
      */
     public function getFreelancerById(Request $request, $freelancerId)
     {
@@ -101,8 +98,7 @@ class FreelancerController extends Controller
      * @return null
      * @throws EntityNotFoundException
      *
-     * @Method("POST")
-     * @Route("/freelancers/{id}", defaults={"id"=null}, name="editFreelancer")
+     * @Route("/freelancers/{id}", defaults={"id"=null}, name="editFreelancer", methods={"POST"})
      */
     public function editFreelancer(Request $request, $id)
     {
@@ -175,8 +171,7 @@ class FreelancerController extends Controller
      * @return null
      * @throws EntityNotFoundException
      *
-     * @Method("DELETE")
-     * @Route("/freelancers/{freelancerId}", name="deleteFreelancer")
+     * @Route("/freelancers/{freelancerId}", name="deleteFreelancer", methods={"DELETE"})
      */
     public function deleteFreelancer(Request $request, $freelancerId)
     {
