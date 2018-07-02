@@ -14,6 +14,7 @@ use AppBundle\Entity\Customer\CustomerContact;
 use AppBundle\Entity\Project\Order\Order;
 use AppBundle\Entity\Project\Order\OrderPosition;
 use AppBundle\Entity\Project\Order\OrderStatus;
+use AppBundle\Entity\Project\Order\OrderTask;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 class OrderPositionTest extends TestCase
@@ -36,6 +37,22 @@ class OrderPositionTest extends TestCase
         $this->assertEquals(1, $orderPosition->getPositionNumber());
 
         $orderPosString = $orderPosition->getPosNoString();
-        $this->assertEquals('18-0001-01', $orderPosString);
+        $this->assertEquals('01', $orderPosString);
+
+        $customerPrice = 100.15;
+        $orderPosition->setCustomerPrice($customerPrice);
+        $this->assertEquals($customerPrice, $orderPosition->getCustomerPrice());
+
+        $title = 'Titel der Aufgabe';
+        $orderPosition->setTitle($title);
+        $this->assertEquals($title, $orderPosition->getTitle());
+
+        $task = new OrderTask();
+        $orderPosition->addTask($task);
+        $this->assertContains($task, $orderPosition->getTasks());
+        $this->assertEquals($orderPosition, $task->getPosition());
+        $orderPosition->removeTask($task);
+        $this->assertNotContains($task, $orderPosition->getTasks());
+        $this->assertEquals(null, $task->getPosition());
     }
 }
