@@ -20,7 +20,7 @@ matrix:
     - composer self-update
     install:
     # Set tip of branch to head of active branch
-    - git checkout ${TRAVIS_BRANCH}
+    - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then git checkout ${TRAVIS_BRANCH}; fi'
     # php
     - cp app/config/parameters.yml.dist app/config/parameters.yml
     - cp www/app.php.example www/app.php
@@ -58,7 +58,7 @@ matrix:
     - php vendor/bin/php-coveralls --dry-run -v
     # node
     - cd wn-frontend
-    - node merge-coveralls-json.js
+    - - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then node merge-coveralls-json.js; fi'
 notifications:
   email:
     recipients:
