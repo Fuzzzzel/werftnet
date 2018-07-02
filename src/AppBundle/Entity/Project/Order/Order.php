@@ -71,7 +71,7 @@ class Order extends Project
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Project\Order\OrderPosition", mappedBy="order")
      * @ORM\JoinColumn(name="order_id", referencedColumnName="id")
      * @JMS\Type("ArrayCollection<AppBundle\Entity\Project\Order\OrderPosition>")
-     * @JMS\Groups({"display", "update"})
+     * @JMS\Groups({"display"})
      */
     protected $positions;
 
