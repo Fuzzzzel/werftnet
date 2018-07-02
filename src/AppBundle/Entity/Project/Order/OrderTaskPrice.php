@@ -22,7 +22,7 @@ class OrderTaskPrice extends FreelancerPrice
 {
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Project\Order\OrderTaskPrice", inversedBy="prices")
-     * @ORM\JoinColumn(name="position_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="position_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
      * @JMS\Type("AppBundle\Entity\Project\Order\OrderTask")
      */
     private $task;

@@ -32,7 +32,7 @@ class OrderPosition
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Project\Order\Order", inversedBy="positions")
-     * @ORM\JoinColumn(name="order_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="order_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
      * @JMS\Type("AppBundle\Entity\Project\Order\Order")
      */
     private $order;
