@@ -58,7 +58,7 @@ matrix:
     - php vendor/bin/php-coveralls --dry-run -v
     # node
     - cd wn-frontend
-    - - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then node merge-coveralls-json.js; fi'
+    - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then node merge-coveralls-json.js; fi'
 notifications:
   email:
     recipients:
