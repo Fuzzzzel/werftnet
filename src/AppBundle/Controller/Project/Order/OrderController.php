@@ -109,11 +109,15 @@ class OrderController extends Controller
     public function getOrderById(Request $request, $orderId)
     {
         if (!isset($orderId) || !(intval($orderId) > 0)) {
-            return new Response('Order mit der id {$id} wurde nicht gefunden!', Response::HTTP_BAD_REQUEST);
+            return new Response('{$orderId} ist keine gültige Auftrags Id!!', Response::HTTP_BAD_REQUEST);
         }
 
         $repository = $this->getDoctrine()->getRepository(Order::class);
         $order = $repository->find(intval($orderId));
+
+        if($order === null) {
+            return new Response('Auftrag mit der Id {$orderId} wurde nicht gefunden!', Response::HTTP_NOT_FOUND);
+        }
 
         $serializer = SerializerBuilder::create()->build();
         $response = $serializer->serialize(
@@ -142,133 +146,6 @@ class OrderController extends Controller
             $em->remove($order);
             $em->flush();
         }
-
-        return new JsonResponse();
-    }
-
-    // ------ ORDER POSITIONS ------
-
-    /**
-     * @param Request $request
-     * @return null
-     * @throws EntityNotFoundException
-     *
-     * @Route("/orders/{orderId}/positions/{orderPositionId}", name="getOrderPositionById", methods={"GET"})
-     */
-    public function getOrderPositionById(Request $request, $orderId, $orderPositionId)
-    {
-        if (!isset($orderId) || (!intval($orderId) > 0)) {
-            return new Response("Ungültige Order Id: {$orderId}", Response::HTTP_BAD_REQUEST);
-        }
-
-        if (!isset($orderPositionId) || (!intval($orderPositionId) > 0)) {
-            return new Response("Ungültige Position Id: {$orderPositionId}", Response::HTTP_BAD_REQUEST);
-        }
-
-        $repository = $this->getDoctrine()->getRepository('AppBundle:Project\Order\OrderPosition');
-        $orderPosition = $repository->find(intval($orderPositionId));
-
-        if ($orderPosition->getOrder()->getId() !== intval($orderId)) {
-            throw new BadRequestHttpException("Position mit der Id {$orderPositionId} gehört nicht zum Auftrag mit der Id {$orderId}!");
-        }
-
-        $serializer = SerializerBuilder::create()->build();
-        $response = $serializer->serialize(
-            $orderPosition,
-            'json',
-            SerializationContext::create()->setGroups(['display'])
-        );
-        return new Response($response);
-    }
-
-
-    /**
-     * Fügt Kontakt hinzu oder bearbeitet ihn
-     *
-     * @param Request $request
-     * @return null
-     * @throws EntityNotFoundException
-     *
-     * @Route("/orders/{orderId}/positions/{orderPositionId}", defaults={"orderPositionId"=null}, name="editOrderPosition", methods={"POST"})
-     */
-    public function editOrderPosition(Request $request, $orderId, $orderPositionId)
-    {
-        // Daten aus Request in Objekte überführen
-        $content = $request->getContent();
-
-        // Request-Parameter decodieren
-        $params = null;
-
-        if (!empty($content)) {
-            $params = json_decode($content, true); // 2nd param to get as array
-        }
-
-
-        // EntityManager laden
-        $em = $this->getDoctrine()->getManager();
-
-        $serializer = $this->get('jms_serializer');
-        $position = $serializer->deserialize(
-            $content,
-            'AppBundle\Entity\Project\Order\OrderPosition',
-            'json',
-            DeserializationContext::create()->setGroups(array('update'))
-        );
-
-        // Erstellungsdatum setzen
-        if ($position->getId() == null) {
-            $em->detach($position);
-            $position->setCreatedAt(new \DateTime());
-        }
-
-        // Neue Position zu Auftrag hinzufügen
-        $order = $em->find('AppBundle\Entity\Project\Order\Order', $orderId);
-        $order->addPosition($position);
-
-        // Daten speichern
-        if ($position->getOrder() != null) {
-            $em->persist($position);
-            $em->flush();
-        }
-
-        // Liefern der Suche als Ergebnis (JSON)
-        $serializer = SerializerBuilder::create()->build();
-        $response = $serializer->serialize(
-            $position,
-            'json',
-            SerializationContext::create()->setGroups(['display'])
-        );
-
-        return new Response($response);
-    }
-
-
-    /**
-     * Löscht den Kontakt mit der übergebenen ID
-     *
-     * @param Request $request
-     * @return null
-     * @throws EntityNotFoundException
-     *
-     * @Route("/orders/{orderId}/positions/{orderPositionId}", name="deletePosition", methods={"DELETE"})
-     */
-    public function deletePosition(Request $request, $orderId, $orderPositionId)
-    {
-        // EntityManager laden
-        $em = $this->getDoctrine()->getManager();
-
-        $position = $em->find('AppBundle\Entity\Project\Order\OrderPosition', $orderPositionId);
-
-        if ($position == null) {
-            throw $this->createNotFoundException("Position mit der Id {$orderPositionId} wurde nicht gefunden!");
-        } else {
-            if ($position->getOrder()->getId() !== intval($orderId)) {
-                throw new BadRequestHttpException('Position mit der Id {$orderPositionId} gehört nicht zum Kunden mit der Id {$orderId}!');
-            }
-        }
-
-        $em->remove($position);
-        $em->flush();
 
         return new JsonResponse();
     }

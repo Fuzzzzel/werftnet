@@ -15,7 +15,7 @@ use JMS\Serializer\Annotation as JMS;
  * Class OrderPosition
  * @package AppBundle\Project\Orderphp
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Project\Order\OrderPositionRepository")
  * @ORM\Table(name="OrderPosition")
  */
 class OrderPosition
@@ -35,6 +35,20 @@ class OrderPosition
      * @JMS\Type("AppBundle\Entity\Project\Order\Order")
      */
     private $order;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @JMS\Type("integer")
+     * @JMS\Groups({"display"})
+     */
+    private $positionNumber;
+
+    /**
+     * @JMS\Type("string")
+     * @JMS\Groups({"display"})
+     * @JMS\Accessor(getter="getPosNoString")
+     */
+    private $posNoString;
 
     /**
      * @ORM\Column(type="datetime")
@@ -58,6 +72,15 @@ class OrderPosition
         return $this->order;
     }
 
+    public function setPositionNumber($positionNumber) {
+        $this->positionNumber = $positionNumber;
+        return $this;
+    }
+
+    public function getPositionNumber() {
+        return $this->positionNumber;
+    }
+
     public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
         return $this;
@@ -65,5 +88,9 @@ class OrderPosition
 
     public function getCreatedAt() {
         return $this->createdAt;
+    }
+
+    public function getPosNoString() {
+        return $this->order->getOrderNo() .'-' . str_pad($this->getPositionNumber(),2,'0', STR_PAD_LEFT );
     }
 }

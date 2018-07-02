@@ -11,7 +11,6 @@ namespace Tests\AppBundle\Controller\Project\Order;
 use http\Env\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\AppBundle\DefaultWebTestCase;
-
 class OrderControllerTest extends DefaultWebTestCase
 {
     public function testGetOrderWithoutId() {
@@ -85,6 +84,16 @@ class OrderControllerTest extends DefaultWebTestCase
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
 
+    public function testGetOrderByNonExistingId() {
+        $client = $this->getAdminClient();
+        $client->request(
+            'GET',
+            "/orders/99999"
+        );
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
+    }
+
     public function testSearchOrders() {
 
         // Search order
@@ -113,6 +122,8 @@ class OrderControllerTest extends DefaultWebTestCase
         $this->assertJson($content);
     }
 
+    // ----------- Positions ------------
+
     /**
      * @depends testCreateOrder
      */
@@ -124,9 +135,23 @@ class OrderControllerTest extends DefaultWebTestCase
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),
-            '{"order": '. json_encode($order) .'}'
+            '{}'
         );
         $content = $client->getResponse()->getContent();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertJson($content);
+
+        // Create second Position
+        $crawler = $client->request(
+            'POST',
+            '/orders/' . $order->id . '/positions',
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{}'
+        );
+        $content = $client->getResponse()->getContent();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertJson($content);
 
         // Get position by id
@@ -134,6 +159,47 @@ class OrderControllerTest extends DefaultWebTestCase
         $this->assertGreaterThan(0,$orderPosition->id);
 
         return array('orderPosition' => $orderPosition, 'order' => $order);
+    }
+
+    /**
+     * @depends testCreateOrderPosition
+     */
+    public function testCreateOrderPositionWithNonExistingOrderId($orderPositionAndOrderId) {
+        $orderPosition = $orderPositionAndOrderId['orderPosition'];
+        $order = $orderPositionAndOrderId['order'];
+
+        $client = $this->getAdminClient();
+        $client->request(
+            'POST',
+            "/orders/99999/positions/{$orderPosition->id}",
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{}'
+        );
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @depends testCreateOrderPosition
+     */
+    public function testEditOrderPositionWithWrongOrderId($orderPositionAndOrderId) {
+        $orderPosition = $orderPositionAndOrderId['orderPosition'];
+        $order = $orderPositionAndOrderId['order'];
+        $wrongOrderId = $order->id - 1;
+
+        $client = $this->getAdminClient();
+        $client->request(
+            'POST',
+            "/orders/{$wrongOrderId}/positions/{$orderPosition->id}",
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            json_encode($orderPosition)
+        );
+
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
     }
 
     /**
@@ -160,7 +226,7 @@ class OrderControllerTest extends DefaultWebTestCase
             '/orders/xyz/positions/abc'
         );
 
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
     }
 
     /**
@@ -173,7 +239,7 @@ class OrderControllerTest extends DefaultWebTestCase
             "/orders/{$order->id}/positions/abc"
         );
 
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
     }
 
     /**
@@ -191,8 +257,7 @@ class OrderControllerTest extends DefaultWebTestCase
 
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
     }
-    
-    // --------------
+
 
     /**
      * @depends testCreateOrderPosition
