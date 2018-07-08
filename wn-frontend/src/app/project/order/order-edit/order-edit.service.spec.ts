@@ -8,6 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CoreDataService } from '../../../core/core-data.service';
 import { CoreDataServiceMock } from '../../../core/core-data.service-mock';
 import { Customer } from '../../../customer/customer.model';
+import { OrderPosition } from '../order-position.model';
 
 describe('OrderEditService', () => {
   let service: OrderEditService
@@ -110,6 +111,110 @@ describe('OrderEditService', () => {
     expect(req.request.method).toBe("POST")
     req.flush(order, { status: 404, statusText: 'Not Found' })
   })
+
+  // Order Position Tests - Begin
+  it('should create new Position', (done) => {
+    let order = new Order()
+    order.id = 1
+    service.createNewPosition(order)
+      .then((data) => {
+        done()
+      })
+
+    const req = backend.expectOne('/orders/' + order.id + '/positions')
+    expect(req.request.method).toBe("POST")
+    req.flush({}, { status: 200, statusText: 'Not Found' })
+  })
+
+  it('should fail to create new Position', (done) => {
+    let order = new Order()
+    order.id = 1
+    service.createNewPosition(order)
+      .catch((data) => {
+        done()
+      })
+
+    const req = backend.expectOne('/orders/' + order.id + '/positions')
+    expect(req.request.method).toBe("POST")
+    req.flush({}, { status: 400, statusText: 'Not Found' })
+  })
+
+  it('should save Position', (done) => {
+    let position = new OrderPosition()
+    position.id = 2
+    position.order_id = 1
+    service.savePosition(position)
+      .then((data) => {
+        done()
+      })
+
+    const req = backend.expectOne('/orders/' + position.order_id + '/positions/' + position.id)
+    expect(req.request.method).toBe("POST")
+    req.flush({}, { status: 200, statusText: 'Not Found' })
+  })
+
+  it('should fail to save Position', (done) => {
+    let position = new OrderPosition()
+    position.id = 2
+    position.order_id = 1
+    service.savePosition(position)
+      .catch((data) => {
+        done()
+      })
+
+    const req = backend.expectOne('/orders/' + position.order_id + '/positions/' + position.id)
+    expect(req.request.method).toBe("POST")
+    req.flush({}, { status: 400, statusText: 'Not Found' })
+  })
+
+  it('should delete Position', (done) => {
+    let position = new OrderPosition()
+    position.id = 2
+    position.order_id = 1
+    service.deletePosition(position)
+      .then((data) => {
+        done()
+      })
+
+    const req = backend.expectOne('/orders/' + position.order_id + '/positions/' + position.id)
+    expect(req.request.method).toBe("DELETE")
+    req.flush({}, { status: 200, statusText: 'Not Found' })
+  })
+
+  it('should fail to delete Position', (done) => {
+    let position = new OrderPosition()
+    position.id = 2
+    position.order_id = 1
+    service.deletePosition(position)
+      .catch((data) => {
+        done()
+      })
+
+    const req = backend.expectOne('/orders/' + position.order_id + '/positions/' + position.id)
+    expect(req.request.method).toBe("DELETE")
+    req.flush({}, { status: 400, statusText: 'Not Found' })
+  })
+
+  it('should refresh positions', () => {
+    service.orderToEdit = new Order()
+    service.orderToEdit.id = 1
+    service.refreshPositions()
+
+    const req = backend.expectOne('/orders/' + service.orderToEdit.id + '/positions')
+    expect(req.request.method).toBe("GET")
+    req.flush([], { status: 200, statusText: 'Not Found' })
+  })
+
+  it('should fail to refresh positions', () => {
+    service.orderToEdit = new Order()
+    service.orderToEdit.id = 1
+    service.refreshPositions()
+
+    const req = backend.expectOne('/orders/' + service.orderToEdit.id + '/positions')
+    expect(req.request.method).toBe("GET")
+    req.flush(null, { status: 400, statusText: 'Not Found' })
+  })
+  // Order Position Tests - End
 
   it('should delete order', (done) => {
     let order = new Order()

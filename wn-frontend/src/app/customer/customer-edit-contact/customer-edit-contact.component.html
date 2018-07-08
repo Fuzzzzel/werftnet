@@ -92,6 +92,6 @@
 <div class="btn-group pull-right my-2" role="group">
   <button class="btn btn-sm btn-primary mx-1" (click)="saveCustomerContact()">Speichern</button>
   <button class="btn btn-sm btn-default mx-1" (click)="cancelEdit()">Abbrechen</button>
-  <button class="btn btn-sm btn-danger mx-1" (click)="deleteCustomerContact()" ng-disabled="contact_edit.id == null">Löschen
+  <button class="btn btn-sm btn-danger mx-1" (click)="deleteCustomerContact()" [disabled]="contact_edit.id == null">Löschen
   </button>
 </div>

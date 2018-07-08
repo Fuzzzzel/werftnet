@@ -80,8 +80,10 @@ class OrderTest extends TestCase
         $orderPosition = new OrderPosition();
         $order->addPosition($orderPosition);
         $this->assertContains($orderPosition, $order->getPositions());
+        $this->assertEquals($order, $orderPosition->getOrder());
         $order->removePosition($orderPosition);
         $this->assertNotContains($orderPosition, $order->getPositions());
+        $this->assertEquals(null, $orderPosition->getOrder());
     }
 
     public function testGetOrderNo() {

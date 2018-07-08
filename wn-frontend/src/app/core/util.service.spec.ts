@@ -119,4 +119,19 @@ describe('UtilService', () => {
 
     expect(() => { service.orderArrayByName(null) }).toThrow(new Error('Parameter is not an array'))
   })
+
+  it('should not update or add anything if parameters incomplete', () => {
+    service.updateOrAddObjectInArrayById([], null)
+  })
+
+  it('should add object to array if no object with same id is contained', () => {
+    let obj = { id: 1 }
+    service.updateOrAddObjectInArrayById([], obj)
+  })
+
+  it('should not add object to array if another object with same id is contained', () => {
+    let obj1 = { id: 1 }
+    let obj2 = { id: 2 }
+    service.updateOrAddObjectInArrayById([obj1], obj2)
+  })
 });

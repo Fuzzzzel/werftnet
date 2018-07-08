@@ -101,6 +101,22 @@ export class UtilService {
     }
   }
 
+  updateOrAddObjectInArrayById(targetArray, obj) {
+    let added = false
+    if (targetArray && obj) {
+      for (var i = 0; i < targetArray.length; i++) {
+        if (targetArray[i].id == obj.id) {
+          Object.assign(targetArray[i], obj)
+          added = true
+          break;
+        }
+      }
+      if (!added) {
+        targetArray.push(obj)
+      }
+    }
+  }
+
   orderArrayByName(simpleEntityArray: SimpleEntity[]) {
     if (Array.isArray(simpleEntityArray)) {
       return simpleEntityArray.sort((a, b) => { return a.name.localeCompare(b.name) });

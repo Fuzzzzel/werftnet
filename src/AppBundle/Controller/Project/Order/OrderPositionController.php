@@ -52,7 +52,7 @@ class OrderPositionController extends Controller
         if ($orderPosition->getOrder() === null) {
             $order = $em->getRepository(Order::class)->find($orderId);
             if ($order === null) {
-                return new Response('Auftrag mit der Id {$orderId} wurde nicht gefunden!', Response::HTTP_NOT_FOUND);
+                return new Response("Auftrag mit der Id {$orderId} wurde nicht gefunden!", Response::HTTP_NOT_FOUND);
             } else {
                 $orderPosition->setOrder($order);
             }

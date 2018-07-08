@@ -258,6 +258,185 @@ class OrderControllerTest extends DefaultWebTestCase
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
     }
 
+    // ------------ OrderTask - BEGIN ------------------
+
+    /**
+     * @depends testCreateOrderPosition
+     */
+    public function testCreateOrderTask($orderPositionAndOrder) {
+        $orderPosition = $orderPositionAndOrder['orderPosition'];
+        $order = $orderPositionAndOrder['order'];
+
+        $client = $this->getAdminClient();
+        $crawler = $client->request(
+            'POST',
+            '/orders/' . $order->id . '/positions/' . $orderPosition->id . '/tasks',
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{}'
+        );
+        $content = $client->getResponse()->getContent();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertJson($content);
+        $orderTask = json_decode($content);
+        $this->assertGreaterThan(0,$orderTask->id);
+        $firstTaskId = $orderTask->id;
+
+        // Create second Task
+        $crawler = $client->request(
+            'POST',
+            '/orders/' . $order->id . '/positions/' . $orderPosition->id . '/tasks',
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{}'
+        );
+        $content = $client->getResponse()->getContent();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertJson($content);
+
+        $orderTask = json_decode($content);
+        $this->assertGreaterThan($firstTaskId, $orderTask->id);
+
+        return array('order' => $order, 'orderPosition' => $orderPosition, 'orderTask' => $orderTask);
+    }
+
+    /**
+     * @depends testCreateOrderTask
+     */
+    public function testGetOrderTask($orderPositionAndTask) {
+        $orderTask = $orderPositionAndTask['orderTask'];
+        $orderPosition = $orderPositionAndTask['orderPosition'];
+        $order = $orderPositionAndTask['order'];
+
+        $client = $this->getAdminClient();
+        $crawler = $client->request(
+            'GET',
+            '/orders/' . $order->id . '/positions/' . $orderPosition->id . '/tasks/' . $orderTask->id
+        );
+        $content = $client->getResponse()->getContent();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertJson($content);
+    }
+
+    /**
+     * @depends testCreateOrderTask
+     */
+    public function testGetOrderTaskWithNonExistingId($orderPositionAndTask) {
+        $orderTask = $orderPositionAndTask['orderTask'];
+        $orderPosition = $orderPositionAndTask['orderPosition'];
+        $order = $orderPositionAndTask['order'];
+
+        $client = $this->getAdminClient();
+        $crawler = $client->request(
+            'GET',
+            '/orders/' . $order->id . '/positions/' . $orderPosition->id . '/tasks/99999'
+        );
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @depends testCreateOrderTask
+     */
+    public function testEditOrderTaskWithNonExistingPositionId($orderPositionAndTask) {
+        $orderTask = $orderPositionAndTask['orderTask'];
+        $orderPosition = $orderPositionAndTask['orderPosition'];
+        $order = $orderPositionAndTask['order'];
+
+        $client = $this->getAdminClient();
+        $crawler = $client->request(
+            'POST',
+            '/orders/' . $order->id . '/positions/99999/tasks/' . $orderTask->id,
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{}'
+
+        );
+        $content = $client->getResponse()->getContent();
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @depends testCreateOrderTask
+     */
+    public function testEditOrderTaskWithWrongPositionId($orderPositionAndTask) {
+        $orderTask = $orderPositionAndTask['orderTask'];
+        $orderPosition = $orderPositionAndTask['orderPosition'];
+        $order = $orderPositionAndTask['order'];
+
+        $client = $this->getAdminClient();
+        $crawler = $client->request(
+            'POST',
+            '/orders/' . $order->id . '/positions/99999/tasks/' . $orderTask->id,
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            json_encode($orderTask)
+
+        );
+        $content = $client->getResponse()->getContent();
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @depends testCreateOrderTask
+     */
+    public function testEditOrderTaskWithNonExistingOrWrongOrderId($orderPositionAndTask) {
+        $orderTask = $orderPositionAndTask['orderTask'];
+        $orderPosition = $orderPositionAndTask['orderPosition'];
+        $order = $orderPositionAndTask['order'];
+
+        $client = $this->getAdminClient();
+        $crawler = $client->request(
+            'POST',
+            '/orders/99999/positions/' . $orderPosition->id . '/tasks/' . $orderTask->id,
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            json_encode($orderTask)
+        );
+        $content = $client->getResponse()->getContent();
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+    }
+
+
+    /**
+     * @depends testCreateOrderTask
+     */
+    public function testDeleteOrderTaskWithNonExistingId($orderPositionAndTask) {
+        $orderTask = $orderPositionAndTask['orderTask'];
+        $orderPosition = $orderPositionAndTask['orderPosition'];
+        $order = $orderPositionAndTask['order'];
+
+        $client = $this->getAdminClient();
+        $crawler = $client->request(
+            'DELETE',
+            '/orders/' . $order->id . '/positions/' . $orderPosition->id . '/tasks/99999'
+        );
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+    }
+
+
+    /**
+     * @depends testCreateOrderTask
+     */
+    public function testDeleteOrderTask($orderPositionAndTask) {
+        $orderTask = $orderPositionAndTask['orderTask'];
+        $orderPosition = $orderPositionAndTask['orderPosition'];
+        $order = $orderPositionAndTask['order'];
+
+        $client = $this->getAdminClient();
+        $crawler = $client->request(
+            'DELETE',
+            '/orders/' . $order->id . '/positions/' . $orderPosition->id . '/tasks/' . $orderTask->id
+        );
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+    }
+
+    // ------------ OrderTask - END ------------------
+
 
     /**
      * @depends testCreateOrderPosition
