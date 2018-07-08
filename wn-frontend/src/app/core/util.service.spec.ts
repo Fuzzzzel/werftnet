@@ -124,14 +124,14 @@ describe('UtilService', () => {
     service.updateOrAddObjectInArrayById([], null)
   })
 
-  it('should add object to array if no object with same id is contained', () => {
+  it('should add object if no other object with same id is contained', () => {
     let obj = { id: 1 }
     service.updateOrAddObjectInArrayById([], obj)
   })
 
-  it('should not add object to array if another object with same id is contained', () => {
+  it('should update object if another object with same id is contained', () => {
     let obj1 = { id: 1 }
     let obj2 = { id: 2 }
-    service.updateOrAddObjectInArrayById([obj1], obj2)
+    service.updateOrAddObjectInArrayById([obj1, obj2], obj2)
   })
 });
