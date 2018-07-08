@@ -22,6 +22,8 @@ class OrderPositionTest extends TestCase
 
     public function testOrderPositionPorperties() {
         $orderPosition = new OrderPosition();
+        $this->assertNull($orderPosition->getOrderId());
+
         $order = new Order();
         $order->setNumberInYear(1);
         $order->setCreatedAt(new \DateTime('2018-01-01'));

@@ -39,6 +39,10 @@ class OrderTaskTest extends TestCase
         $task->setTitle($title);
         $this->assertEquals($title, $task->getTitle());
 
+        $taskPrice = 37.60;
+        $task->setTaskPrice($taskPrice);
+        $this->assertEquals($taskPrice, $task->getTaskPrice());
+
         $price = new OrderTaskPrice();
         $task->addPrice($price);
         $this->assertContains($price, $task->getPrices());

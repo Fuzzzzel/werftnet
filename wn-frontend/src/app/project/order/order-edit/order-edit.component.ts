@@ -6,6 +6,7 @@ import { CoreData, CoreDataService } from '../../../core/core-data.service';
 import { CustomerService } from '../../../customer/customer.service';
 import { OrderEditService } from './order-edit.service';
 import { OrderSearchService } from '../order-search/order-search.service';
+import { OrderPosition } from '../order-position.model';
 
 @Component({
   selector: 'app-order-edit',
@@ -60,6 +61,40 @@ export class OrderEditComponent implements OnInit {
         .then((data) => {
           this.orderSearchService.searchOrders(null)
           this.util.historyBack()
+        })
+        .catch((error) => {
+          alert(error.message)
+        })
+    }
+  }
+
+  createNewPosition() {
+    this.orderEditService.createNewPosition(this.order_edit)
+      .then((data) => {
+        this.order_edit.positions.push(data)
+      })
+      .catch((error) => {
+        alert(error.message)
+      })
+  }
+
+  savePosition(position: OrderPosition) {
+    this.orderEditService.savePosition(position)
+      .then((data) => {
+        console.log(data)
+        this.util.updateOrAddObjectInArrayById(this.order_edit.positions, data)
+      })
+      .catch((error) => {
+        alert(error.message)
+      })
+  }
+
+  deletePosition(position: OrderPosition) {
+    if (confirm('Soll die Position wirklich gelöscht werden?')) {
+      this.orderEditService.deletePosition(position)
+        .then((data) => {
+          console.log(data)
+          this.util.removeFromArray(this.order_edit.positions, position)
         })
         .catch((error) => {
           alert(error.message)

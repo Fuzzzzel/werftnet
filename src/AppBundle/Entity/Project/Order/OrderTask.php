@@ -66,6 +66,13 @@ class OrderTask
     private $title;
 
     /**
+     * @ORM\Column(type="float", nullable=true)
+     * @JMS\Type("float")
+     * @JMS\Groups({"display", "update"})
+     */
+    private $taskPrice;
+
+    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Project\Order\OrderTaskPrice", mappedBy="task")
      * @ORM\JoinColumn(name="position_id", referencedColumnName="id")
      * @JMS\Type("ArrayCollection<AppBundle\Entity\Project\Order\OrderTaskPrice>")
@@ -89,6 +96,9 @@ class OrderTask
         return $this;
     }
 
+    /**
+     * @return OrderPosition
+     */
     public function getPosition() {
         return $this->position;
     }
@@ -98,6 +108,9 @@ class OrderTask
         return $this;
     }
 
+    /**
+     * @return integer
+     */
     public function getTaskNumber() {
         return $this->taskNumber;
     }
@@ -107,10 +120,16 @@ class OrderTask
         return $this;
     }
 
+    /**
+     * @return \DateTime
+     */
     public function getCreatedAt() {
         return $this->createdAt;
     }
 
+    /**
+     * @return string
+     */
     public function getTaskNoString() {
         $position = $this->getPosition();
         $order = $position->getOrder();
@@ -122,6 +141,9 @@ class OrderTask
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getTitle() {
         return $this->title;
     }
@@ -138,8 +160,23 @@ class OrderTask
         return $this;
     }
 
+    /**
+     * @return ArrayCollection<TaskPrice>
+     */
     public function getPrices() {
         return $this->prices;
+    }
+
+    public function setTaskPrice($taskPrice) {
+        $this->taskPrice = $taskPrice;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTaskPrice() {
+        return $this->taskPrice;
     }
 
     public function resetTitleToPositionLangCombo() {

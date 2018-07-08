@@ -68,6 +68,22 @@ describe('OrderHeadEditComponent', () => {
     expect(component).toBeTruthy()
   })
 
+  it('should reload customer contacts and reset selected contact', () => {
+    initWithoutCustomer()
+    let customer = new Customer()
+    customer.id = 1
+
+    let customerContact = new CustomerContact()
+    customerContact.id = 1
+
+    component.orderHead.customer_contact = customerContact
+    component.reloadCustomerContacts(customer)
+
+    const req = backend.expectOne('/customers/' + customer.id + '/contacts')
+    expect(req.request.method).toBe("GET")
+    req.flush([], { status: 200, statusText: 'Ok' })
+  })
+
   it('should reload customer contacts but not reset selected contact', () => {
     initWithoutCustomer()
     let customer = new Customer()

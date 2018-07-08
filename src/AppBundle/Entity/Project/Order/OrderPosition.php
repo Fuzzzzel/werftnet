@@ -31,6 +31,13 @@ class OrderPosition
     private $id;
 
     /**
+     * @JMS\Type("integer")
+     * @JMS\Groups({"display"})
+     * @JMS\Accessor(getter="getOrderId")
+     */
+    protected $orderId;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Project\Order\Order", inversedBy="positions")
      * @ORM\JoinColumn(name="order_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
      * @JMS\Type("AppBundle\Entity\Project\Order\Order")
@@ -103,6 +110,9 @@ class OrderPosition
 
     // Getters and Setters
 
+    /**
+     * @return integer
+     */
     public function getId() {
         return $this->id;
     }
@@ -112,8 +122,19 @@ class OrderPosition
         return $this;
     }
 
+    /**
+     * @return Order
+     */
     public function getOrder() {
         return $this->order;
+    }
+
+    public function getOrderId() {
+        if ($this->getOrder() !== null) {
+            return $this->getOrder()->getId();
+        } else {
+            return null;
+        }
     }
 
     public function setPositionNumber($positionNumber) {
@@ -121,6 +142,9 @@ class OrderPosition
         return $this;
     }
 
+    /**
+     * @return integer
+     */
     public function getPositionNumber() {
         return $this->positionNumber;
     }
@@ -130,10 +154,16 @@ class OrderPosition
         return $this;
     }
 
+    /**
+     * @return \DateTime
+     */
     public function getCreatedAt() {
         return $this->createdAt;
     }
 
+    /**
+     * @return string
+     */
     public function getPosNoString() {
         return str_pad($this->getPositionNumber(),2,'0', STR_PAD_LEFT );
     }
@@ -143,6 +173,9 @@ class OrderPosition
         return $this;
     }
 
+    /**
+     * @return float
+     */
     public function getCustomerPrice() {
         return $this->customerPrice;
     }
@@ -152,6 +185,9 @@ class OrderPosition
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getTitle() {
         return $this->title;
     }
@@ -161,7 +197,7 @@ class OrderPosition
      *
      * @param \AppBundle\Entity\Common\Language $lngSource
      *
-     * @return FreelancerPrice
+     * @return OrderPosition
      */
     public function setLngSource(\AppBundle\Entity\Common\Language $lngSource = null)
     {
@@ -187,6 +223,11 @@ class OrderPosition
         return $this;
     }
 
+    /**
+     * Get lngTarget
+     *
+     * @return \AppBundle\Entity\Common\Language
+     */
     public function getLngTarget()
     {
         return $this->lngTarget;

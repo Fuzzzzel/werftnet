@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { UtilService } from '../../../core/util.service';
 import { CoreData, CoreDataService } from '../../../core/core-data.service';
 import { Customer } from '../../../customer/customer.model';
+import { OrderPosition } from '../order-position.model';
 
 @Injectable()
 export class OrderEditService {
@@ -77,11 +78,9 @@ export class OrderEditService {
   }
 
   saveOrder(orderToSave) {
-    this.orderToEdit = orderToSave;
-
     // Set up post request
     const req = this.http.post<Order>(
-      '/orders' + (this.orderToEdit.id ? '/' + this.orderToEdit.id : ''),
+      '/orders' + (orderToSave.id ? '/' + orderToSave.id : ''),
       orderToSave
     )
 
@@ -117,6 +116,85 @@ export class OrderEditService {
         },
         error => {
           reject(new Error('Fehler beim Löschen:' + error.message));
+        });
+    })
+  }
+
+  createNewPosition(order) {
+    return new Promise<OrderPosition>((resolve, reject) => {
+      // Set up post request
+      let newPosition = new OrderPosition()
+      newPosition.order_id = order.id
+      this.savePosition(newPosition)
+        .then((data) => {
+          resolve(data)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  }
+
+  savePosition(position: OrderPosition) {
+    const req = this.http.post<OrderPosition>(
+      '/orders/' + position.order_id + '/positions' + (position.id ? '/' + position.id : ''),
+      position
+    )
+
+    return new Promise<OrderPosition>((resolve, reject) => {
+      // Execute post request and subscribe to response
+      req.subscribe(
+        data => {
+          resolve(data)
+        },
+        error => {
+          reject(new Error("Fehler beim Speichern der Position: " + error.error))
+        });
+    })
+  }
+
+  deletePosition(position: OrderPosition) {
+    const req = this.http.delete<any>(
+      '/orders/' + position.order_id + '/positions/' + position.id
+    )
+
+    return new Promise<any>((resolve, reject) => {
+      // Execute post request and subscribe to response
+      req.subscribe(
+        data => {
+          resolve()
+        },
+        error => {
+          reject(new Error("Fehler beim Löschen der Position: " + error.error))
+        });
+    })
+  }
+
+  refreshPositions() {
+    this.fetchPositions()
+      .then((data) => {
+        this.orderToEdit.positions = data
+      })
+      .catch((error) => {
+        // Handle error
+      })
+  }
+
+  fetchPositions() {
+    return new Promise<OrderPosition[]>((resolve, reject) => {
+      // Fetch positions and return
+      // Set up post request
+      const req = this.http.get<OrderPosition[]>(
+        '/orders/' + this.orderToEdit.id + '/positions'
+      )
+
+      // Execute post request and subscribe to response
+      req.subscribe(
+        data => {
+          resolve(data)
+        },
+        error => {
+          reject(new Error(error.error))
         });
     })
   }

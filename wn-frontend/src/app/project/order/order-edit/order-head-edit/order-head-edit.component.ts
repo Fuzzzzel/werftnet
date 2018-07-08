@@ -51,9 +51,11 @@ export class OrderHeadEditComponent implements OnInit {
     if (customer && customer.id) {
       this.customerService.fetchCustomerContacts(customer.id)
         .then((data) => {
-          const contactIsInReloadedList = this.util.isObjectIdInArray(data, this.orderHead.customer_contact)
-          if (!contactIsInReloadedList) {
-            this.orderHead.customer_contact = null
+          if (this.orderHead.customer_contact) {
+            const contactIsInReloadedList = this.util.isObjectIdInArray(data, this.orderHead.customer_contact)
+            if (!contactIsInReloadedList) {
+              this.orderHead.customer_contact = null
+            }
           }
           this.customerContacts = data
         })

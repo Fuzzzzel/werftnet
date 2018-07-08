@@ -15,6 +15,7 @@ import { OrderSearchService } from '../order-search/order-search.service';
 import { Order } from '../order.model';
 import { OrderHeadViewComponent } from './order-head-view/order-head-view.component';
 import { OrderHeadEditComponent } from './order-head-edit/order-head-edit.component';
+import { OrderPosition } from '../order-position.model';
 
 describe('OrderEditComponent', () => {
   let component: OrderEditComponent
@@ -98,6 +99,89 @@ describe('OrderEditComponent', () => {
     spyOn(window, 'alert').and.returnValue(true)
     component.saveOrder()
   })
+
+  // Order position - begin
+  it('should create new position', () => {
+    component.order_edit.id = 1
+    let position = new OrderPosition()
+    position.id = 2
+
+    component.createNewPosition()
+
+    const req = backend.expectOne('/orders/' + component.order_edit.id + '/positions')
+    expect(req.request.method).toBe("POST")
+    req.flush(position, { status: 200, statusText: 'OK' })
+  })
+
+  it('should fail to create new position', () => {
+    let position = new OrderPosition()
+    position.id = 2
+    spyOn(orderEditService, 'createNewPosition').and.callFake(function () {
+      return new Promise((resolve, reject) => {
+        reject(new Error())
+      })
+    })
+    spyOn(window, 'alert').and.returnValue(true)
+
+    component.createNewPosition()
+  })
+
+  it('should save position', () => {
+    let position = new OrderPosition()
+    position.id = 2
+    position.order_id = 1
+
+    component.savePosition(position)
+
+    const req = backend.expectOne('/orders/' + position.order_id + '/positions/' + position.id)
+    expect(req.request.method).toBe("POST")
+    req.flush(position, { status: 200, statusText: 'OK' })
+  })
+
+  it('should fail to save position', () => {
+    let position = new OrderPosition()
+    position.id = 2
+    position.order_id = 1
+    spyOn(orderEditService, 'savePosition').and.callFake(function () {
+      return new Promise((resolve, reject) => {
+        reject(new Error())
+      })
+    })
+    spyOn(window, 'alert').and.returnValue(true)
+
+    component.savePosition(position)
+  })
+
+  it('should delete position', () => {
+    let position = new OrderPosition()
+    position.id = 2
+    position.order_id = 1
+
+    spyOn(window, 'confirm').and.returnValue(true)
+    component.deletePosition(position)
+
+    const req = backend.expectOne('/orders/' + position.order_id + '/positions/' + position.id)
+    expect(req.request.method).toBe("DELETE")
+    req.flush(position, { status: 200, statusText: 'OK' })
+  })
+
+  it('should fail to delete position', () => {
+    let position = new OrderPosition()
+    position.id = 2
+    position.order_id = 1
+
+    spyOn(orderEditService, 'deletePosition').and.callFake(function () {
+      return new Promise((resolve, reject) => {
+        reject(new Error())
+      })
+    })
+    spyOn(window, 'confirm').and.returnValue(true)
+    spyOn(window, 'alert').and.returnValue(true)
+
+    component.deletePosition(position)
+  })
+
+  // Order position - end
 
   it('should delete order', () => {
     initOrderWithCustomer()
