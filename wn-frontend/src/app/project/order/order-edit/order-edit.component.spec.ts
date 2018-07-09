@@ -165,6 +165,15 @@ describe('OrderEditComponent', () => {
     req.flush(position, { status: 200, statusText: 'OK' })
   })
 
+  it('should cancel delete position', () => {
+    let position = new OrderPosition()
+    position.id = 2
+    position.order_id = 1
+
+    spyOn(window, 'confirm').and.returnValue(false)
+    component.deletePosition(position)
+  })
+
   it('should fail to delete position', () => {
     let position = new OrderPosition()
     position.id = 2
