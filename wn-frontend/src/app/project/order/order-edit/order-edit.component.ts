@@ -44,11 +44,15 @@ export class OrderEditComponent implements OnInit {
     this.saveOrder()
   }
 
+  /**
+   * Order is updated on server (Order Head)
+   * Positions are not updated
+   */
   saveOrder() {
     this.orderEditService.saveOrder(this.order_edit)
       .then((data) => {
+        this.order_edit = this.orderEditService.getOrderToEdit()
         this.orderSearchService.searchOrders(null)
-        this.util.historyBack()
       })
       .catch((error) => {
         alert(error.message)

@@ -19,6 +19,8 @@ export class OrderHeadViewComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    // Show in edit mode if order is new
+    this.editMode = !this.order.id
   }
 
   toggleEditMode() {
@@ -27,6 +29,7 @@ export class OrderHeadViewComponent implements OnInit {
 
   saveOrderHead(orderHead) {
     this.save.emit(orderHead)
+    this.toggleEditMode()
   }
 
 }
