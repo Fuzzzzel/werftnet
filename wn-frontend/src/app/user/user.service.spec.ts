@@ -6,7 +6,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { User } from './user.model'
 import { UserService } from './user.service'
 import { UtilService } from '../core/util.service'
-import { AuthGuardService } from '../user/auth-guard.service'
+import { AuthGuardService } from './auth-guard.service'
 
 describe('UserService', () => {
 

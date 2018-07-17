@@ -17,7 +17,7 @@ class OrderTaskRepository extends EntityRepository
     public function getMaxTaskNumberForPosition($positionId) {
         $qb = $this->createQueryBuilder('ot');
         $qb->select('ot, MAX(ot.taskNumber) as maxTaskNumber');
-        $qb->leftJoin(Order::class, 'op', 'WITH', 'op.id = :positionId');
+        $qb->leftJoin('ot.position', 'op', 'WITH', 'op = ot.position');
         $qb->where('op.id = :positionId');
         $qb->setParameter('positionId', $positionId);
 

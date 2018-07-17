@@ -31,6 +31,20 @@ class OrderTask
     private $id;
 
     /**
+     * @JMS\Type("integer")
+     * @JMS\Groups({"display"})
+     * @JMS\Accessor(getter="getOrderId")
+     */
+    protected $orderId;
+
+    /**
+     * @JMS\Type("integer")
+     * @JMS\Groups({"display"})
+     * @JMS\Accessor(getter="getPositionId")
+     */
+    protected $positionId;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Project\Order\OrderPosition", inversedBy="tasks")
      * @ORM\JoinColumn(name="position_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
      * @JMS\Type("AppBundle\Entity\Project\Order\OrderPosition")
@@ -183,6 +197,26 @@ class OrderTask
         if($this->getPosition() !== null && $this->getPosition()->getLngSource() !== null && $this->getPosition()->getLngTarget()) {
             $title = $this->getPosition()->getLngSource()->getName() . ' → ' . $this->getPosition()->getLngTarget()->getName();
             $this->title = $title;
+        }
+    }
+
+    public function getOrderId() {
+        $position = $this->getPosition();
+        $order = $position === null ? null : $position->getOrder();
+
+        if($order !== null ) {
+            return $order->getId();
+        } else {
+            return null;
+        }
+    }
+
+    public function getPositionId() {
+        $position = $this->getPosition();
+        if($position !== null) {
+            return $position->getId();
+        } else {
+            return null;
         }
     }
 }

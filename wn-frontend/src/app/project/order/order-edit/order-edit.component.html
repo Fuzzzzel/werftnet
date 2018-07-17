@@ -13,69 +13,8 @@
       <h3 class="card-title">Positionen</h3>
     </div>
   </div>
-  <div class="card" *ngFor="let position of order_edit.positions">
-    <div class="card-body">
-      <!-- Position head -->
-      <div class="row">
-        <div class="col-md-5">
-          <div class="form-group row no-gutters">
-            <div class="col-md-1">
-              {{ position.pos_no_string }}
-            </div>
-            <div class="col-md">
-              <select class="form-control form-control-sm" name="edit-position-lng_source" [(ngModel)]="position.lng_source" [compareWith]='util.compareById'>
-                <option [value]='undefined' selected>-- Quellsprache --</option>
-                <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
-              </select>
-            </div>
-            <div class="col-md">
-              <select class="form-control form-control-sm" name="edit-position-lng_target" [(ngModel)]="position.lng_target" [compareWith]='util.compareById'>
-                <option [value]='undefined' selected>-- Zielsprache --</option>
-                <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <input class="form-control form-control-sm" name="edit-position-title" [(ngModel)]="position.title" placeholder="Titel">
-        </div>
-        <div class="col-md-3">
-          <div class="form-group row no-gutters">
-            <div class="col-md-5">
-              <input type="number" step="any" class="form-control form-control-sm" name="edit-position-customer_price" [(ngModel)]="position.customer_price"
-                placeholder="Preis">
-            </div>
-            <div class="col-md-7">
-              <button type="button" class="btn btn-sm btn-primary mx-1 float-right" (click)="savePosition(position)">
-                <span class="clickable iconsmall">
-                  <i class="fa fa-floppy-o"></i>
-                </span>
-              </button>
-              <button type="button" class="btn btn-sm btn-danger mx-1 float-right" (click)="deletePosition(position)">
-                <span class="clickable iconsmall">
-                  <i class="fa fa-times"></i>
-                </span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Position head end -->
-      <!-- Tasks begin -->
-      <div class="card" *ngFor="let task of position.tasks">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-2">
-              {{ task.task_no_string }}
-            </div>
-            <div class="col-md-4">
-              {{ task.title }}
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Tasks end -->
-    </div>
+  <div *ngFor="let position of order_edit.positions">
+    <app-order-position-view [position]="position" (save)="savePosition($event)" (delete)="deletePosition($event)"></app-order-position-view>
   </div>
   <div class="btn-group pull-right my-2" role="group">
     <button class="btn btn-sm btn-danger mx-1" (click)="deleteOrder()" [disabled]="order_edit.id == null">

@@ -140,6 +140,8 @@ class OrderControllerTest extends DefaultWebTestCase
         $content = $client->getResponse()->getContent();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertJson($content);
+        $position1 = json_decode($content);
+        $this->assertEquals(1, $position1->position_number);
 
         // Create second Position
         $crawler = $client->request(
@@ -153,12 +155,11 @@ class OrderControllerTest extends DefaultWebTestCase
         $content = $client->getResponse()->getContent();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertJson($content);
+        $position2 = json_decode($content);
+        $this->assertTrue($position1->position_number === $position2->position_number - 1);
 
-        // Get position by id
-        $orderPosition = json_decode($content);
-        $this->assertGreaterThan(0,$orderPosition->id);
 
-        return array('orderPosition' => $orderPosition, 'order' => $order);
+        return array('orderPosition' => $position2, 'order' => $order);
     }
 
     /**

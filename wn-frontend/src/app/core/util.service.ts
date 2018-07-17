@@ -74,6 +74,10 @@ export class UtilService {
     return _.cloneDeep(obj);
   }
 
+  isFunction(func) {
+    return _.isFunction(func)
+  }
+
   isObjectIdInArray(targetArray, obj) {
     for (let i = 0; i < targetArray.length; i++) {
       if (targetArray[i].id === obj.id) {

@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Subject, Observable, Subscription } from 'rxjs/Rx';
+import { Subject, Observable, Subscription } from 'rxjs';
 import { of } from 'rxjs/observable/of';
 import { User } from './user.model';
 import { UtilService } from '../core/util.service';

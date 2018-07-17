@@ -6,6 +6,10 @@ import { SharedModule } from '../../../../shared/shared.module'
 import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { RouterTestingModule } from '@angular/router/testing'
 import { Order } from '../../order.model'
+import { UtilService } from '../../../../core/util.service';
+import { CoreDataService } from '../../../../core/core-data.service';
+import { CoreDataServiceMock } from '../../../../core/core-data.service-mock';
+import { CustomerService } from '../../../../customer/customer.service';
 
 describe('OrderHeadViewComponent', () => {
   let component: OrderHeadViewComponent
@@ -21,6 +25,11 @@ describe('OrderHeadViewComponent', () => {
       declarations: [
         OrderHeadViewComponent,
         OrderHeadEditComponent
+      ],
+      providers: [
+        CustomerService,
+        UtilService,
+        { provide: CoreDataService, useClass: CoreDataServiceMock }
       ]
     })
       .compileComponents()

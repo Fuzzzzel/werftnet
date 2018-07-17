@@ -9,6 +9,9 @@ import { OrderSearchService } from './order-search/order-search.service';
 import { OrderEditService } from './order-edit/order-edit.service';
 import { OrderHeadViewComponent } from './order-edit/order-head-view/order-head-view.component';
 import { OrderHeadEditComponent } from './order-edit/order-head-edit/order-head-edit.component';
+import { OrderPositionViewComponent } from './order-position-view/order-position-view.component';
+import { OrderPositionEditComponent } from './order-position-edit/order-position-edit.component';
+import { OrderTaskService } from './order-task.service';
 
 @NgModule({
   imports: [
@@ -20,7 +23,9 @@ import { OrderHeadEditComponent } from './order-edit/order-head-edit/order-head-
     OrderEditComponent,
     OrderSearchComponent,
     OrderHeadViewComponent,
-    OrderHeadEditComponent
+    OrderHeadEditComponent,
+    OrderPositionViewComponent,
+    OrderPositionEditComponent
   ],
   exports: [
     OrderCompactComponent,
@@ -29,7 +34,8 @@ import { OrderHeadEditComponent } from './order-edit/order-head-edit/order-head-
   ],
   providers: [
     OrderSearchService,
-    OrderEditService
+    OrderEditService,
+    OrderTaskService
   ]
 })
 export class OrderModule { }

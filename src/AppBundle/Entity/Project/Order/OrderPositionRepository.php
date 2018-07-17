@@ -17,7 +17,7 @@ class OrderPositionRepository extends EntityRepository
     public function getMaxPositionNumberForOrder($orderId) {
         $qb = $this->createQueryBuilder('op');
         $qb->select('op, MAX(op.positionNumber) as maxPositionNumber');
-        $qb->leftJoin(Order::class, 'o', 'WITH', 'o.id = :orderId');
+        $qb->join('op.order', 'o', 'WITH', 'o = op.order');
         $qb->where('o.id = :orderId');
         $qb->setParameter('orderId', $orderId);
 

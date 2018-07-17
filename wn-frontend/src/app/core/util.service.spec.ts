@@ -134,4 +134,15 @@ describe('UtilService', () => {
     let obj2 = { id: 2 }
     service.updateOrAddObjectInArrayById([obj1, obj2], obj2)
   })
+
+  it('should recognize object as function', () => {
+    const test = function () { }
+    const isFunction = service.isFunction(test)
+    expect(isFunction).toBeTruthy()
+  })
+
+  it('should not recognize null as function', () => {
+    const isFunction = service.isFunction(null)
+    expect(isFunction).toBeFalsy()
+  })
 });
