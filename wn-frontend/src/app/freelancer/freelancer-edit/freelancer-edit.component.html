@@ -242,7 +242,7 @@
                 <div class="col-sm-2">{{ util.getCombinedDisplayName(element.lng_source) }}</div>
                 <div class="col-sm-2">{{ util.getCombinedDisplayName(element.lng_target) }}</div>
                 <div class="col-sm-4">{{ element.service.name }} pro {{ element.price_unit.name }}</div>
-                <div class="col-sm-1">{{ element.price_per_unit | currency:(element.currency && element.currency.name):3 }}</div>
+                <div class="col-sm-1">{{ element.price_per_unit | currency:(element.currency && element.currency.name):'symbol':'.2-3' }}</div>
                 <div class="col-sm-1">{{ element.minimum_price | currency:(element.currency && element.currency.name):2 }}</div>
                 <div class="col-sm-2 pull-right">
                   <span class="clickable clickable-icon iconsmall" (click)="toggleEditPrice(element)" title="Preis bearbeiten">

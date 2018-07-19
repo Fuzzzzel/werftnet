@@ -91,7 +91,7 @@
             </div>
             <div class="col-sm-3">{{ getCombinedDisplayName(price.lng_target) }}</div>
             <div class="col-sm-3">{{ price.service && price.service.name }}/{{ price.price_unit && price.price_unit.name }}</div>
-            <div class="col-sm-2">{{ price.price_per_unit | currency:(price.currency && price.currency.name):3 }}</div>
+            <div class="col-sm-2">{{ price.price_per_unit | currency:(price.currency && price.currency.name):'symbol':'.2-3' }}</div>
           </div>
         </div>
         <div class="container-fluid">

@@ -73,6 +73,6 @@ describe('FreelancerCompactComponent', () => {
 
   it('should return combined display name', () => {
     let combinedDisplayName = component.getCombinedDisplayName(null)
-    expect(combinedDisplayName).toBeNull()
+    expect(combinedDisplayName).toEqual('')
   })
 })

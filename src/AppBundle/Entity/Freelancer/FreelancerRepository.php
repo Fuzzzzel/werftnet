@@ -38,7 +38,7 @@ class FreelancerRepository extends EntityRepository
 
         $qb = $this->createQueryBuilder('fl');
 
-        if (isset($search['lng_source']) || isset($search['lng_target'])) {
+        if (isset($search['lng_source']) || isset($search['lng_target']) || isset($search['service']['id'])) {
             $qb->join('fl.prices', 'p', 'WITH', 'fl = p.freelancer');
 
             if(isset($search['lng_source']['id'])) {
@@ -54,6 +54,10 @@ class FreelancerRepository extends EntityRepository
                 $qb->setParameter('lngTargetId', $search['lng_target']['id']);
             }
 
+            if (isset($search['service']['id'])) {
+                $qb->join('p.service', 'svc', 'WITH', 'svc.id = :serviceId');
+                $qb->setParameter('serviceId', $search['service']['id']);
+            }
         }
 
         if (isset($search['fl_status']['id'])) {

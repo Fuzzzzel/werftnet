@@ -54,8 +54,9 @@ class OrderTaskTest extends TestCase
         $order = new Order();
         $order->setCreatedAt(new \DateTime('2018-01-01'));
         $order->setNumberInYear(1);
+
+        $this->assertEquals(null, $task->getPositionId()); // without Position
         $orderPosition = new OrderPosition();
-        $orderPosition->setOrder($order);
         $orderPosition->setPositionNumber(1);
 
         $lng = new Language();
@@ -63,9 +64,13 @@ class OrderTaskTest extends TestCase
         $orderPosition->setLngTarget($lng);
         $this->assertEquals($lng, $orderPosition->getLngSource());
         $this->assertEquals($lng, $orderPosition->getLngTarget());
-
         $task->setPosition($orderPosition);
         $this->assertEquals($orderPosition, $task->getPosition());
+        $this->assertEquals(null, $task->getPositionId()); // with position
+
+        $this->assertEquals(null, $task->getOrderId()); // without order
+        $orderPosition->setOrder($order);
+        $this->assertEquals(null, $task->getOrderId()); // with order
         $this->assertEquals('18-0001-001', $task->getTaskNoString());
 
         $task->resetTitleToPositionLangCombo();

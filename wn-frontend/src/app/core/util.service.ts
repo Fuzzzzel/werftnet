@@ -35,7 +35,7 @@ export class UtilService {
 
   // Create display name for entities with potential subentities
   getCombinedDisplayName(obj: TwoLevelEntity) {
-    if (!obj) return null;
+    if (!obj) return '';
 
     if (typeof obj.main_item === 'undefined')
       return obj.name;
@@ -147,7 +147,7 @@ export class UtilService {
         result = valA.localeCompare(valB);
       }
 
-      if (result === 0) {
+      if (result === 0 && a.service && b.service) {
         result = a.service.name.localeCompare(b.service.name);
       }
 

@@ -37,8 +37,8 @@ describe('UtilService', () => {
     expect(combinedNameSubItem).toEqual('Main Item (Item Name)');
     const combinedNameMainItem = service.getCombinedDisplayName(twoLevelEntityMockMainItem);
     expect(combinedNameMainItem).toEqual('Item Name');
-    const combinedNameNull = service.getCombinedDisplayName(null);
-    expect(combinedNameNull).toBeNull();
+    const combinedNamEmpty = service.getCombinedDisplayName(null);
+    expect(combinedNamEmpty).toEqual('');
   });
 
   it('should compare by id', () => {

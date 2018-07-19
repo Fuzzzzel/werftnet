@@ -76,7 +76,7 @@ class FreelancerControllerTest extends DefaultWebTestCase
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),
-            '{"lng_source": {"id": 1}, "lng_target": {"id": 1}, "fl_status": {"id": 1}, "sector": {"id": 1}, "name": "Test Freelancer Name"}'
+            '{"lng_source": {"id": 1}, "lng_target": {"id": 1}, "service": {"id": 1}, "fl_status": {"id": 1}, "sector": {"id": 1}, "name": "Test Freelancer Name"}'
         );
 
         $content = $client->getResponse()->getContent();

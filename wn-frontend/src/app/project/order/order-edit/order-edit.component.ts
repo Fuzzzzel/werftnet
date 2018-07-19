@@ -97,7 +97,6 @@ export class OrderEditComponent implements OnInit {
     if (confirm('Soll die Position wirklich gelöscht werden?')) {
       this.orderEditService.deletePosition(position)
         .then((data) => {
-          console.log(data)
           this.util.removeFromArray(this.order_edit.positions, position)
         })
         .catch((error) => {
