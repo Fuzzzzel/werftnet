@@ -10,6 +10,8 @@ export class OrderPosition {
     lng_source: Language = null
     lng_target: Language = null
     title: string = null
+    description: string = null
+    internal_note: string = null
     customer_price: number = null
     tasks: OrderTask[] = []
 }

@@ -80,6 +80,20 @@ class OrderPosition
     private $title;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     * @JMS\Type("string")
+     * @JMS\Groups({"display", "update"})
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @JMS\Type("string")
+     * @JMS\Groups({"display", "update"})
+     */
+    private $internalNote;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Common\Language")
      * @ORM\JoinColumn(name="lngSource_id", referencedColumnName="id")
      * @JMS\Type("AppBundle\Entity\Common\Language")
@@ -190,6 +204,30 @@ class OrderPosition
      */
     public function getTitle() {
         return $this->title;
+    }
+
+    public function setDescription($description) {
+        $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription() {
+        return $this->description;
+    }
+
+    public function setInternalNote($internalNote) {
+        $this->internalNote = $internalNote;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInternalNote() {
+        return $this->internalNote;
     }
 
     /**

@@ -1,87 +1,142 @@
 <div class="card">
   <div class="card-body">
-    <div class="row">
-      <div class="col-md-5">
-        <div class="form-group row no-gutters">
-          <div class="col-md-1">
-            {{ positionToEdit.pos_no_string }}
+    <div class="row no-gutters" style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid lightgray">
+      <div class="col-md-1">
+        {{ positionToEdit.pos_no_string }}
+      </div>
+      <div class="col-md">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group row">
+              <div class="col-md">
+                <select class="form-control form-control-sm" name="edit-position-lng_source" [(ngModel)]="positionToEdit.lng_source"
+                  [compareWith]='util.compareById'>
+                  <option [value]='undefined' selected>-- Quellsprache --</option>
+                  <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
+                </select>
+              </div>
+              <div class="col-md">
+                <select class="form-control form-control-sm" name="edit-position-lng_target" [(ngModel)]="positionToEdit.lng_target"
+                  [compareWith]='util.compareById'>
+                  <option [value]='undefined' selected>-- Zielsprache --</option>
+                  <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
+                </select>
+              </div>
+            </div>
           </div>
-          <div class="col-md">
-            <select class="form-control form-control-sm" name="edit-position-lng_source" [(ngModel)]="positionToEdit.lng_source" [compareWith]='util.compareById'>
-              <option [value]='undefined' selected>-- Quellsprache --</option>
-              <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
-            </select>
-          </div>
-          <div class="col-md">
-            <select class="form-control form-control-sm" name="edit-position-lng_target" [(ngModel)]="positionToEdit.lng_target" [compareWith]='util.compareById'>
-              <option [value]='undefined' selected>-- Zielsprache --</option>
-              <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
-            </select>
+          <div class="col-md-4">
+            <div class="form-group row">
+              <div class="col-md-5">
+                <input type="number" step="any" class="form-control form-control-sm" name="edit-position-customer_price"
+                  [(ngModel)]="positionToEdit.customer_price" placeholder="Preis">
+              </div>
+              <div class="col-md-7">
+                <button type="button" class="btn btn-sm btn-primary float-right mx-1" (click)="savePosition()">
+                  <span class="clickable iconsmall">
+                    <i class="fa fa-floppy-o"></i>
+                  </span>
+                </button>
+                <button type="button" class="btn btn-sm btn-default float-right mx-1" (click)="cancelEdit()">
+                  <span class="clickable iconsmall">
+                    <i class="fa fa-times"></i>
+                  </span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-4">
-        <input class="form-control form-control-sm" name="edit-position-title" [(ngModel)]="positionToEdit.title" placeholder="Titel">
-      </div>
-      <div class="col-md-3">
-        <div class="form-group row no-gutters">
-          <div class="col-md-5">
-            <input type="number" step="any" class="form-control form-control-sm" name="edit-position-customer_price" [(ngModel)]="positionToEdit.customer_price"
-              placeholder="Preis">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group">
+              <input class="form-control form-control-sm" name="edit-position-title" [(ngModel)]="positionToEdit.title"
+                placeholder="Titel">
+            </div>
           </div>
-          <div class="col-md-7">
-            <button type="button" class="btn btn-sm btn-primary float-right mx-1" (click)="savePosition()">
-              <span class="clickable iconsmall">
-                <i class="fa fa-floppy-o"></i>
-              </span>
-            </button>
-            <button type="button" class="btn btn-sm btn-default float-right mx-1" (click)="cancelEdit()">
-              <span class="clickable iconsmall">
-                <i class="fa fa-times"></i>
-              </span>
-            </button>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group row">
+              <div class="col-md-8">
+                <textarea placeholder="Positionsbeschreibung" class="form-control form-control-sm" rows="4" name="edit-position-description"
+                  [(ngModel)]="positionToEdit.description"></textarea>
+              </div>
+              <div class="col-md-4">
+                <textarea placeholder="Interne Notiz" class="form-control form-control-sm" rows="4" name="edit-position-internal-note"
+                  [(ngModel)]="positionToEdit.internal_note"></textarea>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <!-- Tasks begin -->
-    <div class="row" *ngFor="let task of positionToEdit.tasks">
-      <div class="col-md-9">
-        <div class="form-group row no-gutters">
-          <div class="col-md-3">
-            {{ task.task_no_string }}
+    <h4 class="card-title">Aufgaben</h4>
+    <div class="row no-gutters" style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid lightgray"
+      *ngFor="let task of positionToEdit.tasks">
+      <div class="col-md-1">{{ task.task_no_string }}</div>
+      <div class="col-md-11">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group row">
+              <div class="col-md-6">
+                <select class="form-control form-control-sm" name="edit-position-task-freelancer">
+                  <option [value]='undefined' selected>-- Lieferant --</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <input type="datetime-local" class="form-control form-control-sm" name="edit-postion-task-delivery_date">
+              </div>
+            </div>
           </div>
-
-          <div class="col-md">
+          <div class="col-md-4">
+            <div class="form-group row">
+              <div class="col-md-5">
+                <input type="number" step="any" class="form-control form-control-sm" name="edit-task-task_price"
+                  [(ngModel)]="task.task_price" placeholder="Preis">
+              </div>
+              <div class="col-md-7">
+                <button type="button" class="btn btn-sm btn-primary float-right mx-1" (click)="saveTask(task)">
+                  <span class="clickable iconsmall">
+                    <i class="fa fa-floppy-o"></i>
+                  </span>
+                </button>
+                <button type="button" class="btn btn-sm btn-danger float-right mx-1" (click)="deleteTask(task)">
+                  <span class="clickable iconsmall">
+                    <i class="fa fa-trash"></i>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-md-8">
             <input class="form-control form-control-sm" name="edit-task-title" [(ngModel)]="task.title" placeholder="Titel">
           </div>
         </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-group row no-gutters">
-          <div class="col-md-5">
-            <input type="number" step="any" class="form-control form-control-sm" name="edit-task-task_price" [(ngModel)]="task.task_price"
-              placeholder="Preis">
-          </div>
-          <div class="col-md-7">
-            <button type="button" class="btn btn-sm btn-primary float-right mx-1" (click)="saveTask(task)">
-              <span class="clickable iconsmall">
-                <i class="fa fa-floppy-o"></i>
-              </span>
-            </button>
-            <button type="button" class="btn btn-sm btn-danger float-right mx-1" (click)="deleteTask(task)">
-              <span class="clickable iconsmall">
-                <i class="fa fa-trash"></i>
-              </span>
-            </button>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group row">
+              <div class="col-md-8">
+                <textarea placeholder="Aufgabenbeschreibung" class="form-control form-control-sm" rows="4" name="edit-position-task-description"></textarea>
+              </div>
+              <div class="col-md-4">
+                <textarea placeholder="Interne Notiz" class="form-control form-control-sm" rows="4" name="edit-position--taskinternal-note"></textarea>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
-        <div href class="float-right clickable" (click)="createNewTask()">Aufgabe hinzufügen</div>
+        <button type="button" class="btn btn-sm btn-primary mx-1 float-right" (click)="createNewTask()">
+          <span class="iconsmall">
+            <i class="fa fa-plus"></i>
+          </span>
+        </button>
       </div>
     </div>
     <!-- Tasks end -->
   </div>
+</div>

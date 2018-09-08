@@ -11,10 +11,10 @@
             {{ position.pos_no_string }}
           </div>
           <div class="col-md">
-            {{ position.lng_source && position.lng_source.name}}
+            {{ position.lng_source && util.getCombinedDisplayName(position.lng_source)}}
           </div>
           <div class="col-md">
-            {{ position.lng_target && position.lng_target.name}}
+            {{ position.lng_target && util.getCombinedDisplayName(position.lng_target)}}
           </div>
         </div>
       </div>
