@@ -57,20 +57,9 @@ describe('OrderPositionViewComponent', () => {
     expect(component.editMode).not.toEqual(editModeBefore)
   })
 
-  it('should emit delete event and stop propagation of event', () => {
+  it('should emit delete event if confirmed', () => {
     spyOn(component.delete, 'emit')
-    const editModeBefore = component.editMode
-    let event = new Event('click')
-    spyOn(event, 'stopPropagation')
-    component.deleteOrderPosition(new OrderPosition(), event)
-    expect(component.delete.emit).toHaveBeenCalled()
-    expect(event.stopPropagation).toHaveBeenCalled()
-  })
-
-  it('should emit delete event ignore get passed null as event', () => {
-    spyOn(component.delete, 'emit')
-    const editModeBefore = component.editMode
-    component.deleteOrderPosition(new OrderPosition(), null)
+    component.deleteOrderPosition(new OrderPosition())
     expect(component.delete.emit).toHaveBeenCalled()
   })
 });

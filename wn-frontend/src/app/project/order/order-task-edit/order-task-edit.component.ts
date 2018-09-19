@@ -43,8 +43,14 @@ export class OrderTaskEditComponent implements OnInit {
     this.cancel.emit()
   }
 
-  saveOrderTask(task: OrderTask) {
-    this.save.emit(task)
+  saveOrderTask() {
+    this.save.emit(this.taskToEdit)
+  }
+
+  deleteOrderTask() {
+    if (confirm('Soll die Aufgabe wirklich gelöscht werden?')) {
+      this.delete.emit(this.task)
+    }
   }
 
 }

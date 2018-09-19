@@ -51,4 +51,12 @@ describe('OrderTaskViewComponent', () => {
     expect(component.save.emit).toHaveBeenCalled()
     expect(component.editMode).not.toEqual(editModeBefore)
   })
+
+  it('should emit delete event and toggle edit mode', () => {
+    spyOn(component.delete, 'emit')
+    const editModeBefore = component.editMode
+    component.deleteOrderTask(new OrderTask())
+    expect(component.delete.emit).toHaveBeenCalled()
+    expect(component.editMode).not.toEqual(editModeBefore)
+  })
 });

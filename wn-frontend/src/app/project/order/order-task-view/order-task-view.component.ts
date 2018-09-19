@@ -37,4 +37,9 @@ export class OrderTaskViewComponent implements OnInit {
     this.save.emit(task)
     this.toggleEditMode()
   }
+
+  deleteOrderTask(task) {
+    this.delete.emit(task)
+    this.toggleEditMode()
+  }
 }

@@ -38,10 +38,7 @@ export class OrderPositionViewComponent implements OnInit {
     this.toggleEditMode()
   }
 
-  deleteOrderPosition(position: OrderPosition, event: Event) {
-    if (event && this.util.isFunction(event.stopPropagation)) {
-      event.stopPropagation()
-    }
+  deleteOrderPosition(position: OrderPosition) {
     this.delete.emit(position)
   }
 

@@ -21,7 +21,7 @@
               [(ngModel)]="task.task_price" placeholder="Preis">
           </div>
           <div class="col-md-7">
-            <button type="button" class="btn btn-sm btn-primary float-right mx-1" (click)="saveOrderTask(task)">
+            <button type="button" class="btn btn-sm btn-primary float-right mx-1" (click)="saveOrderTask()">
               <span class="clickable iconsmall">
                 <i class="fa fa-floppy-o"></i>
               </span>
@@ -29,6 +29,11 @@
             <button type="button" class="btn btn-sm btn-default float-right mx-1" (click)="cancelEdit()">
               <span class="clickable iconsmall">
                 <i class="fa fa-times"></i>
+              </span>
+            </button>
+            <button type="button" class="btn btn-sm btn-danger float-right mx-1" (click)="deleteOrderTask()">
+              <span class="clickable iconsmall">
+                <i class="fa fa-trash"></i>
               </span>
             </button>
           </div>

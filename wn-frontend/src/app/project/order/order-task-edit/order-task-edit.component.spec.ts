@@ -54,7 +54,21 @@ describe('OrderTaskEditComponent', () => {
   it('should emit save event', () => {
     const task = new OrderTask()
     spyOn(component.save, 'emit')
-    component.saveOrderTask(task)
+    component.saveOrderTask()
     expect(component.save.emit).toHaveBeenCalled()
+  })
+
+  it('should emit delete event if confirmed', () => {
+    spyOn(component.delete, 'emit')
+    spyOn(window, 'confirm').and.returnValue(true);
+    component.deleteOrderTask()
+    expect(component.delete.emit).toHaveBeenCalled()
+  })
+
+  it('should not emit delete event if not confirmed', () => {
+    spyOn(component.delete, 'emit')
+    spyOn(window, 'confirm').and.returnValue(false);
+    component.deleteOrderTask()
+    expect(component.delete.emit).not.toHaveBeenCalled()
   })
 });
