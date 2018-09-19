@@ -8,7 +8,6 @@ import { CoreDataService } from '../../core/core-data.service'
 import { CoreDataServiceMock } from '../../core/core-data.service-mock'
 import { UtilService } from '../../core/util.service'
 import { TwoLevelEntityCollection, TwoLevelEntity } from '../../shared/model/two-level-entity.model'
-import { NgbModalStack } from '@ng-bootstrap/ng-bootstrap/modal/modal-stack';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { AdminModule } from '../admin.module';
@@ -31,7 +30,6 @@ describe('AdminTwoLevelEntityComponent', () => {
       declarations: [],
       providers: [
         UtilService,
-        NgbModalStack,
         NgbModal,
         { provide: CoreDataService, useClass: CoreDataServiceMock }
       ]

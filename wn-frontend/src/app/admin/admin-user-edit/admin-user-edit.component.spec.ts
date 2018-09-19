@@ -11,7 +11,7 @@ import { AdminUserEditService } from './admin-user-edit.service'
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing'
 import { User } from '../../user/user.model'
 import { ActivatedRoute } from '@angular/router'
-import { Observable } from 'rxjs'
+import { of } from 'rxjs'
 
 describe('AdminUserEditComponent', () => {
   let component: AdminUserEditComponent
@@ -47,7 +47,7 @@ describe('AdminUserEditComponent', () => {
 
   function initWithUser() {
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute)
-    activatedRoute.params = Observable.of({ userId: 1 })
+    activatedRoute.params = of({ userId: 1 })
     fixture.detectChanges()
 
     let user = new User()
@@ -59,13 +59,13 @@ describe('AdminUserEditComponent', () => {
 
   function initWithoutUser() {
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute)
-    activatedRoute.params = Observable.of({})
+    activatedRoute.params = of({})
     fixture.detectChanges()
   }
 
   function initFail() {
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute)
-    activatedRoute.params = Observable.of({ userId: 1 })
+    activatedRoute.params = of({ userId: 1 })
     fixture.detectChanges()
 
     let user = new User()

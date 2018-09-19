@@ -20,7 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 class OrderPositionTest extends TestCase
 {
 
-    public function testOrderPositionPorperties() {
+    public function testOrderPositionProperties() {
         $orderPosition = new OrderPosition();
         $this->assertNull($orderPosition->getOrderId());
 
@@ -45,9 +45,17 @@ class OrderPositionTest extends TestCase
         $orderPosition->setCustomerPrice($customerPrice);
         $this->assertEquals($customerPrice, $orderPosition->getCustomerPrice());
 
-        $title = 'Titel der Aufgabe';
+        $title = 'Title of position';
         $orderPosition->setTitle($title);
         $this->assertEquals($title, $orderPosition->getTitle());
+
+        $description = 'Description of position';
+        $orderPosition->setDescription($description);
+        $this->assertEquals($description, $orderPosition->getDescription());
+
+        $internalNote = 'Internal note of';
+        $orderPosition->setInternalNote($internalNote);
+        $this->assertEquals($internalNote, $orderPosition->getInternalNote());
 
         $task = new OrderTask();
         $orderPosition->addTask($task);

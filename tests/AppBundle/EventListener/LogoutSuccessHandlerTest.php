@@ -16,7 +16,7 @@ class LogoutSuccessHandlerTest extends DefaultWebTestCase
 {
     public function testOnLogoutSuccess()
     {
-        $client = $this->getAdminClient();
+        $client = $this->getUserClient();
         $client->request(
             'GET',
             '/logout'

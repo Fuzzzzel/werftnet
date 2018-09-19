@@ -1,0 +1,35 @@
+<div class="order-task">
+  <app-order-task-edit *ngIf="editMode" [task]="task" (cancel)="toggleEditMode()" (save)="saveOrderTask($event)"
+    (delete)="deleteOrderTask($event)">
+  </app-order-task-edit>
+
+  <div *ngIf="!editMode" class="clickable" (click)="toggleEditMode()">
+
+    <div class="row">
+      <div class="col-md-1">
+        {{ task.task_no_string }}
+      </div>
+      <div class="col-md-11">
+        <div class="row">
+          <div class="col-md-9">
+            {{ task.title }}
+          </div>
+          <div class="col-md-3">
+            <div class="row">
+              <div class="col-md-5">
+                {{ task.task_price }}
+              </div>
+              <div class="col-md-7">
+                <button type="button" class="btn btn-sm btn-danger float-right mx-1" (click)="deleteOrderTask(task)">
+                  <span class="clickable iconsmall">
+                    <i class="fa fa-trash"></i>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

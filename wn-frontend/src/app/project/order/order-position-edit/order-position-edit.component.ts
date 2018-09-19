@@ -52,8 +52,8 @@ export class OrderPositionEditComponent implements OnInit {
     this.cancel.emit()
   }
 
-  createNewTask() {
-    this.taskService.createNewTask(this.position)
+  createNewOrderTask() {
+    this.taskService.createNewOrderTask(this.position)
       .then((data) => {
         this.position.tasks.push(data)
         this.positionToEdit.tasks.push(data)
@@ -63,8 +63,8 @@ export class OrderPositionEditComponent implements OnInit {
       })
   }
 
-  saveTask(task: OrderTask) {
-    this.taskService.saveTask(task)
+  saveOrderTask(task: OrderTask) {
+    this.taskService.saveOrderTask(task)
       .then((data) => {
         this.util.updateOrAddObjectInArrayById(this.position.tasks, data)
         this.util.updateOrAddObjectInArrayById(this.positionToEdit.tasks, data)
@@ -74,8 +74,8 @@ export class OrderPositionEditComponent implements OnInit {
       })
   }
 
-  deleteTask(task: OrderTask) {
-    this.taskService.deleteTask(task)
+  deleteOrderTask(task: OrderTask) {
+    this.taskService.deleteOrderTask(task)
       .then((data) => {
         this.util.removeFromArray(this.position.tasks, task)
         this.util.removeFromArray(this.positionToEdit.tasks, task)

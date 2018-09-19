@@ -11,7 +11,7 @@ import { FreelancerEditPriceComponent } from './freelancer-edit-price/freelancer
 
 @NgModule({
   imports: [
-    NgbModule,
+    NgbModule.forRoot(),
     SharedModule,
     FreelancerRoutingModule
   ],

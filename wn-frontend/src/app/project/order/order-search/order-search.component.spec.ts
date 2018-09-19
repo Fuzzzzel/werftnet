@@ -32,7 +32,7 @@ describe('OrderSearchComponent', () => {
             redirectTo: ''
           }
         ]),
-        NgbModule
+        NgbModule.forRoot()
       ],
       declarations: [
         OrderSearchComponent,

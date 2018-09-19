@@ -9,7 +9,8 @@ import { CoreDataService } from '../../../core/core-data.service';
 import { CoreDataServiceMock } from '../../../core/core-data.service-mock';
 import { OrderTaskService } from '../order-task.service';
 import { OrderTask } from '../order-task.model';
-import { resolve } from 'url';
+import { OrderTaskViewComponent } from '../order-task-view/order-task-view.component';
+import { OrderTaskEditComponent } from '../order-task-edit/order-task-edit.component';
 
 describe('OrderPositionEditComponent', () => {
   let component: OrderPositionEditComponent;
@@ -24,7 +25,9 @@ describe('OrderPositionEditComponent', () => {
         RouterTestingModule
       ],
       declarations: [
-        OrderPositionEditComponent
+        OrderPositionEditComponent,
+        OrderTaskViewComponent,
+        OrderTaskEditComponent
       ],
       providers: [
         UtilService,
@@ -65,45 +68,45 @@ describe('OrderPositionEditComponent', () => {
   })
 
   it('should create new task', () => {
-    spyOn(taskService, 'createNewTask').and.callFake(function () {
+    spyOn(taskService, 'createNewOrderTask').and.callFake(function () {
       return new Promise((resolve, reject) => {
         resolve(new OrderTask())
       })
     })
 
-    component.createNewTask()
+    component.createNewOrderTask()
   })
 
   it('should fail to create new task', () => {
-    spyOn(taskService, 'createNewTask').and.callFake(function () {
+    spyOn(taskService, 'createNewOrderTask').and.callFake(function () {
       return new Promise((resolve, reject) => {
         reject(new Error('Promise failed'))
       })
     })
     spyOn(window, 'alert').and.returnValue(true)
 
-    component.createNewTask()
+    component.createNewOrderTask()
   })
 
   it('should save task', () => {
-    spyOn(taskService, 'saveTask').and.callFake(function () {
+    spyOn(taskService, 'saveOrderTask').and.callFake(function () {
       return new Promise((resolve, reject) => {
         resolve(new OrderTask())
       })
     })
 
-    component.saveTask(new OrderTask())
+    component.saveOrderTask(new OrderTask())
   })
 
   it('should fail to save task', () => {
-    spyOn(taskService, 'saveTask').and.callFake(function () {
+    spyOn(taskService, 'saveOrderTask').and.callFake(function () {
       return new Promise((resolve, reject) => {
         reject(new Error('Promise failed'))
       })
     })
     spyOn(window, 'alert').and.returnValue(true)
 
-    component.saveTask(new OrderTask())
+    component.saveOrderTask(new OrderTask())
   })
 
   it('should delete task', () => {
@@ -112,13 +115,13 @@ describe('OrderPositionEditComponent', () => {
     task.position_id = 2
     task.order_id = 3
 
-    spyOn(taskService, 'deleteTask').and.callFake(function () {
+    spyOn(taskService, 'deleteOrderTask').and.callFake(function () {
       return new Promise((resolve, reject) => {
         resolve(null)
       })
     })
 
-    component.deleteTask(task)
+    component.deleteOrderTask(task)
   })
 
   it('should fail to delete task', () => {
@@ -127,13 +130,13 @@ describe('OrderPositionEditComponent', () => {
     task.position_id = 2
     task.order_id = 3
 
-    spyOn(taskService, 'deleteTask').and.callFake(function () {
+    spyOn(taskService, 'deleteOrderTask').and.callFake(function () {
       return new Promise((resolve, reject) => {
         reject(new Error('Promise failed'))
       })
     })
     spyOn(window, 'alert').and.returnValue(true)
 
-    component.deleteTask(task)
+    component.deleteOrderTask(task)
   })
 });

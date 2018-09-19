@@ -12,6 +12,8 @@ import { OrderHeadEditComponent } from './order-edit/order-head-edit/order-head-
 import { OrderPositionViewComponent } from './order-position-view/order-position-view.component';
 import { OrderPositionEditComponent } from './order-position-edit/order-position-edit.component';
 import { OrderTaskService } from './order-task.service';
+import { OrderTaskEditComponent } from './order-task-edit/order-task-edit.component';
+import { OrderTaskViewComponent } from './order-task-view/order-task-view.component';
 
 @NgModule({
   imports: [
@@ -25,7 +27,9 @@ import { OrderTaskService } from './order-task.service';
     OrderHeadViewComponent,
     OrderHeadEditComponent,
     OrderPositionViewComponent,
-    OrderPositionEditComponent
+    OrderPositionEditComponent,
+    OrderTaskEditComponent,
+    OrderTaskViewComponent
   ],
   exports: [
     OrderCompactComponent,

@@ -6,22 +6,22 @@ import { SafeUrlPipe } from './pipes/safe-url.pipe';
 import { PropMultiSelectComponent } from './components/prop-multi-select/prop-multi-select.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
-import { InlineEditorModule } from '@qontu/ngx-inline-editor';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { EditInlineComponent } from './components/edit-inline/edit-inline.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     HttpClientModule,
-    NgbModule,
+    NgbModule.forRoot(),
     MultiselectDropdownModule,
-    InlineEditorModule,
     NgSelectModule
   ],
   declarations: [
     PropMultiSelectComponent,
-    SafeUrlPipe
+    SafeUrlPipe,
+    EditInlineComponent
   ],
   exports: [
     CommonModule,
@@ -30,10 +30,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
     HttpClientModule,
     NgbModule,
     PropMultiSelectComponent,
+    EditInlineComponent,
     SafeUrlPipe,
     MultiselectDropdownModule,
-    InlineEditorModule,
-    NgSelectModule
+    NgSelectModule,
+
   ],
   providers: [
     HttpClient

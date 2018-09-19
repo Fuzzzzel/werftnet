@@ -21,13 +21,13 @@ export class OrderTaskService {
     })
   }
 
-  createNewTask(position: OrderPosition) {
+  createNewOrderTask(position: OrderPosition) {
     return new Promise<OrderTask>((resolve, reject) => {
       // Set up post request
       let task = new OrderTask()
       task.order_id = position.order_id
       task.position_id = position.id
-      this.saveTask(task)
+      this.saveOrderTask(task)
         .then((data) => {
           resolve(data)
         })
@@ -37,7 +37,7 @@ export class OrderTaskService {
     })
   }
 
-  saveTask(task: OrderTask) {
+  saveOrderTask(task: OrderTask) {
     const req = this.http.post<OrderTask>(
       '/orders/' + task.order_id + '/positions/' + task.position_id + '/tasks' + (task.id ? '/' + task.id : ''),
       task
@@ -55,7 +55,7 @@ export class OrderTaskService {
     })
   }
 
-  deleteTask(task: OrderTask) {
+  deleteOrderTask(task: OrderTask) {
     const req = this.http.delete<any>(
       '/orders/' + task.order_id + '/positions/' + task.position_id + '/tasks/' + task.id
     )

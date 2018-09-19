@@ -11,7 +11,6 @@ import { HttpTestingController, HttpClientTestingModule } from '@angular/common/
 // Rendering test
 describe('PropMultiSelectComponent rendering', () => {
   let component: PropMultiSelectComponent
-  // let fixture: ComponentFixture<PropMultiSelectComponent>
   let testHostComponent: TestHostComponent
   let testHostFixture: ComponentFixture<TestHostComponent>
 

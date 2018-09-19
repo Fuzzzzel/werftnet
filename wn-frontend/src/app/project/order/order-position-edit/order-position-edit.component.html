@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-body">
-    <div class="row no-gutters" style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid lightgray">
+    <div class="row no-gutters">
       <div class="col-md-1">
         {{ positionToEdit.pos_no_string }}
       </div>
@@ -70,73 +70,18 @@
       </div>
     </div>
     <!-- Tasks begin -->
-    <h4 class="card-title">Aufgaben</h4>
-    <div class="row no-gutters" style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid lightgray"
-      *ngFor="let task of positionToEdit.tasks">
-      <div class="col-md-1">{{ task.task_no_string }}</div>
-      <div class="col-md-11">
-        <div class="row">
-          <div class="col-md-8">
-            <div class="form-group row">
-              <div class="col-md-6">
-                <select class="form-control form-control-sm" name="edit-position-task-freelancer">
-                  <option [value]='undefined' selected>-- Lieferant --</option>
-                </select>
-              </div>
-              <div class="col-md-6">
-                <input type="datetime-local" class="form-control form-control-sm" name="edit-postion-task-delivery_date">
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group row">
-              <div class="col-md-5">
-                <input type="number" step="any" class="form-control form-control-sm" name="edit-task-task_price"
-                  [(ngModel)]="task.task_price" placeholder="Preis">
-              </div>
-              <div class="col-md-7">
-                <button type="button" class="btn btn-sm btn-primary float-right mx-1" (click)="saveTask(task)">
-                  <span class="clickable iconsmall">
-                    <i class="fa fa-floppy-o"></i>
-                  </span>
-                </button>
-                <button type="button" class="btn btn-sm btn-danger float-right mx-1" (click)="deleteTask(task)">
-                  <span class="clickable iconsmall">
-                    <i class="fa fa-trash"></i>
-                  </span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-md-8">
-            <input class="form-control form-control-sm" name="edit-task-title" [(ngModel)]="task.title" placeholder="Titel">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="form-group row">
-              <div class="col-md-8">
-                <textarea placeholder="Aufgabenbeschreibung" class="form-control form-control-sm" rows="4" name="edit-position-task-description"></textarea>
-              </div>
-              <div class="col-md-4">
-                <textarea placeholder="Interne Notiz" class="form-control form-control-sm" rows="4" name="edit-position--taskinternal-note"></textarea>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="row">
       <div class="col-md-12">
-        <button type="button" class="btn btn-sm btn-primary mx-1 float-right" (click)="createNewTask()">
+        <button type="button" class="btn btn-sm btn-primary mx-1 float-right" (click)="createNewOrderTask()">
           <span class="iconsmall">
             <i class="fa fa-plus"></i>
           </span>
         </button>
+        <h4 class="card-title">Aufgaben</h4>
       </div>
     </div>
-    <!-- Tasks end -->
+    <div class="row no-gutters" *ngFor="let task of positionToEdit.tasks">
+      <app-order-task-view class="col-md-12" [task]="task" (save)="saveOrderTask($event)"></app-order-task-view>
+    </div>
   </div>
 </div>

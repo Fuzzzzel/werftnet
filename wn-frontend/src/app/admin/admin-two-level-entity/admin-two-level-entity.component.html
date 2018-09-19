@@ -17,8 +17,9 @@
         <div *ngFor="let mainProp of valuearray.values">
 
           <!-- New MainItem -->
-          <div>
-            <inline-editor type="text" [(ngModel)]="mainProp.name" (onSave)="updateTwoLevelEntityMainItem(mainProp.id, $event)" size="32"></inline-editor>
+          <div class="row">
+            <app-edit-inline type="text" [(ngModel)]="mainProp.name" (save)="updateTwoLevelEntityMainItem(mainProp.id, $event)"
+              size="32"></app-edit-inline>
             <span class="clickable clickable-icon iconsmall" (click)="deleteTwoLevelEntityMainItem(valuearray, mainProp.id)">
               <i class="fa fa-trash-o"></i>
             </span>
@@ -43,9 +44,10 @@
           <!-- List of SubItems-->
 
           <div *ngFor="let subProp of mainProp.sub_items" class="alist-sub-item">
-            <div class="clearfix">
-              <inline-editor type="text" [(ngModel)]="subProp.name" (onSave)="updateTwoLevelEntitySubItem(mainProp.id, subProp.id,
-        $event)" size="32"></inline-editor>
+            <div class="row clearfix">
+              <app-edit-inline type="text" [(ngModel)]="subProp.name" (save)="updateTwoLevelEntitySubItem(mainProp.id, subProp.id,
+        $event)"
+                size="32"></app-edit-inline>
               <span class="clickable clickable-icon iconsmall" (click)="deleteTwoLevelEntitySubItem(mainProp.id,
         subProp.id)">
                 <i class="fa fa-trash-o"></i>

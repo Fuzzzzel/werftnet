@@ -18,6 +18,8 @@ import { OrderHeadEditComponent } from './order-head-edit/order-head-edit.compon
 import { OrderPosition } from '../order-position.model';
 import { OrderPositionViewComponent } from '../order-position-view/order-position-view.component';
 import { OrderPositionEditComponent } from '../order-position-edit/order-position-edit.component';
+import { OrderTaskViewComponent } from '../order-task-view/order-task-view.component';
+import { OrderTaskEditComponent } from '../order-task-edit/order-task-edit.component';
 
 describe('OrderEditComponent', () => {
   let component: OrderEditComponent
@@ -38,7 +40,9 @@ describe('OrderEditComponent', () => {
         OrderHeadViewComponent,
         OrderHeadEditComponent,
         OrderPositionViewComponent,
-        OrderPositionEditComponent
+        OrderPositionEditComponent,
+        OrderTaskViewComponent,
+        OrderTaskEditComponent
       ],
       providers: [
         UtilService,

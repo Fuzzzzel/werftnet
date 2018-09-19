@@ -10,6 +10,8 @@ import { CoreDataService } from '../../../core/core-data.service';
 import { CoreDataServiceMock } from '../../../core/core-data.service-mock';
 import { OrderPosition } from '../order-position.model';
 import { OrderTaskService } from '../order-task.service';
+import { OrderTaskViewComponent } from '../order-task-view/order-task-view.component';
+import { OrderTaskEditComponent } from '../order-task-edit/order-task-edit.component';
 
 describe('OrderPositionViewComponent', () => {
   let component: OrderPositionViewComponent;
@@ -24,7 +26,9 @@ describe('OrderPositionViewComponent', () => {
       ],
       declarations: [
         OrderPositionViewComponent,
-        OrderPositionEditComponent
+        OrderPositionEditComponent,
+        OrderTaskViewComponent,
+        OrderTaskEditComponent
       ],
       providers: [
         UtilService,

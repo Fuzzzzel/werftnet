@@ -38,7 +38,7 @@ describe('OrderTaskService', () => {
     let position = new OrderPosition()
     position.id = 1
     position.order_id = 2
-    service.createNewTask(position)
+    service.createNewOrderTask(position)
       .then((data) => {
         done()
       })
@@ -52,7 +52,7 @@ describe('OrderTaskService', () => {
     let position = new OrderPosition()
     position.id = 1
     position.order_id = 2
-    service.createNewTask(position)
+    service.createNewOrderTask(position)
       .catch((data) => {
         done()
       })
@@ -67,7 +67,7 @@ describe('OrderTaskService', () => {
     task.id = 10
     task.order_id = 1
     task.position_id = 2
-    service.saveTask(task)
+    service.saveOrderTask(task)
       .then((data) => {
         done()
       })
@@ -81,7 +81,7 @@ describe('OrderTaskService', () => {
     let task = new OrderTask()
     task.order_id = 1
     task.position_id = 2
-    service.saveTask(task)
+    service.saveOrderTask(task)
       .catch((error) => {
         done()
       })
@@ -96,7 +96,7 @@ describe('OrderTaskService', () => {
     task.id = 10
     task.order_id = 1
     task.position_id = 2
-    service.deleteTask(task)
+    service.deleteOrderTask(task)
       .then((data) => {
         done()
       })
@@ -111,7 +111,7 @@ describe('OrderTaskService', () => {
     task.id = 10
     task.order_id = 1
     task.position_id = 2
-    service.deleteTask(task)
+    service.deleteOrderTask(task)
       .catch((data) => {
         done()
       })

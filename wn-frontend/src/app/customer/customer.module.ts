@@ -12,7 +12,7 @@ import { CustomerService } from './customer.service';
 
 @NgModule({
   imports: [
-    NgbModule,
+    NgbModule.forRoot(),
     SharedModule,
     CustomerRoutingModule
   ],

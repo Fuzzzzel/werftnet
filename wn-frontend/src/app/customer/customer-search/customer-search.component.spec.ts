@@ -29,7 +29,7 @@ describe('CustomerSearchComponent', () => {
             redirectTo: ''
           }
         ]),
-        NgbModule
+        NgbModule.forRoot()
       ],
       declarations: [
         CustomerSearchComponent,

@@ -31,7 +31,7 @@ describe('FreelancerSearchComponent', () => {
             redirectTo: ''
           }
         ]),
-        NgbModule
+        NgbModule.forRoot()
       ],
       declarations: [
         FreelancerSearchComponent,
