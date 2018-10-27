@@ -5,7 +5,7 @@
         <div class="form-group row no-gutters">
           <label class="col-form-label col-form-label-sm col-md-4">Kunde</label>
           <div class="col-md-8">
-            <ng-select name="edit-customer" [items]="customers" [(ngModel)]="orderHead.customer" (add)="reloadCustomerContacts($event)"
+            <ng-select name="edit-customer" [items]="customers" [(ngModel)]="orderHead.customer" (change)="reloadCustomerContacts($event)"
               [virtualScroll]="true" bindLabel="name1" placeholder="--- Bitte wählen ---">
               <ng-template ng-option-tmp let-item="item" let-index="index">
                 <span [title]="item.name1">{{item.name1}}</span>
@@ -52,6 +52,9 @@
           <div class="col-md-8">
             <ng-select name="edit-sector" [items]="coreData.sectors_flat.values" [(ngModel)]="orderHead.sector"
               [virtualScroll]="true" bindLabel="name" placeholder="--- Bitte wählen ---">
+              <ng-template ng-label-tmp let-item="item" let-index="index">
+                <span>{{util.getCombinedDisplayName(item)}}</span>
+              </ng-template>
               <ng-template ng-option-tmp let-item="item" let-index="index">
                 <span [title]="item.name">{{item.name}}</span>
               </ng-template>

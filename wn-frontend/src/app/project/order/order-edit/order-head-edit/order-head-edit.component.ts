@@ -48,6 +48,7 @@ export class OrderHeadEditComponent implements OnInit {
   }
 
   reloadCustomerContacts(customer) {
+    console.log('Reload Contacts')
     if (customer && customer.id) {
       this.customerService.fetchCustomerContacts(customer.id)
         .then((data) => {
