@@ -71,7 +71,7 @@ class OrderTaskTest extends TestCase
         $this->assertEquals(null, $task->getOrderId()); // without order
         $orderPosition->setOrder($order);
         $this->assertEquals(null, $task->getOrderId()); // with order
-        $this->assertEquals('18-0001-001', $task->getTaskNoString());
+        $this->assertEquals('18-0001-01-001', $task->getTaskNoString());
 
         $task->resetTitleToPositionLangCombo();
         $this->assertEquals(' → ', $task->getTitle());

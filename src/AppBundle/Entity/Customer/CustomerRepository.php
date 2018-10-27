@@ -55,7 +55,7 @@ class CustomerRepository extends EntityRepository
         }
 
         $qb->orderBy('c.name2');
-        $qb->addOrderBy('c.name1');
+        $qb->addOrderBy('c.name1', 'ASC');
         $qb->distinct();
 
         $query = $qb->getQuery();

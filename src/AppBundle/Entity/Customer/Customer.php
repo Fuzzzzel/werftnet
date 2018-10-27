@@ -82,6 +82,7 @@ class Customer extends Company
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Customer\CustomerContact", mappedBy="customer", cascade={"all"})
+     * @ORM\OrderBy({"name2" = "ASC"})
      * @JMS\Type("ArrayCollection<AppBundle\Entity\Customer\CustomerContact>")
      * @JMS\Groups({"display", "update"})
      */

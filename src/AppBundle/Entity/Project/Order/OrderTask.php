@@ -146,8 +146,10 @@ class OrderTask
      */
     public function getTaskNoString() {
         $position = $this->getPosition();
+        $positionNumberString = $position->getPosNoString();
+        $taskNumberString = str_pad($this->getTaskNumber(),3,'0', STR_PAD_LEFT );
         $order = $position->getOrder();
-        return $order->getOrderNo() . '-' . str_pad($this->getTaskNumber(),3,'0', STR_PAD_LEFT );
+        return $order->getOrderNo() . '-' . $positionNumberString . '-' . $taskNumberString;
     }
 
     public function setTitle($title) {
