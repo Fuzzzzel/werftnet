@@ -1,6 +1,6 @@
 <div>
   <h1>Freelancer</h1>
-  <div class="form-default col-md-12" (keydown.enter)="searchParams.page=1;searchFreelancers(searchParams)">
+  <div class="form-default col-md-12" (keydown.enter)="searchParams.page=1;searchFreelancers()">
     <div class="row">
       <form class="col-md-5 form-horizontal">
         <div class="form-group row">
@@ -12,7 +12,8 @@
         <div class="form-group row">
           <label class="col-form-label col-form-label-sm col-md-3">Status</label>
           <div class="col-md-9">
-            <select class="form-control form-control-sm" name="search-sector" [(ngModel)]="searchParams.fl_status" [compareWith]='util.compareById'>
+            <select class="form-control form-control-sm" name="search-sector" [(ngModel)]="searchParams.fl_status"
+              [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
               <option *ngFor="let option of coreData.freelancer_status.values" [ngValue]="option">{{ option.name }}</option>
             </select>
@@ -21,7 +22,8 @@
         <div class="form-group row">
           <label class="col-form-label col-form-label-sm col-md-3">Leistung</label>
           <div class="col-md-9">
-            <select class="form-control form-control-sm" name="search-service" [(ngModel)]="searchParams.service" [compareWith]='util.compareById'>
+            <select class="form-control form-control-sm" name="search-service" [(ngModel)]="searchParams.service"
+              [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
               <option *ngFor="let option of coreData.services.values" [ngValue]="option">{{ option.name }}</option>
             </select>
@@ -32,7 +34,8 @@
         <div class="form-group row">
           <label class="col-form-label col-form-label-sm col-md-3">Quellsprache</label>
           <div class="col-md-9">
-            <select class="form-control form-control-sm" name="search-lng_source" [(ngModel)]="searchParams.lng_source" [compareWith]='util.compareById'>
+            <select class="form-control form-control-sm" name="search-lng_source" [(ngModel)]="searchParams.lng_source"
+              [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
               <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
             </select>
@@ -41,7 +44,8 @@
         <div class="form-group row">
           <label class="col-form-label col-form-label-sm col-md-3">Zielsprache</label>
           <div class="col-md-9">
-            <select class="form-control form-control-sm" name="search-lng_target" [(ngModel)]="searchParams.lng_target" [compareWith]='util.compareById'>
+            <select class="form-control form-control-sm" name="search-lng_target" [(ngModel)]="searchParams.lng_target"
+              [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
               <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
             </select>
@@ -50,7 +54,8 @@
         <div class="form-group row">
           <label class="col-form-label col-form-label-sm col-md-3">Fachgebiet</label>
           <div class="col-md-9">
-            <select class="form-control form-control-sm" name="search-sector" [(ngModel)]="searchParams.sector" [compareWith]='util.compareById'>
+            <select class="form-control form-control-sm" name="search-sector" [(ngModel)]="searchParams.sector"
+              [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
               <option *ngFor="let option of coreData.sectors_flat.values" [ngValue]="option">{{ option.name }}</option>
             </select>
@@ -58,13 +63,15 @@
         </div>
       </form>
       <div class="button-area col-md-2 form-horizontal">
-        <button class="btn btn-sm btn-block btn-primary mx-1" (click)="searchParams.page=1;searchFreelancers(searchParams)">Suchen</button>
+        <button class="btn btn-sm btn-block btn-primary mx-1" (click)="searchParams.page=1;searchFreelancers()">Suchen</button>
         <button class="btn btn-sm btn-block btn-default mx-1" (click)="editFreelancer(null)">Neuer Freelancer</button>
+        <button class="btn btn-sm btn-block btn-light mx-1" (click)="clearSearch()">Suche löschen</button>
       </div>
     </div>
   </div>
   <h2>Suchergebnisse: {{ freelancersLoaded.itemsTotal }}
-    <span *ngIf="freelancersLoaded.pageMax > 1">(Seite {{ freelancersLoaded.page }} von {{ freelancersLoaded.pageMax }})
+    <span *ngIf="freelancersLoaded.pageMax > 1">(Seite {{ freelancersLoaded.page }} von {{ freelancersLoaded.pageMax
+      }})
     </span>
   </h2>
   <div *ngFor="let freelancer of freelancersLoaded.items">
@@ -72,8 +79,8 @@
     </app-freelancer-compact>
   </div>
 
-  <ngb-pagination [collectionSize]="freelancersLoaded.itemsTotal" [(page)]="searchParams.page" [pageSize]="20" [maxSize]="10"
-    class="pagination-sm" [rotate]="true" [boundaryLinks]="true" [ellipses]="true" (pageChange)="searchFreelancers(searchParams)">
+  <ngb-pagination [collectionSize]="freelancersLoaded.itemsTotal" [(page)]="searchParams.page" [pageSize]="20"
+    [maxSize]="10" class="pagination-sm" [rotate]="true" [boundaryLinks]="true" [ellipses]="true" (pageChange)="searchFreelancers()">
   </ngb-pagination>
 
 </div>

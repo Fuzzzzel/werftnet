@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { FreelancersLoaded } from './freelancers-loaded.model';
 import { UtilService } from '../../core/util.service';
 import { FreelancerSearchParams } from './freelancers-search-params.model';
+import { Freelancer } from '../freelancer.model';
 
 @Injectable()
 export class FreelancerSearchService {
@@ -21,6 +22,11 @@ export class FreelancerSearchService {
 
   getFreelancersLoaded() {
     return this.$freelancersLoaded.asObservable();
+  }
+
+  clearFreelancersLoaded() {
+    this.$freelancersLoaded.next(new FreelancersLoaded())
+    this.lastSearchParams = new FreelancerSearchParams()
   }
 
   getLastSearchParams() {

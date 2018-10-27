@@ -25,8 +25,8 @@ export class FreelancerSearchComponent implements OnInit {
     private freelancerEditService: FreelancerEditService
   ) { }
 
-  searchFreelancers(searchParams) {
-    this.freelancerSearchService.searchFreelancers(searchParams)
+  searchFreelancers() {
+    this.freelancerSearchService.searchFreelancers(this.searchParams)
       .then((freelancersLoaded) => {
       })
       .catch((error) => {
@@ -42,6 +42,11 @@ export class FreelancerSearchComponent implements OnInit {
       .catch((error) => {
         alert('Freelancer konnte nicht zum Bearbeiten geöffnet werden: ' + error.message)
       })
+  }
+
+  clearSearch() {
+    this.searchParams = new FreelancerSearchParams()
+    this.freelancerSearchService.clearFreelancersLoaded()
   }
 
   ngOnInit() {

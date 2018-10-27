@@ -14,6 +14,7 @@ import { CoreDataServiceMock } from '../../core/core-data.service-mock'
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 import { FreelancersLoaded } from './freelancers-loaded.model';
 import { Freelancer } from '../freelancer.model';
+import { FreelancerSearchParams } from './freelancers-search-params.model';
 
 describe('FreelancerSearchComponent', () => {
   let component: FreelancerSearchComponent
@@ -59,7 +60,7 @@ describe('FreelancerSearchComponent', () => {
   })
 
   it('should search freelancers', fakeAsync(() => {
-    component.searchFreelancers({})
+    component.searchFreelancers()
 
     tick()
     const req = backend.expectOne('/freelancers/search')
@@ -67,8 +68,23 @@ describe('FreelancerSearchComponent', () => {
     req.flush(new FreelancersLoaded(), { status: 200, statusText: 'Ok' })
   }))
 
+  it('should clear search parameters and result', fakeAsync(() => {
+    component.searchParams = new FreelancerSearchParams()
+    component.searchParams.page = 1
+    component.searchParams.name = 'Test'
+    component.searchFreelancers()
+
+    tick()
+    const req = backend.expectOne('/freelancers/search')
+    expect(req.request.method).toBe("POST")
+    req.flush(new FreelancersLoaded(), { status: 200, statusText: 'Ok' })
+    expect(component.searchParams.name).toEqual('Test')
+    component.clearSearch()
+    expect(component.searchParams.name).not.toBeDefined()
+  }))
+
   it('should fail to search freelancers', fakeAsync(() => {
-    component.searchFreelancers({})
+    component.searchFreelancers()
 
     tick()
     const req = backend.expectOne('/freelancers/search')
