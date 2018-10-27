@@ -16,8 +16,8 @@
         <div class="form-group row no-gutters">
           <label class="col-form-label col-form-label-sm col-md-4">Ansprechp.</label>
           <div class="col-md-8">
-            <ng-select name="edit-customerContact" [items]="customerContacts" [(ngModel)]="orderHead.customer_contact" [virtualScroll]="true"
-              bindLabel="name1" placeholder="--- Bitte wählen ---">
+            <ng-select name="edit-customerContact" [items]="customerContacts" [(ngModel)]="orderHead.customer_contact"
+              [virtualScroll]="true" bindLabel="name1" placeholder="--- Bitte wählen ---">
               <ng-template ng-header-tmp>
               </ng-template>
               <ng-template ng-label-tmp let-item="item" let-index="index">
@@ -47,6 +47,17 @@
             <input class="form-control form-control-sm" name="edit-target_format" [(ngModel)]="orderHead.target_format">
           </div>
         </div>
+        <div class="form-group row no-gutters">
+          <label class="col-form-label col-form-label-sm col-md-4">Fachgebiet</label>
+          <div class="col-md-8">
+            <ng-select name="edit-sector" [items]="coreData.sectors_flat.values" [(ngModel)]="orderHead.sector"
+              [virtualScroll]="true" bindLabel="name" placeholder="--- Bitte wählen ---">
+              <ng-template ng-option-tmp let-item="item" let-index="index">
+                <span [title]="item.name">{{item.name}}</span>
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
       </form>
       <form class="col-sm-4  form-horizontal">
         <div class="form-group row no-gutters">
@@ -58,13 +69,15 @@
         <div class="form-group row no-gutters">
           <label class="col-form-label col-form-label-sm col-md-4">Lieferd. Kunde</label>
           <div class="col-md-8">
-            <input type="datetime-local" class="form-control form-control-sm" name="edit-delivery_date_desired" [(ngModel)]="orderHead.delivery_date_desired">
+            <input type="datetime-local" class="form-control form-control-sm" name="edit-delivery_date_desired"
+              [(ngModel)]="orderHead.delivery_date_desired">
           </div>
         </div>
         <div class="form-group row no-gutters">
           <label class="col-form-label col-form-label-sm col-md-4">Status</label>
           <div class="col-md-8">
-            <select class="form-control form-control-sm" name="edit-status" [(ngModel)]="orderHead.status" [compareWith]='util.compareById'>
+            <select class="form-control form-control-sm" name="edit-status" [(ngModel)]="orderHead.status"
+              [compareWith]='util.compareById'>
               <option [value]='null' selected>-- Bitte wählen --</option>
               <option *ngFor="let option of coreData.order_status.values" [ngValue]="option">{{ option.name }}</option>
             </select>
@@ -79,7 +92,8 @@
       </form>
       <form class="col-sm-4 ">
         <div class="form-group row no-gutters">
-          <textarea placeholder="Interne Notiz" class="form-control form-control-sm" rows="8" name="edit-comment" [(ngModel)]="orderHead.comment"></textarea>
+          <textarea placeholder="Interne Notiz" class="form-control form-control-sm" rows="8" name="edit-comment"
+            [(ngModel)]="orderHead.comment"></textarea>
         </div>
       </form>
     </div>

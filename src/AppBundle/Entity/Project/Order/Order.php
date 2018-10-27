@@ -60,6 +60,14 @@ class Order extends Project
     protected $deliveryDate;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Common\Sector")
+     * @ORM\JoinColumn(name="sector_id", referencedColumnName="id")
+     * @JMS\Type("AppBundle\Entity\Common\Sector")
+     * @JMS\Groups({"display", "update"})
+     */
+    protected $sector;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Project\Order\OrderStatus")
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
      * @JMS\Type("AppBundle\Entity\Project\Order\OrderStatus")
@@ -120,6 +128,15 @@ class Order extends Project
 
     public function getDeliveryDateDesired() {
         return $this->deliveryDateDesired;
+    }
+
+    public function setSector($sector) {
+        $this->sector = $sector;
+        return $this;
+    }
+
+    public function getSector() {
+        return $this->sector;
     }
 
     public function setStatus($status) {

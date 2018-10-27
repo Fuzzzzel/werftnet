@@ -9,6 +9,7 @@
 namespace Tests\AppBundle\Entity\Project\Order;
 
 
+use AppBundle\Entity\Common\Sector;
 use AppBundle\Entity\Customer\Customer;
 use AppBundle\Entity\Customer\CustomerContact;
 use AppBundle\Entity\Project\Order\Order;
@@ -72,6 +73,10 @@ class OrderTest extends TestCase
         $deliveryDate = new \DateTime();
         $order->setDeliveryDate($deliveryDate);
         $this->assertEquals($deliveryDate, $order->getDeliveryDate());
+
+        $sector = new Sector();
+        $order->setSector($sector);
+        $this->assertEquals($sector, $order->getSector());
 
         $status = new OrderStatus();
         $order->setStatus($status);
