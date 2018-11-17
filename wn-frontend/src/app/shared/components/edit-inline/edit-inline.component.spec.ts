@@ -42,7 +42,7 @@ describe('EditInlineComponent (rendering)', () => {
   });
 
   it('Should edit on click', fakeAsync(() => {
-    const delayToOpenCloseEdit = 500
+    const delayToOpenCloseEdit = 750
     testHostComponent.elementDisabled = false
 
     // Click to edit
@@ -108,6 +108,8 @@ describe('EditInlineComponent (rendering)', () => {
     testHostFixture.detectChanges()
     tick(delayToOpenCloseEdit)
     testHostFixture.detectChanges()
+
+    expect(testHostComponent.testValue).toBe('test')
   }))
 
   it('Should not edit if disabled', fakeAsync(() => {

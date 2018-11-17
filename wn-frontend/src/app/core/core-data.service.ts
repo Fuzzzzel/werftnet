@@ -407,5 +407,6 @@ export class CoreData {
   customer_status: SimpleEntityCollection
   user_roles: SimpleEntityCollection
   account_managers: User[]
+  project_managers: User[]
   order_status: SimpleSysEntityCollection
 }

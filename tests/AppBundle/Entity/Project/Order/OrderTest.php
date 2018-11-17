@@ -15,6 +15,7 @@ use AppBundle\Entity\Customer\CustomerContact;
 use AppBundle\Entity\Project\Order\Order;
 use AppBundle\Entity\Project\Order\OrderPosition;
 use AppBundle\Entity\Project\Order\OrderStatus;
+use AppBundle\Entity\User\User;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 class OrderTest extends TestCase
@@ -58,6 +59,10 @@ class OrderTest extends TestCase
         $comment = 'TestOrder-Comment';
         $order->setComment($comment);
         $this->assertEquals($comment, $order->getComment());
+
+        $projectManager = new User();
+        $order->setProjectManager($projectManager);
+        $this->assertEquals($projectManager, $order->getProjectManager());
 
         return $order;
     }

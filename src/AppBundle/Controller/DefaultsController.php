@@ -52,6 +52,7 @@ class DefaultsController extends Controller
         $defaultData->customer_status = $this->getSimpleEntity('Customer\\CustomerStatus');
         $defaultData->user_roles = $this->getSimpleEntity('User\\UserRole');
         $defaultData->account_managers = $this->getAccountManagers();
+        $defaultData->project_managers = $this->getProjectManagers();
         $defaultData->order_status = $this->getSimpleEntity('Project\\Order\\OrderStatus');
 
         return new JsonResponse($defaultData);
@@ -157,5 +158,31 @@ class DefaultsController extends Controller
         $accountManagers->display_name = "Accountmgr.";
 
         return $accountManagers;
+    }
+
+    /**
+     * @return \stdClass
+     *
+     */
+    public function getProjectManagers()
+    {
+        $projectManagers = new \stdClass;
+        $classname = "\\AppBundle\\Entity\\User\\User";
+
+        $ams = $this->getDoctrine()
+            ->getRepository($classname)
+            ->findProjectManagers();
+
+        $projectManagers->values = array();
+        foreach ($ams as $am) {
+            $temp = new \StdClass;
+            $temp->id = $am->getId();
+            $temp->username = $am->getUsername();
+            $projectManagers->values[] = $temp;
+        }
+
+        $projectManagers->display_name = "Projectmgr.";
+
+        return $projectManagers;
     }
 }

@@ -37,6 +37,18 @@
         </div>
         <div class="row">
           <div class="col">
+            <label>Accountmgr.:</label>
+            {{ order.customer && order.customer.account_manager && order.customer.account_manager.username }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label>Projektmgr.:</label>
+            {{ order.project_manager && order.project_manager.username }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
             <label>Lieferdatum:</label>
             {{ order.delivery_date | date: "dd.MM.yyyy HH:mm"}}
           </div>

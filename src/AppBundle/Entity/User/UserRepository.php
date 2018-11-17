@@ -39,4 +39,11 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
             ->getQuery()
             ->getResult();
     }
+
+    public function findProjectManagers()
+    {
+        return $this->createQueryBuilder('u')
+            ->getQuery()
+            ->getResult();
+    }
 }

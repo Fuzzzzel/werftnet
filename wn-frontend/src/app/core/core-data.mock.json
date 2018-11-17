@@ -939,16 +939,21 @@
                 "username": "test"
             },
             {
-                "id": 8,
-                "username": "bbbbbbb"
+                "id": 13,
+                "username": "gibbetnicht"
+            }
+        ],
+        "display_name": "Accountmgr."
+    },
+    "project_managers": {
+        "values": [
+            {
+                "id": 2,
+                "username": "o.lindner"
             },
             {
-                "id": 9,
-                "username": "ccccccc"
-            },
-            {
-                "id": 12,
-                "username": "yyyyyy"
+                "id": 4,
+                "username": "test"
             },
             {
                 "id": 13,

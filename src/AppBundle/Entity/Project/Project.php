@@ -10,6 +10,7 @@ namespace AppBundle\Entity\Project;
 
 use AppBundle\Entity\Customer\Customer;
 use AppBundle\Entity\Customer\CustomerContact;
+use AppBundle\Entity\User\User;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
@@ -46,6 +47,14 @@ abstract class Project
      * @JMS\Groups({"display"})
      */
     protected $createdAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\User")
+     * @ORM\JoinColumn(name="project_manager_id", referencedColumnName="id")
+     * @JMS\Type("AppBundle\Entity\User\User")
+     * @JMS\Groups({"display", "update"})
+     */
+    protected $projectManager;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -121,6 +130,15 @@ abstract class Project
 
     public function getCreatedAt() {
         return $this->createdAt;
+    }
+
+    public function setProjectManager(User $projectManager) {
+        $this->projectManager = $projectManager;
+        return $this;
+    }
+
+    public function getProjectManager() {
+        return $this->projectManager;
     }
 
 
