@@ -20,7 +20,7 @@
           <div class="row">
             <app-edit-inline type="text" [(ngModel)]="mainProp.name" (save)="updateTwoLevelEntityMainItem(mainProp.id, $event)"
               size="32"></app-edit-inline>
-            <span class="clickable clickable-icon iconsmall" (click)="deleteTwoLevelEntityMainItem(valuearray, mainProp.id)">
+            <span class="clickable clickable-icon iconsmall" (click)="deleteTwoLevelEntityMainItem(mainProp.id)">
               <i class="fa fa-trash-o"></i>
             </span>
             <span class="clickable clickable-icon iconsmall" (click)="makeSubItem(mainProp)">

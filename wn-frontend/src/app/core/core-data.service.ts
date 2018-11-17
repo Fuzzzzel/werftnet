@@ -265,6 +265,7 @@ export class CoreDataService {
       if (entityName == null || entityName == "") {
         reject(new Error("Bug: Name der Entity nicht angegeben"))
       } else if (!(mainItemId > 0)) {
+        debugger
         reject(new Error("Bug: Eine der angegebenen Item IDs ist keine positive Zahl!"))
       } else {
         const entityNameConverted = this.util.ucfirst(_.camelCase(entityName))
