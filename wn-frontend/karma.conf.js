@@ -4,7 +4,7 @@
 module.exports = function (config) {
     var configuration = {
         basePath: '',
-        frameworks: ['jasmine', '@angular-devkit/build-angular'],
+        frameworks: ['parallel', 'jasmine', '@angular-devkit/build-angular'],
         files: [
             "src/**/*.ts",
             {
@@ -14,6 +14,7 @@ module.exports = function (config) {
         ],
         exclude: ['node_modules', 'coverage'],
         plugins: [
+            require('karma-parallel'),
             require('karma-jasmine'),
             require('karma-chrome-launcher'),
             require('karma-jasmine-html-reporter'),
@@ -23,7 +24,9 @@ module.exports = function (config) {
         client: {
             clearContext: false // leave Jasmine Spec Runner output visible in browser
         },
-        
+        parallelOptions: {
+            shardStrategy: 'round-robin'
+        },
         reporters: ['progress', 'kjhtml'],
         coverageIstanbulReporter: {
             dir: require('path').join(__dirname, 'coverage'), reports: ['html', 'lcovonly'],

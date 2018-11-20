@@ -22,14 +22,14 @@ class Freelancer extends Person
     /**
      * @ORM\Column(type="integer", unique=true, nullable=true)
      * @JMS\Type("integer")
-     * @JMS\Groups({"display", "update"})
+     * @JMS\Groups({"display", "update", "dropdown"})
      */
     private $supplierNo;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      * @JMS\Type("string")
-     * @JMS\Groups({"display", "update"})
+     * @JMS\Groups({"display", "update", "dropdown"})
      */
     private $companyName;
 

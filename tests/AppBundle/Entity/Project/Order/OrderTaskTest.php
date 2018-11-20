@@ -18,6 +18,7 @@ use AppBundle\Entity\Project\Order\OrderStatus;
 use AppBundle\Entity\Project\Order\OrderTask;
 use AppBundle\Entity\Project\Order\OrderTaskPrice;
 use DoctrineExtensions\Query\Mysql\Date;
+use AppBundle\Entity\Freelancer\Freelancer;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 class OrderTaskTest extends TestCase
@@ -39,17 +40,21 @@ class OrderTaskTest extends TestCase
         $task->setTitle($title);
         $this->assertEquals($title, $task->getTitle());
 
+        $description = 'Neue Positionsbeschreibung, kann viel Text sein ...';
+        $task->setDescription($description);
+        $this->assertEquals($description, $task->getDescription());
+
+        $internalNote = 'Interne Notiz für den Projektmanager';
+        $task->setInternalNote($internalNote);
+        $this->assertEquals($internalNote, $task->getInternalNote());
+
+        $deliveryDate = new \DateTime();
+        $task->setDeliveryDate($deliveryDate);
+        $this->assertEquals($deliveryDate, $task->getDeliveryDate());
+
         $taskPrice = 37.60;
         $task->setTaskPrice($taskPrice);
         $this->assertEquals($taskPrice, $task->getTaskPrice());
-
-        $price = new OrderTaskPrice();
-        $task->addPrice($price);
-        $this->assertContains($price, $task->getPrices());
-        $this->assertEquals($task, $price->getTask());
-        $task->removePrice($price);
-        $this->assertNotContains($price, $task->getPrices());
-        $this->assertEquals(null, $price->getTask());
 
         $order = new Order();
         $order->setCreatedAt(new \DateTime('2018-01-01'));
@@ -62,6 +67,9 @@ class OrderTaskTest extends TestCase
         $lng = new Language();
         $orderPosition->setLngSource($lng);
         $orderPosition->setLngTarget($lng);
+        $freelancer = new Freelancer();
+        $task->setFreelancer($freelancer);
+        $this->assertEquals($freelancer, $task->getFreelancer());
         $this->assertEquals($lng, $orderPosition->getLngSource());
         $this->assertEquals($lng, $orderPosition->getLngTarget());
         $task->setPosition($orderPosition);

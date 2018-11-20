@@ -8,7 +8,6 @@
 
 // executes the "php bin/console cache:clear" command
 passthru(sprintf('php "%s/../bin/console" cache:clear --env=test --no-warmup',__DIR__));
-passthru(sprintf('php "%s/../bin/console" cache:warmup --env=test',__DIR__));
 passthru(sprintf('php %s/../bin/console doctrine:database:drop --if-exists --force --env=test', __DIR__));
 passthru(sprintf('php %s/../bin/console doctrine:database:create --env=test', __DIR__));
 passthru(sprintf('php %s/../bin/console doctrine:schema:update --force --env=test', __DIR__));

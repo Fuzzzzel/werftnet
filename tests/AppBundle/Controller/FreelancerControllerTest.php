@@ -105,4 +105,19 @@ class FreelancerControllerTest extends DefaultWebTestCase
         $crawler = $client->request('DELETE', '/freelancers/'.$freelancerId);
         $this->assertJson($client->getResponse()->getContent());
     }
+
+    public function testFetchFreelancerDropdownValues() {
+        $client = $this->getAdminClient();
+        $client->request(
+            'GET',
+            "/freelancers/dropdownvalues"
+        );
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertJson($response->getContent());
+        $dropdownValues = json_decode($response->getContent());
+        $this->assertTrue(is_array($dropdownValues));
+    }
 }

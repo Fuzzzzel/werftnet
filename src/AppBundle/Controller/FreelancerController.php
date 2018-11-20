@@ -33,6 +33,29 @@ class FreelancerController extends Controller
     /**
      * @return Response
      *
+     * @Route("/freelancers/dropdownvalues", name="fetchFreelancerDropdownValues", methods={"GET"})
+     */
+    public function fetchFreelancerDropdownValues(Request $request)
+    {
+        $repository = $this->getDoctrine()->getRepository(Freelancer::class);
+        $freelancersForDropdown = $repository->findBy(
+            array(),
+            array('name2' => 'ASC')
+        );
+
+        $serializer = SerializerBuilder::create()->build();
+        $freelancerDropdownValues = $serializer->serialize(
+            $freelancersForDropdown,
+            'json',
+            SerializationContext::create()->setGroups(['dropdown'])
+        );
+
+        return new Response($freelancerDropdownValues);
+    }
+
+    /**
+     * @return Response
+     *
      * @Route("/freelancers/search", name="searchFreelancers", methods={"POST"})
      */
     public function searchFreelancers(Request $request)

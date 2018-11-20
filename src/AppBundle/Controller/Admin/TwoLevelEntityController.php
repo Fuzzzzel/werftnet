@@ -154,9 +154,9 @@ class TwoLevelEntityController extends Controller
         $entityName = QueryHelper::getFullEntityName($entityName);
         $newItemName = $params->newItemName;
 
-        $fullEntityName = "AppBundle\\Entity\\" . $entityName;
+        $classname = "AppBundle\\Entity\\" . $entityName;
 
-        $newItem = new $fullEntityName();
+        $newItem = new $classname();
         $newItem->setName($newItemName);
 
         $em = $this->getDoctrine()->getManager();
@@ -164,12 +164,10 @@ class TwoLevelEntityController extends Controller
         $repo = $em->getRepository("AppBundle\\Entity\\" . $entityName);
 
         // Prüfen ob bereits ein Objekt mit diesem Namen existiert
-        $exists = $repo->findOneBy(
-            array('name' => $newItemName)
-        );
+        $exists = $this->checkNewName($classname, $newItemName, $mainItemId);
 
         // Falls ja, nicht hinzufügen
-        if (($exists !== null) && ($newItemName != "")) {
+        if ($exists  || ($newItemName === "")) {
             $response = new Response("Die Bezeichnung existiert schon oder die Bezeichnung ist leer!", Response::HTTP_BAD_REQUEST);
             return $response;
         }
@@ -289,19 +287,18 @@ class TwoLevelEntityController extends Controller
         }
 
         // Prüfen ob bereits ein Objekt mit diesem Namen existiert
-        $exists = $em->getRepository($classname)->findOneBy(
-            array('name' => $itemNewName)
-        );
+        $mainItem = $entityToUpdate->getMainItem();
+        $exists = $this->checkNewName($classname, $itemNewName, $mainItem->getId());
 
         // Falls ja, nicht hinzufügen
-        if (($exists == null) && is_string($itemNewName) && strlen($itemNewName) > 0) {
+        if ($exists|| ($itemNewName == "")) {
+            return new JsonResponse("Die Bezeichnung existiert schon oder die Bezeichnung ist leer!", Response::HTTP_BAD_REQUEST);
+        } else {
             $entityToUpdate->setName($itemNewName);
             $em->persist($entityToUpdate);
             $em->flush();
 
             return new JsonResponse();
-        } else {
-            return new JsonResponse("Die Bezeichnung existiert schon oder die Bezeichnung ist leer!", Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -325,7 +322,6 @@ class TwoLevelEntityController extends Controller
         $entityName = QueryHelper::getFullEntityName($entityName);
         $itemId = $params->itemId;
 
-
         $classname = "\\AppBundle\\Entity\\" . $entityName;
 
         $em = $this->getDoctrine()->getManager();
@@ -341,10 +337,14 @@ class TwoLevelEntityController extends Controller
             throw $this->createNotFoundException("Das zu aktualisierende SubItem wurde nicht gefunden");
         }
 
-        // Falls ja, Objekt aktualisieren
+        $exists = $this->checkNewName($classname, $item->getName(), null);
+
+        if ($exists) {
+            return new JsonResponse("Die Bezeichnung existiert schon!", Response::HTTP_BAD_REQUEST);
+        }
+
         $item->setMainItem(null);
         $em->flush();
-
         return new JsonResponse();
     }
 
@@ -397,6 +397,11 @@ class TwoLevelEntityController extends Controller
             return new JsonResponse("Item kann nicht SubItem von sich selbst sein!", Response::HTTP_BAD_REQUEST);
         }
 
+        $exists = $this->checkNewName($classname, $item->getName(), $itemMain->getId());
+
+        if ($exists) {
+            return new JsonResponse("Die Bezeichnung existiert schon!", Response::HTTP_BAD_REQUEST);
+        }
 
         $subItems = $repo->findAllSubItems($itemId);
 
@@ -407,5 +412,24 @@ class TwoLevelEntityController extends Controller
         }
 
         return new JsonResponse();
+    }
+
+    private function checkNewName($classname, $newName, $mainItemId) {
+        $em = $this->getDoctrine()->getManager();
+
+        // Prüfen ob bereits ein Objekt mit diesem Namen existiert
+        $repo = $em->getRepository($classname);
+
+        $searchArray = array('name' => $newName, 'mainItem' => null);
+        if ($mainItemId !== null) {
+            $itemMain = $repo->findOneBy(
+                array('id' => $mainItemId));
+            $searchArray['mainItem'] = $itemMain;
+        }
+        $exists = $repo->findOneBy(
+            $searchArray
+        );
+
+        return $exists !== null;
     }
 }

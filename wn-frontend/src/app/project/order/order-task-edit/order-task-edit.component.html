@@ -1,16 +1,23 @@
 <div class="row">
-  <div class="col-md-1">{{ task.task_no_string }}</div>
+  <div class="col-md-1">{{ taskToEdit.task_no_string }}</div>
   <div class="col-md-11">
     <div class="row">
       <div class="col-md-8">
         <div class="form-group row">
           <div class="col-md-6">
-            <select class="form-control form-control-sm" name="edit-position-task-freelancer">
-              <option [value]='undefined' selected>-- Lieferant --</option>
-            </select>
+            <ng-select name="edit-position-task-freelancer" [items]="freelancerDropdownValues" [(ngModel)]="taskToEdit.freelancer"
+              [virtualScroll]="true" bindLabel="name2" placeholder="--- Bitte wählen ---">
+              <ng-template ng-label-tmp let-item="item" let-index="index">
+                <span>{{item.name2}}, {{item.name1}}</span>
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item" let-index="index">
+                <span [title]="item.name1">{{item.name2}}, {{item.name1}}</span>
+              </ng-template>
+            </ng-select>
           </div>
           <div class="col-md-6">
-            <input type="datetime-local" class="form-control form-control-sm" name="edit-postion-task-delivery_date">
+            <input type="datetime-local" class="form-control form-control-sm" name="edit-postion-task-delivery_date"
+              [(ngModel)]="taskToEdit.delivery_date">
           </div>
         </div>
       </div>
@@ -18,7 +25,7 @@
         <div class="form-group row">
           <div class="col-md-5">
             <input type="number" step="any" class="form-control form-control-sm" name="edit-task-task_price"
-              [(ngModel)]="task.task_price" placeholder="Preis">
+              [(ngModel)]="taskToEdit.task_price" placeholder="Preis">
           </div>
           <div class="col-md-7">
             <button type="button" class="btn btn-sm btn-primary float-right mx-1" (click)="saveOrderTask()">
@@ -42,17 +49,19 @@
     </div>
     <div class="form-group row">
       <div class="col-md-8">
-        <input class="form-control form-control-sm" name="edit-task-title" [(ngModel)]="task.title" placeholder="Titel">
+        <input class="form-control form-control-sm" name="edit-task-title" [(ngModel)]="taskToEdit.title" placeholder="Titel">
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
         <div class="form-group row">
           <div class="col-md-8">
-            <textarea placeholder="Aufgabenbeschreibung" class="form-control form-control-sm" rows="4" name="edit-position-task-description"></textarea>
+            <textarea placeholder="Aufgabenbeschreibung" class="form-control form-control-sm" rows="4" name="edit-position-task-description"
+              [(ngModel)]="taskToEdit.description"></textarea>
           </div>
           <div class="col-md-4">
-            <textarea placeholder="Interne Notiz" class="form-control form-control-sm" rows="4" name="edit-position--taskinternal-note"></textarea>
+            <textarea placeholder="Interne Notiz" class="form-control form-control-sm" rows="4" name="edit-position--taskinternal-note"
+              [(ngModel)]="taskToEdit.internal_note"></textarea>
           </div>
         </div>
       </div>

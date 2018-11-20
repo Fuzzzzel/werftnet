@@ -177,6 +177,114 @@ class TwoLevelEntityControllerTest extends DefaultWebTestCase
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $client->getResponse()->getStatusCode());
     }
 
+    public function testMakeDuplicateSubItem() {
+        $client = $this->getAdminClient();
+
+        // Create item
+        $crawler = $client->request(
+            'POST',
+            "/admin/two_level_entity/sector",
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{"newItemName": "FirstMainItem"}'
+        );
+        $responseBody = $client->getResponse()->getContent();
+        $this->assertJson($responseBody);
+        $mainItem = json_decode($responseBody);
+
+        // Create subitem
+        $crawler = $client->request(
+            'POST',
+            "/admin/two_level_entity/sector/{$mainItem->id}/sub_items",
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{"newItemName": "DuplicateItem"}'
+        );
+        $responseBody = $client->getResponse()->getContent();
+        $this->assertJson($responseBody);
+        $subItem = json_decode($responseBody);
+
+        // Make sub item
+        $crawler = $client->request(
+            'POST',
+            "/admin/addAsSubItem",
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{"entityName": "Sector", "itemId": "' . $subItem->id . '",  "mainItemId": "' . $mainItem->id . '"}'
+        );
+        $response = $client->getResponse()->getContent();
+        $this->assertJson($response);
+
+        // Create subitem a second time
+        $crawler = $client->request(
+            'POST',
+            "/admin/two_level_entity/sector",
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{"newItemName": "DuplicateItem"}'
+        );
+        $responseBody = $client->getResponse()->getContent();
+        $this->assertJson($responseBody);
+        $subItem2 = json_decode($responseBody);
+
+        // Make sub item a second time
+        $crawler = $client->request(
+            'POST',
+            "/admin/addAsSubItem",
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{"entityName": "Sector", "itemId": "' . $subItem->id . '",  "mainItemId": "' . $mainItem->id . '"}'
+        );
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+    }
+
+    public function testMakeDuplicateMainItem() {
+        $client = $this->getAdminClient();
+
+        // Create item
+        $crawler = $client->request(
+            'POST',
+            "/admin/two_level_entity/sector",
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{"newItemName": "DuplicateMainItem"}'
+        );
+        $responseBody = $client->getResponse()->getContent();
+        $this->assertJson($responseBody);
+        $mainItem = json_decode($responseBody);
+
+        // Create subitem
+        $crawler = $client->request(
+            'POST',
+            "/admin/two_level_entity/sector/{$mainItem->id}/sub_items",
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{"newItemName": "DuplicateMainItem"}'
+        );
+        $responseBody = $client->getResponse()->getContent();
+        $this->assertJson($responseBody);
+        $subItem = json_decode($responseBody);
+
+        // Make main item
+        $crawler = $client->request(
+            'POST',
+            "/admin/makeMainItem",
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{"entityName": "Sector", "itemId": "' . $subItem->id . '"}'
+        );
+
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+    }
+
     public function testUpdateNonExistentItem()
     {
         // Fetch two level entity collection
@@ -245,15 +353,4 @@ class TwoLevelEntityControllerTest extends DefaultWebTestCase
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
 
     }
-
-    private function findItemById($arr, $id)
-    {
-        foreach ($arr as $item) {
-            if ($id == $item->id) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 }

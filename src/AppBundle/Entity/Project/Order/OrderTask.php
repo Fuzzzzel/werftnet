@@ -80,23 +80,44 @@ class OrderTask
     private $title;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     * @JMS\Type("string")
+     * @JMS\Groups({"display", "update"})
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @JMS\Type("string")
+     * @JMS\Groups({"display", "update"})
+     */
+    private $internalNote;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @JMS\Type("DateTime<'Y-m-d\TH:i'>")
+     * @JMS\Groups({"display", "update"})
+     */
+    private $deliveryDate;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Freelancer\Freelancer")
+     * @ORM\JoinColumn(name="freelancer_id", referencedColumnName="id")
+     * @JMS\Type("AppBundle\Entity\Freelancer\Freelancer")
+     * @JMS\Groups({"display", "update"})
+     */
+    private $freelancer;
+
+    /**
      * @ORM\Column(type="float", nullable=true)
      * @JMS\Type("float")
      * @JMS\Groups({"display", "update"})
      */
     private $taskPrice;
 
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Project\Order\OrderTaskPrice", mappedBy="task")
-     * @ORM\JoinColumn(name="position_id", referencedColumnName="id")
-     * @JMS\Type("ArrayCollection<AppBundle\Entity\Project\Order\OrderTaskPrice>")
-     * @JMS\Groups({"display"})
-     */
-    private $prices;
-
     public function __construct()
     {
-        $this->prices = new ArrayCollection();
+
     }
 
     // Getters and Setters
@@ -115,6 +136,18 @@ class OrderTask
      */
     public function getPosition() {
         return $this->position;
+    }
+
+    public function setFreelancer($freelancer) {
+        $this->freelancer = $freelancer;
+        return $this;
+    }
+
+    /**
+     * @return OrderFreelancer
+     */
+    public function getFreelancer() {
+        return $this->freelancer;
     }
 
     public function setTaskNumber($taskNumber) {
@@ -164,28 +197,45 @@ class OrderTask
         return $this->title;
     }
 
-    public function addPrice(OrderTaskPrice $price) {
-        $price->setTask($this);
-        $this->prices[] = $price;
-        return $this;
-    }
-
-    public function removePrice(OrderTaskPrice $price) {
-        $price->setTask(null);
-        $this->prices->removeElement($price);
+    public function setDescription($description) {
+        $this->description = $description;
         return $this;
     }
 
     /**
-     * @return ArrayCollection<TaskPrice>
+     * @return string
      */
-    public function getPrices() {
-        return $this->prices;
+    public function getDescription() {
+        return $this->description;
+    }
+
+    public function setInternalNote($internalNote) {
+        $this->internalNote = $internalNote;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInternalNote() {
+        return $this->internalNote;
     }
 
     public function setTaskPrice($taskPrice) {
         $this->taskPrice = $taskPrice;
         return $this;
+    }
+
+    public function setDeliveryDate($deliveryDate) {
+        $this->deliveryDate = $deliveryDate;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDeliveryDate() {
+        return $this->deliveryDate;
     }
 
     /**
