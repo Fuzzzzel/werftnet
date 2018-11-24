@@ -5,14 +5,15 @@
   
 A simple tool to manage your translators and customers. Simple project management to be added soon.  
   
-* Frontend: Angular 5, Bootstrap 4  
-* Backend: PHP 7.1, Symfony 3.4, MySQL  
+* Frontend: Angular 6, Bootstrap 4  
+* Backend: PHP 7.2, Symfony 3.4, MySQL  
+* If you do not want to use php-unit from symfony
   
 ## Installation instructions  
 ### Environment setup  
-`sudo apt-get install apache2 libapache2-mod-php7.1 php7.1 php7.1-mysql mysql-server`  
+`sudo apt-get install apache2 libapache2-mod-php7.2 php7.2 php7.2-mysql mysql-server`  
 `sudo a2enmod rewrite`  
-`sudo apt-get install php-xml php7.1-mbstring`  
+`sudo apt-get install php-xml zip unzip php7.2-zip php7.2-mbstring`  
   
 ### Create DB and user (for MySQL)  
 `CREATE USER your_user@localhost identified by 'YOUR_PASSWORD';`  

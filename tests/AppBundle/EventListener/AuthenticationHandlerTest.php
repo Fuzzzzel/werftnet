@@ -19,8 +19,9 @@ class AuthenticationHandlerTest extends DefaultWebTestCase
         // These methods only exist to create a route by annotations
         $authenticationController = new AuthenticationController();
 
-        $authenticationController->loginCheckAction();
-        $authenticationController->logoutAction();
+        // Methods only return true to not show warning of no assertion in php unit
+        $this->assertTrue($authenticationController->loginCheckAction());
+        $this->assertTrue($authenticationController->logoutAction());
     }
 
     public function testOnAuthenticationSuccess()

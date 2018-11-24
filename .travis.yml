@@ -2,7 +2,7 @@ matrix:
   include:
     language: php
     php:
-    - '7.1'
+    - '7.2'
     dist: trusty
     addons:
       chrome: stable

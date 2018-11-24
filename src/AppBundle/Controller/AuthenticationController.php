@@ -28,6 +28,7 @@ class AuthenticationController extends Controller
     public function loginCheckAction()
     {
         // will never be executed but needed for interface
+        return true;
     }
 
     /**
@@ -36,6 +37,7 @@ class AuthenticationController extends Controller
     public function logoutAction()
     {
         // will never be executed but needed for interface
+        return true;
     }
 
     /**
