@@ -40,11 +40,63 @@ describe('AuthGuardService', () => {
     expect(service).toBeTruthy()
   })
 
-  it('should return not activated, when no user is logged in', () => {
+  it('should return not activated, when no user is logged in and empty object is received', (done) => {
     mockSnapshot.data = {
       expectedRole: 'ROLE_USER'
     }
-    expect(service.canActivate(mockSnapshot)).toBeFalsy()
+
+    let userResponse = {}
+
+    service.canActivate(mockSnapshot)
+      .then((data) => {
+        expect(data).toBeFalsy()
+        done()
+      })
+
+    const req = backend.expectOne('/get_logged_in_user')
+    expect(req.request.method).toBe("GET")
+    req.flush(userResponse, { status: 200, statusText: 'OK' })
+  })
+
+  it('should return not activated, when no user is logged in and request fails', (done) => {
+    mockSnapshot.data = {
+      expectedRole: 'ROLE_USER'
+    }
+
+    let userResponse = {}
+
+    service.canActivate(mockSnapshot)
+      .then((data) => {
+        expect(data).toBeFalsy()
+        done()
+      })
+
+    const req = backend.expectOne('/get_logged_in_user')
+    expect(req.request.method).toBe("GET")
+    req.flush(userResponse, { status: 404, statusText: 'NOT FOUND' })
+  })
+
+  it('should not send request twice if first request has not been answered yet', (done) => {
+    mockSnapshot.data = {
+      expectedRole: 'ROLE_USER'
+    }
+
+    let userResponse = {}
+
+    service.canActivate(mockSnapshot)
+      .then((data) => {
+        expect(data).toBeFalsy()
+      })
+
+    service.canActivate(mockSnapshot)
+      .then((data) => {
+        expect(data).toBeFalsy()
+        done()
+      })
+
+    const req = backend.expectOne('/get_logged_in_user')
+    expect(req.request.method).toBe("GET")
+    req.flush(userResponse, { status: 200, statusText: 'OK' })
   })
 
   it('should return activated, when user is logged in and has role', (done) => {
@@ -61,8 +113,11 @@ describe('AuthGuardService', () => {
       .then((data) => {
         expect(data.username).toEqual('user')
         expect(userService.isLoggedIn()).toBeTruthy()
-        expect(service.canActivate(mockSnapshot)).toBeTruthy()
-        done()
+        service.canActivate(mockSnapshot)
+          .then((data) => {
+            expect(data).toBeTruthy()
+            done()
+          })
       })
 
     const req = backend.expectOne('/login_check')
@@ -83,8 +138,11 @@ describe('AuthGuardService', () => {
       .then((data) => {
         expect(data.username).toEqual('user')
         expect(userService.isLoggedIn()).toBeTruthy()
-        expect(service.canActivate(mockSnapshot)).toBeTruthy()
-        done()
+        service.canActivate(mockSnapshot)
+          .then((data) => {
+            expect(data).toBeTruthy()
+            done()
+          })
       })
 
     const req = backend.expectOne('/login_check')

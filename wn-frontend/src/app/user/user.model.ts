@@ -14,6 +14,7 @@ export class User {
     }
 
     hasRole(role: string) {
+
         return this.roles.indexOf(role) >= 0;
     }
 }

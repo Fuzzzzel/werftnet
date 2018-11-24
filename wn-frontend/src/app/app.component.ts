@@ -36,11 +36,10 @@ export class AppComponent implements OnInit {
     this.coreDataService.getDataLoaded().subscribe(dataLoaded => {
       this.coreDataLoaded = dataLoaded
     })
-    this.userService.testServerForLoggedInUser()
-      .then((user) => {
-        this.util.goTo('home')
+    this.userService.checkIfLoggedIn()
+      .then(() => {
       })
-      .catch((error) => {
+      .catch(() => {
         this.util.goTo('login')
       })
   }

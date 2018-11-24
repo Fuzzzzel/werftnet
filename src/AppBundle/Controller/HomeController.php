@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -27,11 +28,13 @@ class HomeController extends Controller
     }
 
     /**
-     * @Route("/dist/{req}", name="f5redirect", requirements={"req"=".*"})
+     * @Route("/dist/{hashurl}", name="f5redirect", requirements={"hashurl"=".*"})
      */
-    public function f5redirectAction(Request $request)
+    public function f5redirectAction(Request $request, $hashurl)
     {
-        return new RedirectResponse("/dist/index.html");
+        // readfile("../../../www//dist/index.html");
+        $publicResourcesFolderPath = $this->get('kernel')->getRootDir();
+        return new BinaryFileResponse($publicResourcesFolderPath . "/../www/dist/index.html");
     }
 
 }

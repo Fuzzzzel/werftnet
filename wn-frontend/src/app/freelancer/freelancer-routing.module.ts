@@ -17,7 +17,8 @@ const ROUTE_CONFIG: Routes = [
     },
     {
         path: 'freelancer/edit',
-        component: FreelancerEditComponent
+        component: FreelancerEditComponent,
+        canActivate: [AuthGuard]
     }
 ];
 

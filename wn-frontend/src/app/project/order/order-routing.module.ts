@@ -17,7 +17,8 @@ const ROUTE_CONFIG: Routes = [
     },
     {
         path: 'order/edit',
-        component: OrderEditComponent
+        component: OrderEditComponent,
+        canActivate: [AuthGuard]
     }
 ];
 

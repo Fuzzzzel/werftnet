@@ -1,12 +1,13 @@
-import { Injectable, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { User } from './user.model';
-import { UtilService } from '../core/util.service';
+import { Injectable, OnInit } from '@angular/core'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { User } from './user.model'
+import { UtilService } from '../core/util.service'
 
 @Injectable()
 export class UserService {
 
-  private user: User = new User();
+  private user: User = new User()
+  private pendingCheckIfLoggedIn = null
 
   constructor(
     private http: HttpClient,
@@ -19,6 +20,28 @@ export class UserService {
 
   isLoggedIn(): boolean {
     return typeof this.user.id !== 'undefined' && typeof this.user.username !== 'undefined' && this.user.id !== null && this.user.username !== null;
+  }
+
+  checkIfLoggedIn(): Promise<void> {
+    if (!this.pendingCheckIfLoggedIn) {
+      this.pendingCheckIfLoggedIn = new Promise((resolve, reject) => {
+        if (this.isLoggedIn()) {
+          resolve(true)
+          this.pendingCheckIfLoggedIn = null
+        } else {
+          this.testServerForLoggedInUser()
+            .then((user) => {
+              resolve(true)
+              this.pendingCheckIfLoggedIn = null
+            })
+            .catch(() => {
+              reject(false)
+              this.pendingCheckIfLoggedIn = null
+            })
+        }
+      })
+    }
+    return this.pendingCheckIfLoggedIn
   }
 
   userHasRole(role: string) {
@@ -98,7 +121,7 @@ export class UserService {
    * @param resolve 
    * @param reject 
    */
-  testServerForLoggedInUser() {
+  testServerForLoggedInUser(): Promise<User> {
 
     return new Promise<User>((resolve, reject) => {
       // Set up post request (returns empty object if no user is logged in)
