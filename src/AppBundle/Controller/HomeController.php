@@ -32,9 +32,10 @@ class HomeController extends Controller
      */
     public function f5redirectAction(Request $request, $hashurl)
     {
-        // readfile("../../../www//dist/index.html");
-        $publicResourcesFolderPath = $this->get('kernel')->getRootDir();
-        return new BinaryFileResponse($publicResourcesFolderPath . "/../www/dist/index.html");
+        $rootDir = $this->get('kernel')->getRootDir();
+        $pathToWebFolder = $this->container->getParameter('werftnet_webroot');
+        $publicResourcesFolderPath = $rootDir . "/" . $pathToWebFolder;
+        return new BinaryFileResponse($publicResourcesFolderPath . "/dist/index.html");
     }
 
 }

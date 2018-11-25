@@ -42,6 +42,6 @@ class HomeControllerTest extends DefaultWebTestCase
         $client = $this->getUserClient();
         $crawler = $client->request('GET', '/dist/#/test');
 
-        $this->assertContains('index.html', $client->getResponse()->getContent());
+        $this->assertEquals(200,$client->getResponse()->getStatusCode());
     }
 }
