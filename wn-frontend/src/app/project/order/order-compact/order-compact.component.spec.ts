@@ -9,6 +9,7 @@ import { Order } from '../order.model';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 import { CoreDataServiceMock } from '../../../core/core-data.service-mock';
 import { CoreDataService } from '../../../core/core-data.service';
+import { CustomerService } from '../../../customer/customer.service';
 
 describe('OrderCompactComponent', () => {
   let component: OrderCompactComponent;
@@ -22,7 +23,7 @@ describe('OrderCompactComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([
           {
-            path: 'order/edit',
+            path: 'order/edit/:orderId',
             redirectTo: ''
           }
         ])
@@ -33,6 +34,7 @@ describe('OrderCompactComponent', () => {
       providers: [
         UtilService,
         OrderEditService,
+        CustomerService,
         { provide: CoreDataService, useClass: CoreDataServiceMock }
       ]
     })
@@ -58,19 +60,5 @@ describe('OrderCompactComponent', () => {
   it('should go to edit order', fakeAsync(() => {
     component.editOrder()
     tick()
-
-    const req = backend.expectOne('/orders/' + component.order.id)
-    expect(req.request.method).toBe("GET")
-    req.flush(component.order, { status: 200, statusText: 'OK' })
-  }))
-
-  it('should fail to go to edit order', fakeAsync(() => {
-    spyOn(window, 'alert').and.returnValue(true)
-    component.editOrder()
-    tick()
-
-    const req = backend.expectOne('/orders/' + component.order.id)
-    expect(req.request.method).toBe("GET")
-    req.flush([], { status: 404, statusText: 'Not Found' })
   }))
 })

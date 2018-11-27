@@ -28,7 +28,7 @@ describe('OrderSearchComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([
           {
-            path: 'order/edit',
+            path: 'order/edit/:orderId',
             redirectTo: ''
           }
         ]),
@@ -85,6 +85,7 @@ describe('OrderSearchComponent', () => {
 
   it('should go to edit order', () => {
     const order = new Order()
+    order.id = 1
     spyOn(orderEditService, 'prepareEditOrder').and.callFake(function () {
       return new Promise((resolve, reject) => {
         resolve(order)
@@ -95,6 +96,7 @@ describe('OrderSearchComponent', () => {
 
   it('should fail to go to edit order', () => {
     const order = new Order()
+    order.id = 1
     spyOn(orderEditService, 'prepareEditOrder').and.callFake(function () {
       return new Promise((resolve, reject) => {
         reject(new Error())

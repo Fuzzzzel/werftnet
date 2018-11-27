@@ -4,6 +4,7 @@ import { UtilService } from '../../core/util.service';
 import { HttpClient } from '@angular/common/http';
 import { CustomerSearchService } from '../customer-search/customer-search.service';
 import { User } from '../../user/user.model';
+import { CustomerService } from '../customer.service';
 
 @Injectable()
 export class CustomerEditService {
@@ -15,6 +16,7 @@ export class CustomerEditService {
   constructor(
     private util: UtilService,
     private http: HttpClient,
+    private customerService: CustomerService,
     private customerSearchService: CustomerSearchService
   ) {
 
@@ -82,35 +84,12 @@ export class CustomerEditService {
     })
   }
 
-  /**
-   * Loads customer by id and switches to edit view if found
-   * 
-   * @param id Id of the customer to be edited
-   */
-  getCustomerById(id: number) {
-    // Set up post request
-    const req = this.http.get<Customer>(
-      '/customers/' + id
-    )
-
-    return new Promise<Customer>((resolve, reject) => {
-      // Execute post request and subscribe to response
-      req.subscribe(
-        data => {
-          resolve(data)
-        },
-        error => {
-          reject(error)
-        });
-    })
-  }
-
   prepareEditCustomer(id: number) {
     return new Promise<Customer>((resolve, reject) => {
       this.customerToEdit = new Customer();
       if (id && id > 0) {
         // Reload customer before editing
-        this.getCustomerById(id)
+        this.customerService.getCustomerById(id)
           .then((customer) => {
             this.customerToEdit = customer
             resolve(this.customerToEdit)

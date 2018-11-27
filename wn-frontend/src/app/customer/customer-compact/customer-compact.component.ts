@@ -42,13 +42,6 @@ export class CustomerCompactComponent {
   }
 
   createNewOrder(customer: Customer) {
-    this.orderEditService.prepareEditOrder(null)
-      .then((data) => {
-        this.orderEditService.setCustomer(customer)
-        this.util.goTo('order/edit')
-      })
-      .catch((error) => {
-        alert('Order konnte nicht zum Bearbeiten geöffnet werden: ' + error.message)
-      })
+    this.util.goTo('order/new/' + customer.id)
   }
 }

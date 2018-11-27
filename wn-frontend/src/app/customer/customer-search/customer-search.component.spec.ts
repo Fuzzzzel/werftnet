@@ -12,6 +12,7 @@ import { NgbPagination, NgbModule, NgbPaginationConfig } from '@ng-bootstrap/ng-
 import { CoreDataServiceMock } from '../../core/core-data.service-mock'
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing'
 import { Customer } from '../customer.model'
+import { CustomerService } from '../customer.service';
 
 describe('CustomerSearchComponent', () => {
   let component: CustomerSearchComponent
@@ -39,6 +40,7 @@ describe('CustomerSearchComponent', () => {
         UtilService,
         CustomerSearchService,
         CustomerEditService,
+        CustomerService,
         NgbPaginationConfig,
         { provide: CoreDataService, useClass: CoreDataServiceMock }
       ]

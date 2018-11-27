@@ -10,6 +10,7 @@ import { CustomerEditService } from '../customer-edit/customer-edit.service'
 import { CustomerSearchService } from '../customer-search/customer-search.service'
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing'
 import { CustomerContact } from '../customer.model'
+import { CustomerService } from '../customer.service';
 
 describe('CustomerEditContactComponent', () => {
   let component: CustomerEditContactComponent
@@ -27,6 +28,7 @@ describe('CustomerEditContactComponent', () => {
       providers: [
         UtilService,
         CustomerEditService,
+        CustomerService,
         CustomerSearchService,
         { provide: CoreDataService, useClass: CoreDataServiceMock }
       ],

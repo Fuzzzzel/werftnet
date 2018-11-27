@@ -84,6 +84,21 @@ describe('OrderHeadEditComponent', () => {
     req.flush([], { status: 200, statusText: 'Ok' })
   })
 
+  it('should reload customer contacts and when order input changes', () => {
+    initWithoutCustomer()
+    let customer = new Customer()
+    customer.id = 1
+
+    const order = new Order()
+    order.customer = customer
+    component.order = order
+    component.ngOnChanges()
+
+    const req = backend.expectOne('/customers/' + customer.id + '/contacts')
+    expect(req.request.method).toBe("GET")
+    req.flush([], { status: 200, statusText: 'Ok' })
+  })
+
   it('should reload customer contacts but not reset selected contact', () => {
     initWithoutCustomer()
     let customer = new Customer()

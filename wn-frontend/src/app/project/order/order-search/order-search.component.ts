@@ -56,13 +56,7 @@ export class OrderSearchComponent implements OnInit {
   }
 
   editOrder(orderToEdit: Order) {
-    this.orderEditService.prepareEditOrder(orderToEdit && orderToEdit.id)
-      .then((data) => {
-        this.util.goTo('order/edit')
-      })
-      .catch((error) => {
-        alert('Order konnte nicht zum Bearbeiten geöffnet werden: ' + error.message)
-      })
+    this.util.goTo('order/edit/' + orderToEdit.id)
   }
 
 }

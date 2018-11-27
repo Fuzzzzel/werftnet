@@ -66,7 +66,7 @@ describe('EditInlineComponent (rendering)', () => {
 
     // Blur to save
     editInlineInput.blur()
-    tick()
+    tick(delayToOpenCloseEdit)
     testHostFixture.detectChanges()
     tick(delayToOpenCloseEdit)
     testHostFixture.detectChanges()
@@ -76,7 +76,7 @@ describe('EditInlineComponent (rendering)', () => {
 
 
   it('Should edit on click but not save without changing value', fakeAsync(() => {
-    const delayToOpenCloseEdit = 100
+    const delayToOpenCloseEdit = 500
     testHostComponent.elementDisabled = false
     testHostComponent.testValue = 'test'
     testHostFixture.detectChanges()

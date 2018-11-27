@@ -14,21 +14,13 @@ export class OrderCompactComponent implements OnInit {
   order: Order
 
   constructor(
-    private util: UtilService,
-    private orderEditService: OrderEditService
+    private util: UtilService
   ) { }
 
   ngOnInit() {
   }
 
   editOrder() {
-    // Reload order or pass empty new order
-    this.orderEditService.prepareEditOrder(this.order.id)
-      .then((order) => {
-        this.util.goTo('order/edit')
-      })
-      .catch((error) => {
-        alert('Order konnte nicht geladen werden: ' + error.message)
-      })
+    this.util.goTo('order/edit/' + this.order.id)
   }
 }

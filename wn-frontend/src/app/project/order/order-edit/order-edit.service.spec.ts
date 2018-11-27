@@ -9,6 +9,7 @@ import { CoreDataService } from '../../../core/core-data.service';
 import { CoreDataServiceMock } from '../../../core/core-data.service-mock';
 import { Customer } from '../../../customer/customer.model';
 import { OrderPosition } from '../order-position.model';
+import { CustomerService } from '../../../customer/customer.service';
 
 describe('OrderEditService', () => {
   let service: OrderEditService
@@ -23,6 +24,7 @@ describe('OrderEditService', () => {
       providers: [
         OrderEditService,
         UtilService,
+        CustomerService,
         { provide: CoreDataService, useClass: CoreDataServiceMock }
       ]
     });
@@ -34,18 +36,6 @@ describe('OrderEditService', () => {
   it('should be created', inject([OrderEditService], (service: OrderEditService) => {
     expect(service).toBeTruthy();
   }));
-
-  it('should get order to edit', () => {
-    const order = service.getOrderToEdit()
-    expect(order).toBeTruthy()
-  })
-
-  it('should set customer', () => {
-    let customer = new Customer()
-    customer.id = 1
-    service.setCustomer(customer)
-    expect(service.orderToEdit.customer.id).toEqual(1)
-  })
 
   it('should prepare edit order', (done) => {
     let order: Order = new Order()
@@ -81,6 +71,18 @@ describe('OrderEditService', () => {
       .then(() => {
         done()
       })
+  })
+
+  it('should fail to prepare edit order for new customer', (done) => {
+    service.prepareEditOrder(null, 1)
+      .catch((err) => {
+        expect(err).toBeDefined()
+        done()
+      })
+
+    const req = backend.expectOne('/customers/1')
+    expect(req.request.method).toBe("GET")
+    req.flush([], { status: 404, statusText: 'Not Found' })
   })
 
   it('should fail to set new order status', () => {

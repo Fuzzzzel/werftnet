@@ -15,6 +15,29 @@ export class CustomerService {
     this.refreshCustomerDropdownValues()
   }
 
+  /**
+     * Loads customer by id
+     * 
+     * @param id Id of the customer to be edited
+     */
+  getCustomerById(id: number) {
+    // Set up post request
+    const req = this.http.get<Customer>(
+      '/customers/' + id
+    )
+
+    return new Promise<Customer>((resolve, reject) => {
+      // Execute post request and subscribe to response
+      req.subscribe(
+        data => {
+          resolve(data)
+        },
+        error => {
+          reject(error)
+        });
+    })
+  }
+
   getCustomerDropdownValues() {
     return this.$customerDropdownValues.asObservable()
   }

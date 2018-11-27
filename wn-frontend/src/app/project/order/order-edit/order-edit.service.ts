@@ -5,6 +5,7 @@ import { UtilService } from '../../../core/util.service';
 import { CoreData, CoreDataService } from '../../../core/core-data.service';
 import { Customer } from '../../../customer/customer.model';
 import { OrderPosition } from '../order-position.model';
+import { CustomerService } from '../../../customer/customer.service';
 
 @Injectable()
 export class OrderEditService {
@@ -13,17 +14,13 @@ export class OrderEditService {
   coreData: CoreData = new CoreData()
 
   constructor(
-    private util: UtilService,
     private http: HttpClient,
-    private coreDataService: CoreDataService
+    private coreDataService: CoreDataService,
+    private customerService: CustomerService
   ) {
     this.coreDataService.getData().subscribe((data) => {
       this.coreData = data
     })
-  }
-
-  getOrderToEdit() {
-    return this.orderToEdit
   }
 
   setOrderStatusTo(newStatusValue: string) {
@@ -35,12 +32,12 @@ export class OrderEditService {
     }
   }
 
-  prepareEditOrder(id: number) {
-    this.orderToEdit = new Order();
+  prepareEditOrder(orderId: number, customerId: number = null) {
+    const newOrder = new Order()
     return new Promise<Order>((resolve, reject) => {
-      if (id && id > 0) {
+      if (orderId && !isNaN(orderId) && orderId > 0) {
         // Reload order before editing
-        this.getOrderById(id)
+        this.getOrderById(orderId)
           .then((order) => {
             this.orderToEdit = order
             resolve(order)
@@ -50,13 +47,21 @@ export class OrderEditService {
           })
       } else {
         this.setOrderStatusTo('CREATED')
-        resolve(this.orderToEdit)
+        if (!isNaN(customerId) && customerId > 0) {
+          this.customerService.getCustomerById(customerId)
+            .then((customer) => {
+              newOrder.customer = customer
+              this.orderToEdit = newOrder
+              resolve(newOrder)
+            })
+            .catch((error) => {
+              reject('Kunde mit der Id ' + customerId + ' konnte nicht geladen werden: ' + error)
+            })
+        } else {
+          resolve(this.orderToEdit)
+        }
       }
     })
-  }
-
-  setCustomer(customer: Customer) {
-    this.orderToEdit.customer = customer
   }
 
   getOrderById(id: number) {
@@ -88,7 +93,6 @@ export class OrderEditService {
       // Execute post request and subscribe to response
       req.subscribe(
         data => {
-          this.orderToEdit = data
           resolve(data)
         },
         error => {

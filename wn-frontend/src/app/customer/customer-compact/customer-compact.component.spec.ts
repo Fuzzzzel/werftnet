@@ -12,6 +12,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { Customer, CustomerContact } from '../customer.model'
 import { OrderEditService } from '../../project/order/order-edit/order-edit.service';
 import { CoreDataServiceMock } from '../../core/core-data.service-mock';
+import { CustomerService } from '../customer.service';
 let customerMock = require('./../customer.mock.json')
 
 describe('CustomerCompactComponent', () => {
@@ -32,18 +33,9 @@ describe('CustomerCompactComponent', () => {
           {
             path: 'customer/edit_contact',
             redirectTo: ''
-          }
-        ]), RouterTestingModule.withRoutes([
-          {
-            path: 'customer/edit',
-            redirectTo: ''
           },
           {
-            path: 'customer/edit_contact',
-            redirectTo: ''
-          },
-          {
-            path: 'order/edit',
+            path: 'order/new/:customerId',
             redirectTo: ''
           }
         ]),
@@ -57,6 +49,7 @@ describe('CustomerCompactComponent', () => {
         CustomerEditService,
         CustomerSearchService,
         OrderEditService,
+        CustomerService,
         { provide: CoreDataService, useClass: CoreDataServiceMock }
 
       ]

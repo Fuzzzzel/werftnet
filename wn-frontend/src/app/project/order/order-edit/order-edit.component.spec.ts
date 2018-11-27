@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 
 import { OrderEditComponent } from './order-edit.component';
 import { SharedModule } from '../../../shared/shared.module';
@@ -20,12 +20,16 @@ import { OrderPositionViewComponent } from '../order-position-view/order-positio
 import { OrderPositionEditComponent } from '../order-position-edit/order-position-edit.component';
 import { OrderTaskViewComponent } from '../order-task-view/order-task-view.component';
 import { OrderTaskEditComponent } from '../order-task-edit/order-task-edit.component';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, of, Subject } from 'rxjs';
+import { ActivatedRouteStub } from '../../../test/activated-route-stub';
 
 describe('OrderEditComponent', () => {
   let component: OrderEditComponent
   let fixture: ComponentFixture<OrderEditComponent>
   let backend: HttpTestingController
   let orderEditService: OrderEditService
+  let activatedRoute: ActivatedRouteStub
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -49,7 +53,11 @@ describe('OrderEditComponent', () => {
         CustomerService,
         OrderEditService,
         OrderSearchService,
-        { provide: CoreDataService, useClass: CoreDataServiceMock }
+        { provide: CoreDataService, useClass: CoreDataServiceMock },
+        {
+          provide: ActivatedRoute,
+          useClass: ActivatedRouteStub
+        }
       ]
     })
       .compileComponents();
@@ -59,29 +67,54 @@ describe('OrderEditComponent', () => {
     backend = TestBed.get(HttpTestingController)
     fixture = TestBed.createComponent(OrderEditComponent);
     component = fixture.componentInstance;
+    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute) as any;
     orderEditService = TestBed.get(OrderEditService)
-  });
+  })
 
   function initOrderWithCustomer() {
-    orderEditService.orderToEdit = new Order()
-    orderEditService.orderToEdit.customer = new Customer()
-    orderEditService.orderToEdit.customer.id = 99
+    activatedRoute.testParamMap = { customerId: 1 }
+    activatedRoute.testQueryParamMap = {}
     fixture.detectChanges();
+
+    const newCustomer = new Customer()
+    newCustomer.id = 1
+    const req = backend.expectOne('/customers/' + 1)
+    req.flush(newCustomer, { status: 200, statusText: 'OK' })
   }
 
   function initOrderWithoutCustomer() {
+    activatedRoute.testParamMap = {}
+    activatedRoute.testQueryParamMap = {}
     fixture.detectChanges()
   }
 
-  it('should create', () => {
-    initOrderWithCustomer()
-    expect(component).toBeTruthy();
-  })
+  function initOrderWithCustomerFail() {
+    activatedRoute.testParamMap = { customerId: 1 }
+    activatedRoute.testQueryParamMap = {}
+    fixture.detectChanges();
 
-  it('should cancel edit', () => {
+    const newCustomer = new Customer()
+    newCustomer.id = 1
+    const req = backend.expectOne('/customers/' + 1)
+    req.flush({}, { status: 404, statusText: 'NOT_FOUND' })
+  }
+
+  it('should create', fakeAsync(() => {
+    initOrderWithCustomer()
+    tick()
+    expect(component).toBeTruthy();
+  }))
+
+  it('should fail to load order', fakeAsync(() => {
+    spyOn(window, 'alert').and.returnValue(true)
+    initOrderWithCustomerFail()
+    tick()
+  }))
+
+  it('should cancel edit', fakeAsync(() => {
     initOrderWithoutCustomer()
     component.cancelEdit()
-  })
+  }))
 
   it('should save order', () => {
     initOrderWithCustomer()

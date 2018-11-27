@@ -10,6 +10,7 @@ import { CustomerEditService } from './customer-edit.service'
 import { CustomerSearchService } from '../customer-search/customer-search.service'
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 import { Customer } from '../customer.model'
+import { CustomerService } from '../customer.service';
 const customerMock = require('./../customer.mock.json')
 
 describe('CustomerEditComponent', () => {
@@ -32,6 +33,7 @@ describe('CustomerEditComponent', () => {
         UtilService,
         { provide: CoreDataService, useClass: CoreDataServiceMock },
         CustomerEditService,
+        CustomerService,
         CustomerSearchService
       ],
     })

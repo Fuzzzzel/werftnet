@@ -10,6 +10,7 @@ import { CustomerSearchService } from '../customer-search/customer-search.servic
 import { Customer, CustomerContact } from '../customer.model'
 import { resolve } from 'path';
 import { reject } from 'q';
+import { CustomerService } from '../customer.service';
 const customerMock = require('./../customer.mock.json')
 
 describe('CustomerEditService', () => {
@@ -35,6 +36,7 @@ describe('CustomerEditService', () => {
       ],
       providers: [
         CustomerEditService,
+        CustomerService,
         CustomerSearchService,
         UtilService
       ]

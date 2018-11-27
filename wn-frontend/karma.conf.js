@@ -10,6 +10,10 @@ module.exports = function (config) {
             {
                 pattern: "src/**/*.spec.ts",
                 included: false
+            },
+            {
+                pattern: "src/app/test/**/*.ts",
+                included: false
             }
         ],
         exclude: ['node_modules', 'coverage'],

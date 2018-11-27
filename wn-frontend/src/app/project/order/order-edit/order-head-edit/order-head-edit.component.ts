@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { Order } from '../../order.model';
 import { Customer, CustomerContact } from '../../../../customer/customer.model';
 import { CoreData, CoreDataService } from '../../../../core/core-data.service';
@@ -41,6 +41,15 @@ export class OrderHeadEditComponent implements OnInit {
     this.customerService.getCustomerDropdownValues().subscribe((data) => {
       this.customers = data
     })
+
+    if (this.orderHead.customer) {
+      this.reloadCustomerContacts(this.orderHead.customer)
+    }
+  }
+
+  ngOnChanges() {
+    this.orderHead = this.util.cloneDeep(this.order)
+    delete this.orderHead['positions']
 
     if (this.orderHead.customer) {
       this.reloadCustomerContacts(this.orderHead.customer)
