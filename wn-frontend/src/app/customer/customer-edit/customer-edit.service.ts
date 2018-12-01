@@ -2,28 +2,16 @@ import { Injectable } from '@angular/core';
 import { Customer, CustomerContact } from '../customer.model';
 import { UtilService } from '../../core/util.service';
 import { HttpClient } from '@angular/common/http';
-import { CustomerSearchService } from '../customer-search/customer-search.service';
-import { User } from '../../user/user.model';
 import { CustomerService } from '../customer.service';
 
 @Injectable()
 export class CustomerEditService {
-
-  private customerToEdit: Customer = new Customer();
-  private customerContactToEdit: CustomerContact = new CustomerContact();
-  private customerContactToEdit_CustomerId: number = null;
-
   constructor(
     private util: UtilService,
     private http: HttpClient,
     private customerService: CustomerService,
-    private customerSearchService: CustomerSearchService
   ) {
 
-  }
-
-  getCustomerToEdit() {
-    return this.customerToEdit;
   }
 
   /**
@@ -32,22 +20,17 @@ export class CustomerEditService {
    * @param customerToSave Data for the customer to be updated
    */
   saveCustomer(customerToSave) {
-    this.customerToEdit = customerToSave;
-
-    // Kopie des Customers erstellen, um Datum in yyyy-mm-dd String zu wandeln, falls vorhanden
-    let customer_save = this.util.cloneDeep(this.customerToEdit);
 
     // Set up post request
     const req = this.http.post<Customer>(
-      '/customers' + (customer_save.id ? '/' + customer_save.id : ''),
-      customer_save
+      '/customers' + (customerToSave.id ? '/' + customerToSave.id : ''),
+      customerToSave
     )
 
     return new Promise<Customer>((resolve, reject) => {
       // Execute post request and subscribe to response
       req.subscribe(
         data => {
-          this.customerToEdit = data;
           resolve(data)
         },
         error => {
@@ -86,28 +69,45 @@ export class CustomerEditService {
 
   prepareEditCustomer(id: number) {
     return new Promise<Customer>((resolve, reject) => {
-      this.customerToEdit = new Customer();
       if (id && id > 0) {
         // Reload customer before editing
         this.customerService.getCustomerById(id)
           .then((customer) => {
-            this.customerToEdit = customer
-            resolve(this.customerToEdit)
+            resolve(customer)
           })
           .catch((error) => {
             reject(error)
           })
       } else {
-        resolve(this.customerToEdit)
+        resolve(new Customer())
       }
     })
   }
 
   // --------- CustomerContact -------------
 
-  getCustomerContactToEdit() {
-    return this.customerContactToEdit;
+  prepareEditCustomerContact(customerId: number, contactId: number) {
+    return new Promise<CustomerContact>((resolve, reject) => {
+      if (!(customerId > 0)) {
+        reject(new Error('Fehler: Es wurde keine Kundenid übergeben - bitte Info an Thomas!'));
+        return
+      }
+
+      if (contactId && contactId > 0) {
+        // Reload customer before editing
+        this.getCustomerContactById(customerId, contactId)
+          .then((customerContact) => {
+            resolve(customerContact)
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      } else {
+        resolve(new CustomerContact())
+      }
+    })
   }
+
 
   getCustomerContactById(customerId: number, contactId: number) {
     return new Promise<CustomerContact>((resolve, reject) => {
@@ -124,7 +124,6 @@ export class CustomerEditService {
       // Execute post request and subscribe to response
       req.subscribe(
         data => {
-          this.customerContactToEdit = data;
           resolve(data)
         },
         error => {
@@ -133,30 +132,6 @@ export class CustomerEditService {
     })
   }
 
-  prepareEditCustomerContact(customerId: number, contactId: number) {
-    return new Promise<CustomerContact>((resolve, reject) => {
-      if (!(customerId > 0)) {
-        reject(new Error('Fehler: Es wurde keine Kundenid übergeben - bitte Info an Thomas!'));
-        return
-      }
-
-      this.customerContactToEdit = new CustomerContact();
-      this.customerContactToEdit_CustomerId = customerId;
-
-      if (contactId && contactId > 0) {
-        // Reload customer before editing
-        this.getCustomerContactById(customerId, contactId)
-          .then((customerContact) => {
-            resolve(customerContact)
-          })
-          .catch((error) => {
-            reject(error)
-          })
-      } else {
-        resolve()
-      }
-    })
-  }
 
 
   /**
@@ -164,23 +139,17 @@ export class CustomerEditService {
    * 
    * @param customerContactToSave Data for the customerContact to be updated
    */
-  saveCustomerContact(customerContactToSave) {
-    this.customerContactToEdit = customerContactToSave;
-
-    // Kopie des CustomerContacts erstellen, um Datum in yyyy-mm-dd String zu wandeln, falls vorhanden
-    let cust_save = this.util.cloneDeep(this.customerContactToEdit)
-
+  saveCustomerContact(customerId, customerContactToSave) {
     // Set up post request
     const req = this.http.post<CustomerContact>(
-      '/customers/' + this.customerContactToEdit_CustomerId + '/contacts' + (cust_save.id ? '/' + cust_save.id : ''),
-      cust_save
+      '/customers/' + customerId + '/contacts' + (customerContactToSave.id ? '/' + customerContactToSave.id : ''),
+      customerContactToSave
     )
 
     // Execute post request and subscribe to response
     return new Promise<CustomerContact>((resolve, reject) => {
       req.subscribe(
         data => {
-          this.customerContactToEdit = data;
           resolve(data)
         },
         error => {
@@ -189,7 +158,7 @@ export class CustomerEditService {
     })
   }
 
-  deleteCustomerContact(customerContactToDelete) {
+  deleteCustomerContact(customerId, customerContactToDelete) {
     return new Promise((resolve, reject) => {
 
       if (!customerContactToDelete || !customerContactToDelete.id) {
@@ -199,7 +168,7 @@ export class CustomerEditService {
 
       // Set up post request
       const req = this.http.delete<any>(
-        '/customers/' + this.customerContactToEdit_CustomerId + '/contacts/' + customerContactToDelete.id
+        '/customers/' + customerId + '/contacts/' + customerContactToDelete.id
       )
 
       // Execute post request and subscribe to response

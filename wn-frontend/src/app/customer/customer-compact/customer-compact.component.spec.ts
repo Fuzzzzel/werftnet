@@ -13,6 +13,8 @@ import { Customer, CustomerContact } from '../customer.model'
 import { OrderEditService } from '../../project/order/order-edit/order-edit.service';
 import { CoreDataServiceMock } from '../../core/core-data.service-mock';
 import { CustomerService } from '../customer.service';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 let customerMock = require('./../customer.mock.json')
 
 describe('CustomerCompactComponent', () => {
@@ -27,11 +29,19 @@ describe('CustomerCompactComponent', () => {
         SharedModule,
         RouterTestingModule.withRoutes([
           {
-            path: 'customer/edit',
+            path: 'customer/new',
             redirectTo: ''
           },
           {
-            path: 'customer/edit_contact',
+            path: 'customer/edit/:customerId',
+            redirectTo: ''
+          },
+          {
+            path: 'customer/new_contact/:customerId',
+            redirectTo: ''
+          },
+          {
+            path: 'customer/edit_contact/:customerId/:contactId',
             redirectTo: ''
           },
           {
@@ -68,6 +78,11 @@ describe('CustomerCompactComponent', () => {
     expect(fixture.nativeElement.querySelector('.compact-default')).toBeTruthy()
   })
 
+  it('should create new customer ', fakeAsync(() => {
+    component.editCustomer()
+    tick()
+  }))
+
   it('should edit customer', fakeAsync(() => {
     let customer = new Customer()
     customer.id = 1
@@ -89,6 +104,14 @@ describe('CustomerCompactComponent', () => {
     const req = backend.expectOne('/customers/' + customer.id)
     expect(req.request.method).toBe("GET")
     req.flush(customer, { status: 404, statusText: 'Not Found' })
+  }))
+
+  it('should create new customer contact', fakeAsync(() => {
+    let customer = new Customer()
+    customer.id = 1
+
+    component.editcontact(customer)
+    tick()
   }))
 
   it('should edit customer contact', fakeAsync(() => {

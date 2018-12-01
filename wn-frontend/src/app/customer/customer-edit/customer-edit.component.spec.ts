@@ -9,15 +9,16 @@ import { CoreDataServiceMock } from '../../core/core-data.service-mock'
 import { CustomerEditService } from './customer-edit.service'
 import { CustomerSearchService } from '../customer-search/customer-search.service'
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
-import { Customer } from '../customer.model'
 import { CustomerService } from '../customer.service';
+import { ActivatedRoute } from '@angular/router';
+import { ActivatedRouteStub } from './../../test/activated-route-stub';
 const customerMock = require('./../customer.mock.json')
 
 describe('CustomerEditComponent', () => {
   let component: CustomerEditComponent
   let fixture: ComponentFixture<CustomerEditComponent>
   let backend: HttpTestingController
-  let customerEditService: CustomerEditService
+  let activatedRoute: ActivatedRouteStub
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
@@ -34,25 +35,56 @@ describe('CustomerEditComponent', () => {
         { provide: CoreDataService, useClass: CoreDataServiceMock },
         CustomerEditService,
         CustomerService,
-        CustomerSearchService
+        CustomerSearchService,
+        {
+          provide: ActivatedRoute,
+          useClass: ActivatedRouteStub
+        }
       ],
     })
       .compileComponents()
 
     backend = TestBed.get(HttpTestingController)
-    customerEditService = TestBed.get(CustomerEditService)
     fixture = TestBed.createComponent(CustomerEditComponent)
     component = fixture.componentInstance
+    spyOn(component.ngxUiLoaderService, 'start').and.returnValue(true)
+    spyOn(component.ngxUiLoaderService, 'stop').and.returnValue(true)
     tick()
-    fixture.detectChanges()
-    component.cust_edit = customerMock
   }))
 
-  it('should create', () => {
+  function initWithCustomer() {
+    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute) as any
+    activatedRoute.testParamMap = { customerId: 1 }
+    fixture.detectChanges()
+
+    const cust_edit = customerMock
+
+    const req = backend.expectOne('/customers/' + cust_edit.id)
+    expect(req.request.method).toBe("GET")
+    req.flush(cust_edit, { status: 200, statusText: 'OK' })
+    tick()
+  }
+
+  it('should create', fakeAsync(() => {
+    initWithCustomer()
     expect(component).toBeTruthy()
-  })
+    tick()
+  }))
+
+  it('should fail to init component', fakeAsync(() => {
+    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute) as any
+    activatedRoute.testParamMap = { customerId: 1 }
+    fixture.detectChanges()
+
+    spyOn(window, 'alert').and.returnValue(true)
+
+    const req = backend.expectOne('/customers/1')
+    expect(req.request.method).toBe("GET")
+    req.flush(null, { status: 404, statusText: 'NOT FOUND' })
+  }))
 
   it('should save customer', fakeAsync(() => {
+    initWithCustomer()
     component.saveCustomer()
     tick()
 
@@ -63,6 +95,7 @@ describe('CustomerEditComponent', () => {
 
 
   it('should fail to save customer', fakeAsync(() => {
+    initWithCustomer()
     component.saveCustomer()
     tick()
 
@@ -72,6 +105,7 @@ describe('CustomerEditComponent', () => {
   }))
 
   it('should delete customer', fakeAsync(() => {
+    initWithCustomer()
     spyOn(window, 'confirm').and.returnValue(true)
     component.deleteCustomer()
     tick()
@@ -83,6 +117,7 @@ describe('CustomerEditComponent', () => {
 
 
   it('should fail to delete customer', fakeAsync(() => {
+    initWithCustomer()
     spyOn(window, 'confirm').and.returnValue(true)
     component.deleteCustomer()
     tick()

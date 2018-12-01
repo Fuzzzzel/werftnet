@@ -65,9 +65,11 @@ describe('OrderEditComponent', () => {
 
   beforeEach(() => {
     backend = TestBed.get(HttpTestingController)
-    fixture = TestBed.createComponent(OrderEditComponent);
-    component = fixture.componentInstance;
-    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute) as any;
+    fixture = TestBed.createComponent(OrderEditComponent)
+    component = fixture.componentInstance
+    spyOn(component.ngxUiLoaderService, 'start').and.returnValue(true)
+    spyOn(component.ngxUiLoaderService, 'stop').and.returnValue(true)
+    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute) as any
     orderEditService = TestBed.get(OrderEditService)
   })
 

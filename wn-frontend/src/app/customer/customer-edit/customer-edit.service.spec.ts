@@ -6,7 +6,6 @@ import { CustomerEditService } from './customer-edit.service'
 import { UtilService } from '../../core/util.service'
 import { RouterTestingModule } from '@angular/router/testing'
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
-import { CustomerSearchService } from '../customer-search/customer-search.service'
 import { Customer, CustomerContact } from '../customer.model'
 import { resolve } from 'path';
 import { reject } from 'q';
@@ -25,11 +24,11 @@ describe('CustomerEditService', () => {
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([
           {
-            path: 'customer/edit',
+            path: 'customer/edit/:customerId',
             redirectTo: ''
           },
           {
-            path: 'customer/edit_contact',
+            path: 'customer/edit_contact/:customerId/:contactID',
             redirectTo: ''
           }
         ])
@@ -37,7 +36,6 @@ describe('CustomerEditService', () => {
       providers: [
         CustomerEditService,
         CustomerService,
-        CustomerSearchService,
         UtilService
       ]
     })
@@ -48,9 +46,9 @@ describe('CustomerEditService', () => {
     service = TestBed.get(CustomerEditService)
   })
 
-  it('should be created', () => {
+  it('should be created', fakeAsync(() => {
     expect(service).toBeTruthy()
-  })
+  }))
 
   it('should fail to get customer contact by id', (done) => {
     service.getCustomerContactById(null, null)
@@ -217,9 +215,10 @@ describe('CustomerEditService', () => {
   it('should save customer contact', (done) => {
     let customerContactToSave = { id: null }
     customerContactToSave.id = 1
+    const customerId = 1
 
     prepareEditDummyContact().then(() => {
-      service.saveCustomerContact(customerContactToSave)
+      service.saveCustomerContact(customerId, customerContactToSave)
         .then((customerContact) => {
           done()
         })
@@ -231,9 +230,10 @@ describe('CustomerEditService', () => {
 
   it('should save new customer contact', (done) => {
     let customerContactToSave = { id: null }
+    const customerId = 1
 
     prepareEditDummyContact().then(() => {
-      service.saveCustomerContact(customerContactToSave)
+      service.saveCustomerContact(customerId, customerContactToSave)
         .then((customerContact) => {
           done()
         })
@@ -246,9 +246,10 @@ describe('CustomerEditService', () => {
   it('should fail to save customer contact', (done) => {
     let customerContactToSave = new CustomerContact()
     customerContactToSave.id = 1
+    const customerId = 1
 
     prepareEditDummyContact().then(() => {
-      service.saveCustomerContact(customerContactToSave)
+      service.saveCustomerContact(customerId, customerContactToSave)
         .catch((error) => {
           done()
         })
@@ -261,9 +262,10 @@ describe('CustomerEditService', () => {
   it('should delete customer contact', (done) => {
     let customerContactToDelete = new CustomerContact()
     customerContactToDelete.id = 1
+    const customerId = 1
 
     prepareEditDummyContact().then(() => {
-      service.deleteCustomerContact(customerContactToDelete)
+      service.deleteCustomerContact(customerId, customerContactToDelete)
         .then(() => { done() })
         .catch(() => { throw new Error('Das sollte nicht passieren') })
 
@@ -275,9 +277,10 @@ describe('CustomerEditService', () => {
 
   it('should fail to delete customer contact (id missing)', (done) => {
     let customerContactToDelete = new CustomerContact()
+    const customerId = 1
 
     prepareEditDummyContact().then(() => {
-      service.deleteCustomerContact(customerContactToDelete)
+      service.deleteCustomerContact(customerId, customerContactToDelete)
         .catch(() => {
           done()
         })
@@ -287,9 +290,10 @@ describe('CustomerEditService', () => {
   it('should fail to delete customer contact (http)', (done) => {
     let customerContactToDelete = new CustomerContact()
     customerContactToDelete.id = 1
+    const customerId = 1
 
     prepareEditDummyContact().then(() => {
-      service.deleteCustomerContact(customerContactToDelete)
+      service.deleteCustomerContact(customerId, customerContactToDelete)
         .catch(() => {
           done()
         })

@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core'
 import { CoreData, CoreDataService } from '../../core/core-data.service'
 import { CustomerEditService } from './customer-edit.service'
 import { Customer } from '../customer.model'
-import { PriceLine } from '../../shared/model/price-line.model'
 import { UtilService } from '../../core/util.service'
 import { CustomerSearchService } from '../customer-search/customer-search.service'
+import { ActivatedRoute } from '@angular/router'
+import { NgxUiLoaderService } from 'ngx-ui-loader'
 
 @Component({
   selector: 'app-customer-edit',
@@ -13,22 +14,43 @@ import { CustomerSearchService } from '../customer-search/customer-search.servic
 })
 export class CustomerEditComponent implements OnInit {
 
-  cust_edit: Customer
+  cust_edit: Customer = new Customer()
   coreData: CoreData = new CoreData()
+  isLoaded: boolean = false
 
   constructor(
+    private route: ActivatedRoute,
     public util: UtilService,
     private coreDataService: CoreDataService,
     private customerEditService: CustomerEditService,
-    private customerSearchService: CustomerSearchService
-  ) { }
+    private customerSearchService: CustomerSearchService,
+    public ngxUiLoaderService: NgxUiLoaderService
+  ) {
+  }
 
   ngOnInit() {
+    this.ngxUiLoaderService.start()
     this.coreDataService.getData().subscribe((data) => {
       this.coreData = data
     })
 
-    this.cust_edit = this.customerEditService.getCustomerToEdit()
+    const customerIdString = this.route.snapshot.paramMap.get('customerId')
+    const customerId = parseInt(customerIdString)
+
+    this.customerEditService
+      .prepareEditCustomer(customerId)
+      .then(customer => {
+        this.cust_edit = customer
+        this.ngxUiLoaderService.stop()
+      })
+      .catch((error) => {
+        this.ngxUiLoaderService.stop()
+        alert(`Fehler beim Laden des Kunden: ${error}`)
+      })
+  }
+
+  ngOnDestroy() {
+    this.ngxUiLoaderService.stop()
   }
 
   saveCustomer() {

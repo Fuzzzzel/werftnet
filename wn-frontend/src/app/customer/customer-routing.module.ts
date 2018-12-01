@@ -16,12 +16,22 @@ const ROUTE_CONFIG: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'customer/edit',
+    path: 'customer/new',
     component: CustomerEditComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'customer/edit_contact',
+    path: 'customer/edit/:customerId',
+    component: CustomerEditComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'customer/new_contact/:customerId',
+    component: CustomerEditContactComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'customer/edit_contact/:customerId/:contactId',
     component: CustomerEditContactComponent,
     canActivate: [AuthGuard]
   }

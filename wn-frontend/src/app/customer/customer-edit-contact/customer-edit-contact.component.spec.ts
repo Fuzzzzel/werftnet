@@ -11,12 +11,15 @@ import { CustomerSearchService } from '../customer-search/customer-search.servic
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing'
 import { CustomerContact } from '../customer.model'
 import { CustomerService } from '../customer.service';
+import { ActivatedRoute } from '@angular/router';
+import { ActivatedRouteStub } from './../../test/activated-route-stub';
 
 describe('CustomerEditContactComponent', () => {
   let component: CustomerEditContactComponent
   let fixture: ComponentFixture<CustomerEditContactComponent>
   let backend: HttpTestingController
   let customerEditService: CustomerEditService
+  let activatedRoute: ActivatedRouteStub
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -30,7 +33,11 @@ describe('CustomerEditContactComponent', () => {
         CustomerEditService,
         CustomerService,
         CustomerSearchService,
-        { provide: CoreDataService, useClass: CoreDataServiceMock }
+        { provide: CoreDataService, useClass: CoreDataServiceMock },
+        {
+          provide: ActivatedRoute,
+          useClass: ActivatedRouteStub
+        }
       ],
       declarations: [CustomerEditContactComponent]
     })
@@ -42,16 +49,33 @@ describe('CustomerEditContactComponent', () => {
     customerEditService = TestBed.get(CustomerEditService)
     fixture = TestBed.createComponent(CustomerEditContactComponent)
     component = fixture.componentInstance
-    fixture.detectChanges()
+    spyOn(component.ngxUiLoaderService, 'start').and.returnValue(true)
+    spyOn(component.ngxUiLoaderService, 'stop').and.returnValue(true)
   })
 
-  it('should create', () => {
+  function initWithCustomer() {
+    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute) as any
+    activatedRoute.testParamMap = { customerId: 1 }
+    fixture.detectChanges()
+    tick()
+  }
+
+  it('should create', fakeAsync(() => {
+    initWithCustomer()
     expect(component).toBeTruthy()
-  })
+  }))
 
   it('should cancel edit', () => {
     component.cancelEdit()
   })
+
+  it('should fail to init component', fakeAsync(() => {
+    activatedRoute = fixture.debugElement.injector.get(ActivatedRoute) as any
+    activatedRoute.testParamMap = { customerId: null }
+    fixture.detectChanges()
+    spyOn(window, 'alert').and.returnValue(true)
+    tick()
+  }))
 
   function prepareEditDummyContact() {
     return new Promise<CustomerContact>((resolve, reject) => {
@@ -71,8 +95,10 @@ describe('CustomerEditContactComponent', () => {
   }
 
   it('should save cutomer contact', fakeAsync(() => {
+    initWithCustomer()
     component.contact_edit = new CustomerContact()
     component.contact_edit.id = 2
+    component.customerId = 1
 
     prepareEditDummyContact()
       .then(() => {
@@ -88,8 +114,10 @@ describe('CustomerEditContactComponent', () => {
   }))
 
   it('should fail to save cutomer contact', fakeAsync(() => {
+    initWithCustomer()
     component.contact_edit = new CustomerContact()
     component.contact_edit.id = 2
+    component.customerId = 1
 
     spyOn(window, 'alert').and.returnValue(true)
     prepareEditDummyContact()
@@ -106,9 +134,10 @@ describe('CustomerEditContactComponent', () => {
   }))
 
   it('should delete cutomer contact', fakeAsync(() => {
+    initWithCustomer()
     component.contact_edit = new CustomerContact()
     component.contact_edit.id = 2
-    component.contact_edit['customer_id'] = 1
+    component.customerId = 1
 
     prepareEditDummyContact()
       .then(() => {
@@ -125,9 +154,10 @@ describe('CustomerEditContactComponent', () => {
   }))
 
   it('should fail to delete cutomer contact', fakeAsync(() => {
+    initWithCustomer()
     component.contact_edit = new CustomerContact()
     component.contact_edit.id = 2
-    component.contact_edit['customer_id'] = 1
+    component.customerId = 1
 
     prepareEditDummyContact()
       .then(() => {
@@ -146,6 +176,7 @@ describe('CustomerEditContactComponent', () => {
   }))
 
   it('should cancel to delete cutomer contact', fakeAsync(() => {
+    initWithCustomer()
     spyOn(window, 'confirm').and.returnValue(false)
     component.deleteCustomerContact()
   }))

@@ -43,10 +43,14 @@ export class CustomerSearchComponent implements OnInit {
     this.customerSearchService.searchCustomers(searchParams)
   }
 
-  editCustomer(customerToEdit: Customer) {
+  editCustomer(customerToEdit: Customer = null) {
     this.customerEditService.prepareEditCustomer(customerToEdit && customerToEdit.id)
       .then((customer) => {
-        this.util.goTo('customer/edit')
+        if (customer.id) {
+          this.util.goTo('customer/edit')
+        } else {
+          this.util.goTo('customer/new')
+        }
       })
       .catch((error) => {
         alert('Kunde konnte nicht gespeichert werden: ' + error.message)

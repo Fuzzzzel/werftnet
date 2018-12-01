@@ -44,7 +44,6 @@ describe('CoreDataService', () => {
 
   it('should be created and default data loaded', fakeAsync(() => {
     expect(service).toBeTruthy()
-    expect(service.coreDataLoaded()).toBeTruthy()
     expect(service.getDataLoaded()).toBeTruthy()
   }))
 

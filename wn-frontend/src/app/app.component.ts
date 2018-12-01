@@ -3,6 +3,7 @@ import { CoreDataService } from './core/core-data.service'
 import { UserService } from './user/user.service'
 import { UtilService } from './core/util.service'
 import { environment } from '../../environment'
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 
 @Component({
@@ -14,12 +15,12 @@ import { environment } from '../../environment'
 export class AppComponent implements OnInit {
   public version: string = environment.VERSION
   title = 'WerftNET Version ' + this.version
-  coreDataLoaded: Boolean = false
 
   constructor(
     private coreDataService: CoreDataService,
     private userService: UserService,
-    private util: UtilService
+    private util: UtilService,
+    private ngxUiLoaderService: NgxUiLoaderService
   ) {
 
   }
@@ -33,8 +34,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.ngxUiLoaderService.start()
     this.coreDataService.getDataLoaded().subscribe(dataLoaded => {
-      this.coreDataLoaded = dataLoaded
+      this.ngxUiLoaderService.stop()
     })
     this.userService.checkIfLoggedIn()
       .then(() => {
@@ -42,5 +44,9 @@ export class AppComponent implements OnInit {
       .catch(() => {
         this.util.goTo('login')
       })
+  }
+
+  ngOnDestroy() {
+    this.ngxUiLoaderService.stop()
   }
 }

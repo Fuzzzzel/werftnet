@@ -54,8 +54,6 @@ describe('FreelancerEditService', () => {
     const req = backend.expectOne('/freelancers/1')
     expect(req.request.method).toBe("GET")
     req.flush(freelancerMock, { status: 200, statusText: 'Ok' })
-
-    // expect(location.path()).toBe('freelancer/edit')
   })
 
   it('should prepare new freelancer to edit', (done) => {

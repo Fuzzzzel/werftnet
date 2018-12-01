@@ -16,6 +16,7 @@ export class CoreDataServiceMock extends CoreDataService {
   }
 
   fetchDefaultData(): Promise<CoreData> {
+    this.$dataLoaded.next(false)
 
     // Execute post request and subscribe to response
     let coreDataProcessed: CoreData = new CoreData()

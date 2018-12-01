@@ -8,6 +8,7 @@ import { OrderEditService } from './order-edit.service';
 import { OrderSearchService } from '../order-search/order-search.service';
 import { OrderPosition } from '../order-position.model';
 import { ActivatedRoute } from '@angular/router';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-order-edit',
@@ -27,10 +28,12 @@ export class OrderEditComponent implements OnInit {
     public util: UtilService,
     private coreDataService: CoreDataService,
     private orderEditService: OrderEditService,
-    private orderSearchService: OrderSearchService
+    private orderSearchService: OrderSearchService,
+    public ngxUiLoaderService: NgxUiLoaderService
   ) { }
 
   ngOnInit() {
+    this.ngxUiLoaderService.start()
     this.coreDataService.getData().subscribe((data) => {
       this.coreData = data
     })
@@ -41,11 +44,17 @@ export class OrderEditComponent implements OnInit {
     const customerId = parseInt(customerIdString)
     this.orderEditService.prepareEditOrder(orderId, customerId)
       .then((order) => {
+        this.ngxUiLoaderService.stop()
         this.order_edit = order
       })
       .catch((error) => {
+        this.ngxUiLoaderService.stop()
         alert('Order konnte nicht geladen werden: ' + error.message)
       })
+  }
+
+  ngOnDestroy() {
+    this.ngxUiLoaderService.stop()
   }
 
   cancelEdit() {

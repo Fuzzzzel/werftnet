@@ -5,6 +5,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { UserService } from './user/user.service'
 import { UtilService } from './core/util.service'
 import { CoreDataService } from './core/core-data.service'
+import { CoreDataServiceMock } from './core/core-data.service-mock'
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap'
 import { TopNavComponent } from './layout/top-nav/top-nav.component'
 import { User } from './user/user.model'
@@ -38,21 +39,26 @@ describe('AppComponent', () => {
       providers: [
         CoreDataService,
         UserService,
-        UtilService
+        UtilService,
+        { provide: CoreDataService, useClass: CoreDataServiceMock }
       ]
     }).compileComponents()
     backend = TestBed.get(HttpTestingController)
     fixture = TestBed.createComponent(AppComponent)
     component = fixture.debugElement.componentInstance
+    spyOn(component.ngxUiLoaderService, 'start').and.returnValue(true)
+    spyOn(component.ngxUiLoaderService, 'stop').and.returnValue(true)
     tick()
   }))
 
   /**
    * Test if the App can be created
    */
-  it('should create the component', () => {
+  it('should create the component', fakeAsync(() => {
     expect(component).toBeTruthy()
-  })
+    fixture.detectChanges()
+    const coreDataService = TestBed.get(CoreDataService)
+  }))
 
   it('should no user be logged in on init', fakeAsync(() => {
     expect(component.isUserLoggedIn()).toBeFalsy()

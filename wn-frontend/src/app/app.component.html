@@ -1,9 +1,7 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div id="bg_frame" class="">
-  <div id="loading" flex="100" flex-gt-sm="none" layout="row" *ngIf="!coreDataLoaded">
-    Daten werden geladen ...
-  </div>
-  <div id="container" flex="100" flex-gt-sm="none" layout="row" *ngIf="coreDataLoaded">
+  <ngx-ui-loader overlayColor="rgba(40,40,40,0.2)"></ngx-ui-loader>
+  <div id="container" flex="100" flex-gt-sm="none" layout="row">
     <div id="header">
       <div id="version-info">WerftNET Version {{version}}</div>
       <app-top-nav *ngIf="isUserLoggedIn()"></app-top-nav>

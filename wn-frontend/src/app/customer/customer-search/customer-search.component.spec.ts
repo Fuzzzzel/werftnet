@@ -28,6 +28,10 @@ describe('CustomerSearchComponent', () => {
           {
             path: 'customer/edit',
             redirectTo: ''
+          },
+          {
+            path: 'customer/new',
+            redirectTo: ''
           }
         ]),
         NgbModule.forRoot()
@@ -60,6 +64,11 @@ describe('CustomerSearchComponent', () => {
 
   it('should search customers', fakeAsync(() => {
     component.searchCustomers(null)
+    tick()
+  }))
+
+  it('should create new customer', fakeAsync(() => {
+    component.editCustomer()
     tick()
   }))
 

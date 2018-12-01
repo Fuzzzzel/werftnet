@@ -16,28 +16,35 @@ export class CustomerCompactComponent {
 
   constructor(
     private util: UtilService,
-    private customerEditService: CustomerEditService,
-    private orderEditService: OrderEditService
+    private customerEditService: CustomerEditService
   ) { }
 
-  editCustomer(customer) {
+  editCustomer(customer: Customer = null) {
     // Reload customer or pass empty new customer
-    this.customerEditService.prepareEditCustomer(customer.id)
+    this.customerEditService.prepareEditCustomer(customer && customer.id)
       .then((customer) => {
-        this.util.goTo('customer/edit')
+        if (customer.id) {
+          this.util.goTo(`customer/edit/${customer.id}`)
+        } else {
+          this.util.goTo(`customer/new`)
+        }
       })
       .catch((error) => {
-        alert('Kunde konnte nicht gespeichert werden: ' + error.message)
+        alert(`Kunde konnte nicht gespeichert werden: ${error.message}`)
       })
   }
 
-  editcontact(customer: Customer, contact: CustomerContact) {
+  editcontact(customer: Customer, contact: CustomerContact = null) {
     this.customerEditService.prepareEditCustomerContact(customer && customer.id, contact && contact.id)
-      .then(() => {
-        this.util.goTo('customer/edit_contact')
+      .then((contact) => {
+        if (contact.id) {
+          this.util.goTo(`customer/edit_contact/${customer.id}/${contact.id})`)
+        } else {
+          this.util.goTo(`customer/new_contact/${customer.id}`)
+        }
       })
       .catch((error) => {
-        alert('Kundenkontakt konnte nicht gespeichert werden: ' + error.message)
+        alert('Kunde oder Kundenkontakt wurde nicht angegeben: ' + error.message)
       })
   }
 

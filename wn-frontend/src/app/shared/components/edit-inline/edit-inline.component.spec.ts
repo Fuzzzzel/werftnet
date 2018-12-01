@@ -42,7 +42,7 @@ describe('EditInlineComponent (rendering)', () => {
   });
 
   it('Should edit on click', fakeAsync(() => {
-    const delayToOpenCloseEdit = 750
+    const delayToOpenCloseEdit = 2000
     testHostComponent.elementDisabled = false
 
     // Click to edit
@@ -76,7 +76,7 @@ describe('EditInlineComponent (rendering)', () => {
 
 
   it('Should edit on click but not save without changing value', fakeAsync(() => {
-    const delayToOpenCloseEdit = 500
+    const delayToOpenCloseEdit = 2000
     testHostComponent.elementDisabled = false
     testHostComponent.testValue = 'test'
     testHostFixture.detectChanges()
@@ -123,7 +123,7 @@ describe('EditInlineComponent (rendering)', () => {
 
     // Wait for input field to display
     testHostFixture.detectChanges()
-    tick(500)
+    tick(2000)
     testHostFixture.detectChanges()
 
     // Check that input field is shown
