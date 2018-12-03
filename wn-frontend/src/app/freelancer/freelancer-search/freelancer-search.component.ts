@@ -22,7 +22,6 @@ export class FreelancerSearchComponent implements OnInit {
     public util: UtilService,
     private coreDataService: CoreDataService,
     private freelancerSearchService: FreelancerSearchService,
-    private freelancerEditService: FreelancerEditService
   ) { }
 
   searchFreelancers() {
@@ -34,14 +33,12 @@ export class FreelancerSearchComponent implements OnInit {
       })
   }
 
-  editFreelancer(freelancerToEdit: Freelancer) {
-    this.freelancerEditService.prepareEditFreelancer(freelancerToEdit && freelancerToEdit.id)
-      .then((freelancer) => {
-        this.util.goTo('freelancer/edit')
-      })
-      .catch((error) => {
-        alert('Freelancer konnte nicht zum Bearbeiten geöffnet werden: ' + error.message)
-      })
+  editFreelancer(freelancerToEdit: Freelancer = null) {
+    if (freelancerToEdit && freelancerToEdit.id) {
+      this.util.goTo(`freelancer/edit/${freelancerToEdit.id}`)
+    } else {
+      this.util.goTo(`freelancer/new`)
+    }
   }
 
   clearSearch() {

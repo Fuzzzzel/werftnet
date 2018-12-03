@@ -5,6 +5,8 @@ import { Freelancer } from '../freelancer.model'
 import { PriceLine } from '../../shared/model/price-line.model'
 import { UtilService } from '../../core/util.service'
 import { FreelancerSearchService } from '../freelancer-search/freelancer-search.service'
+import { ActivatedRoute } from '@angular/router';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-freelancer-edit',
@@ -13,24 +15,42 @@ import { FreelancerSearchService } from '../freelancer-search/freelancer-search.
 })
 export class FreelancerEditComponent implements OnInit {
 
-  fl_edit: Freelancer
+  fl_edit: Freelancer = new Freelancer()
   coreData: CoreData = new CoreData()
   new_price_line: PriceLine = new PriceLine()
   editPrice: boolean[] = []
 
   constructor(
+    private route: ActivatedRoute,
     public util: UtilService,
     private coreDataService: CoreDataService,
     private freelancerEditService: FreelancerEditService,
-    private freelancerSearchService: FreelancerSearchService
+    private freelancerSearchService: FreelancerSearchService,
+    public ngxUiLoaderService: NgxUiLoaderService
   ) { }
 
   ngOnInit() {
+    this.ngxUiLoaderService.start()
     this.coreDataService.getData().subscribe((data) => {
       this.coreData = data
     })
 
-    this.fl_edit = this.freelancerEditService.getFreelancerToEdit()
+    const freelancerIdString = this.route.snapshot.paramMap.get('freelancerId')
+    const freelancerId = parseInt(freelancerIdString)
+    this.freelancerEditService
+      .prepareEditFreelancer(freelancerId)
+      .then((freelancer) => {
+        this.fl_edit = freelancer
+        this.ngxUiLoaderService.stop()
+      })
+      .catch((error) => {
+        this.ngxUiLoaderService.stop()
+        alert('Freelancer konnte nicht geladen werden: ' + error.message)
+      })
+  }
+
+  ngOnDestroy() {
+    this.ngxUiLoaderService.stop()
   }
 
   clearAllButName() {

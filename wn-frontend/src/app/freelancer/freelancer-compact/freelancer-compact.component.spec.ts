@@ -24,7 +24,7 @@ describe('FreelancerCompactComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([
           {
-            path: 'freelancer/edit',
+            path: 'freelancer/edit/:freelancerId',
             redirectTo: ''
           }
         ]),
@@ -54,21 +54,6 @@ describe('FreelancerCompactComponent', () => {
 
   it('should go to edit freelancer', fakeAsync(() => {
     component.editFreelancer()
-
-    tick()
-    const req = backend.expectOne('/freelancers/' + freelancerMock.id)
-    expect(req.request.method).toBe("GET")
-    req.flush(freelancerMock, { status: 200, statusText: 'Ok' })
-  }))
-
-  it('should fail to go to edit freelancer', fakeAsync(() => {
-    component.editFreelancer()
-    spyOn(window, 'alert').and.returnValue(true)
-
-    tick()
-    const req = backend.expectOne('/freelancers/' + freelancerMock.id)
-    expect(req.request.method).toBe("GET")
-    req.flush(freelancerMock, { status: 404, statusText: 'Not Found' })
   }))
 
   it('should return combined display name', () => {

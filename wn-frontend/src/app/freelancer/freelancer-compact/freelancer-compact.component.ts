@@ -14,19 +14,11 @@ export class FreelancerCompactComponent {
   freelancer: Freelancer
 
   constructor(
-    private util: UtilService,
-    private freelancerEditService: FreelancerEditService
+    private util: UtilService
   ) { }
 
   editFreelancer() {
-    // Reload freelancer or pass empty new freelancer
-    this.freelancerEditService.prepareEditFreelancer(this.freelancer.id)
-      .then((freelancer) => {
-        this.util.goTo('freelancer/edit')
-      })
-      .catch((error) => {
-        alert('Freelancer konnte nicht gespeichert werden: ' + error.message)
-      })
+    this.util.goTo(`freelancer/edit/${this.freelancer.id}`)
   }
 
   getCombinedDisplayName(entity) {

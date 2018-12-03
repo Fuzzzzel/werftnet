@@ -34,10 +34,6 @@ export class CoreDataService {
     return this.$dataLoaded.asObservable()
   }
 
-  coreDataLoaded(): Boolean {
-    return this.$dataLoaded.getValue()
-  }
-
   fetchDefaultData(): Promise<CoreData> {
     return new Promise<CoreData>((resolve, reject) => {
       // Set up post request

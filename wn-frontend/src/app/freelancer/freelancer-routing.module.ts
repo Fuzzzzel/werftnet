@@ -16,7 +16,12 @@ const ROUTE_CONFIG: Routes = [
         canActivate: [AuthGuard]
     },
     {
-        path: 'freelancer/edit',
+        path: 'freelancer/edit/:freelancerId',
+        component: FreelancerEditComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'freelancer/new',
         component: FreelancerEditComponent,
         canActivate: [AuthGuard]
     }

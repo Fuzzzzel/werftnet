@@ -7,7 +7,6 @@ import { CustomerService } from '../customer.service';
 @Injectable()
 export class CustomerEditService {
   constructor(
-    private util: UtilService,
     private http: HttpClient,
     private customerService: CustomerService,
   ) {

@@ -2,12 +2,9 @@ import { Injectable } from '@angular/core';
 import { Freelancer } from '../freelancer.model';
 import { UtilService } from '../../core/util.service';
 import { HttpClient } from '@angular/common/http';
-import { FreelancerSearchService } from '../freelancer-search/freelancer-search.service';
 
 @Injectable()
 export class FreelancerEditService {
-
-  private freelancerToEdit: Freelancer = new Freelancer();
 
   constructor(
     private util: UtilService,
@@ -16,25 +13,19 @@ export class FreelancerEditService {
 
   }
 
-  getFreelancerToEdit() {
-    return this.freelancerToEdit;
-  }
-
   prepareEditFreelancer(id: number) {
-    this.freelancerToEdit = new Freelancer();
     return new Promise<Freelancer>((resolve, reject) => {
       if (id && id > 0) {
         // Reload freelancer before editing
         this.getFreelancerById(id)
           .then((freelancer) => {
-            this.freelancerToEdit = freelancer;
             resolve(freelancer)
           })
           .catch((error) => {
             reject(error)
           })
       } else {
-        resolve(this.freelancerToEdit)
+        resolve(new Freelancer())
       }
     })
   }
@@ -65,8 +56,6 @@ export class FreelancerEditService {
    * @param freelancerToSave Data for the freelancer to be updated
    */
   saveFreelancer(freelancerToSave) {
-    this.freelancerToEdit = freelancerToSave;
-
     return new Promise<Freelancer>((resolve, reject) => {
       this.prepareFreelancerToSave(freelancerToSave)
         .then((freelancerPrepared) => {
@@ -79,7 +68,6 @@ export class FreelancerEditService {
           // Execute post request and subscribe to response
           req.subscribe(
             data => {
-              this.freelancerToEdit = data;
               resolve(data)
             },
             error => {

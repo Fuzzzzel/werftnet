@@ -28,7 +28,11 @@ describe('FreelancerSearchComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([
           {
-            path: 'freelancer/edit',
+            path: 'freelancer/edit/:freelancerId',
+            redirectTo: ''
+          },
+          {
+            path: 'freelancer/new',
             redirectTo: ''
           }
         ]),
@@ -93,19 +97,14 @@ describe('FreelancerSearchComponent', () => {
   }))
 
   it('should edit freelancer', fakeAsync(() => {
-    component.editFreelancer(new Freelancer())
+    const freelancer = new Freelancer()
+    freelancer.id = 1
+    component.editFreelancer(freelancer)
     tick()
   }))
 
-  it('should fail to edit freelancer', fakeAsync(() => {
-    let freelancer = new Freelancer()
-    freelancer.id = 1
-    spyOn(window, 'alert').and.returnValue(true)
-    component.editFreelancer(freelancer)
-
+  it('should create new freelancer', fakeAsync(() => {
+    component.editFreelancer()
     tick()
-    const req = backend.expectOne('/freelancers/1')
-    expect(req.request.method).toBe("GET")
-    req.flush(null, { status: 404, statusText: 'Not Found' })
   }))
 })

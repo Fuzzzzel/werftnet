@@ -13,6 +13,7 @@ import { detectChanges } from '@angular/core/src/render3';
 describe('EditInlineComponent (rendering)', () => {
   let testHostComponent: TestHostComponent
   let testHostFixture: ComponentFixture<TestHostComponent>
+  const delayToOpenCloseEdit = 5000
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -42,7 +43,6 @@ describe('EditInlineComponent (rendering)', () => {
   });
 
   it('Should edit on click', fakeAsync(() => {
-    const delayToOpenCloseEdit = 2000
     testHostComponent.elementDisabled = false
 
     // Click to edit
@@ -76,7 +76,6 @@ describe('EditInlineComponent (rendering)', () => {
 
 
   it('Should edit on click but not save without changing value', fakeAsync(() => {
-    const delayToOpenCloseEdit = 2000
     testHostComponent.elementDisabled = false
     testHostComponent.testValue = 'test'
     testHostFixture.detectChanges()
@@ -123,8 +122,7 @@ describe('EditInlineComponent (rendering)', () => {
 
     // Wait for input field to display
     testHostFixture.detectChanges()
-    tick(2000)
-    testHostFixture.detectChanges()
+    tick(delayToOpenCloseEdit)
 
     // Check that input field is shown
     const editInlineInput = testHostFixture.nativeElement.querySelector('.edit-inline-input')
