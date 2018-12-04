@@ -73,4 +73,31 @@ class OrderRepository extends EntityRepository
 
         return $maxNoInYear;
     }
+
+    public function findLastBySearchParams($search = [], $limit = null, $page = null)
+    {
+        $qb = $this->createQueryBuilder('o');
+
+        if (isset($search['status'])) {
+            $qb->join('o.status', 's', 'WITH', 's.id = :statusId');
+            $qb->setParameter('statusId', $search['status']['id']);
+        }
+
+        $qb->orderBy('o.createdAt', 'DESC');
+        $qb->distinct();
+
+        $query = $qb->getQuery();
+
+        if (intval($page) === 0) {
+            // Get unpaginated result
+            if ($limit > 0) {
+                $query->setMaxResults($limit);
+            }
+            return $query->getResult();
+        } else {
+            $qHelper = new QueryHelper();
+            $paginator = $qHelper->paginate($query, $page, $limit);
+            return $qHelper->getPaginatedResult($paginator);
+        }
+    }
 }

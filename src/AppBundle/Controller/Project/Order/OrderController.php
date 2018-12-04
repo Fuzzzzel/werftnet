@@ -127,26 +127,4 @@ class OrderController extends Controller
         );
         return new Response($response);
     }
-
-    /**
-     * @param Request $request
-     * @param $orderId
-     * @return null
-     * @Route("/orders/{orderId}", name="deleteOrder", methods={"DELETE"})
-     */
-    public function deleteOrder(Request $request, $orderId)
-    {
-
-        // EntityManager laden
-        $em = $this->getDoctrine()->getManager();
-
-        $order = $em->find('AppBundle\Entity\Project\Order\Order', intval($orderId));
-
-        if ($order != null) {
-            $em->remove($order);
-            $em->flush();
-        }
-
-        return new JsonResponse();
-    }
 }
