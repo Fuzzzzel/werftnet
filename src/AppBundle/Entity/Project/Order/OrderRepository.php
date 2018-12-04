@@ -54,7 +54,8 @@ class OrderRepository extends EntityRepository
         }
     }
 
-    public function getMaxNumberInYear() {
+    public function getMaxNumberInYear()
+    {
         $config = $this->getEntityManager()->getConfiguration();
         $config->addCustomDatetimeFunction('YEAR', 'DoctrineExtensions\Query\Mysql\Year');
         $config->addCustomDatetimeFunction('NOW', 'DoctrineExtensions\Query\Mysql\Now');
@@ -65,7 +66,7 @@ class OrderRepository extends EntityRepository
 
         $q = $qb->getQuery();
         $queryResult = $q->getSingleResult();
-        if($queryResult === null || $queryResult['maxNumberInYear'] === null) {
+        if ($queryResult === null || $queryResult['maxNumberInYear'] === null) {
             $maxNoInYear = 0;
         } else {
             $maxNoInYear = $queryResult['maxNumberInYear'];
@@ -78,26 +79,13 @@ class OrderRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('o');
 
-        if (isset($search['status'])) {
-            $qb->join('o.status', 's', 'WITH', 's.id = :statusId');
-            $qb->setParameter('statusId', $search['status']['id']);
-        }
-
         $qb->orderBy('o.createdAt', 'DESC');
         $qb->distinct();
 
         $query = $qb->getQuery();
 
-        if (intval($page) === 0) {
-            // Get unpaginated result
-            if ($limit > 0) {
-                $query->setMaxResults($limit);
-            }
-            return $query->getResult();
-        } else {
-            $qHelper = new QueryHelper();
-            $paginator = $qHelper->paginate($query, $page, $limit);
-            return $qHelper->getPaginatedResult($paginator);
-        }
+        $qHelper = new QueryHelper();
+        $paginator = $qHelper->paginate($query, $page, $limit);
+        return $qHelper->getPaginatedResult($paginator);
     }
 }
