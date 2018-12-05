@@ -7,6 +7,7 @@ import { OrderService } from './../../project/order/order.service';
 import { UtilService } from './../../core/util.service';
 import { Order } from './../../project/order/order.model';
 import { OrdersLoaded } from './../../project/order/order-search/orders-loaded.model';
+import { NgxUiLoaderService, NgxUiLoaderModule } from 'ngx-ui-loader';
 
 describe('HomeComponent', () => {
   let component: HomeComponent
@@ -17,6 +18,7 @@ describe('HomeComponent', () => {
     TestBed.configureTestingModule({
       declarations: [HomeComponent],
       imports: [
+        NgxUiLoaderModule,
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([
           {
@@ -27,7 +29,8 @@ describe('HomeComponent', () => {
       ],
       providers: [
         OrderService,
-        UtilService
+        UtilService,
+        NgxUiLoaderService
       ]
     })
       .compileComponents()

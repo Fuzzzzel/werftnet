@@ -23,6 +23,7 @@ import { OrderTaskEditComponent } from '../order-task-edit/order-task-edit.compo
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of, Subject } from 'rxjs';
 import { ActivatedRouteStub } from '../../../test/activated-route-stub';
+import { NgxUiLoaderModule, NgxUiLoaderService } from 'ngx-ui-loader';
 
 describe('OrderEditComponent', () => {
   let component: OrderEditComponent
@@ -34,6 +35,7 @@ describe('OrderEditComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        NgxUiLoaderModule,
         SharedModule,
         HttpClientTestingModule,
         RouterTestingModule

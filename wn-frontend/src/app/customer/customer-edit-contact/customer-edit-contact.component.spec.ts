@@ -13,6 +13,7 @@ import { CustomerContact } from '../customer.model'
 import { CustomerService } from '../customer.service';
 import { ActivatedRoute } from '@angular/router';
 import { ActivatedRouteStub } from './../../test/activated-route-stub';
+import { NgxUiLoaderService, NgxUiLoaderModule } from 'ngx-ui-loader';
 
 describe('CustomerEditContactComponent', () => {
   let component: CustomerEditContactComponent
@@ -24,9 +25,10 @@ describe('CustomerEditContactComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        NgxUiLoaderModule,
         SharedModule,
         RouterTestingModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
       ],
       providers: [
         UtilService,

@@ -18,6 +18,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { ActivatedRouteStub } from './../../test/activated-route-stub';
 import { ActivatedRoute } from '@angular/router';
+import { NgxUiLoaderService, NgxUiLoaderModule } from 'ngx-ui-loader';
 const freelancerMock = require('./../freelancer.mock.json')
 
 describe('FreelancerEditComponent', () => {
@@ -30,9 +31,10 @@ describe('FreelancerEditComponent', () => {
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [
+        NgxUiLoaderModule,
         SharedModule,
         HttpClientTestingModule,
-        RouterTestingModule
+        RouterTestingModule,
       ],
       declarations: [
         FreelancerEditComponent,

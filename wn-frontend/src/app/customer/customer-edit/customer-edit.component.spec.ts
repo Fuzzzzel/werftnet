@@ -12,6 +12,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { CustomerService } from '../customer.service';
 import { ActivatedRoute } from '@angular/router';
 import { ActivatedRouteStub } from './../../test/activated-route-stub';
+import { NgxUiLoaderService, NgxUiLoaderModule } from 'ngx-ui-loader';
 const customerMock = require('./../customer.mock.json')
 
 describe('CustomerEditComponent', () => {
@@ -23,9 +24,10 @@ describe('CustomerEditComponent', () => {
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [
+        NgxUiLoaderModule,
         SharedModule,
         HttpClientTestingModule,
-        RouterTestingModule
+        RouterTestingModule,
       ],
       declarations: [
         CustomerEditComponent

@@ -10,6 +10,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap'
 import { TopNavComponent } from './layout/top-nav/top-nav.component'
 import { User } from './user/user.model'
 import { SharedModule } from './shared/shared.module';
+import { NgxUiLoaderService, NgxUiLoaderModule } from 'ngx-ui-loader';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>
@@ -22,6 +23,7 @@ describe('AppComponent', () => {
         TopNavComponent
       ],
       imports: [
+        NgxUiLoaderModule,
         SharedModule,
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([
