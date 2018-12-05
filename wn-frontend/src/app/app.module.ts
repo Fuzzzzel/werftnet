@@ -24,6 +24,7 @@ import { TopNavComponent } from './layout/top-nav/top-nav.component'
 import { SystemInfoService } from './admin/system/system-info.service'
 import { AdminSystemImprintComponent } from './admin/system/admin-system-imprint/admin-system-imprint.component'
 import { OrderModule } from './project/order/order.module';
+import { NgxUiLoaderModule } from 'ngx-ui-loader';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { OrderModule } from './project/order/order.module';
     UserModule,
     FreelancerModule,
     CustomerModule,
-    ProjectModule
+    ProjectModule,
+    NgxUiLoaderModule
   ],
   declarations: [
     AppComponent,

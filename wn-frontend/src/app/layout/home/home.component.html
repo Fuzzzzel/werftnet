@@ -10,7 +10,7 @@
   <div class="row" *ngFor="let order of lastOrders.items">
     <div class="col-sm-2"><a [routerLink]="'/order/edit/' + order.id">{{ order.order_no }}</a></div>
     <div class="col-sm-4">{{order.customer && order.customer.name1}}</div>
-    <div class="col-sm-3">{{order.project_manager && order_project_manager.username}}</div>
+    <div class="col-sm-3">{{order.project_manager && order.project_manager.username}}</div>
     <div class="col-sm-3">{{order.created_at | date: "dd.MM.yyyy HH:mm"}}</div>
   </div>
 </div>

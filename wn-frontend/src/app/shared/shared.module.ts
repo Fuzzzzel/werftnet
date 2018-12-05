@@ -17,8 +17,7 @@ import { NgxUiLoaderModule } from 'ngx-ui-loader'
     HttpClientModule,
     NgbModule.forRoot(),
     MultiselectDropdownModule,
-    NgSelectModule,
-    NgxUiLoaderModule
+    NgSelectModule
   ],
   declarations: [
     PropMultiSelectComponent,
@@ -35,8 +34,7 @@ import { NgxUiLoaderModule } from 'ngx-ui-loader'
     EditInlineComponent,
     SafeUrlPipe,
     MultiselectDropdownModule,
-    NgSelectModule,
-    NgxUiLoaderModule
+    NgSelectModule
   ],
   providers: [
     HttpClient
