@@ -58,6 +58,7 @@ export class OrderEditService {
               reject('Kunde mit der Id ' + customerId + ' konnte nicht geladen werden: ' + error)
             })
         } else {
+          this.orderToEdit = newOrder
           resolve(this.orderToEdit)
         }
       }

@@ -83,7 +83,7 @@ class CustomerControllerTest extends DefaultWebTestCase
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),
-            '{"origin": {"id": 1}, "potential": {"id": 1}, "account_manager": {"id": 1}, "status": {"id": 1}, "name": "Test Customer Name", "asp_name": "Test Asp Name"}'
+            '{"origin": {"id": 1}, "potential": {"id": 1}, "account_manager": {"id": 1}, "status": {"id": 1}, "name": "Test Customer Name", "asp_name": "Test Asp Name", "last_contact_date_after": "2018-06-04", "last_contact_date_before": "2019-06-04"}'
             );
 
         $content = $client->getResponse()->getContent();

@@ -83,7 +83,7 @@ describe('OrderSearchComponent', () => {
     component.searchOrders(null)
   }))
 
-  it('should go to edit order', () => {
+  it('should go to edit order for existing order', () => {
     const order = new Order()
     order.id = 1
     spyOn(orderEditService, 'prepareEditOrder').and.callFake(function () {
@@ -92,6 +92,16 @@ describe('OrderSearchComponent', () => {
       })
     })
     component.editOrder(order)
+  })
+
+  it('should go to edit order for new order', () => {
+    const newOrder = new Order()
+    spyOn(orderEditService, 'prepareEditOrder').and.callFake(function () {
+      return new Promise((resolve, reject) => {
+        resolve(newOrder)
+      })
+    })
+    component.editOrder(null)
   })
 
   it('should fail to go to edit order', () => {

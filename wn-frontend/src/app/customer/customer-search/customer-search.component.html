@@ -1,66 +1,97 @@
 <div>
   <h1>Kunde</h1>
-  <div class="form-default col-sm-12" (keydown.enter)="searchParams.page=1;searchCustomers(searchParams)">
+  <form class="form-horizontal col-sm-12" (keydown.enter)="searchParams.page=1;searchCustomers(searchParams)">
     <div class="row">
-      <form class=" col-md-5 form-horizontal">
+      <div class="col-md-5">
         <div class="form-group row">
           <label class="col-form-label col-form-label-sm col-md-3">Name</label>
           <div class="col-md-9">
-            <input id="search-name" name="search-name" class="form-control form-control-sm" [(ngModel)]="searchParams.name" />
+            <input id="search-name" name="search-name" class="form-control form-control-sm"
+              [(ngModel)]="searchParams.name" />
           </div>
         </div>
         <div class="form-group row">
           <label class="col-form-label col-form-label-sm col-md-3">Ansprechp.</label>
           <div class="col-md-9">
-            <input id="search-asp_name" name="search-asp_name" class="form-control form-control-sm" [(ngModel)]="searchParams.asp_name"
-            />
+            <input id="search-asp_name" name="search-asp_name" class="form-control form-control-sm"
+              [(ngModel)]="searchParams.asp_name" />
           </div>
         </div>
-      </form>
-      <form class=" col-md-5 form-horizontal">
+      </div>
+      <div class=" col-md-5">
         <div class="form-group row">
           <label class="col-form-label col-form-label-sm col-md-3">Herkunft</label>
           <div class="col-md-9">
-            <select class="form-control form-control-sm" name="search-akquise" [(ngModel)]="searchParams.akquise" [compareWith]='util.compareById'>
+            <select class="form-control form-control-sm" name="search-akquise" [(ngModel)]="searchParams.akquise"
+              [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
-              <option *ngFor="let option of coreData.customer_origin.values" [ngValue]="option">{{ option.name }}</option>
+              <option *ngFor="let option of coreData.customer_origin.values" [ngValue]="option">{{ option.name }}
+              </option>
             </select>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-form-label col-form-label-sm col-md-3">AM</label>
           <div class="col-md-9">
-            <select class="form-control form-control-sm" name="search-account_manager" [(ngModel)]="searchParams.account_manager" [compareWith]='util.compareById'>
+            <select class="form-control form-control-sm" name="search-account_manager"
+              [(ngModel)]="searchParams.account_manager" [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
-              <option *ngFor="let option of coreData.account_managers.values" [ngValue]="option">{{ option.username }}</option>
+              <option *ngFor="let option of coreData.account_managers.values" [ngValue]="option">{{ option.username }}
+              </option>
             </select>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-form-label col-form-label-sm col-md-3">Potenzial</label>
           <div class="col-md-9">
-            <select class="form-control form-control-sm" name="search-potential" [(ngModel)]="searchParams.potential" [compareWith]='util.compareById'>
+            <select class="form-control form-control-sm" name="search-potential" [(ngModel)]="searchParams.potential"
+              [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
-              <option *ngFor="let option of coreData.customer_potential.values" [ngValue]="option">{{ option.name }}</option>
+              <option *ngFor="let option of coreData.customer_potential.values" [ngValue]="option">{{ option.name }}
+              </option>
             </select>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-form-label col-form-label-sm col-md-3">Status</label>
           <div class="col-md-9">
-            <select class="form-control form-control-sm" name="search-status" [(ngModel)]="searchParams.status" [compareWith]='util.compareById'>
+            <select class="form-control form-control-sm" name="search-status" [(ngModel)]="searchParams.status"
+              [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
-              <option *ngFor="let option of coreData.customer_status.values" [ngValue]="option">{{ option.name }}</option>
+              <option *ngFor="let option of coreData.customer_status.values" [ngValue]="option">{{ option.name }}
+              </option>
             </select>
           </div>
         </div>
-      </form>
-      <div class="button-area col-md-2 form-horizontal">
-        <button class="btn btn-sm btn-block btn-primary mx-1" (click)="searchParams.page=1;searchCustomers(searchParams)">Suchen</button>
+      </div>
+      <div class="button-area col-md-2">
+        <button class="btn btn-sm btn-block btn-primary mx-1"
+          (click)="searchParams.page=1;searchCustomers(searchParams)">Suchen</button>
         <button class="btn btn-sm btn-block btn-default mx-1" (click)="editCustomer(null)">Neuer Kunde</button>
+        <button class="btn btn-sm btn-block btn-light mx-1" (click)="clearSearch()">Suche löschen</button>
       </div>
     </div>
-  </div>
+    <div class="row">
+      <div class="col-md-5">
+        <div class="form-group row">
+          <label class="col-form-label col-form-label-sm col-md-3">Kontakt (von)</label>
+          <div class="col-md-9">
+            <input id="search-last_contact_date_after" name="search-last_contact_date_after" type="date"
+              class="form-control form-control-sm" [(ngModel)]="searchParams.last_contact_date_after" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="form-group row">
+          <label class="col-form-label col-form-label-sm col-md-3">Kontakt (bis)</label>
+          <div class="col-md-9">
+            <input id="search-last_contact_date_before" name="search-last_contact_date_before" type="date"
+              class="form-control form-control-sm" [(ngModel)]="searchParams.last_contact_date_before" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
   <h2>Suchergebnisse: {{ customersLoaded.itemsTotal }}
     <span *ngIf="customersLoaded.pageMax > 1">(Seite {{ customersLoaded.page }} von {{ customersLoaded.pageMax }})
     </span>
@@ -70,7 +101,8 @@
     </app-customer-compact>
   </div>
 
-  <ngb-pagination [collectionSize]="customersLoaded.itemsTotal" [(page)]="searchParams.page" [pageSize]="20" [maxSize]="10"
-    class="pagination-sm" [rotate]="true" [boundaryLinks]="true" [ellipses]="true" (pageChange)="searchCustomers(searchParams)">
+  <ngb-pagination [collectionSize]="customersLoaded.itemsTotal" [(page)]="searchParams.page" [pageSize]="20"
+    [maxSize]="10" class="pagination-sm" [rotate]="true" [boundaryLinks]="true" [ellipses]="true"
+    (pageChange)="searchCustomers(searchParams)">
   </ngb-pagination>
 </div>

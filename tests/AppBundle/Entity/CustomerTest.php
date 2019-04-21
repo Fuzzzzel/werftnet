@@ -100,6 +100,10 @@ class CustomerTest extends DefaultWebTestCase
         $customer->setStatus($status);
         $this->assertEquals($customer->getStatus(), $status);
 
+        $lastContactDate = new \DateTime();
+        $customer->setLastContactDate($lastContactDate);
+        $this->assertEquals($customer->getLastContactDate(), $lastContactDate);
+
         $invoicingDetails = 'CustomerTest-InvoicingDetails';
         $customer->setInvoicingDetails($invoicingDetails);
         $this->assertEquals($customer->getInvoicingDetails(), $invoicingDetails);

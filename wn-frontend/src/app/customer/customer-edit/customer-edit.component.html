@@ -21,19 +21,22 @@
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">Straße</label>
             <div class="col-md-8">
-              <input class="form-control form-control-sm" name="edit-address-street" [(ngModel)]="cust_edit.address.street">
+              <input class="form-control form-control-sm" name="edit-address-street"
+                [(ngModel)]="cust_edit.address.street">
             </div>
           </div>
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">Straße2</label>
             <div class="col-md-8">
-              <input class="form-control form-control-sm" name="edit-address-street2" [(ngModel)]="cust_edit.address.street2">
+              <input class="form-control form-control-sm" name="edit-address-street2"
+                [(ngModel)]="cust_edit.address.street2">
             </div>
           </div>
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">Postleitzahl</label>
             <div class="col-md-8">
-              <input class="form-control form-control-sm" name="edit-address-zipcode" [(ngModel)]="cust_edit.address.zipcode">
+              <input class="form-control form-control-sm" name="edit-address-zipcode"
+                [(ngModel)]="cust_edit.address.zipcode">
             </div>
           </div>
           <div class="form-group row no-gutters">
@@ -45,18 +48,20 @@
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">{{ coreData.country.display_name }}</label>
             <div class="col-md-8">
-              <select class="form-control form-control-sm" name="edit-address-country" [(ngModel)]="cust_edit.address.country" [compareWith]='util.compareById'>
+              <select class="form-control form-control-sm" name="edit-address-country"
+                [(ngModel)]="cust_edit.address.country" [compareWith]='util.compareById'>
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
                 <option *ngFor="let option of coreData.country.values" [ngValue]="option">{{ option.name }}</option>
               </select>
             </div>
           </div>
         </form>
-        <form class="col-sm-4  form-horizontal">
+        <form class="col-sm-4 form-horizontal">
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">Kundennr.</label>
             <div class="col-md-8">
-              <input type="text" class="form-control form-control-sm" name="edit-customer_no" [(ngModel)]="cust_edit.customer_no">
+              <input type="text" class="form-control form-control-sm" name="edit-customer_no"
+                [(ngModel)]="cust_edit.customer_no">
             </div>
           </div>
           <div class="form-group row no-gutters">
@@ -92,13 +97,23 @@
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">Skype</label>
             <div class="col-md-8">
-              <input class="form-control form-control-sm" name="edit-skype" [(ngModel)]="cust_edit.skype">
+              <input class="form-control form-control-sm" name="edit-skype" type="date" [(ngModel)]="cust_edit.skype">
             </div>
           </div>
         </form>
         <form class="col-sm-4 ">
-          <label class="col-form-label col-form-label-sm">Interne Info</label>
-          <textarea class="form-control form-control-sm" rows="8" name="edit-comment" [(ngModel)]="cust_edit.comment"></textarea>
+          <div class="form-group row no-gutters">
+            <label class="col-form-label col-form-label-sm col-md-4">Letzter Kontact</label>
+            <div class="col-md-8">
+              <input class="form-control form-control-sm" name="edit-last_contact_date" type="date"
+                [(ngModel)]="cust_edit.last_contact_date">
+            </div>
+          </div>
+          <div class="form-group row no-gutters">
+            <label class="col-form-label col-form-label-sm">Interne Info</label>
+            <textarea class="form-control form-control-sm" rows="8" name="edit-comment"
+              [(ngModel)]="cust_edit.comment"></textarea>
+          </div>
         </form>
       </div>
     </div>
@@ -110,39 +125,48 @@
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">{{ coreData.customer_status.display_name }}</label>
             <div class="col-md-8">
-              <select class="form-control form-control-sm" name="edit-status" [(ngModel)]="cust_edit.status" [compareWith]='util.compareById'>
+              <select class="form-control form-control-sm" name="edit-status" [(ngModel)]="cust_edit.status"
+                [compareWith]='util.compareById'>
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
-                <option *ngFor="let option of coreData.customer_status.values" [ngValue]="option">{{ option.name }}</option>
+                <option *ngFor="let option of coreData.customer_status.values" [ngValue]="option">{{ option.name }}
+                </option>
               </select>
             </div>
           </div>
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">Accountmgr.</label>
             <div class="col-md-8">
-              <select class="form-control form-control-sm" name="edit-account_manager" [(ngModel)]="cust_edit.account_manager" [compareWith]='util.compareById'
+              <select class="form-control form-control-sm" name="edit-account_manager"
+                [(ngModel)]="cust_edit.account_manager" [compareWith]='util.compareById'
                 ng-options="option.username for option in coreData.account_managers.values | orderBy:'username' track by option.id">
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
-                <option *ngFor="let option of coreData.account_managers.values" [ngValue]="option">{{ option.username }}</option>
+                <option *ngFor="let option of coreData.account_managers.values" [ngValue]="option">{{ option.username }}
+                </option>
               </select>
             </div>
           </div>
           <div class="form-group row no-gutters">
-            <label class="col-form-label col-form-label-sm col-md-4">{{ coreData.customer_potential.display_name }}</label>
+            <label
+              class="col-form-label col-form-label-sm col-md-4">{{ coreData.customer_potential.display_name }}</label>
             <div class="col-md-8">
-              <select class="form-control form-control-sm" name="edit-potential" [(ngModel)]="cust_edit.potential" [compareWith]='util.compareById'
+              <select class="form-control form-control-sm" name="edit-potential" [(ngModel)]="cust_edit.potential"
+                [compareWith]='util.compareById'
                 ng-options="option.name for option in coreData.customer_potential.values track by option.id">
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
-                <option *ngFor="let option of coreData.customer_potential.values" [ngValue]="option">{{ option.name }}</option>
+                <option *ngFor="let option of coreData.customer_potential.values" [ngValue]="option">{{ option.name }}
+                </option>
               </select>
             </div>
           </div>
           <div class="form-group row no-gutters">
             <label class="col-form-label col-form-label-sm col-md-4">{{ coreData.customer_origin.display_name }}</label>
             <div class="col-md-8">
-              <select class="form-control form-control-sm" name="edit-origin" [(ngModel)]="cust_edit.origin" [compareWith]='util.compareById'
+              <select class="form-control form-control-sm" name="edit-origin" [(ngModel)]="cust_edit.origin"
+                [compareWith]='util.compareById'
                 ng-options="option.name for option in coreData.customer_origin.values track by option.id">
                 <option [value]='undefined' selected>-- Bitte wählen --</option>
-                <option *ngFor="let option of coreData.customer_origin.values" [ngValue]="option">{{ option.name }}</option>
+                <option *ngFor="let option of coreData.customer_origin.values" [ngValue]="option">{{ option.name }}
+                </option>
               </select>
             </div>
           </div>
@@ -152,7 +176,8 @@
         </div>
         <form class="col-sm-4 ">
           <label class="col-form-label col-form-label-sm">Rechnungsbedingungen</label>
-          <textarea class="form-control form-control-sm" rows="5" name="edit-invoicing_details" [(ngModel)]="cust_edit.invoicing_details"></textarea>
+          <textarea class="form-control form-control-sm" rows="5" name="edit-invoicing_details"
+            [(ngModel)]="cust_edit.invoicing_details"></textarea>
         </form>
       </div>
     </div>

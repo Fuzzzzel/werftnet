@@ -23,6 +23,11 @@ export class CustomerSearchService {
     return this.$customersLoaded.asObservable()
   }
 
+  clearCustomersLoaded() {
+    this.$customersLoaded.next(new CustomersLoaded())
+    this.lastSearchParams = new CustomerSearchParams()
+  }
+
   getLastSearchParams() {
     return this.lastSearchParams
   }

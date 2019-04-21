@@ -56,7 +56,8 @@ export class OrderSearchComponent implements OnInit {
   }
 
   editOrder(orderToEdit: Order) {
-    this.util.goTo('order/edit/' + orderToEdit.id)
+    const orderId = orderToEdit ? orderToEdit.id : 'new'
+    this.util.goTo('order/edit/' + orderId)
   }
 
 }

@@ -17,6 +17,7 @@ export class Customer extends Contact {
     potential: CustomerPotential = null;
     account_manager: User = null;
     status: CustomerStatus = null;
+    last_contact_date: Date = null;
     invoicing_details: string = null;
     contacts: CustomerContact[];
 }

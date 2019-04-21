@@ -43,6 +43,11 @@ export class CustomerSearchComponent implements OnInit {
     this.customerSearchService.searchCustomers(searchParams)
   }
 
+  clearSearch() {
+    this.searchParams = new CustomerSearchParams()
+    this.customerSearchService.clearCustomersLoaded()
+  }
+
   editCustomer(customerToEdit: Customer = null) {
     this.customerEditService.prepareEditCustomer(customerToEdit && customerToEdit.id)
       .then((customer) => {

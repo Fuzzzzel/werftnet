@@ -13,6 +13,8 @@ import { CoreDataServiceMock } from '../../core/core-data.service-mock'
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing'
 import { Customer } from '../customer.model'
 import { CustomerService } from '../customer.service';
+import { CustomerSearchParams } from './customer-search-params.model';
+import { CustomersLoaded } from './customers-loaded.model';
 
 describe('CustomerSearchComponent', () => {
   let component: CustomerSearchComponent
@@ -65,6 +67,21 @@ describe('CustomerSearchComponent', () => {
   it('should search customers', fakeAsync(() => {
     component.searchCustomers(null)
     tick()
+  }))
+
+  it('should clear search parameters and result', fakeAsync(() => {
+    component.searchParams = new CustomerSearchParams()
+    component.searchParams.page = 1
+    component.searchParams.name = 'Test'
+    component.searchCustomers(component.searchParams)
+
+    tick()
+    const req = backend.expectOne('/customers/search')
+    expect(req.request.method).toBe("POST")
+    req.flush(new CustomersLoaded(), { status: 200, statusText: 'Ok' })
+    expect(component.searchParams.name).toEqual('Test')
+    component.clearSearch()
+    expect(component.searchParams.name).not.toBeDefined()
   }))
 
   it('should create new customer', fakeAsync(() => {

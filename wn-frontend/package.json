@@ -1,11 +1,12 @@
 {
   "name": "werftnet",
-  "version": "1.4.9",
+  "version": "1.4.10",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod --base-href /dist/",
+    "bump": "cross-var \"npm version patch && npm run build && git add . && git commit -m 'increase version to $npm_package_version' && git tag -l '$npm_package_version' && git push\"",
     "build-watch": "ng build --watch --base-href /dist/",
     "serve": "ng serve --open --deleteOutputPath=false",
     "test": "ng test --code-coverage --watch false",
@@ -51,6 +52,7 @@
     "@types/node": "^6.14.0",
     "codelyzer": "^4.5.0",
     "coveralls": "^3.0.2",
+    "cross-var": "^1.1.0",
     "jasmine-core": "^2.99.1",
     "jasmine-spec-reporter": "^4.2.1",
     "karma": "^2.0.5",

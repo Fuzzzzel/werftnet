@@ -12,5 +12,7 @@ export class CustomerSearchParams {
     account_manager: User;
     potential: CustomerPotential;
     status: CustomerStatus;
+    last_contact_date_after: Date;
+    last_contact_date_before: Date;
     page: number = 1;
 }

@@ -37,6 +37,16 @@ class CustomerRepository extends EntityRepository
             $qb->setParameter('statusId', $search['status']['id']);
         }
 
+        if (isset($search['lastContactDateAfter'])  && $search['lastContactDateAfter'] !== "") {
+            $qb->andWhere('c.lastContactDate >= :lastContactDateAfter');
+            $qb->setParameter('lastContactDateAfter', $search['lastContactDateAfter']);
+        }
+
+        if (isset($search['lastContactDateBefore']) && $search['lastContactDateBefore'] !== "") {
+            $qb->andWhere('c.lastContactDate <= :lastContactDateBefore');
+            $qb->setParameter('lastContactDateBefore', $search['lastContactDateBefore']);
+        }
+
         if (isset($search['name']) && $search['name'] != "") {
             $searchStrings = mbsplit('\s|,',$search['name']);
             for($i = 0; $i < sizeof($searchStrings); $i++) {

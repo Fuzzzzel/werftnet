@@ -72,6 +72,13 @@ class Customer extends Company
     private $status;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @JMS\Type("DateTime<'Y-m-d'>")
+     * @JMS\Groups({"display", "update"})
+     */
+    protected $lastContactDate;
+
+    /**
      * Bedingungen zur Rechnungsstellung
      *
      * @ORM\Column(type="text", nullable=true)
@@ -273,6 +280,30 @@ class Customer extends Company
     public function getStatus()
     {
         return $this->status;
+    }
+    
+    /**
+     * Set lastContactDate
+     *
+     * @param \DateTime lastContactDate
+     *
+     * @return Customer
+     */
+    public function setLastContactDate(\DateTime $newDate = null)
+    {
+        $this->lastContactDate = $newDate;
+
+        return $this;
+    }
+
+    /**
+     * Get lastContactDate
+     *
+     * @return \AppBundle\Entity\Customer\\DateTime
+     */
+    public function getLastContactDate()
+    {
+        return $this->lastContactDate;
     }
 
     /**
