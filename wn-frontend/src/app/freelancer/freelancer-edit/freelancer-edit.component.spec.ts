@@ -62,6 +62,10 @@ describe('FreelancerEditComponent', () => {
     tick()
   }))
 
+  afterEach(() => {
+    fixture.destroy()
+  })
+
   function initWithFreelancer() {
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute) as any
     activatedRoute.testParamMap = { freelancerId: 1 }

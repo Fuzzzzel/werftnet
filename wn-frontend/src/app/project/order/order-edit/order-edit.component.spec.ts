@@ -75,6 +75,10 @@ describe('OrderEditComponent', () => {
     orderEditService = TestBed.get(OrderEditService)
   })
 
+  afterEach(() => {
+    fixture.destroy()
+  })
+
   function initOrderWithCustomer() {
     activatedRoute.testParamMap = { customerId: 1 }
     activatedRoute.testQueryParamMap = {}

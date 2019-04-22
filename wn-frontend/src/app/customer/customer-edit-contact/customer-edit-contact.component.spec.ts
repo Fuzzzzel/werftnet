@@ -52,7 +52,11 @@ describe('CustomerEditContactComponent', () => {
     fixture = TestBed.createComponent(CustomerEditContactComponent)
     component = fixture.componentInstance
     spyOn(component.ngxUiLoaderService, 'start').and.returnValue(true)
-    spyOn(component.ngxUiLoaderService, 'stop').and.returnValue(true)
+    spyOn(component.ngxUiLoaderService, 'stop').and.returnValues(true, true, true)
+  })
+
+  afterEach(() => {
+    fixture.destroy()
   })
 
   function initWithCustomer() {
@@ -67,9 +71,10 @@ describe('CustomerEditContactComponent', () => {
     expect(component).toBeTruthy()
   }))
 
-  it('should cancel edit', () => {
+  it('should cancel edit', fakeAsync(() => {
+    initWithCustomer()
     component.cancelEdit()
-  })
+  }))
 
   it('should fail to init component', fakeAsync(() => {
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute) as any

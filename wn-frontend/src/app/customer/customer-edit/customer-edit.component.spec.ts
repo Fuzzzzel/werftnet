@@ -54,6 +54,10 @@ describe('CustomerEditComponent', () => {
     tick()
   }))
 
+  afterEach(() => {
+    fixture.destroy()
+  })
+
   function initWithCustomer() {
     activatedRoute = fixture.debugElement.injector.get(ActivatedRoute) as any
     activatedRoute.testParamMap = { customerId: 1 }
@@ -130,7 +134,8 @@ describe('CustomerEditComponent', () => {
     req.flush(null, { status: 404, statusText: 'Not Found' })
   }))
 
-  it('should cancel edit', () => {
+  it('should cancel edit', fakeAsync(() => {
+    initWithCustomer()
     component.cancelEdit()
-  })
+  }))
 })

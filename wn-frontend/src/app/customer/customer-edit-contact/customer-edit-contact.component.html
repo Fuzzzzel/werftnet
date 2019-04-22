@@ -7,8 +7,8 @@
         <div class="form-group row no-gutters">
           <label class="col-form-label col-form-label-sm col-md-4">{{ coreData.anrede.display_name }}</label>
           <div class="col-md-8">
-            <select class="form-control form-control-sm" name="edit-anrede" [(ngModel)]="contact_edit.anrede" [compareWith]='util.compareById'
-              required>
+            <select class="form-control form-control-sm" name="edit-anrede" [(ngModel)]="contact_edit.anrede"
+              [compareWith]='util.compareById' required>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
               <option *ngFor="let option of coreData.anrede.values" [ngValue]="option">{{ option.name }}</option>
             </select>
@@ -35,10 +35,11 @@
         <div class="form-group row no-gutters">
           <label class="col-form-label col-form-label-sm col-md-4">Korr.Spr.</label>
           <div class="col-md-8">
-            <select class="form-control form-control-sm" name="edit-correspond_language" [(ngModel)]="contact_edit.correspond_language"
-              [compareWith]='util.compareById'>
+            <select class="form-control form-control-sm" name="edit-correspond_language"
+              [(ngModel)]="contact_edit.correspond_language" [compareWith]='util.compareById'>
               <option [value]='undefined' selected>-- Bitte wählen --</option>
-              <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}</option>
+              <option *ngFor="let option of coreData.languages_flat.values" [ngValue]="option">{{ option.name }}
+              </option>
             </select>
           </div>
         </div>
@@ -83,7 +84,8 @@
       </form>
       <form class=" col-md-4">
         <label class="col-form-label col-form-label-sm col-md-12">Interne Info</label>
-        <textarea class="form-control form-control-sm" rows="8" name="edit-comment" [(ngModel)]="contact_edit.comment"></textarea>
+        <textarea class="form-control form-control-sm" rows="8" name="edit-comment"
+          [(ngModel)]="contact_edit.comment"></textarea>
       </form>
     </div>
   </div>
@@ -92,6 +94,7 @@
 <div class="btn-group pull-right my-2" role="group">
   <button class="btn btn-sm btn-primary mx-1" (click)="saveCustomerContact()">Speichern</button>
   <button class="btn btn-sm btn-default mx-1" (click)="cancelEdit()">Abbrechen</button>
-  <button class="btn btn-sm btn-danger mx-1" (click)="deleteCustomerContact()" [disabled]="contact_edit.id == null">Löschen
+  <button class="btn btn-sm btn-danger mx-1" (click)="deleteCustomerContact()"
+    [disabled]="contact_edit.id == null">Löschen
   </button>
 </div>

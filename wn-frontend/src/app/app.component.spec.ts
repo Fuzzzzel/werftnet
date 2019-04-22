@@ -53,6 +53,10 @@ describe('AppComponent', () => {
     tick()
   }))
 
+  afterEach(() => {
+    fixture.destroy()
+  })
+
   /**
    * Test if the App can be created
    */
@@ -63,6 +67,7 @@ describe('AppComponent', () => {
   }))
 
   it('should no user be logged in on init', fakeAsync(() => {
+    fixture.detectChanges()
     expect(component.isUserLoggedIn()).toBeFalsy()
     expect(component.userHasRole('ROLE_USER')).toBeFalsy()
   }))
@@ -82,6 +87,7 @@ describe('AppComponent', () => {
    * Test if the title is displayed correctly
    */
   it(`should have as title 'WerftNET Version X.Y'`, async(() => {
+    fixture.detectChanges()
     expect(component.title).toEqual('WerftNET Version ' + component.version)
   }))
 
