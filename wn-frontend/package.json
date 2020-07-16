@@ -34,7 +34,7 @@
     "core-js": "^2.6.5",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "ngx-bootstrap": "^4.0.1",
     "ngx-ui-loader": "^7.2.2",
     "popper.js": "^1.15.0",
